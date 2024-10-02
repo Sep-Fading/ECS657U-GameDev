@@ -343,7 +343,8 @@
 -analyzer:"/Applications/Unity/Hub/Editor/2023.1.0f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/GameplayMechanics/Character/CharacterStats.cs"
 "Assets/Scripts/GameplayMechanics/Character/SkillTree.cs"
-"Assets/Scripts/GameplayMechanics/Effects/Effect.cs"
+"Assets/Scripts/GameplayMechanics/Effects/IEffect.cs"
+"Assets/Scripts/GameplayMechanics/Effects/SwordBranch.cs"
 -langversion:9.0
 
 /deterministic

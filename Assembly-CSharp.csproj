@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{0bfef588-b08a-2f43-22dc-d414d7352982}</ProjectGuid>
+    <ProjectGuid>{e82f8749-b1fe-0ac5-d78e-efe921081ca9}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -325,13 +325,13 @@
      <HintPath>/Applications/Unity/Hub/Editor/2023.1.0f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
      <Reference Include="nunit.framework">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/PackageCache/com.unity.ext.nunit@2.0.3/net40/unity-custom/nunit.framework.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/PackageCache/com.unity.ext.nunit@2.0.3/net40/unity-custom/nunit.framework.dll</HintPath>
      </Reference>
      <Reference Include="ReportGeneratorMerged">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/PackageCache/com.unity.testtools.codecoverage@1.2.4/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="netstandard">
      <HintPath>/Applications/Unity/Hub/Editor/2023.1.0f1/Unity.app/Contents/NetStandard/ref/2.1.0/netstandard.dll</HintPath>
@@ -700,70 +700,70 @@
      <HintPath>/Applications/Unity/Hub/Editor/2023.1.0f1/Unity.app/Contents/NetStandard/compat/2.1.0/shims/netfx/mscorlib.dll</HintPath>
      </Reference>
      <Reference Include="Unity.PlasticSCM.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Rider.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Shared.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Flow.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Flow">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.Flow.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.Flow.dll</HintPath>
      </Reference>
      <Reference Include="Unity.EditorCoroutines.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-     <HintPath>/Users/sepehrshamloo/Desktop/GameDevTesting/GameDevTesting/Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+     <HintPath>/Users/sepehrshamloo/Desktop/GameDev/GameDev/ECS657U-GameDev/Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

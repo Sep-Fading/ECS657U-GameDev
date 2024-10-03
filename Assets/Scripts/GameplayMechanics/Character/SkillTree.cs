@@ -7,13 +7,37 @@ namespace GameplayMechanics.Character
 {
     public class SkillTree
     {
-        
+        private SkillTreeBranch _branchSwordShield;
+        SkillTree()
+        {
+            /* --- Initialise effects (Sword & Shield) --- */
+            /* --- Start Node ---*/
+            SkillTreeEffect swordShieldStartNodeEffect = new SwordShieldStartEffect();
+            /* --- Tier 1 Nodes --- */
+            // Increased Health
+            SkillTreeEffect increasedHealthEffect = new IncreasedHPEffect();
+            SkillTreeEffect increasedHealthEffect2 = new IncreasedHPEffect();
+            // Increased Melee Damage
+            SkillTreeEffect increasedMeleeDamageEffect = new IncreasedMeleeDamageEffect();
+            SkillTreeEffect increasedMeleeDamageEffect2 = new IncreasedMeleeDamageEffect();
+            // Added Block Effectiveness
+            SkillTreeEffect addedBlockEffect = new AddedBlockEffect();
+            SkillTreeEffect addedBlockEffect2 = new AddedBlockEffect();
+            /* --- Notables --- */
+            // TODO
+            /* --- Masteries ---*/
+            // Armour Mastery
+            SkillTreeEffect armourMasteryEffect = new ArmourMasteryEffect();
+            // Versatility Mastery
+            SkillTreeEffect versatilityMasteryEffect = new VersatilityMasteryEffect();
+        }
     }
     
 
     /*------------------------------------------------------------------------------------------
      Represents a branch in the skill tree.
      A branch is a 1/3 sector of the skill tree, categorised by weapon class.
+     Abstract class to be used by the tree above.
      ------------------------------------------------------------------------------------------*/
     public class SkillTreeBranch
     {
@@ -26,7 +50,7 @@ namespace GameplayMechanics.Character
         /*------------------
          Class Constructor
          ------------------*/
-        SkillTreeBranch(string name, SkillNode[] tier1, SkillNode[] notables, SkillNode[] tier2,
+        public SkillTreeBranch(string name, SkillNode[] tier1, SkillNode[] notables, SkillNode[] tier2,
             SkillNode[] masteries)
         {
             this._name = name;

@@ -14,13 +14,44 @@ namespace GameplayMechanics.Effects
      TRAVEL NODE EFFECTS
      ------------------*/
     
+    // Start Node - is a mastery
+    public class SwordShieldStartEffect : SkillTreeEffect
+    {
+        private float buffMultiplier = 0.1f;
+        private float buffAdded = 0.05f;
+
+        public SwordShieldStartEffect()
+        {
+            this.name = "Sword and Shield Mastery";
+            this.description = "10% Increased Melee Damage" +
+                               "\n10% Increased Maximum Life" +
+                               "\n5% Added Block Effectiveness";
+            this.duration = -1f;
+            this.effectType = EffectType.Buff;
+            this.Apply();
+        }
+
+        public void Apply()
+        {
+            PlayerStatManager.Instance.meleeDamage.multiplier += buffMultiplier;
+            PlayerStatManager.Instance.life.multiplier += buffMultiplier;
+            PlayerStatManager.Instance.blockEffect.added += buffAdded;
+        }
+
+        public void Clear()
+        {
+            PlayerStatManager.Instance.meleeDamage.multiplier -= buffMultiplier;
+            PlayerStatManager.Instance.life.multiplier -= buffMultiplier;
+            PlayerStatManager.Instance.blockEffect.added -= buffAdded;
+        }
+    }
     
     // Health Travel Node
     public class IncreasedHPEffect : SkillTreeEffect
     {
         private float buffMultiplier = 0.05f;
-        
-        IncreasedHPEffect()
+
+        public IncreasedHPEffect()
         {
             this.name = "5% Increased Maximum Life";
             this.description = "Increases the player's base health by 5%";
@@ -45,7 +76,7 @@ namespace GameplayMechanics.Effects
     {
         private float buffMultiplier = 0.10f;
 
-        IncreasedMeleeDamageEffect()
+        public IncreasedMeleeDamageEffect()
         {
             this.name = "10% Increased Melee Damage";
             this.description = "Increases the player's base melee damage by 10%";
@@ -66,11 +97,11 @@ namespace GameplayMechanics.Effects
     }
     
     // Block Effectiveness Travel Node
-    public class IncreasedBlockEffect : SkillTreeEffect
+    public class AddedBlockEffect : SkillTreeEffect
     {
         private float addedBlockEffect = 0.01f;
 
-        IncreasedBlockEffect()
+        public AddedBlockEffect()
         {
             this.name = "1% Added Effectiveness of Block";
             this.description = "Increases the player's block effectiveness by 1%";
@@ -99,7 +130,7 @@ namespace GameplayMechanics.Effects
     {
         float buffMultiplier = 0.35f;
 
-        ArmourMasteryEffect()
+        public ArmourMasteryEffect()
         {
             this.name = "Armour Mastery";
             this.description = "Increases the player's base armour by 35%";
@@ -119,12 +150,13 @@ namespace GameplayMechanics.Effects
         }
     }
     
-    // Steel Heart Mastery - Converts Evasion into Armour
-    public class SteelHeartMasteryEffect : SkillTreeEffect
+    // Versatility Mastery - Converts Evasion into Armour
+    public class VersatilityMasteryEffect : SkillTreeEffect
     {
         private float _storeEvFlat;
         private float _storeEvMutli;
-        SteelHeartMasteryEffect()
+
+        public VersatilityMasteryEffect()
         {
             this.name = "Steel Heart Mastery";
             this.description = "Converts all evasion to armour";

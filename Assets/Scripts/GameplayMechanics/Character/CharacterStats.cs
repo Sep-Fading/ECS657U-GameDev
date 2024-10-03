@@ -10,20 +10,20 @@ namespace GameplayMechanics.Character
         public static PlayerStatManager Instance { get; private set; }
 
         // Stat fields
-        public MultiplicativeStat armour;
-        public MultiplicativeStat evasion;
-        public MultiplicativeStat life;
-        public MultiplicativeStat meleeDamage;
-        public AdditiveStat blockEffect;
+        public Stat armour;
+        public Stat evasion;
+        public Stat life;
+        public Stat meleeDamage;
+        public Stat blockEffect;
 
         // Constructor or initializer
         private PlayerStatManager()
         {
-            armour = new MultiplicativeStat("Armour");
-            evasion = new MultiplicativeStat("Evasion");
-            life = new MultiplicativeStat("Life");
-            meleeDamage = new MultiplicativeStat("MeleeDamage");
-            blockEffect = new AdditiveStat("BlockEffect");
+            armour = new Stat("Armour");
+            evasion = new Stat("Evasion");
+            life = new Stat("Life");
+            meleeDamage = new Stat("MeleeDamage");
+            blockEffect = new Stat("BlockEffect");
         }
 
         // Method to initialize the Singleton
@@ -39,56 +39,34 @@ namespace GameplayMechanics.Character
     
     
     /* ------------------
-     Stat Abstract Classes
+     Stat Abstract Class
      Used to cut down redundant code.
      ------------------ */
-    public class MultiplicativeStat
+    public class Stat
     {
         public float flat { get; set; }
         public float multiplier { get; set; }
+        public float added { get; set; }
         public float appliedTotal { get; set; }
         private string name { get; }
 
-        public MultiplicativeStat(string name, float flat = 0f, float multiplier = 1f)
-        {
-            this.name = name;
-            this.flat = flat;
-            this.multiplier = multiplier;
-            this.appliedTotal = flat * multiplier;
-        }
-        
-        public new string ToString() => $"{flat},{multiplier},{name}";
-        public string GetName() => name;
-        
-        // Used after every change to flat or multi to reflect correct stats.
-        public void Recalculate()
-        {
-            this.appliedTotal = flat * multiplier;
-        }
-    }
-
-    public class AdditiveStat
-    {
-        public float flat { get; set; }
-        public float added { get; set; }
-        private float appliedTotal { get; set; }
-        private string name { get; }
-
-        public AdditiveStat(string name, float flat = 0f, float added = 0f)
+        public Stat(string name, float flat = 0f, float multiplier = 1f,
+            float added = 0f)
         {
             this.name = name;
             this.flat = flat;
             this.added = added;
-            this.appliedTotal = flat + added;
+            this.multiplier = multiplier;
+            this.appliedTotal = (this.flat + this.added) * this.multiplier;
         }
         
-        public new string ToString() => $"{flat},{added},{name}";
-        public string GetName() => name;
+        public new string ToString() => $"{this.flat},{this.multiplier},{this.name}";
+        public string GetName() => this.name;
         
-        // Used after every change to flat or added to reflect correct stats.
+        // Used after every change to flat or multi to reflect correct stats.
         public void Recalculate()
         {
-            this.appliedTotal = flat + added;
+            this.appliedTotal = (this.flat + this.added) * this.multiplier;
         }
     }
 }

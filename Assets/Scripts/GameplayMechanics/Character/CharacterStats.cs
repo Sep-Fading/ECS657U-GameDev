@@ -3,6 +3,10 @@ namespace GameplayMechanics.Character
     /* ------------
      The Stat Manager has instances of all player stats and
      manages them in one singleton class.
+     
+     TODO:
+     Rework stats so that their setters can call Recalculate, Its better quality of 
+     life as development progresses.
      -------------*/
     public class PlayerStatManager
     {
@@ -16,7 +20,7 @@ namespace GameplayMechanics.Character
         public Stat meleeDamage;
         public Stat blockEffect;
 
-        // Constructor or initializer
+        // Constructor
         private PlayerStatManager()
         {
             armour = new Stat("Armour");

@@ -1,5 +1,6 @@
 using System;
 using GameplayMechanics.Effects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GameplayMechanics.Character
@@ -144,9 +145,8 @@ namespace GameplayMechanics.Character
         public string name { get; set; }
         public string description { get; set; }
         public float duration { get; set; }
-
         public GameObject target { get; set; }
-
+        
         public void Apply()
         {
             throw new NotImplementedException();

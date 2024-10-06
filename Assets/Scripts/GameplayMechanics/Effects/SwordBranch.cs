@@ -33,16 +33,22 @@ namespace GameplayMechanics.Effects
 
         public void Apply()
         {
-            PlayerStatManager.Instance.meleeDamage.multiplier += buffMultiplier;
-            PlayerStatManager.Instance.life.multiplier += buffMultiplier;
-            PlayerStatManager.Instance.blockEffect.added += buffAdded;
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.meleeDamage.GetMultiplier()+buffMultiplier);
+            PlayerStatManager.Instance.life.SetMultiplier(
+                PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
+            PlayerStatManager.Instance.blockEffect.SetAdded(
+                PlayerStatManager.Instance.blockEffect.GetAdded()+buffAdded);
         }
 
         public void Clear()
         {
-            PlayerStatManager.Instance.meleeDamage.multiplier -= buffMultiplier;
-            PlayerStatManager.Instance.life.multiplier -= buffMultiplier;
-            PlayerStatManager.Instance.blockEffect.added -= buffAdded;
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.meleeDamage.GetMultiplier()-buffMultiplier);
+            PlayerStatManager.Instance.life.SetMultiplier(
+                PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
+            PlayerStatManager.Instance.blockEffect.SetAdded(
+                PlayerStatManager.Instance.blockEffect.GetAdded()-buffAdded);
         }
     }
     
@@ -62,12 +68,14 @@ namespace GameplayMechanics.Effects
 
         public void Apply()
         {
-            PlayerStatManager.Instance.life.multiplier += buffMultiplier;
+            PlayerStatManager.Instance.life.SetMultiplier(
+                PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
         }
 
         public void Clear()
         {
-            PlayerStatManager.Instance.life.multiplier -= buffMultiplier;
+            PlayerStatManager.Instance.life.SetMultiplier(
+                PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
         }
     }
     
@@ -87,12 +95,12 @@ namespace GameplayMechanics.Effects
 
         public void Apply()
         {
-            PlayerStatManager.Instance.meleeDamage.multiplier += buffMultiplier;
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(buffMultiplier);
         }
 
         public void Clear()
         {
-            PlayerStatManager.Instance.meleeDamage.multiplier -= buffMultiplier;
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(-buffMultiplier);
         }
     }
     
@@ -112,12 +120,12 @@ namespace GameplayMechanics.Effects
 
         public void Apply()
         {
-            PlayerStatManager.Instance.blockEffect.added += addedBlockEffect;
+            PlayerStatManager.Instance.blockEffect.SetAdded(addedBlockEffect);
         }
 
         public void Clear()
         {
-            PlayerStatManager.Instance.blockEffect.added -= addedBlockEffect;
+            PlayerStatManager.Instance.blockEffect.SetAdded(-addedBlockEffect);
         }
     }
     
@@ -141,12 +149,12 @@ namespace GameplayMechanics.Effects
 
         public void Apply()
         {
-            PlayerStatManager.Instance.armour.multiplier += buffMultiplier;
+            PlayerStatManager.Instance.armour.SetMultiplier(buffMultiplier);
         }
 
         public void Clear()
         {
-            PlayerStatManager.Instance.armour.multiplier -= buffMultiplier;
+            PlayerStatManager.Instance.armour.SetMultiplier(-buffMultiplier);
         }
     }
     
@@ -167,26 +175,32 @@ namespace GameplayMechanics.Effects
 
         public void Apply()
         {
-            float evFlat = PlayerStatManager.Instance.evasion.flat;
-            float evMulti = PlayerStatManager.Instance.evasion.multiplier;
+            float evFlat = PlayerStatManager.Instance.evasion.GetFlat();
+            float evMulti = PlayerStatManager.Instance.evasion.GetMultiplier();
 
             this._storeEvFlat = evFlat;
             this._storeEvMutli = evMulti;
             
-            PlayerStatManager.Instance.armour.flat += evFlat;
-            PlayerStatManager.Instance.armour.multiplier += evMulti;
+            PlayerStatManager.Instance.armour.SetFlat(
+                PlayerStatManager.Instance.armour.GetFlat()+evFlat);
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier()+evMulti);
 
-            PlayerStatManager.Instance.evasion.flat = 0;
-            PlayerStatManager.Instance.evasion.multiplier = 0;
+            PlayerStatManager.Instance.evasion.SetFlat(0);
+            PlayerStatManager.Instance.evasion.SetMultiplier(0);
         }
 
         public void Clear()
         {
-            PlayerStatManager.Instance.armour.flat -= this._storeEvFlat;
-            PlayerStatManager.Instance.armour.multiplier -= this. _storeEvFlat;
+            PlayerStatManager.Instance.armour.SetFlat(
+                PlayerStatManager.Instance.armour.GetFlat()-this._storeEvFlat);
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier()-this._storeEvMutli);
             
-            PlayerStatManager.Instance.evasion.flat = this._storeEvFlat;
-            PlayerStatManager.Instance.evasion.multiplier = this._storeEvMutli;
+            PlayerStatManager.Instance.evasion.SetFlat(
+                PlayerStatManager.Instance.evasion.GetFlat()+this._storeEvFlat);
+            PlayerStatManager.Instance.evasion.SetMultiplier(
+                PlayerStatManager.Instance.evasion.GetMultiplier()+this._storeEvMutli);
         }
     }
 }

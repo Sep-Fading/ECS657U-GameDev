@@ -11,25 +11,62 @@ namespace GameplayMechanics.Character
         SkillTree()
         {
             /* --- Initialise effects (Sword & Shield) --- */
-            /* --- Start Node ---*/
+            
+            /* --- Start Node --- */
             SkillTreeEffect swordShieldStartNodeEffect = new SwordShieldStartEffect();
+            
             /* --- Tier 1 Nodes --- */
             // Increased Health
             SkillTreeEffect increasedHealthEffect = new IncreasedHPEffect();
             SkillTreeEffect increasedHealthEffect2 = new IncreasedHPEffect();
+            
             // Increased Melee Damage
             SkillTreeEffect increasedMeleeDamageEffect = new IncreasedMeleeDamageEffect();
             SkillTreeEffect increasedMeleeDamageEffect2 = new IncreasedMeleeDamageEffect();
+            
             // Added Block Effectiveness
             SkillTreeEffect addedBlockEffect = new AddedBlockEffect();
             SkillTreeEffect addedBlockEffect2 = new AddedBlockEffect();
+            
             /* --- Notables --- */
             // TODO
+            
             /* --- Masteries ---*/
             // Armour Mastery
             SkillTreeEffect armourMasteryEffect = new ArmourMasteryEffect();
+            
             // Versatility Mastery
             SkillTreeEffect versatilityMasteryEffect = new VersatilityMasteryEffect();
+            
+            /* --- Initialise the skill nodes --- */
+            
+            /* --- Start Node --- */
+            SkillNode swordShieldStartNode = new SkillNode("SS_Start", swordShieldStartNodeEffect.name,
+                swordShieldStartNodeEffect.description, swordShieldStartNodeEffect);
+            
+            /* --- Tier 1 Nodes --- */
+            SkillNode increasedHealthNode1 = new SkillNode("health_1", increasedHealthEffect.name,
+                increasedHealthEffect.description, increasedHealthEffect);
+            SkillNode increasedHealthNode2 = new SkillNode("health_2", increasedHealthEffect2.name,
+                increasedHealthEffect2.description, increasedHealthEffect2);
+            
+            SkillNode increasedMeleeDamageNode1 = new SkillNode("meleeDamage_1", increasedMeleeDamageEffect.name,
+                increasedHealthEffect.description, increasedMeleeDamageEffect);
+            SkillNode increasedMeleeDamageNode2 = new SkillNode("meleeDamage_2", increasedMeleeDamageEffect2.name,
+                increasedHealthEffect2.description, increasedMeleeDamageEffect2);
+            
+            SkillNode addedBlockEffectNode1 = new SkillNode("blockEffect_1", addedBlockEffect.name,
+                addedBlockEffect.description, addedBlockEffect);
+            SkillNode addedBlockEffectNode2 = new SkillNode("blockEffect_2", addedBlockEffect2.name,
+                addedBlockEffect2.description, addedBlockEffect2);
+            
+            /* --- Masteries --- */
+            SkillNode armourMasteryNode = new SkillNode("amourMastery", armourMasteryEffect.name,
+                armourMasteryEffect.description, armourMasteryEffect);
+            SkillNode versatilityMasteryNode = new SkillNode("versMastery", versatilityMasteryEffect.name,
+                versatilityMasteryEffect.description, versatilityMasteryEffect);
+            
+            /* --- Load the nodes into an array --- */
         }
     }
     
@@ -107,7 +144,7 @@ namespace GameplayMechanics.Character
         /*------------------
          Class Constructor
          ------------------*/
-        SkillNode(string id, string name, string description, SkillTreeEffect effect)
+        public SkillNode(string id, string name, string description, SkillTreeEffect effect)
         {
             this.id = id;
             this.name = name;

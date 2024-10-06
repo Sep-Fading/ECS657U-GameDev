@@ -79,22 +79,15 @@ namespace GameplayMechanics.Character
     public class SkillTreeBranch
     {
         private string _name;
-        private SkillNode[] _tier1Nodes;
-        private SkillNode[] _NotableNodes;
-        private SkillNode[] _tier2Nodes;
-        private SkillNode[] _masteryNodes;
+        private SkillNode[] _skillNodes;
         
         /*------------------
          Class Constructor
          ------------------*/
-        public SkillTreeBranch(string name, SkillNode[] tier1, SkillNode[] notables, SkillNode[] tier2,
-            SkillNode[] masteries)
+        public SkillTreeBranch(string name, SkillNode[] skillNodes)
         {
             this._name = name;
-            this._tier1Nodes = tier1;
-            this._NotableNodes = notables;
-            this._tier2Nodes = tier2;
-            this._masteryNodes = masteries;
+            this._skillNodes = skillNodes;
         }
         
         /*------------------
@@ -103,12 +96,7 @@ namespace GameplayMechanics.Character
          ------------------*/
         public string GetSkillBranch()
         {
-            string t1nodes = SkillBranchStringify(this._tier1Nodes);
-            string t2nodes = SkillBranchStringify(this._tier2Nodes);
-            string masterynodes = SkillBranchStringify(this._masteryNodes);
-            string notables = SkillBranchStringify(this._NotableNodes);
-
-            return this._name + " Skill branch \n" + t1nodes + t2nodes + masterynodes + notables;
+            return "";
         }
         
         /*------------------
@@ -118,13 +106,7 @@ namespace GameplayMechanics.Character
          -----------------*/
         private string SkillBranchStringify(SkillNode[] nodes)
         {
-            string result = "[";
-            foreach (SkillNode node in nodes)
-            {
-                result += node.id + " - " + node.name + ", ";
-            }
-            result += "]";
-            return result;
+            return "";
         }
     }
     

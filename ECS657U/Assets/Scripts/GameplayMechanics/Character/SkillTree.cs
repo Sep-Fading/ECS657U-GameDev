@@ -132,6 +132,24 @@ namespace GameplayMechanics.Character
             {
                 skillNode.parent = this._skillNodes[3];
             }
+            
+            this._skillNodes[4].children = new[] { this._skillNodes[7], this._skillNodes[8] };
+            foreach (SkillNode skillNode in this._skillNodes[4].children)
+            {
+                skillNode.parent = this._skillNodes[4];
+            }
+            
+            this._skillNodes[5].children = new[] { this._skillNodes[6] };
+            foreach (SkillNode skillNode in this._skillNodes[5].children)
+            {
+                skillNode.parent = this._skillNodes[5];
+            }
+            
+            this._skillNodes[6].children = new[] { this._skillNodes[8] };
+            foreach (SkillNode skillNode in this._skillNodes[6].children)
+            {
+                skillNode.parent = this._skillNodes[6];
+            }
         }
         
         /*------------------

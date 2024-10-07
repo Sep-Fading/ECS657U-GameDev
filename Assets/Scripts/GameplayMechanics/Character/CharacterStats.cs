@@ -13,12 +13,12 @@ namespace GameplayMechanics.Character
         public static PlayerStatManager Instance { get; private set; }
 
         // Stat fields
-        public Stat armour;
-        public Stat evasion;
-        public Stat life;
-        public Stat stamina;
-        public Stat meleeDamage;
-        public Stat blockEffect;
+        public  Stat armour;
+        public  Stat evasion;
+        public  Stat life;
+        public  Stat stamina;
+        public  Stat meleeDamage;
+        public  Stat blockEffect;
 
         // Constructor
         private PlayerStatManager()
@@ -39,6 +39,18 @@ namespace GameplayMechanics.Character
                 Instance = new PlayerStatManager();
             }
             return Instance;
+        }
+
+        public string GetPlayerStats()
+        {
+
+            return $" {life.GetName()}, {life.GetAppliedTotal()} \n" +
+                   $" {stamina.GetName()}, {stamina.GetAppliedTotal()} \n" +
+                   $" {armour.GetName()}, {armour.GetAppliedTotal()} \n" +
+                   $" {evasion.GetName()}, {evasion.GetAppliedTotal()} \n" +
+                   $" {blockEffect.GetName()}, {blockEffect.GetAppliedTotal()} \n" +
+                   $" {meleeDamage.GetName()}, {meleeDamage.GetAppliedTotal()} \n";
+
         }
     }
     

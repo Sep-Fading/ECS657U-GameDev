@@ -1,6 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditor.TextCore.Text;
-
 namespace GameplayMechanics.Character
 {
     /* ------------

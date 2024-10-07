@@ -11,4 +11,13 @@ public class Weaponmanager
     private bool canAttack;
     private bool blocking;
 
+    public void ChangeWeapon(MeleeWeapon newWeapon)
+    {
+
+    }
+    public void ChangeShield(Shield newShield)
+    {
+
+    }
+
 }

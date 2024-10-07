@@ -20,11 +20,5 @@ namespace Player
 
             Debug.Log(PlayerStatManager.Instance.GetPlayerStats());
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

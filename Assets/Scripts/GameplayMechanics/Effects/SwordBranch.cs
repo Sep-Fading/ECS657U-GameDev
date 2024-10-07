@@ -31,7 +31,7 @@ namespace GameplayMechanics.Effects
             this.Apply();
         }
 
-        public void Apply()
+        public new void Apply()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.meleeDamage.GetMultiplier()+buffMultiplier);
@@ -41,7 +41,7 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.blockEffect.GetAdded()+buffAdded);
         }
 
-        public void Clear()
+        public new void Clear()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.meleeDamage.GetMultiplier()-buffMultiplier);
@@ -66,13 +66,13 @@ namespace GameplayMechanics.Effects
             this.Apply();
         }
 
-        public void Apply()
+        public new void Apply()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
         }
 
-        public void Clear()
+        public new void Clear()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
@@ -93,12 +93,12 @@ namespace GameplayMechanics.Effects
             this.Apply();
         }
 
-        public void Apply()
+        public new void Apply()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(buffMultiplier);
         }
 
-        public void Clear()
+        public new void Clear()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(-buffMultiplier);
         }
@@ -118,12 +118,12 @@ namespace GameplayMechanics.Effects
             this.Apply();
         }
 
-        public void Apply()
+        public new void Apply()
         {
             PlayerStatManager.Instance.blockEffect.SetAdded(addedBlockEffect);
         }
 
-        public void Clear()
+        public new void Clear()
         {
             PlayerStatManager.Instance.blockEffect.SetAdded(-addedBlockEffect);
         }
@@ -147,12 +147,12 @@ namespace GameplayMechanics.Effects
             this.Apply();
         }
 
-        public void Apply()
+        public new void Apply()
         {
             PlayerStatManager.Instance.armour.SetMultiplier(buffMultiplier);
         }
 
-        public void Clear()
+        public new void Clear()
         {
             PlayerStatManager.Instance.armour.SetMultiplier(-buffMultiplier);
         }
@@ -173,7 +173,7 @@ namespace GameplayMechanics.Effects
             this.Apply();
         }
 
-        public void Apply()
+        public new void Apply()
         {
             float evFlat = PlayerStatManager.Instance.evasion.GetFlat();
             float evMulti = PlayerStatManager.Instance.evasion.GetMultiplier();
@@ -190,7 +190,7 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.evasion.SetMultiplier(0);
         }
 
-        public void Clear()
+        public new void Clear()
         {
             PlayerStatManager.Instance.armour.SetFlat(
                 PlayerStatManager.Instance.armour.GetFlat()-this._storeEvFlat);

@@ -374,15 +374,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5969362971129720624, guid: 75dacae2aabee3747b788f25d2608b49, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.116
+      objectReference: {fileID: 0}
     - target: {fileID: 6841219237323384083, guid: 75dacae2aabee3747b788f25d2608b49, type: 3}
       propertyPath: promptText
       value: 
       objectReference: {fileID: 946418675}
-    - target: {fileID: 9080231233824536278, guid: 75dacae2aabee3747b788f25d2608b49, type: 3}
-      propertyPath: mask.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 23472960021894144, guid: 75dacae2aabee3747b788f25d2608b49, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

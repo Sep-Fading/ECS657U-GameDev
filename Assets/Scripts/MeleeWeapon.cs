@@ -5,26 +5,61 @@ using UnityEngine;
 public abstract class MeleeWeapon : MonoBehaviour
 {
     private string weaponName;
-
-    public float attackDistance;
-    [SerializeField]
-    public float attackSpeed;
-    [SerializeField]
-    public int attackDamage;
-    [SerializeField]
+    private float attackDistance;
+    private bool attacking;
+    private float attackSpeed;
+    private float attackDamage;
     public LayerMask attackLayer;
 
-    bool attacking;
 
-    // Start is called before the first frame update
-    void Start()
+
+
+
+
+////////////// GETTERS AND SETTERS/////////////////
+    public string GetWeaponName()
     {
-        
+        return weaponName;
+    }
+    private void SetWeaponName(string name)
+    {
+        weaponName = name;
     }
 
-    // Update is called once per frame
-    void Update()
+    public float GetAttackDistance()
     {
-        
+        return attackDistance;
     }
+    public void SetAttackDistance(float distance)
+    {
+        attackDistance = distance;
+    }
+
+    public bool GetAttackingState()
+    {
+        return attacking;
+    }
+    public void SetAttackingState(bool state)
+    {
+        attacking = state;
+    }
+
+    public float GetAttackSpeed()
+    {
+        return attackSpeed;
+    }
+    public void SetAttackSpeed(float seconds)
+    {
+        attackSpeed = seconds;
+    }
+
+    public float GetAttackDamage()
+    {
+        return attackDamage;
+    }
+    public void SetAttackDamage(float damage)
+    {
+        attackDamage = damage;
+    }
+
 }

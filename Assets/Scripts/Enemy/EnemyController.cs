@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public float minDistance = 3f;
     public float maxDistance = 10f;
     float idleTime = 0f;
+    public LayerMask obstacleLayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,9 @@ public class EnemyController : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, playerPos);
 
-        if (distance > minDistance && distance <= maxDistance)
+        bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
+
+        if (distance > minDistance && distance <= maxDistance && !obstacleBetween)
         {
             speed = 5f;
             transform.LookAt(player);

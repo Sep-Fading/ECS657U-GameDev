@@ -25,10 +25,9 @@ namespace GameplayMechanics.Effects
                                "\n5% Added Block Effectiveness";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.meleeDamage.GetMultiplier()+buffMultiplier);
@@ -38,7 +37,7 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.blockEffect.GetAdded()+buffAdded);
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.meleeDamage.GetMultiplier()-buffMultiplier);
@@ -60,16 +59,15 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's base health by 5%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
@@ -87,15 +85,14 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's base melee damage by 10%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(buffMultiplier);
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(-buffMultiplier);
         }
@@ -112,15 +109,14 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's block effectiveness by 1%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.blockEffect.SetAdded(addedBlockEffect);
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.blockEffect.SetAdded(-addedBlockEffect);
         }
@@ -141,15 +137,14 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's base armour by 35%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.armour.SetMultiplier(buffMultiplier);
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.armour.SetMultiplier(-buffMultiplier);
         }
@@ -167,10 +162,9 @@ namespace GameplayMechanics.Effects
             this.description = "Converts all evasion to armour";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             float evFlat = PlayerStatManager.Instance.evasion.GetFlat();
             float evMulti = PlayerStatManager.Instance.evasion.GetMultiplier();
@@ -186,8 +180,8 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.evasion.SetFlat(0);
             PlayerStatManager.Instance.evasion.SetMultiplier(0);
         }
-
-        public new void Clear()
+        
+        public override void Clear()
         {
             PlayerStatManager.Instance.armour.SetFlat(
                 PlayerStatManager.Instance.armour.GetFlat()-this._storeEvFlat);

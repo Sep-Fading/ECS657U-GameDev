@@ -82,18 +82,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""left_attack"",
+                    ""name"": ""ShieldAction"",
                     ""type"": ""Button"",
-                    ""id"": ""422a1832-408c-4e34-9cbf-9d1d7fa559ec"",
+                    ""id"": ""b29c7341-406f-42c2-a600-9a5fdbb4fca3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""right_attack"",
+                    ""name"": ""SwordAction"",
                     ""type"": ""Button"",
-                    ""id"": ""149679cc-5667-48c2-9545-67ac3f4ed55f"",
+                    ""id"": ""94317faf-70d1-4942-b0bc-b0c219472fad"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -213,23 +213,23 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""29738676-1071-4e0d-a86f-82f6ccb5354f"",
+                    ""id"": ""9e8fbdbb-ed02-4667-92d1-9e503bae0882"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""left_attack"",
+                    ""action"": ""ShieldAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a48394ea-e05b-46ec-89b4-0c8b68def4a9"",
+                    ""id"": ""e81284b0-ac58-4033-9f33-0edca8c82341"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""right_attack"",
+                    ""action"": ""SwordAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -762,8 +762,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_grounded_sprinting = m_grounded.FindAction("sprinting", throwIfNotFound: true);
         m_grounded_crouching = m_grounded.FindAction("crouching", throwIfNotFound: true);
         m_grounded_Interacting = m_grounded.FindAction("Interacting", throwIfNotFound: true);
-        m_grounded_left_attack = m_grounded.FindAction("left_attack", throwIfNotFound: true);
-        m_grounded_right_attack = m_grounded.FindAction("right_attack", throwIfNotFound: true);
+        m_grounded_ShieldAction = m_grounded.FindAction("ShieldAction", throwIfNotFound: true);
+        m_grounded_SwordAction = m_grounded.FindAction("SwordAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -843,8 +843,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_grounded_sprinting;
     private readonly InputAction m_grounded_crouching;
     private readonly InputAction m_grounded_Interacting;
-    private readonly InputAction m_grounded_left_attack;
-    private readonly InputAction m_grounded_right_attack;
+    private readonly InputAction m_grounded_ShieldAction;
+    private readonly InputAction m_grounded_SwordAction;
     public struct GroundedActions
     {
         private @PlayerInput m_Wrapper;
@@ -855,8 +855,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @sprinting => m_Wrapper.m_grounded_sprinting;
         public InputAction @crouching => m_Wrapper.m_grounded_crouching;
         public InputAction @Interacting => m_Wrapper.m_grounded_Interacting;
-        public InputAction @left_attack => m_Wrapper.m_grounded_left_attack;
-        public InputAction @right_attack => m_Wrapper.m_grounded_right_attack;
+        public InputAction @ShieldAction => m_Wrapper.m_grounded_ShieldAction;
+        public InputAction @SwordAction => m_Wrapper.m_grounded_SwordAction;
         public InputActionMap Get() { return m_Wrapper.m_grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -884,12 +884,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interacting.started += instance.OnInteracting;
             @Interacting.performed += instance.OnInteracting;
             @Interacting.canceled += instance.OnInteracting;
-            @left_attack.started += instance.OnLeft_attack;
-            @left_attack.performed += instance.OnLeft_attack;
-            @left_attack.canceled += instance.OnLeft_attack;
-            @right_attack.started += instance.OnRight_attack;
-            @right_attack.performed += instance.OnRight_attack;
-            @right_attack.canceled += instance.OnRight_attack;
+            @ShieldAction.started += instance.OnShieldAction;
+            @ShieldAction.performed += instance.OnShieldAction;
+            @ShieldAction.canceled += instance.OnShieldAction;
+            @SwordAction.started += instance.OnSwordAction;
+            @SwordAction.performed += instance.OnSwordAction;
+            @SwordAction.canceled += instance.OnSwordAction;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -912,12 +912,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interacting.started -= instance.OnInteracting;
             @Interacting.performed -= instance.OnInteracting;
             @Interacting.canceled -= instance.OnInteracting;
-            @left_attack.started -= instance.OnLeft_attack;
-            @left_attack.performed -= instance.OnLeft_attack;
-            @left_attack.canceled -= instance.OnLeft_attack;
-            @right_attack.started -= instance.OnRight_attack;
-            @right_attack.performed -= instance.OnRight_attack;
-            @right_attack.canceled -= instance.OnRight_attack;
+            @ShieldAction.started -= instance.OnShieldAction;
+            @ShieldAction.performed -= instance.OnShieldAction;
+            @ShieldAction.canceled -= instance.OnShieldAction;
+            @SwordAction.started -= instance.OnSwordAction;
+            @SwordAction.performed -= instance.OnSwordAction;
+            @SwordAction.canceled -= instance.OnSwordAction;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -1061,8 +1061,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnSprinting(InputAction.CallbackContext context);
         void OnCrouching(InputAction.CallbackContext context);
         void OnInteracting(InputAction.CallbackContext context);
-        void OnLeft_attack(InputAction.CallbackContext context);
-        void OnRight_attack(InputAction.CallbackContext context);
+        void OnShieldAction(InputAction.CallbackContext context);
+        void OnSwordAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     public PlayerInput.GroundedActions grounded;
     private PlayerMotor playerMotor;
     private PlayerLook look;
+    private Weaponmanager weaponMan;
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,6 +23,11 @@ public class InputManager : MonoBehaviour
         grounded.sprinting.performed += playerMotor.Sprint;
         grounded.sprinting.canceled += playerMotor.Sprint;
         grounded.crouching.performed += playerMotor.Crouch;
+
+        //grounded.SwordAction.performed += weaponMan.Attack;
+        //grounded.SwordAction.canceled += weaponMan.Attack;
+        //grounded.ShieldAction.performed += weaponMan.Block;
+        //grounded.ShieldAction.canceled += weaponMan.Block;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

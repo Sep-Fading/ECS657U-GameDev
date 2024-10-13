@@ -4,62 +4,22 @@ using UnityEngine;
 
 public abstract class MeleeWeapon : MonoBehaviour
 {
-    private string weaponName;
-    private float attackDistance;
-    private bool attacking;
-    private float attackSpeed;
-    private float attackDamage;
+    public string weaponName { get; private set; }
+    public float attackDistance { get; private set; }
+    public bool attacking { get; private set; }
+    public float attackSpeed { get; private set; }
+    public float attackDamage { get; private set; }
     public LayerMask attackLayer;
 
-
-
-
-
-
-////////////// GETTERS AND SETTERS/////////////////
-    public string GetWeaponName()
-    {
-        return weaponName;
-    }
-    private void SetWeaponName(string name)
+    
+    protected MeleeWeapon(string name, float distance, float speed, float damage)
     {
         weaponName = name;
-    }
-
-    public float GetAttackDistance()
-    {
-        return attackDistance;
-    }
-    public void SetAttackDistance(float distance)
-    {
         attackDistance = distance;
-    }
-
-    public bool GetAttackingState()
-    {
-        return attacking;
-    }
-    public void SetAttackingState(bool state)
-    {
-        attacking = state;
-    }
-
-    public float GetAttackSpeed()
-    {
-        return attackSpeed;
-    }
-    public void SetAttackSpeed(float seconds)
-    {
-        attackSpeed = seconds;
-    }
-
-    public float GetAttackDamage()
-    {
-        return attackDamage;
-    }
-    public void SetAttackDamage(float damage)
-    {
+        attackSpeed = speed;
         attackDamage = damage;
     }
 
+    public virtual void StartAttack() { }
+    public virtual void StopAttack() { }
 }

@@ -97,14 +97,16 @@ namespace GameplayMechanics.Effects
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.meleeDamage.SetMultiplier(buffMultiplier);
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.meleeDamage.GetMultiplier()+buffMultiplier);
             
             this.isActive = true;
         }
 
         public override void Clear()
         {
-            PlayerStatManager.Instance.meleeDamage.SetMultiplier(-buffMultiplier);
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.meleeDamage.GetMultiplier()-buffMultiplier);
             this.isActive = false;
         }
     }
@@ -124,14 +126,16 @@ namespace GameplayMechanics.Effects
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.blockEffect.SetAdded(addedBlockEffect);
+            PlayerStatManager.Instance.blockEffect.SetAdded(
+                PlayerStatManager.Instance.blockEffect.GetAdded()+addedBlockEffect);
 
             this.isActive = true;
         }
 
         public override void Clear()
         {
-            PlayerStatManager.Instance.blockEffect.SetAdded(-addedBlockEffect);
+            PlayerStatManager.Instance.blockEffect.SetAdded(
+                PlayerStatManager.Instance.blockEffect.GetAdded()-addedBlockEffect);
             
             this.isActive = false;
         }
@@ -156,14 +160,16 @@ namespace GameplayMechanics.Effects
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.armour.SetMultiplier(buffMultiplier);
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier()+buffMultiplier);
             
             this.isActive = true;
         }
 
         public override void Clear()
         {
-            PlayerStatManager.Instance.armour.SetMultiplier(-buffMultiplier);
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier()-buffMultiplier);
             
             this.isActive = false;
         }

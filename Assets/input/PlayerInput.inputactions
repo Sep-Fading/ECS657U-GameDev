@@ -192,8 +192,8 @@
                 {
                     "name": "",
                     "id": "9e8fbdbb-ed02-4667-92d1-9e503bae0882",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Hold",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ShieldAction",
@@ -203,8 +203,8 @@
                 {
                     "name": "",
                     "id": "e81284b0-ac58-4033-9f33-0edca8c82341",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "Press",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "SwordAction",

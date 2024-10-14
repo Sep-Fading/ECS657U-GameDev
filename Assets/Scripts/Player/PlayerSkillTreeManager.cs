@@ -37,7 +37,15 @@ namespace Player
 
             if (_skillTreeButtonsStatus[index])
             {
-                _skillTree.branchSwordShield.SkillNodes[index]._effect.Apply();
+                if (_skillTree.branchSwordShield.SkillNodes[index].parent == null
+                    || _skillTree.branchSwordShield.SkillNodes[index].parent._effect.isActive)
+                {
+                    _skillTree.branchSwordShield.SkillNodes[index]._effect.Apply();
+                }
+                else
+                {
+                    Debug.Log("Can't assign");
+                }
             }
             else
             {

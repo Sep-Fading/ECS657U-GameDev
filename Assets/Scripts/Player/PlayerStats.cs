@@ -19,6 +19,9 @@ namespace Player
             PlayerStatManager.Instance.meleeDamage.SetFlat(20.0f);
 
             Debug.Log(PlayerStatManager.Instance.GetPlayerStats());
+            
+            /* --- XP Manager ---*/
+            XpManager.Initialize();
         }
     }
 }

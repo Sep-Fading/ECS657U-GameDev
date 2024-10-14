@@ -33,7 +33,6 @@ namespace Player
         private void ToggleButtonState(int index)
         {
             _skillTreeButtonsStatus[index] = !_skillTreeButtonsStatus[index];
-            UpdateButtonAppearance(index);
 
             if (_skillTreeButtonsStatus[index])
             {
@@ -49,15 +48,40 @@ namespace Player
             }
             else
             {
-                _skillTree.branchSwordShield.SkillNodes[index]._effect.Clear();
+                if (!CheckActiveChildren(index))
+                {
+                    _skillTree.branchSwordShield.SkillNodes[index]._effect.Clear();
+                }
+                else
+                {
+                    Debug.Log("Can't unassign, children are active");
+                }
             }
             
+            UpdateButtonAppearance(index);
             Debug.Log(PlayerStatManager.Instance.GetPlayerStats());
+        }
+
+        private bool CheckActiveChildren(int index)
+        {
+            if (_skillTree.branchSwordShield.SkillNodes[index].children == null)
+            {
+                return false;
+            }
+            foreach (SkillNode node in _skillTree.branchSwordShield.SkillNodes[index].children)
+            {
+                if (node._effect.isActive)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void UpdateButtonAppearance(int index)
         {
-            if (_skillTreeButtonsStatus[index])
+            if (_skillTree.branchSwordShield.SkillNodes[index]._effect.isActive)
             {
                 skillTreeButtons[index].GetComponent<Image>().color = Color.green;
             }

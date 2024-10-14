@@ -21,38 +21,21 @@ public class Weaponmanager : MonoBehaviour
         anim = weaponPrefab.GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-
-/*
-        if (Input.GetMouseButtonDown(0))
-        {
-            anim.SetBool("Attacking", true);
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            blocking = !blocking;
-            anim.SetBool("Blocking", blocking);
-        }
-        else
-        {
-            anim.SetBool("Attacking", false);
-        }
-*/
-    }
-
     public void Attack()
     {
-        attacking = !attacking;
-        anim.SetBool("Attacking", attacking);
-        Debug.Log("Attacking");
+        anim.SetTrigger(Attacking);
     }
 
     public void Block()
     {
         blocking = !blocking;
-        anim.SetBool("Blocking", blocking);
-        Debug.Log("Blocking");
+        anim.SetBool(Blocking, blocking);
+    }
+
+    public void onBlockCancelled()
+    {
+        blocking = false;
+        anim.SetBool(Blocking, blocking);
     }
 
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BoxInteract : Interactable
 {
-    // Start is called before the first frame update
     protected override void Interact()
     {
         Debug.Log("Add Functionality here");

@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempSword : MeleeWeapon
+//public class TempSword : MeleeWeapon
 
-{
-    // weaponName = "Swing-a-ling"
-    // attackDistance = 3f;
-    // attacking = false;
-    // attackSpeed = 1f;
-    // attackDamage = 15f;
-}
+//{
+//    public TempSword() : base("tempSword", 3f, 2f, 5f) { }
+
+
+//    public override void StartAttack()
+//    {
+//        base.StartAttack();
+//    }
+//    public override void StopAttack()
+//    {
+//        base.StopAttack();
+//    }
+//}

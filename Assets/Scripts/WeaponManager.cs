@@ -5,8 +5,12 @@ using UnityEngine.InputSystem;
 
 public class Weaponmanager : MonoBehaviour
 {
+    private static readonly int Blocking = Animator.StringToHash("Blocking");
+    private static readonly int Attacking = Animator.StringToHash("Attacking");
     private Animator anim;
     private MeleeWeapon currentWeapon;
+
+    [SerializeField] private GameObject weaponPrefab;
 
     private Shield currentShield;
     private bool attacking = false;
@@ -14,13 +18,13 @@ public class Weaponmanager : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        anim = weaponPrefab.GetComponent<Animator>();
     }
 
     private void Update()
     {
 
-
+/*
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetBool("Attacking", true);
@@ -34,17 +38,20 @@ public class Weaponmanager : MonoBehaviour
         {
             anim.SetBool("Attacking", false);
         }
+*/
     }
 
-    public void Attack(InputAction.CallbackContext context)
+    public void Attack()
     {
         attacking = !attacking;
+        anim.SetBool("Attacking", attacking);
         Debug.Log("Attacking");
     }
 
-    public void Block(InputAction.CallbackContext context)
+    public void Block()
     {
         blocking = !blocking;
+        anim.SetBool("Blocking", blocking);
         Debug.Log("Blocking");
     }
 

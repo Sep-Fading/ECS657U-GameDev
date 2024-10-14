@@ -26,7 +26,6 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
 
-
         playerUI.UpdateText(string.Empty);
 
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
@@ -41,7 +40,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 Interactable interactedObj = hitInfo.collider.GetComponent<Interactable>();
                 playerUI.UpdateText(interactedObj.HoverMessage);
-                if(inputManager.grounded.Interacting.triggered) 
+                if(inputManager.playerInput.grounded.Interacting.triggered) 
                 {
                     interactedObj.BaseInteract();
                 }

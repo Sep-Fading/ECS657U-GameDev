@@ -35,6 +35,8 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
             PlayerStatManager.Instance.blockEffect.SetAdded(
                 PlayerStatManager.Instance.blockEffect.GetAdded()+buffAdded);
+
+            this.isActive = true;
         }
 
         public override void Clear()
@@ -45,6 +47,8 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
             PlayerStatManager.Instance.blockEffect.SetAdded(
                 PlayerStatManager.Instance.blockEffect.GetAdded()-buffAdded);
+            
+            this.isActive = false;
         }
     }
     
@@ -65,12 +69,16 @@ namespace GameplayMechanics.Effects
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
+            
+            this.isActive = true;
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
+            
+            this.isActive = false;
         }
     }
     
@@ -90,11 +98,14 @@ namespace GameplayMechanics.Effects
         public override void Apply()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(buffMultiplier);
+            
+            this.isActive = true;
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(-buffMultiplier);
+            this.isActive = false;
         }
     }
     
@@ -114,11 +125,15 @@ namespace GameplayMechanics.Effects
         public override void Apply()
         {
             PlayerStatManager.Instance.blockEffect.SetAdded(addedBlockEffect);
+
+            this.isActive = true;
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.blockEffect.SetAdded(-addedBlockEffect);
+            
+            this.isActive = false;
         }
     }
     
@@ -142,11 +157,15 @@ namespace GameplayMechanics.Effects
         public override void Apply()
         {
             PlayerStatManager.Instance.armour.SetMultiplier(buffMultiplier);
+            
+            this.isActive = true;
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.armour.SetMultiplier(-buffMultiplier);
+            
+            this.isActive = false;
         }
     }
     
@@ -179,6 +198,8 @@ namespace GameplayMechanics.Effects
 
             PlayerStatManager.Instance.evasion.SetFlat(0);
             PlayerStatManager.Instance.evasion.SetMultiplier(0);
+            
+            this.isActive = true;
         }
         
         public override void Clear()
@@ -192,6 +213,8 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.evasion.GetFlat()+this._storeEvFlat);
             PlayerStatManager.Instance.evasion.SetMultiplier(
                 PlayerStatManager.Instance.evasion.GetMultiplier()+this._storeEvMutli);
+            
+            this.isActive = false;
         }
     }
 }

@@ -13,7 +13,6 @@ public class Weaponmanager : MonoBehaviour
     [SerializeField] private GameObject weaponPrefab;
 
     private Shield currentShield;
-    private bool attacking = false;
     private bool blocking = false;
 
     private void Awake()

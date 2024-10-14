@@ -30,8 +30,8 @@ public class PlayerMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //CROUCHING FUNCTIONALITY SECTION
         onFloor = controller.isGrounded;
-
 
         if (LerpCrouch)
         {
@@ -66,7 +66,10 @@ public class PlayerMotor : MonoBehaviour
                 
             }
         }
+
+        
     }
+
     public void ProcessMove(Vector2 input)
     {
         Vector3 moveDirection = Vector3.zero;

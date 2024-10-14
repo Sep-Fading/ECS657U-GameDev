@@ -60,18 +60,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "left_attack",
+                    "name": "ShieldAction",
                     "type": "Button",
-                    "id": "422a1832-408c-4e34-9cbf-9d1d7fa559ec",
+                    "id": "b29c7341-406f-42c2-a600-9a5fdbb4fca3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "right_attack",
+                    "name": "SwordAction",
                     "type": "Button",
-                    "id": "149679cc-5667-48c2-9545-67ac3f4ed55f",
+                    "id": "94317faf-70d1-4942-b0bc-b0c219472fad",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -191,23 +191,23 @@
                 },
                 {
                     "name": "",
-                    "id": "29738676-1071-4e0d-a86f-82f6ccb5354f",
+                    "id": "9e8fbdbb-ed02-4667-92d1-9e503bae0882",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "left_attack",
+                    "action": "ShieldAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "a48394ea-e05b-46ec-89b4-0c8b68def4a9",
+                    "id": "e81284b0-ac58-4033-9f33-0edca8c82341",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "right_attack",
+                    "action": "SwordAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

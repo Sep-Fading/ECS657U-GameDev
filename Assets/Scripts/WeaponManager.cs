@@ -17,7 +17,6 @@ public class Weaponmanager : MonoBehaviour
     private Collider weaponCollider;
 
     private Shield currentShield;
-    private bool attacking = false;
     private bool blocking = false;
 
     private void Awake()

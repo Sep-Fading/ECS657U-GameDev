@@ -251,6 +251,7 @@ namespace GameplayMechanics.Character
         public string description { get; set; }
         public float duration { get; set; }
         public GameObject target { get; set; }
+        public bool isActive { get; set; }
         
         public virtual void Apply()
         {

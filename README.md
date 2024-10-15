@@ -1,5 +1,6 @@
 <h1>Crusade Against the Undead</h1>
 <h3>Project Link: https://github.com/users/Sep-Fading/projects/1</h3>
+<h3>Link to WebGL Build: sep-fading.github.io/ECS657U-GameDev/build/index.html</h3>
 <br>
 A medieval zombie survival game.
 

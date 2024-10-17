@@ -337,6 +337,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""054e9e42-819c-456f-ab38-316e50f29a00"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -768,6 +777,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""OpenSkillTree"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""731d7e0e-0411-41b0-8ef9-9d4170229d48"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -797,6 +817,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_OpenSkillTree = m_UI.FindAction("OpenSkillTree", throwIfNotFound: true);
+        m_UI_OpenInventory = m_UI.FindAction("OpenInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -971,6 +992,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_OpenSkillTree;
+    private readonly InputAction m_UI_OpenInventory;
     public struct UIActions
     {
         private @PlayerInput m_Wrapper;
@@ -986,6 +1008,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @OpenSkillTree => m_Wrapper.m_UI_OpenSkillTree;
+        public InputAction @OpenInventory => m_Wrapper.m_UI_OpenInventory;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1028,6 +1051,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @OpenSkillTree.started += instance.OnOpenSkillTree;
             @OpenSkillTree.performed += instance.OnOpenSkillTree;
             @OpenSkillTree.canceled += instance.OnOpenSkillTree;
+            @OpenInventory.started += instance.OnOpenInventory;
+            @OpenInventory.performed += instance.OnOpenInventory;
+            @OpenInventory.canceled += instance.OnOpenInventory;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1065,6 +1091,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @OpenSkillTree.started -= instance.OnOpenSkillTree;
             @OpenSkillTree.performed -= instance.OnOpenSkillTree;
             @OpenSkillTree.canceled -= instance.OnOpenSkillTree;
+            @OpenInventory.started -= instance.OnOpenInventory;
+            @OpenInventory.performed -= instance.OnOpenInventory;
+            @OpenInventory.canceled -= instance.OnOpenInventory;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1106,5 +1135,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnOpenSkillTree(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
     }
 }

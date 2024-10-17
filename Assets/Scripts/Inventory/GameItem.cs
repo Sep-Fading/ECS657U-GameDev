@@ -9,7 +9,7 @@ namespace Inventory
         private int _stackSize;
         private ItemType _itemType;
 
-        GameItem(string name, string description, int stackSize, ItemType itemType)
+        public GameItem(string name, string description, int stackSize, ItemType itemType)
         {
             this._name = name;
             this._description = description;

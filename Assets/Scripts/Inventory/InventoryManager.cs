@@ -9,11 +9,5 @@ namespace Inventory
         {
             Inventory.Initialize();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

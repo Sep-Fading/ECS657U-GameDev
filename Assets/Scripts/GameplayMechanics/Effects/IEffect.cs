@@ -13,7 +13,6 @@ namespace GameplayMechanics.Effects
         string name { get; set; }
         string description { get; set; }
         float duration { get; set; }
-        GameObject target { get; set; }
         public void Apply();
         public void Clear();
     }

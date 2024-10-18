@@ -1,19 +1,18 @@
 using GameplayMechanics.Effects;
-using UnityEditor;
 
-namespace Inventory
+namespace InventoryScripts
 {
     public class Equipment
     {
-        private GameItem _item;
+        public GameItem Item;
         private EquipmentEffects _effects;
         public EquipmentType type;
 
-        Equipment(EquipmentType type)
+        public Equipment(EquipmentType type)
         {
             this.type = type;
             _effects = new EquipmentEffects(type);
-            _item = new GameItem(_effects.name, _effects.description,
+            Item = new GameItem(_effects.name, _effects.description,
                 1, ItemType.EQUIPMENT);
         }
 
@@ -25,6 +24,11 @@ namespace Inventory
         public void Unequip()
         {
             _effects.Clear();
+        }
+
+        public GameItem GetItem()
+        {
+            return this.Item;
         }
     }
 }

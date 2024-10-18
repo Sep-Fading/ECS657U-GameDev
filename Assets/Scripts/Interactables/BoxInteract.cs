@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxInteract : Interactable
+namespace Interactables
 {
-    protected override void Interact()
+    public class BoxInteract : Interactable
     {
-        Debug.Log("Add Functionality here");
+        public override void Interact()
+        {
+            Debug.Log("Add Functionality here");
+        }
     }
 }

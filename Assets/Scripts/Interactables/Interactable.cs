@@ -7,7 +7,7 @@ public abstract class Interactable : MonoBehaviour
     public string HoverMessage;
 
     //all are templates to be overwritten by subclasses
-    protected virtual void Interact(){} 
+    public virtual void Interact(){} 
 
     public void BaseInteract()
     {

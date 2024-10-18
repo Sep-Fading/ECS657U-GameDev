@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GameplayMechanics.Effects;
 
-namespace Inventory
+namespace InventoryScripts
 {
     public class Inventory
     { 
@@ -17,26 +17,36 @@ namespace Inventory
         }
         
         /* Class Behaviours and Properties */
-        Stack<GameItem>[] _inventoryArray = new Stack<GameItem>[3]; // Inventory Space
+        Stack<InventoryItem>[] _inventoryArray = new Stack<InventoryItem>[3]; // Inventory Space
         /* --- Equipment on character ---*/
         private Equipment _equippedArmour;
         private Equipment _equippedMainHand;
         private Equipment _equippedOffHand;
 
-        public void Push(GameItem item)
+        public int Push(InventoryItem item)
         {
             for (int i = 0; i < _inventoryArray.Length; i++)
             {
                 if (_inventoryArray[i] == null)
                 {
-                    _inventoryArray[i] = new Stack<GameItem>();
+                    _inventoryArray[i] = new Stack<InventoryItem>();
                     _inventoryArray[i].Push(item);
-                    return;
+                    return i;
+                }
+
+                if (_inventoryArray[i].Contains(item))
+                {
+                    if (_inventoryArray[i].Count < item.gameItem.GetStackSize())
+                    {
+                        _inventoryArray[i].Push(item);
+                    }
                 }
             }
+
+            return -1;
         }
 
-        public GameItem Pop(GameItem item)
+        public InventoryItem Pop(InventoryItem item)
         {
             for (int i = 0; i < _inventoryArray.Length; i++)
             {

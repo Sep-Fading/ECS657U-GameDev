@@ -1,5 +1,4 @@
 using GameplayMechanics.Character;
-using Inventory;
 using UnityEngine;
 
 namespace GameplayMechanics.Effects
@@ -22,6 +21,7 @@ namespace GameplayMechanics.Effects
 
         public EquipmentEffects(EquipmentType equipmentType)
         {
+            _equipmentType = equipmentType;
             if (_equipmentType == EquipmentType.ARMOR)
             {
                 this.name = "Armour";
@@ -95,6 +95,7 @@ namespace GameplayMechanics.Effects
 
     public enum EquipmentType
     {
+        NONE,
         ARMOR,
         MAINHAND,
         OFFHAND

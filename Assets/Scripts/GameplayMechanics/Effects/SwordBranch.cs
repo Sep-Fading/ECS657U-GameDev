@@ -178,47 +178,32 @@ namespace GameplayMechanics.Effects
     // Versatility Mastery - Converts Evasion into Armour
     public class VersatilityMasteryEffect : SkillTreeEffect
     {
-        private float _storeEvFlat;
-        private float _storeEvMutli;
+        private float _armourEvMulti = 0.15f;
 
         public VersatilityMasteryEffect()
         {
-            this.name = "Steel Heart Mastery";
-            this.description = "Converts all evasion to armour";
+            this.name = "Versatile Combatant Mastery";
+            this.description = "15% Increased Armour and Evasion";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }
 
         public override void Apply()
         {
-            float evFlat = PlayerStatManager.Instance.evasion.GetFlat();
-            float evMulti = PlayerStatManager.Instance.evasion.GetMultiplier();
-
-            this._storeEvFlat = evFlat;
-            this._storeEvMutli = evMulti;
-            
-            PlayerStatManager.Instance.armour.SetFlat(
-                PlayerStatManager.Instance.armour.GetFlat()+evFlat);
             PlayerStatManager.Instance.armour.SetMultiplier(
-                PlayerStatManager.Instance.armour.GetMultiplier()+evMulti);
-
-            PlayerStatManager.Instance.evasion.SetFlat(0);
-            PlayerStatManager.Instance.evasion.SetMultiplier(0);
+                PlayerStatManager.Instance.armour.GetMultiplier()+_armourEvMulti);
+            PlayerStatManager.Instance.evasion.SetMultiplier(
+                PlayerStatManager.Instance.evasion.GetMultiplier()+_armourEvMulti);
             
             this.isActive = true;
         }
         
         public override void Clear()
         {
-            PlayerStatManager.Instance.armour.SetFlat(
-                PlayerStatManager.Instance.armour.GetFlat()-this._storeEvFlat);
             PlayerStatManager.Instance.armour.SetMultiplier(
-                PlayerStatManager.Instance.armour.GetMultiplier()-this._storeEvMutli);
-            
-            PlayerStatManager.Instance.evasion.SetFlat(
-                PlayerStatManager.Instance.evasion.GetFlat()+this._storeEvFlat);
+                PlayerStatManager.Instance.armour.GetMultiplier() - _armourEvMulti);
             PlayerStatManager.Instance.evasion.SetMultiplier(
-                PlayerStatManager.Instance.evasion.GetMultiplier()+this._storeEvMutli);
+                PlayerStatManager.Instance.evasion.GetMultiplier() - _armourEvMulti); 
             
             this.isActive = false;
         }

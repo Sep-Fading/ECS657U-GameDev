@@ -12,13 +12,14 @@ public class EnemyController : MonoBehaviour
     public float maxDistance = 10f;
     float idleTime = 0f;
     public LayerMask obstacleLayer;
-    Vector3 target = new Vector3();
+    float randomRot;
     private bool isRotating = false; // To track whether the enemy is currently rotating
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 1f;
+        speed = 4f;
+        randomRot = Random.Range(-360f, 360f);
     }
 
     // Update is called once per frame
@@ -30,9 +31,12 @@ public class EnemyController : MonoBehaviour
 
         if (distance > minDistance && distance <= maxDistance && !obstacleBetween)
         {
-            speed = 5f;
-            var targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+            speed = 4.5f;
+            isRotating = false;
+            //var targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
+            //targetRotation.y = 0;
+            //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+            transform.LookAt(playerPos);
             transform.position += transform.forward * speed * Time.deltaTime;
         }
         else if (distance <= minDistance)
@@ -49,14 +53,22 @@ public class EnemyController : MonoBehaviour
     {
         idleTime += Time.deltaTime;
         speed = 1f;
-        if (idleTime > 0.1f)
+        if (!isRotating)
         {
-            var targetRotation = Quaternion.LookRotation(target - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+            StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+        }
+        else if (idleTime > 2f)
+        {
+            //var targetRotation = Quaternion.LookRotation(transform.position - target);
+            //Debug.Log(targetRotation);
+            //Quaternion axisRotation = Quaternion.AngleAxis(90, Vector3.up);
+            //Debug.Log(new Quaternion(0f, 1f, 0f, 1f) * Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime));
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+            //transform.rotation = axisRotation * transform.rotation;
             idleTime = 0f;
         }
         transform.position += transform.forward * speed * Time.deltaTime;
-        target = new Vector3(0, Random.Range(-360f, 360f), 0);
+        //target = new Vector3(Random.Range(90f, 360f), 0, Random.Range(90f, 360f));
     }
 
     private void OnCollisionEnter(Collision collision)

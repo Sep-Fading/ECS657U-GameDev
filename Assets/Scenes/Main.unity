@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1364,10 +1364,11 @@ MonoBehaviour:
   wallCollider: {fileID: 1109489973}
   speed: 1
   minDistance: 3
-  maxDistance: 5
+  maxDistance: 10
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 8
+  playerMotor: {fileID: 3357197176532701518}
 --- !u!136 &1486197088
 CapsuleCollider:
   m_ObjectHideFlags: 0

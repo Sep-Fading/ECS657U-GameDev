@@ -13,7 +13,9 @@ public class EnemyController : MonoBehaviour
     float idleTime = 0f;
     public LayerMask obstacleLayer;
     float randomRot;
-    private bool isRotating = false; // To track whether the enemy is currently rotating
+    private bool isRotating = false;
+    public PlayerMotor playerMotor;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,16 @@ public class EnemyController : MonoBehaviour
         Vector3 playerPos = player.position;
         float distance = Vector3.Distance(transform.position, playerPos);
         bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
+
+        if (playerMotor.getCrouching())
+        {
+            maxDistance = minDistance = 0;
+        }
+        else
+        {
+            minDistance = 3f;
+            maxDistance = 10f;
+        }
 
         if (distance > minDistance && distance <= maxDistance && !obstacleBetween)
         {

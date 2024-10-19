@@ -16,7 +16,7 @@ public class EnemyHealth : MonoBehaviour
     {
         transform.LookAt(playerPos);
         Vector3 currentRotation = transform.eulerAngles;
-        currentRotation.y *= -1;
+        currentRotation.y += 180;
         transform.eulerAngles = currentRotation;
     }
 }

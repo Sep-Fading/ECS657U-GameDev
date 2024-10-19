@@ -949,7 +949,7 @@ Transform:
   - {fileID: 2414220138345139403}
   - {fileID: 2165367592805487019}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1441360867892540381
 GameObject:
@@ -2970,6 +2970,7 @@ GameObject:
   - component: {fileID: 8342070160238216227}
   - component: {fileID: 7250511848578649861}
   - component: {fileID: 6104653444180751263}
+  - component: {fileID: 4082260508876540054}
   m_Layer: 0
   m_Name: Logo
   m_TagString: Untagged
@@ -3094,6 +3095,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4082260508876540054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3941642085776465234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72f1d7543154e55b145640ec50ba7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
+  equipmentIndex: 1
+  equipmentType: 0
 --- !u!1 &3961680179029979154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5264,6 +5280,7 @@ GameObject:
   - component: {fileID: 5321843439973117245}
   - component: {fileID: 7608839989190423628}
   - component: {fileID: 3050585957121662025}
+  - component: {fileID: 327550523992595145}
   m_Layer: 0
   m_Name: Logo
   m_TagString: Untagged
@@ -5388,6 +5405,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &327550523992595145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6301205311491395271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72f1d7543154e55b145640ec50ba7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
+  equipmentIndex: 1
+  equipmentType: 0
 --- !u!1 &6343284401114918964
 GameObject:
   m_ObjectHideFlags: 0
@@ -6779,6 +6811,7 @@ GameObject:
   - component: {fileID: 7885446973393406944}
   - component: {fileID: 8365713167163652912}
   - component: {fileID: 8821034158099384833}
+  - component: {fileID: 8037214154003335022}
   m_Layer: 0
   m_Name: Logo
   m_TagString: Untagged
@@ -6903,6 +6936,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8037214154003335022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8187136774391698166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72f1d7543154e55b145640ec50ba7c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
+  equipmentIndex: 0
+  equipmentType: 0
 --- !u!1 &8200908443857170911
 GameObject:
   m_ObjectHideFlags: 0

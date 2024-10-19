@@ -1,3 +1,5 @@
+using GameplayMechanics.Effects;
+
 namespace GameplayMechanics.Character
 {
     /* ------------
@@ -16,6 +18,9 @@ namespace GameplayMechanics.Character
         public  Stat stamina;
         public  Stat meleeDamage;
         public  Stat blockEffect;
+        
+        // Masteries / Notables Active
+        public bool versMasteryActive;
 
         // Constructor
         private PlayerStatManager()
@@ -26,6 +31,7 @@ namespace GameplayMechanics.Character
             stamina = new Stat("Stamina");
             meleeDamage = new Stat("MeleeDamage");
             blockEffect = new Stat("BlockEffect");
+            versMasteryActive = false;
         }
 
         // Method to initialize the Singleton

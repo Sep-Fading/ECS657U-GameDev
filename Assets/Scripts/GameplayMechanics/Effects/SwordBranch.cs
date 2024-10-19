@@ -25,10 +25,9 @@ namespace GameplayMechanics.Effects
                                "\n5% Added Block Effectiveness";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.meleeDamage.GetMultiplier()+buffMultiplier);
@@ -36,9 +35,11 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
             PlayerStatManager.Instance.blockEffect.SetAdded(
                 PlayerStatManager.Instance.blockEffect.GetAdded()+buffAdded);
+
+            this.isActive = true;
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.meleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.meleeDamage.GetMultiplier()-buffMultiplier);
@@ -46,6 +47,8 @@ namespace GameplayMechanics.Effects
                 PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
             PlayerStatManager.Instance.blockEffect.SetAdded(
                 PlayerStatManager.Instance.blockEffect.GetAdded()-buffAdded);
+            
+            this.isActive = false;
         }
     }
     
@@ -60,19 +63,22 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's base health by 5%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()+buffMultiplier);
+            
+            this.isActive = true;
         }
 
-        public new void Clear()
+        public override void Clear()
         {
             PlayerStatManager.Instance.life.SetMultiplier(
                 PlayerStatManager.Instance.life.GetMultiplier()-buffMultiplier);
+            
+            this.isActive = false;
         }
     }
     
@@ -87,17 +93,21 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's base melee damage by 10%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
-            PlayerStatManager.Instance.meleeDamage.SetMultiplier(buffMultiplier);
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.meleeDamage.GetMultiplier()+buffMultiplier);
+            
+            this.isActive = true;
         }
 
-        public new void Clear()
+        public override void Clear()
         {
-            PlayerStatManager.Instance.meleeDamage.SetMultiplier(-buffMultiplier);
+            PlayerStatManager.Instance.meleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.meleeDamage.GetMultiplier()-buffMultiplier);
+            this.isActive = false;
         }
     }
     
@@ -112,17 +122,22 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's block effectiveness by 1%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
-            PlayerStatManager.Instance.blockEffect.SetAdded(addedBlockEffect);
+            PlayerStatManager.Instance.blockEffect.SetAdded(
+                PlayerStatManager.Instance.blockEffect.GetAdded()+addedBlockEffect);
+
+            this.isActive = true;
         }
 
-        public new void Clear()
+        public override void Clear()
         {
-            PlayerStatManager.Instance.blockEffect.SetAdded(-addedBlockEffect);
+            PlayerStatManager.Instance.blockEffect.SetAdded(
+                PlayerStatManager.Instance.blockEffect.GetAdded()-addedBlockEffect);
+            
+            this.isActive = false;
         }
     }
     
@@ -141,63 +156,56 @@ namespace GameplayMechanics.Effects
             this.description = "Increases the player's base armour by 35%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
-            PlayerStatManager.Instance.armour.SetMultiplier(buffMultiplier);
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier()+buffMultiplier);
+            
+            this.isActive = true;
         }
 
-        public new void Clear()
+        public override void Clear()
         {
-            PlayerStatManager.Instance.armour.SetMultiplier(-buffMultiplier);
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier()-buffMultiplier);
+            
+            this.isActive = false;
         }
     }
     
     // Versatility Mastery - Converts Evasion into Armour
     public class VersatilityMasteryEffect : SkillTreeEffect
     {
-        private float _storeEvFlat;
-        private float _storeEvMutli;
+        private float _armourEvMulti = 0.15f;
 
         public VersatilityMasteryEffect()
         {
-            this.name = "Steel Heart Mastery";
-            this.description = "Converts all evasion to armour";
+            this.name = "Versatile Combatant Mastery";
+            this.description = "15% Increased Armour and Evasion";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
-            this.Apply();
         }
 
-        public new void Apply()
+        public override void Apply()
         {
-            float evFlat = PlayerStatManager.Instance.evasion.GetFlat();
-            float evMulti = PlayerStatManager.Instance.evasion.GetMultiplier();
-
-            this._storeEvFlat = evFlat;
-            this._storeEvMutli = evMulti;
-            
-            PlayerStatManager.Instance.armour.SetFlat(
-                PlayerStatManager.Instance.armour.GetFlat()+evFlat);
             PlayerStatManager.Instance.armour.SetMultiplier(
-                PlayerStatManager.Instance.armour.GetMultiplier()+evMulti);
-
-            PlayerStatManager.Instance.evasion.SetFlat(0);
-            PlayerStatManager.Instance.evasion.SetMultiplier(0);
-        }
-
-        public new void Clear()
-        {
-            PlayerStatManager.Instance.armour.SetFlat(
-                PlayerStatManager.Instance.armour.GetFlat()-this._storeEvFlat);
-            PlayerStatManager.Instance.armour.SetMultiplier(
-                PlayerStatManager.Instance.armour.GetMultiplier()-this._storeEvMutli);
-            
-            PlayerStatManager.Instance.evasion.SetFlat(
-                PlayerStatManager.Instance.evasion.GetFlat()+this._storeEvFlat);
+                PlayerStatManager.Instance.armour.GetMultiplier()+_armourEvMulti);
             PlayerStatManager.Instance.evasion.SetMultiplier(
-                PlayerStatManager.Instance.evasion.GetMultiplier()+this._storeEvMutli);
+                PlayerStatManager.Instance.evasion.GetMultiplier()+_armourEvMulti);
+            
+            this.isActive = true;
+        }
+        
+        public override void Clear()
+        {
+            PlayerStatManager.Instance.armour.SetMultiplier(
+                PlayerStatManager.Instance.armour.GetMultiplier() - _armourEvMulti);
+            PlayerStatManager.Instance.evasion.SetMultiplier(
+                PlayerStatManager.Instance.evasion.GetMultiplier() - _armourEvMulti); 
+            
+            this.isActive = false;
         }
     }
 }

@@ -82,18 +82,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""left_attack"",
+                    ""name"": ""ShieldAction"",
                     ""type"": ""Button"",
-                    ""id"": ""422a1832-408c-4e34-9cbf-9d1d7fa559ec"",
+                    ""id"": ""b29c7341-406f-42c2-a600-9a5fdbb4fca3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""right_attack"",
+                    ""name"": ""SwordAction"",
                     ""type"": ""Button"",
-                    ""id"": ""149679cc-5667-48c2-9545-67ac3f4ed55f"",
+                    ""id"": ""94317faf-70d1-4942-b0bc-b0c219472fad"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -213,23 +213,23 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""29738676-1071-4e0d-a86f-82f6ccb5354f"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""9e8fbdbb-ed02-4667-92d1-9e503bae0882"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""left_attack"",
+                    ""action"": ""ShieldAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a48394ea-e05b-46ec-89b4-0c8b68def4a9"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""id"": ""e81284b0-ac58-4033-9f33-0edca8c82341"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""right_attack"",
+                    ""action"": ""SwordAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -325,6 +325,33 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""544a4a4e-4507-46fd-8204-86aebf7ad398"",
                     ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenSkillTree"",
+                    ""type"": ""Button"",
+                    ""id"": ""3558256c-3aa3-425f-9766-becca3921a83"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""054e9e42-819c-456f-ab38-316e50f29a00"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemPickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""87b2026f-4564-4ca6-90ca-058afcede68d"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -748,6 +775,39 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cae26f2d-103b-4b1b-a925-a972dcee610e"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenSkillTree"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""731d7e0e-0411-41b0-8ef9-9d4170229d48"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8fe86406-151f-405b-88ea-2ea7e90c108a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemPickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -762,8 +822,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_grounded_sprinting = m_grounded.FindAction("sprinting", throwIfNotFound: true);
         m_grounded_crouching = m_grounded.FindAction("crouching", throwIfNotFound: true);
         m_grounded_Interacting = m_grounded.FindAction("Interacting", throwIfNotFound: true);
-        m_grounded_left_attack = m_grounded.FindAction("left_attack", throwIfNotFound: true);
-        m_grounded_right_attack = m_grounded.FindAction("right_attack", throwIfNotFound: true);
+        m_grounded_ShieldAction = m_grounded.FindAction("ShieldAction", throwIfNotFound: true);
+        m_grounded_SwordAction = m_grounded.FindAction("SwordAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -776,6 +836,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_OpenSkillTree = m_UI.FindAction("OpenSkillTree", throwIfNotFound: true);
+        m_UI_OpenInventory = m_UI.FindAction("OpenInventory", throwIfNotFound: true);
+        m_UI_ItemPickUp = m_UI.FindAction("ItemPickUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -843,8 +906,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_grounded_sprinting;
     private readonly InputAction m_grounded_crouching;
     private readonly InputAction m_grounded_Interacting;
-    private readonly InputAction m_grounded_left_attack;
-    private readonly InputAction m_grounded_right_attack;
+    private readonly InputAction m_grounded_ShieldAction;
+    private readonly InputAction m_grounded_SwordAction;
     public struct GroundedActions
     {
         private @PlayerInput m_Wrapper;
@@ -855,8 +918,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @sprinting => m_Wrapper.m_grounded_sprinting;
         public InputAction @crouching => m_Wrapper.m_grounded_crouching;
         public InputAction @Interacting => m_Wrapper.m_grounded_Interacting;
-        public InputAction @left_attack => m_Wrapper.m_grounded_left_attack;
-        public InputAction @right_attack => m_Wrapper.m_grounded_right_attack;
+        public InputAction @ShieldAction => m_Wrapper.m_grounded_ShieldAction;
+        public InputAction @SwordAction => m_Wrapper.m_grounded_SwordAction;
         public InputActionMap Get() { return m_Wrapper.m_grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -884,12 +947,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interacting.started += instance.OnInteracting;
             @Interacting.performed += instance.OnInteracting;
             @Interacting.canceled += instance.OnInteracting;
-            @left_attack.started += instance.OnLeft_attack;
-            @left_attack.performed += instance.OnLeft_attack;
-            @left_attack.canceled += instance.OnLeft_attack;
-            @right_attack.started += instance.OnRight_attack;
-            @right_attack.performed += instance.OnRight_attack;
-            @right_attack.canceled += instance.OnRight_attack;
+            @ShieldAction.started += instance.OnShieldAction;
+            @ShieldAction.performed += instance.OnShieldAction;
+            @ShieldAction.canceled += instance.OnShieldAction;
+            @SwordAction.started += instance.OnSwordAction;
+            @SwordAction.performed += instance.OnSwordAction;
+            @SwordAction.canceled += instance.OnSwordAction;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -912,12 +975,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interacting.started -= instance.OnInteracting;
             @Interacting.performed -= instance.OnInteracting;
             @Interacting.canceled -= instance.OnInteracting;
-            @left_attack.started -= instance.OnLeft_attack;
-            @left_attack.performed -= instance.OnLeft_attack;
-            @left_attack.canceled -= instance.OnLeft_attack;
-            @right_attack.started -= instance.OnRight_attack;
-            @right_attack.performed -= instance.OnRight_attack;
-            @right_attack.canceled -= instance.OnRight_attack;
+            @ShieldAction.started -= instance.OnShieldAction;
+            @ShieldAction.performed -= instance.OnShieldAction;
+            @ShieldAction.canceled -= instance.OnShieldAction;
+            @SwordAction.started -= instance.OnSwordAction;
+            @SwordAction.performed -= instance.OnSwordAction;
+            @SwordAction.canceled -= instance.OnSwordAction;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -949,6 +1012,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_OpenSkillTree;
+    private readonly InputAction m_UI_OpenInventory;
+    private readonly InputAction m_UI_ItemPickUp;
     public struct UIActions
     {
         private @PlayerInput m_Wrapper;
@@ -963,6 +1029,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        public InputAction @OpenSkillTree => m_Wrapper.m_UI_OpenSkillTree;
+        public InputAction @OpenInventory => m_Wrapper.m_UI_OpenInventory;
+        public InputAction @ItemPickUp => m_Wrapper.m_UI_ItemPickUp;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1002,6 +1071,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @OpenSkillTree.started += instance.OnOpenSkillTree;
+            @OpenSkillTree.performed += instance.OnOpenSkillTree;
+            @OpenSkillTree.canceled += instance.OnOpenSkillTree;
+            @OpenInventory.started += instance.OnOpenInventory;
+            @OpenInventory.performed += instance.OnOpenInventory;
+            @OpenInventory.canceled += instance.OnOpenInventory;
+            @ItemPickUp.started += instance.OnItemPickUp;
+            @ItemPickUp.performed += instance.OnItemPickUp;
+            @ItemPickUp.canceled += instance.OnItemPickUp;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1036,6 +1114,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @OpenSkillTree.started -= instance.OnOpenSkillTree;
+            @OpenSkillTree.performed -= instance.OnOpenSkillTree;
+            @OpenSkillTree.canceled -= instance.OnOpenSkillTree;
+            @OpenInventory.started -= instance.OnOpenInventory;
+            @OpenInventory.performed -= instance.OnOpenInventory;
+            @OpenInventory.canceled -= instance.OnOpenInventory;
+            @ItemPickUp.started -= instance.OnItemPickUp;
+            @ItemPickUp.performed -= instance.OnItemPickUp;
+            @ItemPickUp.canceled -= instance.OnItemPickUp;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1061,8 +1148,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnSprinting(InputAction.CallbackContext context);
         void OnCrouching(InputAction.CallbackContext context);
         void OnInteracting(InputAction.CallbackContext context);
-        void OnLeft_attack(InputAction.CallbackContext context);
-        void OnRight_attack(InputAction.CallbackContext context);
+        void OnShieldAction(InputAction.CallbackContext context);
+        void OnSwordAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1076,5 +1163,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        void OnOpenSkillTree(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
+        void OnItemPickUp(InputAction.CallbackContext context);
     }
 }

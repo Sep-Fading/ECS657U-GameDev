@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxInteract : Interactable
+namespace Interactables
 {
-    // Start is called before the first frame update
-    protected override void Interact()
+    public class BoxInteract : Interactable
     {
-        Debug.Log("Add Functionality here");
+        public override void Interact()
+        {
+            Debug.Log("Add Functionality here");
+        }
     }
 }

@@ -1,49 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
+using InventoryScripts;
+using Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-
-public class PlayerInteract : MonoBehaviour
+namespace Player
 {
-    private Camera cam;
-    [SerializeField]
-    private float InteractableDistance = 3f;
-    [SerializeField]
-    private LayerMask mask;
-    private PlayerUI playerUI;
-    private InputManager inputManager;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerInteract : MonoBehaviour
     {
-        cam = GetComponent<PlayerLook>().cam;
-        playerUI = GetComponent<PlayerUI>();
-        inputManager = GetComponent<InputManager>();
-    }
+        private Camera _cam;
+        [FormerlySerializedAs("InteractableDistance")] [SerializeField]
+        private float interactableDistance = 3f;
+        [SerializeField]
+        private LayerMask mask;
+        private PlayerUI _playerUI;
+        private InputManager _inputManager;
+        private PickUpManager _pickUpManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-
-        playerUI.UpdateText(string.Empty);
-
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-
-        Debug.DrawRay(ray.origin, ray.direction * InteractableDistance);
-
-        RaycastHit hitInfo;
-
-        if(Physics.Raycast(ray, out hitInfo, InteractableDistance, mask))
+        public bool canPickUp;
+        // Start is called before the first frame update
+        void Start()
         {
-            if(hitInfo.collider.GetComponent<Interactable>() != null)
+            _cam = GetComponent<PlayerLook>().cam;
+            _playerUI = GetComponent<PlayerUI>();
+            _inputManager = GetComponent<InputManager>();
+            _pickUpManager = GetComponent<PickUpManager>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+            _playerUI.UpdateText(string.Empty);
+
+            Ray ray = new Ray(_cam.transform.position, _cam.transform.forward);
+
+            Debug.DrawRay(ray.origin, ray.direction * interactableDistance);
+
+            RaycastHit hitInfo;
+
+            if(Physics.Raycast(ray, out hitInfo, interactableDistance, mask))
             {
-                Interactable interactedObj = hitInfo.collider.GetComponent<Interactable>();
-                playerUI.UpdateText(interactedObj.HoverMessage);
-                if(inputManager.grounded.Interacting.triggered) 
+                if(hitInfo.collider.GetComponent<Interactable>() != null)
                 {
-                    interactedObj.BaseInteract();
+                    Interactable interactedObj = hitInfo.collider.GetComponent<Interactable>();
+                    _playerUI.UpdateText(interactedObj.HoverMessage);
+                    if(_inputManager.playerInput.grounded.Interacting.triggered) 
+                    {
+                        interactedObj.BaseInteract();
+                    }
                 }
+            }
+        
+            // Pick up functionality:
+            if (hitInfo.collider != null)
+            {
+                EquipmentInitializer component = hitInfo.collider.GetComponent<EquipmentInitializer>();
+                if (component != null)
+                {
+                    _pickUpManager.SetItemToPickUp(component);
+                    canPickUp = true;
+                }
+                else
+                {
+                    canPickUp = false;
+                }
+            }
+            else
+            {
+                canPickUp = false;
             }
         }
     }

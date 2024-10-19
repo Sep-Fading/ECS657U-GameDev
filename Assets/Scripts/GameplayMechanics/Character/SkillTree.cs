@@ -8,9 +8,9 @@ namespace GameplayMechanics.Character
 {
     public class SkillTree
     {
-        private SkillTreeBranch _branchSwordShield;
+        public SkillTreeBranch branchSwordShield;
 
-        SkillTree()
+        public SkillTree()
         {
             /* --- Initialise effects (Sword & Shield) --- */
 
@@ -79,7 +79,7 @@ namespace GameplayMechanics.Character
             };
 
         /* --- Construct a SkillTreeBranch ---*/
-        _branchSwordShield = new SkillTreeBranch("Sword and Shield Branch", _skillNodes);
+        branchSwordShield = new SkillTreeBranch("Sword and Shield Branch", _skillNodes);
     }
 }
 
@@ -92,7 +92,7 @@ namespace GameplayMechanics.Character
     public class SkillTreeBranch
     {
         private string _name;
-        private SkillNode[] _skillNodes;
+        public SkillNode[] SkillNodes;
         
         /*------------------
          Class Constructor
@@ -100,55 +100,55 @@ namespace GameplayMechanics.Character
         public SkillTreeBranch(string name, SkillNode[] skillNodes)
         {
             this._name = name;
-            this._skillNodes = skillNodes;
+            this.SkillNodes = skillNodes;
             
             /* --- Create the relationships in the tree --- */
-            this._skillNodes[0].parent = null;
-            this._skillNodes[0].children = new[]
+            this.SkillNodes[0].parent = null;
+            this.SkillNodes[0].children = new[]
             {
-                _skillNodes[1],
-                _skillNodes[3],
-                _skillNodes[5]
+                SkillNodes[1],
+                SkillNodes[3],
+                SkillNodes[5]
             };
-            foreach (SkillNode skillNode in this._skillNodes[0].children)
+            foreach (SkillNode skillNode in this.SkillNodes[0].children)
             {
-                skillNode.parent = this._skillNodes[0];
+                skillNode.parent = this.SkillNodes[0];
             }
             
-            this._skillNodes[1].children = new[] { this._skillNodes[2] };
-            foreach (SkillNode skillNode in this._skillNodes[1].children)
+            this.SkillNodes[1].children = new[] { this.SkillNodes[2] };
+            foreach (SkillNode skillNode in this.SkillNodes[1].children)
             {
-                skillNode.parent = this._skillNodes[1];
+                skillNode.parent = this.SkillNodes[1];
             }
             
-            this._skillNodes[2].children = new[] { this._skillNodes[7] };
-            foreach (SkillNode skillNode in this._skillNodes[2].children)
+            this.SkillNodes[2].children = new[] { this.SkillNodes[7] };
+            foreach (SkillNode skillNode in this.SkillNodes[2].children)
             {
-                skillNode.parent = this._skillNodes[2];
+                skillNode.parent = this.SkillNodes[2];
             }
             
-            this._skillNodes[3].children = new[] { this._skillNodes[4] };
-            foreach (SkillNode skillNode in this._skillNodes[3].children)
+            this.SkillNodes[3].children = new[] { this.SkillNodes[4] };
+            foreach (SkillNode skillNode in this.SkillNodes[3].children)
             {
-                skillNode.parent = this._skillNodes[3];
+                skillNode.parent = this.SkillNodes[3];
             }
             
-            this._skillNodes[4].children = new[] { this._skillNodes[7], this._skillNodes[8] };
-            foreach (SkillNode skillNode in this._skillNodes[4].children)
+            this.SkillNodes[4].children = new[] { this.SkillNodes[7], this.SkillNodes[8] };
+            foreach (SkillNode skillNode in this.SkillNodes[4].children)
             {
-                skillNode.parent = this._skillNodes[4];
+                skillNode.parent = this.SkillNodes[4];
             }
             
-            this._skillNodes[5].children = new[] { this._skillNodes[6] };
-            foreach (SkillNode skillNode in this._skillNodes[5].children)
+            this.SkillNodes[5].children = new[] { this.SkillNodes[6] };
+            foreach (SkillNode skillNode in this.SkillNodes[5].children)
             {
-                skillNode.parent = this._skillNodes[5];
+                skillNode.parent = this.SkillNodes[5];
             }
             
-            this._skillNodes[6].children = new[] { this._skillNodes[8] };
-            foreach (SkillNode skillNode in this._skillNodes[6].children)
+            this.SkillNodes[6].children = new[] { this.SkillNodes[8] };
+            foreach (SkillNode skillNode in this.SkillNodes[6].children)
             {
-                skillNode.parent = this._skillNodes[6];
+                skillNode.parent = this.SkillNodes[6];
             }
         }
         
@@ -183,7 +183,7 @@ namespace GameplayMechanics.Character
         public string id;
         public string name;
         private string _description;
-        private SkillTreeEffect _effect;
+        public SkillTreeEffect _effect;
         
         /*------------------
          Class Constructor
@@ -251,13 +251,14 @@ namespace GameplayMechanics.Character
         public string description { get; set; }
         public float duration { get; set; }
         public GameObject target { get; set; }
+        public bool isActive { get; set; }
         
-        public void Apply()
+        public virtual void Apply()
         {
             throw new NotImplementedException();
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             throw new NotImplementedException();
         }

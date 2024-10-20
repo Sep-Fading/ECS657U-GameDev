@@ -49,6 +49,7 @@ public class PlayerUI : MonoBehaviour
         {
             return UIActive;
         }
+
     public void InventoryToggle(InputAction.CallbackContext context)
         {
             _inventoryUI.SetActive(
@@ -56,11 +57,13 @@ public class PlayerUI : MonoBehaviour
     
             if (_inventoryUI.activeSelf)
             {
+                UIActive = true;
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.Confined;
             }
             else
             {
+                UIActive = false;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }

@@ -48,7 +48,7 @@ namespace Player
             }
             else
             {
-                if (!CheckActiveChildren(index))
+                if (!CheckActiveChildren(index) && _skillTree.branchSwordShield.SkillNodes[index]._effect.isActive)
                 {
                     _skillTree.branchSwordShield.SkillNodes[index]._effect.Clear();
                 }

@@ -5695,6 +5695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b23a87b0587401899cc70f845dcfbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 4390963384208367589}
   weaponPrefab: {fileID: 6969457548085644860}
   weaponColliderParent: {fileID: 2697649808539391288}
 --- !u!4 &1264388596 stripped
@@ -6769,7 +6770,7 @@ MonoBehaviour:
   normalSpeed: 5
   sprintSpeed: 8
   gravity: -9.8
-  jumpheight: 2
+  jumpheight: 1.25
 --- !u!114 &3509308746607156934 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1825150425081254098, guid: 038f342e250bf43f095a2b350cd7d515, type: 3}

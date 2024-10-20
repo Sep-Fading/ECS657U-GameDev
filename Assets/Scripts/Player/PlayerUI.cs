@@ -8,11 +8,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerUI : MonoBehaviour
 {
-
+    private bool UIActive = false;
     [SerializeField] private TextMeshProUGUI promptText;
     [SerializeField] private PlayerSkillTreeManager _playerSkillTreeManager;
     [SerializeField] private GameObject _inventoryUI;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -29,35 +28,44 @@ public class PlayerUI : MonoBehaviour
 
     public void SkillTreeToggle(InputAction.CallbackContext context)
     {
+
         _playerSkillTreeManager._skillTreeUI.SetActive(
             !_playerSkillTreeManager._skillTreeUI.activeSelf);
 
         if (_playerSkillTreeManager._skillTreeUI.activeSelf)
         {
+            UIActive = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
         }
         else
         {
+            UIActive = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
+    public bool GetUIActive()
+        {
+            return UIActive;
+        }
 
     public void InventoryToggle(InputAction.CallbackContext context)
-    {
-        _inventoryUI.SetActive(
-            !_inventoryUI.activeSelf);
-
-        if (_inventoryUI.activeSelf)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
+            _inventoryUI.SetActive(
+                !_inventoryUI.activeSelf);
+    
+            if (_inventoryUI.activeSelf)
+            {
+                UIActive = true;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else
+            {
+                UIActive = false;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
-        else
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
 }

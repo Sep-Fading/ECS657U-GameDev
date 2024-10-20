@@ -11,11 +11,13 @@ public class PlayerUI : MonoBehaviour
     private bool UIActive = false;
     [SerializeField] private TextMeshProUGUI promptText;
     [SerializeField] private PlayerSkillTreeManager _playerSkillTreeManager;
-
+    [SerializeField] private GameObject _inventoryUI;
     // Start is called before the first frame update
     void Start()
     {
         _playerSkillTreeManager = GetComponent<PlayerSkillTreeManager>();
+        _inventoryUI = GameObject.Find("-- Inventory UI");
+        _inventoryUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -44,7 +46,23 @@ public class PlayerUI : MonoBehaviour
         }
     }
     public bool GetUIActive()
-    {
-        return UIActive;
-    }
+        {
+            return UIActive;
+        }
+    public void InventoryToggle(InputAction.CallbackContext context)
+        {
+            _inventoryUI.SetActive(
+                !_inventoryUI.activeSelf);
+    
+            if (_inventoryUI.activeSelf)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
 }

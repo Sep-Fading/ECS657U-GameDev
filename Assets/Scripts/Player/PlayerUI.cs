@@ -46,26 +46,26 @@ public class PlayerUI : MonoBehaviour
         }
     }
     public bool GetUIActive()
-        {
-            return UIActive;
-        }
+    { 
+        return UIActive;
+    }
 
     public void InventoryToggle(InputAction.CallbackContext context)
-        {
-            _inventoryUI.SetActive(
-                !_inventoryUI.activeSelf);
-    
-            if (_inventoryUI.activeSelf)
-            {
-                UIActive = true;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
-            }
-            else
-            {
-                UIActive = false;
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+    { 
+        _inventoryUI.SetActive(
+            !_inventoryUI.activeSelf);
+        
+        if (_inventoryUI.activeSelf)
+        { 
+            UIActive = true; 
+            Cursor.visible = true; 
+            Cursor.lockState = CursorLockMode.Confined;
         }
+        else
+        {
+            UIActive = false;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
 }

@@ -8,10 +8,12 @@ using TMPro;
 
 public class EnemyController : MonoBehaviour
 {
-    public Transform player;
+    GameObject player;
+    public Transform playerTransform; 
+    public PlayerMotor playerMotor;
     public Collider wallCollider;
     public float speed;
-    public float minDistance = 1.5f;
+    public float minDistance = 1.8f;
     public float maxDistance = 10f;
     float idleTime = 0f;
     float attackCooldown = 1f;
@@ -19,7 +21,6 @@ public class EnemyController : MonoBehaviour
     float randomRot;
     private bool isRotating = false;
     private bool triggered;
-    public PlayerMotor playerMotor;
     public float maxHealth = 100f;
     public float currentHealth;
     public Animator playerWeaponAnimator;
@@ -31,6 +32,14 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
+        if (player != null)
+        { 
+            playerTransform = player.transform;
+            playerMotor = player.GetComponent<PlayerMotor>();
+        }
+        playerWeaponAnimator = GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>();
+        wallCollider = GameObject.FindWithTag("Wall").GetComponent<Collider>();
         speed = 4f;
         triggered = false;
         enemyRenderer = GetComponent<Renderer>();
@@ -47,7 +56,7 @@ public class EnemyController : MonoBehaviour
             defeatEnemy();
         }
 
-        Vector3 playerPos = player.position;
+        Vector3 playerPos = playerTransform.position;
         float distance = Vector3.Distance(transform.position, playerPos);
         bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
         healthText.text = currentHealth + "/" + maxHealth;
@@ -58,7 +67,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            minDistance = 1.5f;
+            minDistance = 1.8f;
             maxDistance = 10f;
         }
 
@@ -66,6 +75,10 @@ public class EnemyController : MonoBehaviour
         bool inAttackRange = distance <= minDistance;
 
         enemyRenderer.material = triggered ? triggeredMaterial : defaultMaterial;
+        Color healthColor = enemyRenderer.material.color;
+        healthColor.a = (currentHealth/maxHealth);
+        enemyRenderer.material.color = healthColor;
+        Debug.Log(enemyRenderer.material.color.a);
 
         if (triggered)
         {

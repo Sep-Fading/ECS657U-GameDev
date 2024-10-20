@@ -1,68 +1,94 @@
+using GameplayMechanics.Character;
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using TMPro;
 
 public class EnemyController : MonoBehaviour
 {
     public Transform player;
     public Collider wallCollider;
     public float speed;
-    public float minDistance = 3f;
+    public float minDistance = 1.5f;
     public float maxDistance = 10f;
     float idleTime = 0f;
+    float attackCooldown = 1f;
     public LayerMask obstacleLayer;
     float randomRot;
     private bool isRotating = false;
+    private bool triggered;
     public PlayerMotor playerMotor;
-
+    public float maxHealth = 100f;
+    public float currentHealth;
+    public Animator playerWeaponAnimator;
+    public Material triggeredMaterial;
+    public Material defaultMaterial;
+    Renderer enemyRenderer;
+    public TextMeshProUGUI healthText;
 
     // Start is called before the first frame update
     void Start()
     {
         speed = 4f;
+        triggered = false;
+        enemyRenderer = GetComponent<Renderer>();
+        enemyRenderer.material = defaultMaterial;
         randomRot = Random.Range(-360f, 360f);
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth <= 0)
+        {
+            defeatEnemy();
+        }
+
         Vector3 playerPos = player.position;
         float distance = Vector3.Distance(transform.position, playerPos);
         bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
+        healthText.text = currentHealth + "/" + maxHealth;
 
-        if (playerMotor.getCrouching())
+        if (playerMotor.getCrouching() && !triggered)
         {
             maxDistance = minDistance = 0;
         }
         else
         {
-            minDistance = 3f;
+            minDistance = 1.5f;
             maxDistance = 10f;
         }
 
-        if (distance > minDistance && distance <= maxDistance && !obstacleBetween)
+        bool inChaseRange = distance > minDistance && distance <= maxDistance && !obstacleBetween;
+        bool inAttackRange = distance <= minDistance;
+
+        enemyRenderer.material = triggered ? triggeredMaterial : defaultMaterial;
+
+        if (triggered)
         {
-            speed = 4.5f;
-            isRotating = false;
-            //var targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
-            //targetRotation.y = 0;
-            //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-            transform.LookAt(playerPos);
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
-        else if (distance <= minDistance)
-        {
-            //attack
+            if (inChaseRange)
+            {
+                trackPlayer(playerPos);
+            }
+            else if (inAttackRange)
+            {
+                attack();
+            }
         }
         else
         {
             idle();
         }
+
+        triggered = inChaseRange || inAttackRange;
     }
 
     void idle()
     {
+        triggered = false;
         idleTime += Time.deltaTime;
         speed = 1f;
         if (!isRotating)
@@ -71,16 +97,36 @@ public class EnemyController : MonoBehaviour
         }
         else if (idleTime > 2f)
         {
-            //var targetRotation = Quaternion.LookRotation(transform.position - target);
-            //Debug.Log(targetRotation);
-            //Quaternion axisRotation = Quaternion.AngleAxis(90, Vector3.up);
-            //Debug.Log(new Quaternion(0f, 1f, 0f, 1f) * Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime));
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-            //transform.rotation = axisRotation * transform.rotation;
             idleTime = 0f;
         }
         transform.position += transform.forward * speed * Time.deltaTime;
-        //target = new Vector3(Random.Range(90f, 360f), 0, Random.Range(90f, 360f));
+    }
+
+    void trackPlayer(Vector3 playerPos) 
+    {
+        speed = 4.5f;
+        isRotating = false;
+        triggered = true;
+        transform.LookAt(playerPos);
+        transform.position += transform.forward * speed * Time.deltaTime;
+    }
+
+    void attack() 
+    { 
+        attackCooldown -= Time.deltaTime;
+        if (attackCooldown <= 0)
+        {
+            PlayerStatManager.Instance.life.SetAdded(PlayerStatManager.Instance.life.GetAdded() - 10);
+            PlayerStatManager.Instance.life.Recalculate();
+            Debug.Log("Player Health: " + PlayerStatManager.Instance.life.GetAppliedTotal());
+            attackCooldown = 1f;
+        }
+    }
+
+    void defeatEnemy() 
+    {
+        Debug.Log("Enemy Defeated");
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -89,6 +135,26 @@ public class EnemyController : MonoBehaviour
         {
             Debug.Log("Collided with wall");
             StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
+        }
+
+        if (playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length > playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime
+            && playerWeaponAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "TempSwordAnimation"
+            && collision.gameObject.tag == "Weapon")
+        {
+            triggered = true;
+            currentHealth -= PlayerStatManager.Instance.meleeDamage.GetAppliedTotal();
+            Debug.Log("Enemy Health: " + currentHealth + "/" + maxHealth);
+            //Rigidbody enemyRb = gameObject.GetComponent<Rigidbody>();
+            //if (enemyRb != null)
+            //{
+            //    // Calculate the knockback direction (away from the player)
+            //    Vector3 knockbackDirection = collision.transform.position - transform.position;
+            //    knockbackDirection.y = 0;  // Keep knockback horizontal (no vertical force)
+
+            //    // Apply the knockback force
+            //    float knockbackForce = 50f; // Adjust this value based on desired knockback strength
+            //    enemyRb.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode.Impulse);
+            //}
         }
     }
 

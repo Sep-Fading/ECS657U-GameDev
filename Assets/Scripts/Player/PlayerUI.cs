@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerUI : MonoBehaviour
 {
-
+    private bool UIActive = false;
     [SerializeField] private TextMeshProUGUI promptText;
     [SerializeField] private PlayerSkillTreeManager _playerSkillTreeManager;
 
@@ -26,18 +26,25 @@ public class PlayerUI : MonoBehaviour
 
     public void SkillTreeToggle(InputAction.CallbackContext context)
     {
+
         _playerSkillTreeManager._skillTreeUI.SetActive(
             !_playerSkillTreeManager._skillTreeUI.activeSelf);
 
         if (_playerSkillTreeManager._skillTreeUI.activeSelf)
         {
+            UIActive = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
         }
         else
         {
+            UIActive = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+    public bool GetUIActive()
+    {
+        return UIActive;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameplayMechanics.Effects;
+using UnityEngine;
 
 namespace InventoryScripts
 {
@@ -19,15 +20,15 @@ namespace InventoryScripts
         /* Class Behaviours and Properties */
         Stack<InventoryItem>[] _inventoryArray = new Stack<InventoryItem>[3]; // Inventory Space
         /* --- Equipment on character ---*/
-        private Equipment _equippedArmour;
-        private Equipment _equippedMainHand;
-        private Equipment _equippedOffHand;
+        public Equipment EquippedArmour;
+        public Equipment EquippedMainHand;
+        public Equipment EquippedOffHand;
 
         public int Push(InventoryItem item)
         {
             for (int i = 0; i < _inventoryArray.Length; i++)
             {
-                if (_inventoryArray[i] == null)
+                if (_inventoryArray[i] == null || _inventoryArray[i].Count == 0)
                 {
                     _inventoryArray[i] = new Stack<InventoryItem>();
                     _inventoryArray[i].Push(item);
@@ -52,7 +53,12 @@ namespace InventoryScripts
             {
                 if (_inventoryArray[i] != null && _inventoryArray[i].Contains(item))
                 {
-                    return _inventoryArray[i].Pop();
+                    InventoryItem temp = _inventoryArray[i].Pop();
+                    if (_inventoryArray[i].Count == 0)
+                    {
+                        _inventoryArray[i] = new Stack<InventoryItem>();
+                    }
+                    return temp;
                 }
             }
             return null;
@@ -63,22 +69,22 @@ namespace InventoryScripts
         {
             if (equipment.type == EquipmentType.ARMOR)
             {
-                _equippedArmour = equipment;
-                _equippedArmour.Equip();
+                EquippedArmour = equipment;
+                EquippedArmour.Equip();
                 return EquipmentType.ARMOR;
             }
 
             if (equipment.type == EquipmentType.OFFHAND)
             {
-                _equippedOffHand = equipment;
-                _equippedOffHand.Equip();
+                EquippedOffHand = equipment;
+                EquippedOffHand.Equip();
                 return EquipmentType.OFFHAND;
             }
 
             if (equipment.type == EquipmentType.MAINHAND)
             {
-                _equippedMainHand = equipment;
-                _equippedMainHand.Equip();
+                EquippedMainHand = equipment;
+                EquippedMainHand.Equip();
                 return EquipmentType.MAINHAND;
             }
 
@@ -87,23 +93,24 @@ namespace InventoryScripts
 
         public EquipmentType Unequip(Equipment equipment)
         {
-            if (equipment == _equippedArmour)
+            if (equipment == EquippedArmour)
             {
-                _equippedArmour.Unequip();
-                _equippedArmour = null;
+                EquippedArmour.Unequip();
+                EquippedArmour = null;
                 return EquipmentType.ARMOR;
             }
 
-            if (equipment == _equippedOffHand)
+            if (equipment == EquippedOffHand)
             {
-                _equippedOffHand.Unequip();
-                _equippedOffHand = null;
+                EquippedOffHand.Unequip();
+                EquippedOffHand = null;
                 return EquipmentType.OFFHAND;
             }
-            if (equipment == _equippedMainHand)
+
+            if (equipment == EquippedMainHand)
             {
-                _equippedMainHand.Unequip();
-                _equippedMainHand = null;
+                EquippedMainHand.Unequip();
+                EquippedMainHand = null;
                 return EquipmentType.MAINHAND;
             }
 
@@ -113,6 +120,28 @@ namespace InventoryScripts
         public InventoryItem GetItemFromIndex(int i)
         {
             return _inventoryArray[i].Peek();
+        }
+        
+        public Stack<InventoryItem>[] GetStack() => this._inventoryArray;
+
+        public bool IsEmpty(EquipmentType equipmentType)
+        {
+            if (equipmentType == EquipmentType.ARMOR && EquippedArmour == null)
+            {
+                return true;
+            }
+
+            if (equipmentType == EquipmentType.MAINHAND && EquippedMainHand == null)
+            {
+                return true;
+            }
+
+            if (equipmentType == EquipmentType.OFFHAND && EquippedOffHand == null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

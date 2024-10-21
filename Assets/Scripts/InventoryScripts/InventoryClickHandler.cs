@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,7 +12,7 @@ namespace InventoryScripts
 
         private void Start()
         {
-            _inventoryManager = playerObject.GetComponent<InventoryManager>();
+            _inventoryManager = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<InventoryManager>();
         }
         
         public void OnPointerClick(PointerEventData eventData)

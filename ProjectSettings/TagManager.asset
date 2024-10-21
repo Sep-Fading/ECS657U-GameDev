@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - WeaponHolder
   - Environment
+  - PlayerObject
   layers:
   - Default
   - TransparentFX

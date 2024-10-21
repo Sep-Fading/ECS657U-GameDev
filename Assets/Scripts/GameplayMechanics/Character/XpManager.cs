@@ -10,12 +10,15 @@ namespace GameplayMechanics.Character
         private float LevelUpThreshold { get; set; }
         private int Level { get; set; }
 
+        private int CurrentSkillPoints { get; set; }
+
         private const float BaseXpThreshold = 50f;
         private const float GrowthFactor = 1.4f;
 
         private XpManager()
         {
             CurrentXp = 0f;
+            CurrentSkillPoints = 0;
             LevelUpThreshold = BaseXpThreshold;
             Level = 1;
         }
@@ -32,6 +35,7 @@ namespace GameplayMechanics.Character
         private static void LevelUp()
         {
             Instance.Level += 1;
+            Instance.CurrentSkillPoints += 1;
             Instance.LevelUpThreshold = BaseXpThreshold * Mathf.Pow(GrowthFactor, Instance.Level);
             Debug.Log($"Leveled up to level {Instance.Level}. New XP threshold: {Instance.LevelUpThreshold}");
         }
@@ -49,5 +53,14 @@ namespace GameplayMechanics.Character
         {
             return Instance.CurrentXp;
         }
+
+        public static void SetCurrentSkillPoints(int points)
+        {
+            Instance.CurrentSkillPoints = points;
+        }
+
+        public static float GetLevelUpThreshold() => Instance.LevelUpThreshold;
+        public static int GetLevel() => Instance.Level;
+        public static int GetCurrentSkillPoints() => Instance.CurrentSkillPoints;
     }
 }

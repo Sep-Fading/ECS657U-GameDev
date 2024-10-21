@@ -12,8 +12,8 @@ public class PlayerMotor : MonoBehaviour
     public float sprintSpeed = 8f;
     private float crouchSpeed = 3f;
     private float crouchRate = 2.5f; //2.5f is currently the most realistic
-    public float gravity = -20f;
-    public float jumpheight = 1.25f;
+    public float gravity = -9.8f;
+    public float jumpheight = 2f;
     private bool onFloor;
     private bool LerpCrouch;
     private float crouchTimer;
@@ -75,9 +75,7 @@ public class PlayerMotor : MonoBehaviour
         Vector3 moveDirection = Vector3.zero;
         moveDirection.x = input.x;
         moveDirection.z = input.y;
-
         controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
-    
         playerVelocity.y += gravity * Time.deltaTime;
         if (onFloor && playerVelocity.y < 0)
         {
@@ -92,6 +90,11 @@ public class PlayerMotor : MonoBehaviour
         crouching = !crouching;
         crouchTimer = 0;
         LerpCrouch = true;
+    }
+
+    public bool getCrouching() 
+    { 
+        return crouching;
     }
 
     public void Sprint(InputAction.CallbackContext context)

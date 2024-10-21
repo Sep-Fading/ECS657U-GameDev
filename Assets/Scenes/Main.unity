@@ -512,16 +512,28 @@ PrefabInstance:
       objectReference: {fileID: 4390963384208367589}
     - target: {fileID: 5911707859507115913, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -864
+      value: -805.6
       objectReference: {fileID: 0}
     - target: {fileID: 5911707859507115913, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 533
+      value: 468.21
       objectReference: {fileID: 0}
     - target: {fileID: 6934531745093119875, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
       propertyPath: playerObject
       value: 
       objectReference: {fileID: 4390963384208367589}
+    - target: {fileID: 7403657385947569724, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403657385947569724, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403657385947569724, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 8956203148373190526, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
       propertyPath: playerObject
       value: 

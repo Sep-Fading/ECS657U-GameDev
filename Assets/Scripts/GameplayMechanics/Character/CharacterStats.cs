@@ -29,12 +29,12 @@ namespace GameplayMechanics.Character
         // Constructor
         private PlayerStatManager()
         {
-            Armour = new Stat("Armour");
-            Evasion = new Stat("Evasion");
-            Life = new Stat("Life");
-            Stamina = new Stat("Stamina");
-            MeleeDamage = new Stat("MeleeDamage");
-            BlockEffect = new Stat("BlockEffect");
+            Armour = new Stat("Armour", 0f);
+            Evasion = new Stat("Evasion", 0f);
+            Life = new Stat("Life", 100f);
+            Stamina = new Stat("Stamina", 100f);
+            MeleeDamage = new Stat("MeleeDamage", 10f);
+            BlockEffect = new Stat("BlockEffect", 0.05f);
             VersMasteryActive = false;
         }
 
@@ -103,7 +103,7 @@ namespace GameplayMechanics.Character
         private string _name;
         private float _current;
 
-        public Stat(string name, float flat = 100f, float multiplier = 1f,
+        public Stat(string name, float flat, float multiplier = 1f,
             float added = 0f)
         {
             this._name = name;

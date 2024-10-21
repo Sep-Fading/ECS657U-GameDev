@@ -5,18 +5,21 @@ using UnityEngine;
 public class SpawnEnemy : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    float timeSince = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        Spawn(3);
+        Spawn(25);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 0)
+        timeSince += Time.deltaTime;
+        if (timeSince >= 30)
         {
-            Spawn(3);
+            timeSince = 0f;
+            Spawn(5);
         }
     }
 
@@ -24,7 +27,7 @@ public class SpawnEnemy : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            Instantiate(enemyPrefab, new Vector3(Random.Range(-23, 23), 1.8f, Random.Range(-23, 23)), Quaternion.identity, transform);
+            Instantiate(enemyPrefab, new Vector3(Random.Range(-149, 149), 20f, Random.Range(-149, 149)), Quaternion.identity, transform);
         }
     }
 }

@@ -32,20 +32,25 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        speed = 4f;
+        triggered = false;
+        //enemyRenderer = GetComponent<Renderer>();
+        randomRot = Random.Range(-360f, 360f);
+        currentHealth = maxHealth;
+    }
+
+    private void Awake()
+    {
         player = GameObject.FindWithTag("Player");
         if (player != null)
-        { 
+        {
             playerTransform = player.transform;
             playerMotor = player.GetComponent<PlayerMotor>();
         }
         playerWeaponAnimator = GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>();
-        wallCollider = GameObject.FindWithTag("Wall").GetComponent<Collider>();
-        speed = 4f;
-        triggered = false;
         enemyRenderer = GetComponent<Renderer>();
         enemyRenderer.material = defaultMaterial;
-        randomRot = Random.Range(-360f, 360f);
-        currentHealth = maxHealth;
+        wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -78,7 +83,6 @@ public class EnemyController : MonoBehaviour
         Color healthColor = enemyRenderer.material.color;
         healthColor.a = (currentHealth/maxHealth);
         enemyRenderer.material.color = healthColor;
-        Debug.Log(enemyRenderer.material.color.a);
 
         if (triggered)
         {

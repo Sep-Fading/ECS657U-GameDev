@@ -1,3 +1,4 @@
+using Combat;
 using InventoryScripts;
 using Player;
 using UnityEngine;
@@ -42,7 +43,7 @@ public class InputManager : MonoBehaviour
         PlayerInput.UI.StatMenu.performed += playerUI.StatMenuToggle;
         PlayerInput.grounded.SwordAction.performed += _ => weaponmanager.Attack();
         PlayerInput.grounded.ShieldAction.performed += _ => weaponmanager.Block();
-        PlayerInput.grounded.ShieldAction.canceled += _ => weaponmanager.onBlockCancelled();
+        PlayerInput.grounded.ShieldAction.canceled += _ => weaponmanager.OnBlockCancelled();
     }
     private void OnDisable()
     {

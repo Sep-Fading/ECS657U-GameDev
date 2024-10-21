@@ -1,5 +1,3 @@
-using GameplayMechanics.Effects;
-
 namespace GameplayMechanics.Character
 {
     /* ------------
@@ -12,12 +10,17 @@ namespace GameplayMechanics.Character
         public static PlayerStatManager Instance { get; private set; }
 
         // Stat fields
-        public  Stat armour;
-        public  Stat evasion;
-        public  Stat life;
-        public  Stat stamina;
-        public  Stat meleeDamage;
-        public  Stat blockEffect;
+        public  Stat Armour;
+        public  Stat Evasion;
+        public  Stat Life;
+        public  Stat Stamina;
+        public  Stat MeleeDamage;
+        public  Stat BlockEffect;
+        private float _currentHealth;
+        
+        // Constant for diminishing return calculations used for armor:
+        private const float k = 125f;
+        public bool IsBlocking { set; get; }
         
         // Masteries / Notables Active
         public bool versMasteryActive;
@@ -25,13 +28,14 @@ namespace GameplayMechanics.Character
         // Constructor
         private PlayerStatManager()
         {
-            armour = new Stat("Armour");
-            evasion = new Stat("Evasion");
-            life = new Stat("Life");
-            stamina = new Stat("Stamina");
-            meleeDamage = new Stat("MeleeDamage");
-            blockEffect = new Stat("BlockEffect");
+            Armour = new Stat("Armour");
+            Evasion = new Stat("Evasion");
+            Life = new Stat("Life");
+            Stamina = new Stat("Stamina");
+            MeleeDamage = new Stat("MeleeDamage");
+            BlockEffect = new Stat("BlockEffect");
             versMasteryActive = false;
+            _currentHealth = Instance.GetHealthAsFloat();
         }
 
         // Method to initialize the Singleton
@@ -46,15 +50,45 @@ namespace GameplayMechanics.Character
 
         public string GetPlayerStats()
         {
-            return $" {life.GetName()}, {life.GetAppliedTotal()} \n" +
-                   $" {stamina.GetName()}, {stamina.GetAppliedTotal()} \n" +
-                   $" {armour.GetName()}, {armour.GetAppliedTotal()} \n" +
-                   $" {evasion.GetName()}, {evasion.GetAppliedTotal()} \n" +
-                   $" {blockEffect.GetName()}, {blockEffect.GetAppliedTotal()} \n" +
-                   $" {meleeDamage.GetName()}, {meleeDamage.GetAppliedTotal()} \n";
+            return $" {Life.GetName()}, {Life.GetAppliedTotal()} \n" +
+                   $" {Stamina.GetName()}, {Stamina.GetAppliedTotal()} \n" +
+                   $" {Armour.GetName()}, {Armour.GetAppliedTotal()} \n" +
+                   $" {Evasion.GetName()}, {Evasion.GetAppliedTotal()} \n" +
+                   $" {BlockEffect.GetName()}, {BlockEffect.GetAppliedTotal()} \n" +
+                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n";
+        }
+        
+        public string GetHealth() => this.Life.GetAppliedTotal().ToString();
+        public float GetHealthAsFloat() => this.Life.GetAppliedTotal();
+
+        public void TakeDamage(float damage)
+        {
+            // Armor Formula
+            float effectiveDamage = damage / (1 + (Armour.GetAppliedTotal() / k));
+            // Block effectiveness formula
+            float effectiveDamageOnBlock = effectiveDamage * (1-BlockEffect.GetAppliedTotal());
+
+            if (IsBlocking)
+            {
+                _currentHealth -= effectiveDamageOnBlock;
+            }
+            else
+            {
+                _currentHealth -= effectiveDamage;
+            }
+            
+            
+            if (_currentHealth <= 0)
+            {
+                PlayerDeathHandler();
+            }
         }
 
-        public string GetHealth() => this.life.GetAppliedTotal().ToString();
+        private void PlayerDeathHandler()
+        {
+            // TODO
+            throw new System.NotImplementedException();
+        }
     }
     
     

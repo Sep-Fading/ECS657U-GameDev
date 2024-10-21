@@ -133,7 +133,7 @@ namespace Enemy
             if (attackCooldown <= 0)
             {
                 PlayerStatManager.Instance.TakeDamage(15f);
-                attackCooldown = 2f;
+                attackCooldown = 1f;
             }
         }
 

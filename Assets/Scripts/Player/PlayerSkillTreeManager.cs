@@ -15,7 +15,7 @@ namespace Player
             _skillTree = new SkillTree();
             _skillTreeButtonsStatus = new bool[skillTreeButtons.Length];
             _skillTreeUI.SetActive(false);
-        
+
             // Default state of nodes (DISABLED)
             for (int i = 0; i < _skillTreeButtonsStatus.Length; i++)
             {
@@ -39,7 +39,16 @@ namespace Player
                 if (_skillTree.branchSwordShield.SkillNodes[index].parent == null
                     || _skillTree.branchSwordShield.SkillNodes[index].parent._effect.isActive)
                 {
-                    _skillTree.branchSwordShield.SkillNodes[index]._effect.Apply();
+                    if (XpManager.GetCurrentSkillPoints() > 0)
+                    {
+                        _skillTree.branchSwordShield.SkillNodes[index]._effect.Apply();
+                        XpManager.SetCurrentSkillPoints(
+                            XpManager.GetCurrentSkillPoints() - 1);
+                    }
+                    else
+                    {
+                        Debug.Log("Not enough skill points");
+                    }
                 }
                 else
                 {
@@ -48,9 +57,11 @@ namespace Player
             }
             else
             {
-                if (!CheckActiveChildren(index))
+                if (!CheckActiveChildren(index) && _skillTree.branchSwordShield.SkillNodes[index]._effect.isActive)
                 {
                     _skillTree.branchSwordShield.SkillNodes[index]._effect.Clear();
+                    XpManager.SetCurrentSkillPoints(
+                        XpManager.GetCurrentSkillPoints() + 1);
                 }
                 else
                 {

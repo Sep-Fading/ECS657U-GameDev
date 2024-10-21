@@ -6,7 +6,7 @@ namespace Player
     public class PlayerStats : MonoBehaviour
     {
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             /* --- Stat Manager Initialisation --- */
             PlayerStatManager.Initialize();

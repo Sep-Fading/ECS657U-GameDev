@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace GameplayMechanics.Character
 {
     /* ------------
@@ -16,14 +18,13 @@ namespace GameplayMechanics.Character
         public  Stat Stamina;
         public  Stat MeleeDamage;
         public  Stat BlockEffect;
-        private float _currentHealth;
         
         // Constant for diminishing return calculations used for armor:
-        private const float k = 125f;
+        private const float K = 125f;
         public bool IsBlocking { set; get; }
         
         // Masteries / Notables Active
-        public bool versMasteryActive;
+        public bool VersMasteryActive;
 
         // Constructor
         private PlayerStatManager()
@@ -34,8 +35,7 @@ namespace GameplayMechanics.Character
             Stamina = new Stat("Stamina");
             MeleeDamage = new Stat("MeleeDamage");
             BlockEffect = new Stat("BlockEffect");
-            versMasteryActive = false;
-            _currentHealth = Instance.GetHealthAsFloat();
+            VersMasteryActive = false;
         }
 
         // Method to initialize the Singleton
@@ -59,26 +59,24 @@ namespace GameplayMechanics.Character
         }
         
         public string GetHealth() => this.Life.GetAppliedTotal().ToString();
-        public float GetHealthAsFloat() => this.Life.GetAppliedTotal();
-
         public void TakeDamage(float damage)
         {
             // Armor Formula
-            float effectiveDamage = damage / (1 + (Armour.GetAppliedTotal() / k));
+            float effectiveDamage = damage / (1 + (Armour.GetAppliedTotal() / K));
             // Block effectiveness formula
             float effectiveDamageOnBlock = effectiveDamage * (1-BlockEffect.GetAppliedTotal());
 
             if (IsBlocking)
             {
-                _currentHealth -= effectiveDamageOnBlock;
+                Life.SetCurrent(Life.GetCurrent() - effectiveDamageOnBlock);
             }
             else
             {
-                _currentHealth -= effectiveDamage;
+                Life.SetCurrent(Life.GetCurrent() - effectiveDamage);
             }
             
             
-            if (_currentHealth <= 0)
+            if (Life.GetCurrent() <= 0)
             {
                 PlayerDeathHandler();
             }
@@ -98,60 +96,87 @@ namespace GameplayMechanics.Character
      ------------------ */
     public class Stat
     {
-        private float flat;
-        private float multiplier;
-        private float added;
-        private float appliedTotal;
-        private string name;
+        private float _flat;
+        private float _multiplier;
+        private float _added;
+        private float _appliedTotal;
+        private string _name;
+        private float _current;
 
-        public Stat(string name, float flat = 0f, float multiplier = 1f,
+        public Stat(string name, float flat = 100f, float multiplier = 1f,
             float added = 0f)
         {
-            this.name = name;
-            this.flat = flat;
-            this.added = added;
-            this.multiplier = multiplier;
-            this.appliedTotal = (this.flat + this.added) * this.multiplier;
+            this._name = name;
+            this._flat = flat;
+            this._added = added;
+            this._multiplier = multiplier;
+            this._appliedTotal = (this._flat + this._added) * this._multiplier;
+            _current = this._appliedTotal;
         }
         
-        public new string ToString() => $"{this.flat},{this.multiplier},{this.name}";
-        public string GetName() => this.name;
+        public new string ToString() => $"{this._flat},{this._multiplier},{this._name}";
+        public string GetName() => this._name;
         
         // Used after every change to flat or multi to reflect correct stats.
         public void Recalculate()
         {
-            this.appliedTotal = (this.flat + this.added) * this.multiplier;
+            bool currentNeedsUpdate = false || _current == _appliedTotal;
+            this._appliedTotal = (this._flat + this._added) * this._multiplier;
+            if (currentNeedsUpdate)
+            {
+                SetCurrent(this._appliedTotal);
+            }
         }
         
         // Setters for stats:
         public void SetFlat(float flat)
         {
-            this.flat = flat;
+            this._flat = flat;
             this.Recalculate();
         }
 
         public void SetMultiplier(float multiplier)
         {
-            this.multiplier = multiplier;
+            this._multiplier = multiplier;
             this.Recalculate();
         }
 
         public void SetAdded(float added)
         {
-            this.added = added;
+            this._added = added;
             this.Recalculate();
         }
 
         public void SetAppliedTotal(float appliedTotal)
         {
-            this.appliedTotal = appliedTotal;
+            if (_current == _appliedTotal)
+            { 
+                _current = appliedTotal;
+            }
+            this._appliedTotal = appliedTotal;
+            
             this.Recalculate();
         }
+
+        public void SetCurrent(float newVal)
+        {
+            if (newVal > this._appliedTotal)
+            {
+                _current = this._appliedTotal;
+            }
+            else
+            {
+                _current = Mathf.Max(0, newVal);
+            }
+        }
+
+        
         
         // Getters for stats:
-        public float GetFlat() => this.flat;
-        public float GetMultiplier() => this.multiplier;
-        public float GetAdded() => this.added;
-        public float GetAppliedTotal() => this.appliedTotal;
+        public float GetCurrent() => this._current;
+        public float GetFlat() => this._flat;
+        public float GetMultiplier() => this._multiplier;
+        public float GetAdded() => this._added;
+        public float GetAppliedTotal() => this._appliedTotal;
     }
 }

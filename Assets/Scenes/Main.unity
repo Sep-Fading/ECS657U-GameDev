@@ -510,6 +510,14 @@ PrefabInstance:
       propertyPath: playerObject
       value: 
       objectReference: {fileID: 4390963384208367589}
+    - target: {fileID: 5911707859507115913, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -864
+      objectReference: {fileID: 0}
+    - target: {fileID: 5911707859507115913, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 533
+      objectReference: {fileID: 0}
     - target: {fileID: 6934531745093119875, guid: c0b9ac37f7ec2a64b9710b8a3ce4db97, type: 3}
       propertyPath: playerObject
       value: 

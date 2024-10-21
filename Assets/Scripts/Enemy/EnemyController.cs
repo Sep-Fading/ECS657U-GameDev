@@ -1,0 +1,193 @@
+using GameplayMechanics.Character;
+using Player;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Video;
+using TMPro;
+
+public class EnemyController : MonoBehaviour
+{
+    GameObject player;
+    public Transform playerTransform; 
+    public PlayerMotor playerMotor;
+    public Collider wallCollider;
+    public float speed;
+    public float minDistance = 1.8f;
+    public float maxDistance = 10f;
+    float idleTime = 0f;
+    float attackCooldown = 1f;
+    public LayerMask obstacleLayer;
+    float randomRot;
+    private bool isRotating = false;
+    private bool triggered;
+    public float maxHealth = 100f;
+    public float currentHealth;
+    public Animator playerWeaponAnimator;
+    public Material triggeredMaterial;
+    public Material defaultMaterial;
+    Renderer enemyRenderer;
+    public TextMeshProUGUI healthText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        player = GameObject.FindWithTag("Player");
+        if (player != null)
+        { 
+            playerTransform = player.transform;
+            playerMotor = player.GetComponent<PlayerMotor>();
+        }
+        playerWeaponAnimator = GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>();
+        wallCollider = GameObject.FindWithTag("Wall").GetComponent<Collider>();
+        speed = 4f;
+        triggered = false;
+        enemyRenderer = GetComponent<Renderer>();
+        enemyRenderer.material = defaultMaterial;
+        randomRot = Random.Range(-360f, 360f);
+        currentHealth = maxHealth;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            defeatEnemy();
+        }
+
+        Vector3 playerPos = playerTransform.position;
+        float distance = Vector3.Distance(transform.position, playerPos);
+        bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
+        healthText.text = currentHealth + "/" + maxHealth;
+
+        if (playerMotor.getCrouching() && !triggered)
+        {
+            maxDistance = minDistance = 0;
+        }
+        else
+        {
+            minDistance = 1.8f;
+            maxDistance = 10f;
+        }
+
+        bool inChaseRange = distance > minDistance && distance <= maxDistance && !obstacleBetween;
+        bool inAttackRange = distance <= minDistance;
+
+        enemyRenderer.material = triggered ? triggeredMaterial : defaultMaterial;
+        Color healthColor = enemyRenderer.material.color;
+        healthColor.a = (currentHealth/maxHealth);
+        enemyRenderer.material.color = healthColor;
+        Debug.Log(enemyRenderer.material.color.a);
+
+        if (triggered)
+        {
+            if (inChaseRange)
+            {
+                trackPlayer(playerPos);
+            }
+            else if (inAttackRange)
+            {
+                attack();
+            }
+        }
+        else
+        {
+            idle();
+        }
+
+        triggered = inChaseRange || inAttackRange;
+    }
+
+    void idle()
+    {
+        triggered = false;
+        idleTime += Time.deltaTime;
+        speed = 1f;
+        if (!isRotating)
+        {
+            StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+        }
+        else if (idleTime > 2f)
+        {
+            idleTime = 0f;
+        }
+        transform.position += transform.forward * speed * Time.deltaTime;
+    }
+
+    void trackPlayer(Vector3 playerPos) 
+    {
+        speed = 4.5f;
+        isRotating = false;
+        triggered = true;
+        transform.LookAt(playerPos);
+        transform.position += transform.forward * speed * Time.deltaTime;
+    }
+
+    void attack() 
+    { 
+        attackCooldown -= Time.deltaTime;
+        if (attackCooldown <= 0)
+        {
+            PlayerStatManager.Instance.life.SetAdded(PlayerStatManager.Instance.life.GetAdded() - 10);
+            PlayerStatManager.Instance.life.Recalculate();
+            Debug.Log("Player Health: " + PlayerStatManager.Instance.life.GetAppliedTotal());
+            attackCooldown = 1f;
+        }
+    }
+
+    void defeatEnemy() 
+    {
+        Debug.Log("Enemy Defeated");
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall" && !isRotating)
+        {
+            Debug.Log("Collided with wall");
+            StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
+        }
+
+        if (playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length > playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime
+            && playerWeaponAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "TempSwordAnimation"
+            && collision.gameObject.tag == "Weapon")
+        {
+            triggered = true;
+            currentHealth -= PlayerStatManager.Instance.meleeDamage.GetAppliedTotal();
+            Debug.Log("Enemy Health: " + currentHealth + "/" + maxHealth);
+            //Rigidbody enemyRb = gameObject.GetComponent<Rigidbody>();
+            //if (enemyRb != null)
+            //{
+            //    // Calculate the knockback direction (away from the player)
+            //    Vector3 knockbackDirection = collision.transform.position - transform.position;
+            //    knockbackDirection.y = 0;  // Keep knockback horizontal (no vertical force)
+
+            //    // Apply the knockback force
+            //    float knockbackForce = 50f; // Adjust this value based on desired knockback strength
+            //    enemyRb.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode.Impulse);
+            //}
+        }
+    }
+
+    IEnumerator SmoothTurn(float angle, float duration)
+    {
+        isRotating = true;
+
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = startRotation * Quaternion.Euler(0, angle, 0);
+
+        float time = 0;
+        while (time < duration)
+        {
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = targetRotation;
+
+        isRotating = false;
+    }
+}

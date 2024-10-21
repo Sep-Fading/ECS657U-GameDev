@@ -92,6 +92,11 @@ public class PlayerMotor : MonoBehaviour
         LerpCrouch = true;
     }
 
+    public bool getCrouching() 
+    { 
+        return crouching;
+    }
+
     public void Sprint(InputAction.CallbackContext context)
     {
 

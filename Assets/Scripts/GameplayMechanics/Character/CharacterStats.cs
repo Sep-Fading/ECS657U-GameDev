@@ -46,15 +46,15 @@ namespace GameplayMechanics.Character
 
         public string GetPlayerStats()
         {
-
             return $" {life.GetName()}, {life.GetAppliedTotal()} \n" +
                    $" {stamina.GetName()}, {stamina.GetAppliedTotal()} \n" +
                    $" {armour.GetName()}, {armour.GetAppliedTotal()} \n" +
                    $" {evasion.GetName()}, {evasion.GetAppliedTotal()} \n" +
                    $" {blockEffect.GetName()}, {blockEffect.GetAppliedTotal()} \n" +
                    $" {meleeDamage.GetName()}, {meleeDamage.GetAppliedTotal()} \n";
-
         }
+
+        public string GetHealth() => this.life.GetAppliedTotal().ToString();
     }
     
     

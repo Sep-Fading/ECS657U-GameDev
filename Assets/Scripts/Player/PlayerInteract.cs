@@ -44,7 +44,7 @@ namespace Player
                 {
                     Interactable interactedObj = hitInfo.collider.GetComponent<Interactable>();
                     _playerUI.UpdateText(interactedObj.HoverMessage);
-                    if(_inputManager.playerInput.grounded.Interacting.triggered) 
+                    if(_inputManager.PlayerInput.grounded.Interacting.triggered) 
                     {
                         interactedObj.BaseInteract();
                     }

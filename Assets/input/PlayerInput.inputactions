@@ -333,15 +333,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "StatMenu",
-                    "type": "Button",
-                    "id": "ef0eff69-9e84-47f9-afc0-92e43de833f4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -793,17 +784,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ItemPickUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "937cbac2-e35d-42cd-9b69-b40399f6ceb7",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StatMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

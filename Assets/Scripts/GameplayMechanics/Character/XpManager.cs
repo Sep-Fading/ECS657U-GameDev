@@ -38,6 +38,9 @@ namespace GameplayMechanics.Character
             Instance.CurrentSkillPoints += 1;
             Instance.BaseXpThreshold = GetCurrentXp();
             Instance.LevelUpThreshold = Instance.BaseXpThreshold * Mathf.Pow(GrowthFactor, Instance.Level);
+            // Heal to full after Level Up
+            PlayerStatManager.Instance.Life.SetCurrent(
+                PlayerStatManager.Instance.Life.GetAppliedTotal());
             Debug.Log($"Leveled up to level {Instance.Level}. New XP threshold: {Instance.LevelUpThreshold}");
         }
 

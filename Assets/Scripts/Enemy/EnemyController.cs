@@ -148,7 +148,6 @@ namespace Enemy
         {
             if (collision.gameObject.tag == "Wall" && !isRotating)
             {
-                Debug.Log("Collided with wall");
                 StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
             }
 
@@ -158,7 +157,6 @@ namespace Enemy
             {
                 triggered = true;
                 currentHealth -= PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal();
-                Debug.Log("Enemy Health: " + currentHealth + "/" + maxHealth);
                 //Rigidbody enemyRb = gameObject.GetComponent<Rigidbody>();
                 //if (enemyRb != null)
                 //{

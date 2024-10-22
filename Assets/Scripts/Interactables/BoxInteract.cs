@@ -6,7 +6,6 @@ namespace Interactables
     {
         public override void Interact()
         {
-            Debug.Log("Add Functionality here");
         }
     }
 }

@@ -33,7 +33,6 @@ namespace InventoryScripts
             if (_playerInteract.canPickUp)
             {
                 _inventoryManager.Push(_inventoryItem);
-                Debug.Log($"{_inventoryItem.gameItem.GetName()} picked up!");
                 Destroy(pickUpPrefab);
             }
         }

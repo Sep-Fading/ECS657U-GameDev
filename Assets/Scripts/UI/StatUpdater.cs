@@ -18,7 +18,6 @@ namespace UI
         public void UpdateStatMenu()
         {
             _statString = _prefix + PlayerStatManager.Instance.GetPlayerStats();
-            Debug.Log(_statString);
             GetComponent<TextMeshProUGUI>().SetText(_statString);
         }
     }

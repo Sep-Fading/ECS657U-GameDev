@@ -16,11 +16,6 @@ namespace Items
             if (equipmentType != EquipmentType.NONE)
             {
                 equipment = new Equipment(equipmentType,ItemPrefab);
-                Debug.Log($"{equipment.GetItem().GetName()}");
-            }
-            else
-            {
-                Debug.LogWarning("No equipment type selected in the inspector!");
             }
         }
         

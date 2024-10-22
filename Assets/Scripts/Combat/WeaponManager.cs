@@ -1,6 +1,6 @@
 using GameplayMechanics.Character;
 using UnityEngine;
-
+using Player;
 namespace Combat
 {
     // This script handles some basic states for Combat
@@ -12,6 +12,7 @@ namespace Combat
         private static readonly int Attacking = Animator.StringToHash("Attacking");
         private Animator _anim;
         private MeleeWeapon _currentWeapon;
+        [SerializeField] private GameObject player;
 
         [SerializeField] private GameObject weaponPrefab;
 
@@ -32,14 +33,22 @@ namespace Combat
 
         public void Attack()
         {
-            _anim.SetTrigger(Attacking);
+            if (! player.GetComponent<PlayerUI>().GetUIActive())
+            {
+                _anim.SetTrigger(Attacking);
+            }
+            
         }
 
         public void Block()
         {
-            _blocking = !_blocking;
-            _anim.SetBool(Blocking, _blocking);
-            PlayerStatManager.Instance.IsBlocking = _blocking;
+            if (! player.GetComponent<PlayerUI>().GetUIActive())
+            {
+                _blocking = !_blocking;
+                _anim.SetBool(Blocking, _blocking);
+                PlayerStatManager.Instance.IsBlocking = _blocking;
+            }
+           
         }
 
         public void OnBlockCancelled()

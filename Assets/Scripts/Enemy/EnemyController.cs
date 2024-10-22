@@ -1,5 +1,6 @@
 using System.Collections;
 using GameplayMechanics.Character;
+using Player;
 using TMPro;
 using UnityEngine;
 

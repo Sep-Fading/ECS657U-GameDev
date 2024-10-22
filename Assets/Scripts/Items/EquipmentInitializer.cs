@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Items
 {
+    // Initialises a piece of equipment as a functional
+    // GameObject.
     public class EquipmentInitializer : MonoBehaviour
     {
         public Equipment equipment;

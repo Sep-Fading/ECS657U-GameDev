@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace GameplayMechanics.Effects
 {
+    // This class extends IEffect interface
+    // to create some effects for equipment such as 
+    // the stats on that piece of equipment.
     public class EquipmentEffects : IEffect
     {
         public EffectType effectType { get; set; }

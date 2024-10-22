@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Script handling player locomotions & 
+// Movement related logic.
 public class PlayerMotor : MonoBehaviour
 {
     private CharacterController controller;
@@ -20,12 +22,12 @@ public class PlayerMotor : MonoBehaviour
     private bool Sprinting;
     private bool crouching;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        controller = GetComponent<CharacterController>();
-        speed = normalSpeed;
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            controller = GetComponent<CharacterController>();
+            speed = normalSpeed;
+        }
 
     // Update is called once per frame
     void Update()

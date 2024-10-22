@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 
 namespace InventoryScripts
 {
+    // A simple Click Handler for the inventory slots.
+    // Allows us to equip items from our inventory.
     public class InventoryClickHandler : MonoBehaviour, IPointerClickHandler
     {
         private InventoryManager _inventoryManager;

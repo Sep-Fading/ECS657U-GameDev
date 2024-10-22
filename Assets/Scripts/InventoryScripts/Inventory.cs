@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using GameplayMechanics.Effects;
-using Unity.VisualScripting;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 namespace InventoryScripts
 {
+    // A singleton class that holds our inventory items together
+    // including our equipment slots.
     public class Inventory
     { 
         public static Inventory Instance { get; private set; }

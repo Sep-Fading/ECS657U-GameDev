@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace GameplayMechanics.Character
 {
+    // A single ton class that handles the Level Up 
+    // system using a levelling formula that scales 
+    // over levels.
     public class XpManager
     {
         public static XpManager Instance { get; private set; }

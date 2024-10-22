@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using GameplayMechanics.Effects;
-using Unity.VisualScripting;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 namespace InventoryScripts

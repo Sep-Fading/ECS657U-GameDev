@@ -1,3 +1,4 @@
+using InventoryScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -49,6 +50,10 @@ namespace GameplayMechanics.Character
             return Instance;
         }
 
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
         public string GetPlayerStats()
         {
             return $" {Life.GetName()}, {Life.GetAppliedTotal()} \n" +
@@ -86,6 +91,10 @@ namespace GameplayMechanics.Character
         private void PlayerDeathHandler()
         {
             // Restart Scene on death
+            XpManager.ResetInstance();
+            Inventory.ResetInstance();
+            PlayerStatManager.ResetInstance();
+            
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

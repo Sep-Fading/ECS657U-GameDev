@@ -19,13 +19,16 @@ namespace UI
         }
         public void UpdateHUD()
         {
-            string txtLife = "Life : " + PlayerStatManager.Instance.Life.GetCurrent();
-            string txtLevel = "Level: " + XpManager.GetLevel().ToString();
-            string txtXP = "Exp: " + XpManager.GetCurrentXp().ToString("F1") + " / " +
-                           XpManager.GetLevelUpThreshold().ToString("F1");
-            
-            string txt = txtLife +"\n"+ txtLevel + "\n" + txtXP;
-            _healthText.SetText(txt);
+            if (PlayerStatManager.Instance != null & XpManager.Instance != null)
+            {
+                string txtLife = "Life : " + PlayerStatManager.Instance.Life.GetCurrent();
+                string txtLevel = "Level: " + XpManager.GetLevel().ToString();
+                string txtXP = "Exp: " + XpManager.GetCurrentXp().ToString("F1") + " / " +
+                               XpManager.GetLevelUpThreshold().ToString("F1");
+
+                string txt = txtLife + "\n" + txtLevel + "\n" + txtXP;
+                _healthText.SetText(txt);
+            }
         }
     }
 }

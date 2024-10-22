@@ -25,7 +25,7 @@ namespace GameplayMechanics.Character
             LevelUpThreshold = BaseXpThreshold;
             Level = 1;
         }
-
+    
         public static XpManager Initialize()
         {
             if (Instance == null)
@@ -35,6 +35,10 @@ namespace GameplayMechanics.Character
             return Instance;
         }
 
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
         private static void LevelUp()
         {
             Instance.Level += 1;

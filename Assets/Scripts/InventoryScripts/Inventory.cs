@@ -18,6 +18,11 @@ namespace InventoryScripts
             }
             return Instance;
         }
+
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
         
         /* Class Behaviours and Properties */
         Stack<InventoryItem>[] _inventoryArray = new Stack<InventoryItem>[3]; // Inventory Space

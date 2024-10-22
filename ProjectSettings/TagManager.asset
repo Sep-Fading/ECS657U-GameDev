@@ -10,6 +10,8 @@ TagManager:
   - WeaponHolder
   - Environment
   - PlayerObject
+  - WeaponSlot
+  - ShieldSlot
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace InventoryScripts
 {
+    // A singleton class that holds our inventory items together
+    // including our equipment slots.
     public class Inventory
     { 
         public static Inventory Instance { get; private set; }

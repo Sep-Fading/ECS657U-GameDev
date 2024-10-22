@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Combat
 {
+    // This script handles some basic states for Combat
+    // And reflects them in the Animator.
     public class Weaponmanager : MonoBehaviour
 
     {
@@ -22,7 +24,10 @@ namespace Combat
         private void Awake()
         {
             _anim = weaponPrefab.GetComponent<Animator>();
-            _weaponCollider = weaponColliderParent.GetComponent<Collider>();
+            if (weaponColliderParent != null)
+            {
+                _weaponCollider = weaponColliderParent.GetComponent<Collider>();
+            }
         }
 
         public void Attack()

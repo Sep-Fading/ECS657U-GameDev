@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameplayMechanics.Character
 {
@@ -84,8 +85,8 @@ namespace GameplayMechanics.Character
 
         private void PlayerDeathHandler()
         {
-            // TODO
-            throw new System.NotImplementedException();
+            // Restart Scene on death
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
     

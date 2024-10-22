@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 
 namespace InventoryScripts
 {
+    // This script initialises and manages the related GameObjects
+    // in the scene for Inventory.
     public class InventoryManager : MonoBehaviour
     {
         [FormerlySerializedAs("_inventoryItemsUI")] public GameObject[] inventoryItemsUI = new GameObject[3];

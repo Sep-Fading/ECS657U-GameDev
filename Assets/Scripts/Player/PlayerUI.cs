@@ -6,6 +6,8 @@ using UnityEngine.Serialization;
 
 namespace Player
 {
+    // Handles the player UI, such as
+    // Menu toggles and interact messages.
     public class PlayerUI : MonoBehaviour
     {
         private bool _uiActive;

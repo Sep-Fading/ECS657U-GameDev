@@ -20,8 +20,6 @@ namespace Player
             PlayerStatManager.Instance.BlockEffect.SetFlat(0.0f);
             PlayerStatManager.Instance.MeleeDamage.SetFlat(20.0f);
 
-            Debug.Log(PlayerStatManager.Instance.GetPlayerStats());
-            
             /* --- XP Manager ---*/
             XpManager.Initialize();
         }

@@ -48,14 +48,6 @@ namespace Player
                         XpManager.SetCurrentSkillPoints(
                             XpManager.GetCurrentSkillPoints() - 1);
                     }
-                    else
-                    {
-                        Debug.Log("Not enough skill points");
-                    }
-                }
-                else
-                {
-                    Debug.Log("Can't assign");
                 }
             }
             else
@@ -66,14 +58,9 @@ namespace Player
                     XpManager.SetCurrentSkillPoints(
                         XpManager.GetCurrentSkillPoints() + 1);
                 }
-                else
-                {
-                    Debug.Log("Can't unassign, children are active");
-                }
             }
             
             UpdateButtonAppearance(index);
-            Debug.Log(PlayerStatManager.Instance.GetPlayerStats());
         }
 
         private bool CheckActiveChildren(int index)

@@ -233,7 +233,6 @@ namespace GameplayMechanics.Character
                 }
             }
             
-            Debug.Log("Node not found!");
             return null;
         }
     }

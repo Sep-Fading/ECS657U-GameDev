@@ -29,7 +29,6 @@ namespace InventoryScripts
         {
             if (i < 0 || i >= inventoryItemsUI.Length)
             {
-                Debug.Log("Inventory out of space!");
                 return;
             }
             inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().
@@ -43,11 +42,9 @@ namespace InventoryScripts
                 inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().SetText("");
                 InventoryItem item = Inventory.Instance.Pop(inventoryItem);
                 EquipmentType type = Inventory.Instance.Equip(item.equipment);
-                Debug.Log(type);
-                Debug.Log(item.gameItem.GetName());
                 if (type == EquipmentType.NONE)
                 {
-                    Debug.Log("Item is not equippable.");
+                    
                 }
                 else if (type == EquipmentType.MAINHAND)
                 {
@@ -112,11 +109,6 @@ namespace InventoryScripts
                 {
                     results[i] = false;
                 }
-            }
-
-            foreach (bool b in results)
-            {
-                Debug.Log(b.ToString());
             }
         }
     }

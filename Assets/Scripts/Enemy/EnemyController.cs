@@ -86,6 +86,7 @@ namespace Enemy
             //Color healthColor = enemyRenderer.material.color;
             //healthColor.a = (currentHealth/maxHealth);
             //enemyRenderer.material.color = healthColor;
+            /* --- DONT USE .material CALL AS IT MAKES BACKGROUND COPIES OF THE MATERIAL LEADING TO MEMORY LEAK ---*/
             enemyRenderer.GetPropertyBlock(propBlock);
             Color healthColor = triggered ? triggeredMaterial.color : defaultMaterial.color;
             healthColor.a = currentHealth / maxHealth;

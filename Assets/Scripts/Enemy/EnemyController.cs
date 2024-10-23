@@ -28,6 +28,7 @@ namespace Enemy
         public Material defaultMaterial;
         Renderer enemyRenderer;
         public TextMeshProUGUI healthText;
+        private MaterialPropertyBlock propBlock;
 
         // Start is called before the first frame update
         void Start()
@@ -51,6 +52,8 @@ namespace Enemy
             enemyRenderer = GetComponent<Renderer>();
             enemyRenderer.material = defaultMaterial;
             wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();
+
+            propBlock = new MaterialPropertyBlock();
         }
 
         // Update is called once per frame
@@ -79,10 +82,15 @@ namespace Enemy
             bool inChaseRange = distance > minDistance && distance <= maxDistance && !obstacleBetween;
             bool inAttackRange = distance <= minDistance;
 
-            enemyRenderer.material = triggered ? triggeredMaterial : defaultMaterial;
-            Color healthColor = enemyRenderer.material.color;
-            healthColor.a = (currentHealth/maxHealth);
-            enemyRenderer.material.color = healthColor;
+            //enemyRenderer.material = triggered ? triggeredMaterial : defaultMaterial;
+            //Color healthColor = enemyRenderer.material.color;
+            //healthColor.a = (currentHealth/maxHealth);
+            //enemyRenderer.material.color = healthColor;
+            enemyRenderer.GetPropertyBlock(propBlock);
+            Color healthColor = triggered ? triggeredMaterial.color : defaultMaterial.color;
+            healthColor.a = currentHealth / maxHealth;
+            propBlock.SetColor("_Color", healthColor);
+            enemyRenderer.SetPropertyBlock(propBlock);
 
             if (triggered)
             {

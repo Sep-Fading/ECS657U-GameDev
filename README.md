@@ -12,12 +12,14 @@ Overcome challenges via the use of stealth mechanics or brute force.
 <ul>
   <li>WASD - Movement Controls</li>
   <li> Left CTRL - Crouch/Stealth mode </li>
+  <li> Left Shift - Sprint </li>
   <li>Mouse - Look directions</li>
   <li>Left click - Attack (While a weapon is equipped)</li>
   <li>Right click (hold) - Block</li>
   <li>I - Inventory menu (both open and close)</li>
   <li>P - Passive Skill tree (both open and close)</li>
   <li>C - Character Panel (both open and close)</li>
+  <li>E - Pick up items  from the ground</li>
 </ul>
 <br>
 The game is accessible via the latest WebGL release link above!

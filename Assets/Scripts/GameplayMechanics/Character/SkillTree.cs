@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GameplayMechanics.Effects;
 using Unity.VisualScripting;
@@ -19,8 +20,8 @@ namespace GameplayMechanics.Character
 
             /* --- Tier 1 Nodes --- */
             // Increased Health
-            SkillTreeEffect increasedHealthEffect = new IncreasedHPEffect();
-            SkillTreeEffect increasedHealthEffect2 = new IncreasedHPEffect();
+            SkillTreeEffect increasedHealthEffect = new IncreasedHpEffect();
+            SkillTreeEffect increasedHealthEffect2 = new IncreasedHpEffect();
 
             // Increased Melee Damage
             SkillTreeEffect increasedMeleeDamageEffect = new IncreasedMeleeDamageEffect();
@@ -31,8 +32,11 @@ namespace GameplayMechanics.Character
             SkillTreeEffect addedBlockEffect2 = new AddedBlockEffect();
 
             /* --- Notables --- */
-            // TODO
-
+            // -- Gladiator --
+            SkillTreeEffect gladiator = new GladiatorEffect();
+            // -- Champion -- 
+            //SkillTreeEffect champion = new ChampionEffect();
+            
             /* --- Masteries ---*/
             // Armour Mastery
             SkillTreeEffect armourMasteryEffect = new ArmourMasteryEffect();
@@ -103,52 +107,51 @@ namespace GameplayMechanics.Character
             this.SkillNodes = skillNodes;
             
             /* --- Create the relationships in the tree --- */
-            this.SkillNodes[0].parent = null;
-            this.SkillNodes[0].children = new[]
-            {
-                SkillNodes[1],
-                SkillNodes[3],
-                SkillNodes[5]
-            };
+            //this.SkillNodes[0].parent = null;
+            this.SkillNodes[0].children.Add(SkillNodes[1]);
+            this.SkillNodes[0].children.Add(SkillNodes[3]);
+            this.SkillNodes[0].children.Add(SkillNodes[5]);
+            
             foreach (SkillNode skillNode in this.SkillNodes[0].children)
             {
-                skillNode.parent = this.SkillNodes[0];
+                skillNode.parent.Add(this.SkillNodes[0]);
             }
             
-            this.SkillNodes[1].children = new[] { this.SkillNodes[2] };
+            SkillNodes[1].children.Add(SkillNodes[2]);
             foreach (SkillNode skillNode in this.SkillNodes[1].children)
             {
-                skillNode.parent = this.SkillNodes[1];
+                skillNode.parent.Add(SkillNodes[1]);
             }
             
-            this.SkillNodes[2].children = new[] { this.SkillNodes[7] };
-            foreach (SkillNode skillNode in this.SkillNodes[2].children)
+            SkillNodes[2].children.Add(SkillNodes[7]);
+            foreach (SkillNode skillNode in SkillNodes[2].children)
             {
-                skillNode.parent = this.SkillNodes[2];
+                skillNode.parent.Add(SkillNodes[2]);
             }
             
-            this.SkillNodes[3].children = new[] { this.SkillNodes[4] };
+            SkillNodes[3].children.Add(SkillNodes[4]);
             foreach (SkillNode skillNode in this.SkillNodes[3].children)
             {
-                skillNode.parent = this.SkillNodes[3];
+                skillNode.parent.Add(this.SkillNodes[3]);
             }
             
-            this.SkillNodes[4].children = new[] { this.SkillNodes[7], this.SkillNodes[8] };
+            this.SkillNodes[4].children.Add(SkillNodes[7]);
+            this.SkillNodes[4].children.Add(SkillNodes[8]);
             foreach (SkillNode skillNode in this.SkillNodes[4].children)
             {
-                skillNode.parent = this.SkillNodes[4];
+                skillNode.parent.Add(this.SkillNodes[4]);
             }
             
-            this.SkillNodes[5].children = new[] { this.SkillNodes[6] };
+            skillNodes[5].children.Add(SkillNodes[6]);
             foreach (SkillNode skillNode in this.SkillNodes[5].children)
             {
-                skillNode.parent = this.SkillNodes[5];
+                skillNode.parent.Add(this.SkillNodes[5]);
             }
             
-            this.SkillNodes[6].children = new[] { this.SkillNodes[8] };
+            skillNodes[6].children.Add(SkillNodes[8]);
             foreach (SkillNode skillNode in this.SkillNodes[6].children)
             {
-                skillNode.parent = this.SkillNodes[6];
+                skillNode.parent.Add(this.SkillNodes[6]);
             }
         }
         
@@ -178,8 +181,8 @@ namespace GameplayMechanics.Character
      ------------------------------------------------------------------------------------------*/
     public class SkillNode
     {
-        public SkillNode parent;
-        public SkillNode[] children;
+        public List<SkillNode> parent;
+        public List<SkillNode> children;
         public string id;
         public string name;
         private string _description;
@@ -194,8 +197,8 @@ namespace GameplayMechanics.Character
             this.name = name;
             this._description = description;
             this._effect = effect;
-            this.parent = null;
-            this.children = null;
+            this.parent = new List<SkillNode>();
+            this.children = new List<SkillNode>();
         }
         
         /*------------------
@@ -204,8 +207,8 @@ namespace GameplayMechanics.Character
         GetChildren returns an array containing all children of the node.
         GetChild returns a specific child by id, name or index. **Name only returns the first child.**
          ------------------*/
-        public SkillNode GetParent { get => parent; set => parent = value; }
-        public SkillNode[] GetChildren { get => children; set => children = value; }
+        public List<SkillNode> GetParent { get => parent; set => parent = value; }
+        public List<SkillNode> GetChildren { get => children; set => children = value; }
         
         public SkillNode GetChild(string name, int? index = null, string id = null)
         {

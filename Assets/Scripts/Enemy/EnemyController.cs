@@ -125,7 +125,7 @@ namespace Enemy
             {
                 idleTime = 0f;
             }
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
 
         void trackPlayer(Vector3 playerPos) 
@@ -134,7 +134,7 @@ namespace Enemy
             isRotating = false;
             triggered = true;
             transform.LookAt(playerPos);
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
 
         void attack() 

@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] public GameObject _skillTreeUI;
         [SerializeField] private Button[] skillTreeButtons;
         private bool[] _skillTreeButtonsStatus;
+        [SerializeField] private int SkillCheats;
         void Start()
         {
             _skillTree = new SkillTree();
@@ -31,20 +32,38 @@ namespace Player
                 int index = i;
                 skillTreeButtons[i].onClick.AddListener(() => ToggleButtonState(index));
             }
+            
+            // Cheats
+            XpManager.SetCurrentSkillPoints(SkillCheats);
         }
 
         private void ToggleButtonState(int index)
         {
             _skillTreeButtonsStatus[index] = !_skillTreeButtonsStatus[index];
-
+            SkillNode currentNode = _skillTree.branchSwordShield.SkillNodes[index];
             if (_skillTreeButtonsStatus[index])
             {
-                if (_skillTree.branchSwordShield.SkillNodes[index].parent == null
-                    || _skillTree.branchSwordShield.SkillNodes[index].parent._effect.isActive)
+                bool parentIsActive = false;
+                
+                
+                // Check if parent exists and at least one is active
+                if (currentNode.parent.Count > 0)
                 {
-                    if (XpManager.GetCurrentSkillPoints() > 0)
+                    foreach (SkillNode p in currentNode.parent)
                     {
-                        _skillTree.branchSwordShield.SkillNodes[index]._effect.Apply();
+                        if (p._effect.isActive)
+                        {
+                            parentIsActive = true;
+                            break;
+                        }
+                    }
+                }
+                if (parentIsActive ||
+                    currentNode.parent == null || currentNode.parent.Count == 0)
+                { 
+                    if (XpManager.GetCurrentSkillPoints() > 0) 
+                    {
+                        currentNode._effect.Apply(); 
                         XpManager.SetCurrentSkillPoints(
                             XpManager.GetCurrentSkillPoints() - 1);
                     }

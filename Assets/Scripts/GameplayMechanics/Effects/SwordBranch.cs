@@ -210,11 +210,11 @@ namespace GameplayMechanics.Effects
     // Gladiator
     public class GladiatorEffect : SkillTreeEffect
     {
-        private float _bleedMulti = 0.3f;
+        private float _bleedMulti = 0.5f;
         public GladiatorEffect()
         {
             this.name = "Gladiator";
-            this.description = "Your attacks apply bleed, dealing 30% of your physical damage over 5 seconds";
+            this.description = "Your attacks apply bleed, dealing 50% of your physical damage over 5 seconds";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }

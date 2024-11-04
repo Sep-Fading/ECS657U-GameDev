@@ -1,3 +1,5 @@
+using Enemy;
+using GameplayMechanics.Effects;
 using InventoryScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,7 +41,7 @@ namespace GameplayMechanics.Character
             Stamina = new Stat("Stamina", 100f);
             MeleeDamage = new Stat("MeleeDamage", 10f);
             BlockEffect = new Stat("BlockEffect", 0.05f);
-            Bleed = new Stat("Bleed", 0f);
+            Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
             VersMasteryActive = false;
             GladiatorActive = false;
         }
@@ -90,6 +92,27 @@ namespace GameplayMechanics.Character
             {
                 PlayerDeathHandler();
             }
+        }
+
+        public void DoDamage(EnemyController enemy)
+        {
+            StatManager enemyStatManager = enemy.GetStatManager();
+            HealthBar enemyHealthBar = enemy.GetComponentInChildren<HealthBar>(); // Assuming HealthBar is a child of enemy
+            enemyStatManager.Life.SetCurrent(
+                enemyStatManager.Life.GetCurrent() - Instance.MeleeDamage.GetAppliedTotal());
+            if (RollForBleed())
+            {
+                BleedEffect bleed =
+                    new BleedEffect(3f, enemyStatManager, enemyHealthBar, enemy); 
+                bleed.Apply();
+            }
+        }
+
+        private bool RollForBleed()
+        {
+            float sucessChance = Instance.Bleed.GetChance();
+            float roll = Random.Range(0f, 100f);
+            return roll <= sucessChance*100;
         }
 
         private void PlayerDeathHandler()

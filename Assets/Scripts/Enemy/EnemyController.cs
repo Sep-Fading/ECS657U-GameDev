@@ -8,6 +8,7 @@ namespace Enemy
 {
     public class EnemyController : MonoBehaviour
     {
+        private static readonly int Color1 = Shader.PropertyToID("_Color");
         GameObject player;
         public Transform playerTransform; 
         public PlayerMotor playerMotor;
@@ -21,14 +22,14 @@ namespace Enemy
         float randomRot;
         private bool isRotating = false;
         private bool triggered;
-        public float maxHealth = 100f;
-        public float currentHealth;
         public Animator playerWeaponAnimator;
         public Material triggeredMaterial;
         public Material defaultMaterial;
         Renderer enemyRenderer;
         public TextMeshProUGUI healthText;
         private MaterialPropertyBlock propBlock;
+        
+        private StatManager _statManager;
 
         // Start is called before the first frame update
         void Start()
@@ -37,7 +38,7 @@ namespace Enemy
             triggered = false;
             //enemyRenderer = GetComponent<Renderer>();
             randomRot = Random.Range(-360f, 360f);
-            currentHealth = maxHealth;
+            _statManager = new StatManager();
         }
 
         private void Awake()
@@ -59,15 +60,15 @@ namespace Enemy
         // Update is called once per frame
         void Update()
         {
-            if (currentHealth <= 0)
+            if (_statManager.Life.GetCurrent() <= 0)
             {
-                defeatEnemy();
+                DefeatEnemy();
             }
 
             Vector3 playerPos = playerTransform.position;
             float distance = Vector3.Distance(transform.position, playerPos);
             bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
-            healthText.text = currentHealth + "/" + maxHealth;
+            healthText.text = _statManager.Life.GetCurrent() + "/" + _statManager.Life.GetAppliedTotal();
 
             if (playerMotor.getCrouching() && !triggered)
             {
@@ -89,30 +90,30 @@ namespace Enemy
             /* --- DONT USE .material CALL AS IT MAKES BACKGROUND COPIES OF THE MATERIAL LEADING TO MEMORY LEAK ---*/
             enemyRenderer.GetPropertyBlock(propBlock);
             Color healthColor = triggered ? triggeredMaterial.color : defaultMaterial.color;
-            healthColor.a = currentHealth / maxHealth;
-            propBlock.SetColor("_Color", healthColor);
+            healthColor.a = _statManager.Life.GetCurrent() / _statManager.Life.GetAppliedTotal();
+            propBlock.SetColor(Color1, healthColor);
             enemyRenderer.SetPropertyBlock(propBlock);
 
             if (triggered)
             {
                 if (inChaseRange)
                 {
-                    trackPlayer(playerPos);
+                    TrackPlayer(playerPos);
                 }
                 else if (inAttackRange)
                 {
-                    attack();
+                    Attack();
                 }
             }
             else
             {
-                idle();
+                Idle();
             }
 
             triggered = inChaseRange || inAttackRange;
         }
 
-        void idle()
+        void Idle()
         {
             triggered = false;
             idleTime += Time.deltaTime;
@@ -125,19 +126,19 @@ namespace Enemy
             {
                 idleTime = 0f;
             }
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
 
-        void trackPlayer(Vector3 playerPos) 
+        void TrackPlayer(Vector3 playerPos) 
         {
             speed = 4.5f;
             isRotating = false;
             triggered = true;
             transform.LookAt(playerPos);
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
 
-        void attack() 
+        void Attack() 
         { 
             attackCooldown -= Time.deltaTime;
             if (attackCooldown <= 0)
@@ -147,7 +148,7 @@ namespace Enemy
             }
         }
 
-        void defeatEnemy() 
+        void DefeatEnemy() 
         {
             XpManager.GiveXp(10f);
             Destroy(gameObject);
@@ -155,17 +156,20 @@ namespace Enemy
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.tag == "Wall" && !isRotating)
+            if (collision.gameObject.CompareTag("Wall") && !isRotating)
             {
                 StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
             }
 
             if (playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length > playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime
                 && playerWeaponAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "TempSwordAnimation"
-                && collision.gameObject.tag == "Weapon")
+                && collision.gameObject.CompareTag("Weapon"))
             {
                 triggered = true;
-                currentHealth -= PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal();
+                PlayerStatManager.Instance.DoDamage(this);
+                //currentHealth -= PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal();
+                
+                
                 //Rigidbody enemyRb = gameObject.GetComponent<Rigidbody>();
                 //if (enemyRb != null)
                 //{
@@ -179,6 +183,8 @@ namespace Enemy
                 //}
             }
         }
+        
+        public StatManager GetStatManager() => _statManager;
 
         IEnumerator SmoothTurn(float angle, float duration)
         {

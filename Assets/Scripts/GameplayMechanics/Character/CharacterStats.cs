@@ -1,3 +1,5 @@
+using Enemy;
+using GameplayMechanics.Effects;
 using InventoryScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,12 +16,13 @@ namespace GameplayMechanics.Character
         public static PlayerStatManager Instance { get; private set; }
 
         // Stat fields
-        public  Stat Armour;
-        public  Stat Evasion;
-        public  Stat Life;
-        public  Stat Stamina;
-        public  Stat MeleeDamage;
-        public  Stat BlockEffect;
+        public Stat Armour;
+        public Stat Evasion;
+        public Stat Life;
+        public Stat Stamina;
+        public Stat MeleeDamage;
+        public Stat BlockEffect;
+        public Stat Bleed;
         
         // Constant for diminishing return calculations used for armor:
         private const float K = 125f;
@@ -27,6 +30,7 @@ namespace GameplayMechanics.Character
         
         // Masteries / Notables Active
         public bool VersMasteryActive;
+        public bool GladiatorActive;
 
         // Constructor
         private PlayerStatManager()
@@ -37,7 +41,9 @@ namespace GameplayMechanics.Character
             Stamina = new Stat("Stamina", 100f);
             MeleeDamage = new Stat("MeleeDamage", 10f);
             BlockEffect = new Stat("BlockEffect", 0.05f);
+            Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
             VersMasteryActive = false;
+            GladiatorActive = false;
         }
 
         // Method to initialize the Singleton
@@ -88,6 +94,27 @@ namespace GameplayMechanics.Character
             }
         }
 
+        public void DoDamage(EnemyController enemy)
+        {
+            StatManager enemyStatManager = enemy.GetStatManager();
+            HealthBar enemyHealthBar = enemy.GetComponentInChildren<HealthBar>(); // Assuming HealthBar is a child of enemy
+            enemyStatManager.Life.SetCurrent(
+                enemyStatManager.Life.GetCurrent() - Instance.MeleeDamage.GetAppliedTotal());
+            if (RollForBleed())
+            {
+                BleedEffect bleed =
+                    new BleedEffect(3f, enemyStatManager, enemyHealthBar, enemy); 
+                bleed.Apply();
+            }
+        }
+
+        private bool RollForBleed()
+        {
+            float sucessChance = Instance.Bleed.GetChance();
+            float roll = Random.Range(0f, 100f);
+            return roll <= sucessChance*100;
+        }
+
         private void PlayerDeathHandler()
         {
             // Restart Scene on death
@@ -112,15 +139,17 @@ namespace GameplayMechanics.Character
         private float _appliedTotal;
         private string _name;
         private float _current;
+        private float _chance;
 
         public Stat(string name, float flat, float multiplier = 1f,
-            float added = 0f)
+            float added = 0f, float chance = 0f)
         {
             this._name = name;
             this._flat = flat;
             this._added = added;
             this._multiplier = multiplier;
             this._appliedTotal = (this._flat + this._added) * this._multiplier;
+            this._chance = chance;
             _current = this._appliedTotal;
         }
         
@@ -180,6 +209,12 @@ namespace GameplayMechanics.Character
             }
         }
 
+        public void SetChance(float chance)
+        {
+            this._chance = chance;
+            this.Recalculate();
+        }
+
         
         
         // Getters for stats:
@@ -188,5 +223,6 @@ namespace GameplayMechanics.Character
         public float GetMultiplier() => this._multiplier;
         public float GetAdded() => this._added;
         public float GetAppliedTotal() => this._appliedTotal;
+        public float GetChance() => this._chance;
     }
 }

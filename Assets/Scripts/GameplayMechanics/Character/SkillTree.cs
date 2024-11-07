@@ -31,18 +31,33 @@ namespace GameplayMechanics.Character
             SkillTreeEffect addedBlockEffect = new AddedBlockEffect();
             SkillTreeEffect addedBlockEffect2 = new AddedBlockEffect();
 
-            /* --- Notables --- */
-            // -- Gladiator --
-            SkillTreeEffect gladiator = new GladiatorEffect();
-            // -- Champion -- 
-            //SkillTreeEffect champion = new ChampionEffect();
-            
             /* --- Masteries ---*/
             // Armour Mastery
             SkillTreeEffect armourMasteryEffect = new ArmourMasteryEffect();
 
             // Versatility Mastery
-            SkillTreeEffect versatilityMasteryEffect = new VersatilityMasteryEffect();
+            SkillTreeEffect versatilityMasteryEffect = new VersatilityMasteryEffect(); 
+            
+            /* --- Tier 2 Nodes ---*/
+            // Increased Health
+            SkillTreeEffect increasedHealthEffect3 = new IncreasedHpEffect();
+            SkillTreeEffect increasedHealthEffect4 = new IncreasedHpEffect();
+
+            // Increased Melee Damage
+            SkillTreeEffect increasedMeleeDamageEffect3 = new IncreasedMeleeDamageEffect();
+            SkillTreeEffect increasedMeleeDamageEffect4 = new IncreasedMeleeDamageEffect();
+
+            // Added Block Effectiveness
+            SkillTreeEffect addedBlockEffect3 = new AddedBlockEffect();
+            SkillTreeEffect addedBlockEffect4 = new AddedBlockEffect(); 
+            
+            /* --- Ascendencies ---*/
+            // -- Gladiator --
+            SkillTreeEffect gladiator = new GladiatorEffect();
+            // -- Champion -- 
+            //SkillTreeEffect champion = new ChampionEffect();
+            
+            
 
             /* --- Initialise the skill nodes --- */
 

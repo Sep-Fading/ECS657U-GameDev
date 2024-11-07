@@ -173,32 +173,28 @@ namespace GameplayMechanics.Effects
     // Versatility Mastery - Converts Evasion into Armour
     public class VersatilityMasteryEffect : SkillTreeEffect
     {
-        private float _armourEvMulti = 0.15f;
+        private float _damageMulti = 0.35f;
 
         public VersatilityMasteryEffect()
         {
             this.name = "Versatile Combatant Mastery";
-            this.description = "15% Increased Armour and Evasion";
+            this.description = "35% Increased damage while not wearing a body armour";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.Armour.SetMultiplier(
-                PlayerStatManager.Instance.Armour.GetMultiplier()+_armourEvMulti);
-            PlayerStatManager.Instance.Evasion.SetMultiplier(
-                PlayerStatManager.Instance.Evasion.GetMultiplier()+_armourEvMulti);
+            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier()+_damageMulti);
             
             this.isActive = true;
         }
         
         public override void Clear()
         {
-            PlayerStatManager.Instance.Armour.SetMultiplier(
-                PlayerStatManager.Instance.Armour.GetMultiplier() - _armourEvMulti);
-            PlayerStatManager.Instance.Evasion.SetMultiplier(
-                PlayerStatManager.Instance.Evasion.GetMultiplier() - _armourEvMulti); 
+            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier()-_damageMulti);
             
             this.isActive = false;
         }

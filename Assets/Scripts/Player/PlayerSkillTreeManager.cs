@@ -1,3 +1,4 @@
+using System.Linq;
 using GameplayMechanics.Character;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ namespace Player
         [SerializeField] private Button[] skillTreeButtons;
         private bool[] _skillTreeButtonsStatus;
         [SerializeField] private int SkillCheats;
+        [SerializeField] private Transform connectionsParentTransform;
+        [SerializeField] private Transform[] connectionsChildTransforms;
         void Start()
         {
             _skillTree = new SkillTree();
@@ -108,6 +111,22 @@ namespace Player
             else
             {
                 skillTreeButtons[index].GetComponent<Image>().color = Color.white;
+            }
+        }
+
+        private void SetupConnections()
+        {
+            connectionsChildTransforms = connectionsParentTransform.Cast<Transform>().ToArray();
+        }
+        public void PrintDebugConnections()
+        {
+            if (connectionsChildTransforms.Length == 0)
+            {
+                SetupConnections();
+            }
+            foreach (Transform child in connectionsChildTransforms)
+            {
+                Debug.Log(child.name);
             }
         }
     }

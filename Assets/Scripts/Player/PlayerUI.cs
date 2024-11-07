@@ -38,10 +38,10 @@ namespace Player
         public void SkillTreeToggle(InputAction.CallbackContext context)
         {
 
-            playerSkillTreeManager._skillTreeUI.SetActive(
-                !playerSkillTreeManager._skillTreeUI.activeSelf);
+            playerSkillTreeManager.skillTreeUI.SetActive(
+                !playerSkillTreeManager.skillTreeUI.activeSelf);
 
-            if (playerSkillTreeManager._skillTreeUI.activeSelf)
+            if (playerSkillTreeManager.skillTreeUI.activeSelf)
             {
                 _uiActive = true;
                 Cursor.visible = true;

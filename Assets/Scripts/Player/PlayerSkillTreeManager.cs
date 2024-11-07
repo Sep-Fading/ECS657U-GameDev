@@ -1,6 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using GameplayMechanics.Character;
+using GameplayMechanics.Effects;
+using InventoryScripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Player
@@ -10,18 +15,21 @@ namespace Player
     // with respect to player's usage of the skill tree.
     public class PlayerSkillTreeManager : MonoBehaviour
     {
-        private SkillTree _skillTree;
-        [SerializeField] public GameObject _skillTreeUI;
+        public static PlayerSkillTreeManager Instance;
+        public SkillTree ManagerSkillTree;
+        [FormerlySerializedAs("_skillTreeUI")] [SerializeField] public GameObject skillTreeUI;
         [SerializeField] private Button[] skillTreeButtons;
         private bool[] _skillTreeButtonsStatus;
         [SerializeField] private int SkillCheats;
         [SerializeField] private Transform connectionsParentTransform;
         [SerializeField] private Transform[] connectionsChildTransforms;
+        public List<NodeConnection> connections;
         void Start()
         {
-            _skillTree = new SkillTree();
+            Instance = this;
+            ManagerSkillTree = new SkillTree();
             _skillTreeButtonsStatus = new bool[skillTreeButtons.Length];
-            _skillTreeUI.SetActive(false);
+            skillTreeUI.SetActive(false);
 
             // Default state of nodes (DISABLED)
             for (int i = 0; i < _skillTreeButtonsStatus.Length; i++)
@@ -43,7 +51,7 @@ namespace Player
         private void ToggleButtonState(int index)
         {
             _skillTreeButtonsStatus[index] = !_skillTreeButtonsStatus[index];
-            SkillNode currentNode = _skillTree.branchSwordShield.SkillNodes[index];
+            SkillNode currentNode = ManagerSkillTree.branchSwordShield.SkillNodes[index];
             if (_skillTreeButtonsStatus[index])
             {
                 bool parentIsActive = false;
@@ -74,9 +82,9 @@ namespace Player
             }
             else
             {
-                if (!CheckActiveChildren(index) && _skillTree.branchSwordShield.SkillNodes[index]._effect.isActive)
+                if (!CheckActiveChildren(index) && ManagerSkillTree.branchSwordShield.SkillNodes[index]._effect.isActive)
                 {
-                    _skillTree.branchSwordShield.SkillNodes[index]._effect.Clear();
+                    ManagerSkillTree.branchSwordShield.SkillNodes[index]._effect.Clear();
                     XpManager.SetCurrentSkillPoints(
                         XpManager.GetCurrentSkillPoints() + 1);
                 }
@@ -87,11 +95,11 @@ namespace Player
 
         private bool CheckActiveChildren(int index)
         {
-            if (_skillTree.branchSwordShield.SkillNodes[index].children == null)
+            if (ManagerSkillTree.branchSwordShield.SkillNodes[index].children == null)
             {
                 return false;
             }
-            foreach (SkillNode node in _skillTree.branchSwordShield.SkillNodes[index].children)
+            foreach (SkillNode node in ManagerSkillTree.branchSwordShield.SkillNodes[index].children)
             {
                 if (node._effect.isActive)
                 {
@@ -104,20 +112,67 @@ namespace Player
 
         private void UpdateButtonAppearance(int index)
         {
-            if (_skillTree.branchSwordShield.SkillNodes[index]._effect.isActive)
+            bool isActive = ManagerSkillTree.branchSwordShield.SkillNodes[index]._effect.isActive;
+            Color targetColor = isActive ? new Color(255f, 204f, 0f) : Color.white;
+
+            // Update button appearance
+            skillTreeButtons[index].transform.Find("Border").GetComponent<Image>().color = targetColor;
+
+            // Check and update connections
+            foreach (NodeConnection connection in connections)
             {
-                skillTreeButtons[index].GetComponent<Image>().color = Color.green;
-            }
-            else
-            {
-                skillTreeButtons[index].GetComponent<Image>().color = Color.white;
-            }
+                bool bothNodesActive = connection.startNode == skillTreeButtons[index] || 
+                                       connection.endNode == skillTreeButtons[index];
+
+                if (bothNodesActive)
+                {
+                    // If both start and end nodes are active, color the line yellow
+                    bool startNodeActive = ManagerSkillTree.branchSwordShield
+                        .SkillNodes[Array.IndexOf(skillTreeButtons, connection.startNode)]
+                        ._effect.isActive;
+                    bool endNodeActive = ManagerSkillTree.branchSwordShield
+                        .SkillNodes[Array.IndexOf(skillTreeButtons, connection.endNode)]
+                        ._effect.isActive;
+
+                    connection.lineImage.color = (startNodeActive && endNodeActive) 
+                        ? new Color(255f, 204f, 0f) 
+                        : Color.white;
+                }
+            } 
         }
 
         private void SetupConnections()
         {
             connectionsChildTransforms = connectionsParentTransform.Cast<Transform>().ToArray();
         }
+        
+        public void JuggernautRepeatingInvoke()
+        {
+            SkillTreeEffect effect = ManagerSkillTree.branchSwordShield.GetNodeByName("Juggernaut")._effect;
+            if (effect is JuggernautEffect juggernautEffect)
+            {
+                // Start repeating update for the Juggernaut effect
+                InvokeRepeating(nameof(UpdateJuggernautEffect), 0f, 1f);
+            }
+        }
+
+        private void UpdateJuggernautEffect()
+        {
+            SkillTreeEffect effect = ManagerSkillTree.branchSwordShield.GetNodeByName("Juggernaut")._effect;
+
+            if (effect is JuggernautEffect juggernautEffect)
+            {
+                if (Inventory.Instance.EquippedArmour == null)
+                {
+                    juggernautEffect.UpdateDamageReduction(this); // Ensure UpdateDamageReduction is parameterless
+                }
+                else
+                {
+                    CancelInvoke(nameof(UpdateJuggernautEffect));
+                }
+            }
+        }
+        
         public void PrintDebugConnections()
         {
             if (connectionsChildTransforms.Length == 0)
@@ -130,4 +185,12 @@ namespace Player
             }
         }
     }
+}
+
+[Serializable]
+public class NodeConnection
+{
+    public Button startNode;
+    public Button endNode;
+    public Image lineImage;
 }

@@ -1,6 +1,7 @@
 using Enemy;
 using GameplayMechanics.Effects;
 using InventoryScripts;
+using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,15 +24,12 @@ namespace GameplayMechanics.Character
         public Stat MeleeDamage;
         public Stat BlockEffect;
         public Stat Bleed;
+        public Stat DamageReduction;
         
         // Constant for diminishing return calculations used for armor:
         private const float K = 125f;
         public bool IsBlocking { set; get; }
         
-        // Masteries / Notables Active
-        public bool VersMasteryActive;
-        public bool GladiatorActive;
-
         // Constructor
         private PlayerStatManager()
         {
@@ -42,8 +40,7 @@ namespace GameplayMechanics.Character
             MeleeDamage = new Stat("MeleeDamage", 10f);
             BlockEffect = new Stat("BlockEffect", 0.05f);
             Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
-            VersMasteryActive = false;
-            GladiatorActive = false;
+            DamageReduction = new Stat("DamageReduction", 0);
         }
 
         // Method to initialize the Singleton
@@ -121,7 +118,6 @@ namespace GameplayMechanics.Character
             XpManager.ResetInstance();
             Inventory.ResetInstance();
             PlayerStatManager.ResetInstance();
-            
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

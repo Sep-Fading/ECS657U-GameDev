@@ -45,4 +45,5 @@ Try to die less than we did :)
   <li>Olde Tome Fantasy RPG Pixelated Font - https://ladyliefy.itch.io/olde-tome</li>
   <li>UnityAssetStore Pixel Art Icon Pack - RPG - https://assetstore.unity.com/packages/2d/gui/icons/pixel-art-icon-pack-rpg-158343</li>
   <li>UnityAssetStore GUI Parts - https://assetstore.unity.com/packages/2d/gui/icons/gui-parts-159068</li>
+  <li>Tooltip Tutorial by CodeMonkey - https://www.youtube.com/watch?v=d_qk7egZ8_c</li>
 </ul>

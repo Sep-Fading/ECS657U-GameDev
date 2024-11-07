@@ -46,6 +46,7 @@ namespace Player
                 _uiActive = true;
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.Confined;
+                //playerSkillTreeManager.PrintDebugConnections();
             }
             else
             {

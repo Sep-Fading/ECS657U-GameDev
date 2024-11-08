@@ -1,56 +1,75 @@
-using System.Collections;
-using System.Collections.Generic;
+using GameplayMechanics.Character;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
-public class Weaponmanager : MonoBehaviour
-
+using Player;
+namespace Combat
 {
-    private static readonly int Blocking = Animator.StringToHash("Blocking");
-    private static readonly int Attacking = Animator.StringToHash("Attacking");
-    private Animator anim;
-    private MeleeWeapon currentWeapon;
+    // This script handles some basic states for Combat
+    // And reflects them in the Animator.
+    public class Weaponmanager : MonoBehaviour
 
-    [SerializeField] private GameObject weaponPrefab;
-
-    [SerializeField] private GameObject weaponColliderParent;
-    private Collider weaponCollider;
-
-    private Shield currentShield;
-    private bool blocking = false;
-
-    private void Awake()
     {
-        anim = weaponPrefab.GetComponent<Animator>();
-        weaponCollider = weaponColliderParent.GetComponent<Collider>();
+        private static readonly int Blocking = Animator.StringToHash("Blocking");
+        private static readonly int Attacking = Animator.StringToHash("Attacking");
+        private Animator _anim;
+        private MeleeWeapon _currentWeapon;
+        [SerializeField] private GameObject player;
+
+        [SerializeField] private GameObject weaponPrefab;
+
+        [SerializeField] private GameObject weaponColliderParent;
+        private Collider _weaponCollider;
+
+        private Shield _currentShield;
+        private bool _blocking = false;
+
+        private void Awake()
+        {
+            _anim = weaponPrefab.GetComponent<Animator>();
+            if (weaponColliderParent != null)
+            {
+                _weaponCollider = weaponColliderParent.GetComponent<Collider>();
+            }
+        }
+
+        public void Attack()
+        {
+            if (! player.GetComponent<PlayerUI>().GetUIActive())
+            {
+                _anim.SetTrigger(Attacking);
+            }
+            
+        }
+
+        public void Block()
+        {
+            if (! player.GetComponent<PlayerUI>().GetUIActive())
+            {
+                _blocking = !_blocking;
+                _anim.SetBool(Blocking, _blocking);
+                PlayerStatManager.Instance.IsBlocking = _blocking;
+            }
+           
+        }
+
+        public void OnBlockCancelled()
+        {
+            _blocking = false;
+            _anim.SetBool(Blocking, _blocking);
+            PlayerStatManager.Instance.IsBlocking = _blocking;
+        }
+
+
+        public void ChangeWeapon(MeleeWeapon newWeapon)
+        {
+
+        }
+        public void ChangeShield(Shield newShield)
+        {
+
+        }
+
+        public bool GetBlockingStatus() => _blocking;
+
+
     }
-
-    public void Attack()
-    {
-        anim.SetTrigger(Attacking);
-    }
-
-    public void Block()
-    {
-        blocking = !blocking;
-        anim.SetBool(Blocking, blocking);
-    }
-
-    public void onBlockCancelled()
-    {
-        blocking = false;
-        anim.SetBool(Blocking, blocking);
-    }
-
-
-    public void ChangeWeapon(MeleeWeapon newWeapon)
-    {
-
-    }
-    public void ChangeShield(Shield newShield)
-    {
-
-    }
-
-
 }

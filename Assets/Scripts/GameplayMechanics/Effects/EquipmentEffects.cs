@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace GameplayMechanics.Effects
 {
+    // This class extends IEffect interface
+    // to create some effects for equipment such as 
+    // the stats on that piece of equipment.
     public class EquipmentEffects : IEffect
     {
         public EffectType effectType { get; set; }
@@ -46,22 +49,22 @@ namespace GameplayMechanics.Effects
         {
             if (_equipmentType == EquipmentType.ARMOR)
             {
-                PlayerStatManager.Instance.armour.SetAdded(
-                    PlayerStatManager.Instance.armour.GetAdded() + armourAddedValue);
-                PlayerStatManager.Instance.evasion.SetAdded(
-                    PlayerStatManager.Instance.evasion.GetAdded() + evasionAddedValue);
+                PlayerStatManager.Instance.Armour.SetAdded(
+                    PlayerStatManager.Instance.Armour.GetAdded() + armourAddedValue);
+                PlayerStatManager.Instance.Evasion.SetAdded(
+                    PlayerStatManager.Instance.Evasion.GetAdded() + evasionAddedValue);
             }
 
             if (_equipmentType == EquipmentType.MAINHAND)
             {
-                PlayerStatManager.Instance.meleeDamage.SetAdded(
-                    PlayerStatManager.Instance.meleeDamage.GetAdded() + damageAddedValue);
+                PlayerStatManager.Instance.MeleeDamage.SetAdded(
+                    PlayerStatManager.Instance.MeleeDamage.GetAdded() + damageAddedValue);
             }
 
             if (_equipmentType == EquipmentType.OFFHAND)
             {
-                PlayerStatManager.Instance.life.SetFlat(
-                    PlayerStatManager.Instance.life.GetAdded() + healthAddedValue);
+                PlayerStatManager.Instance.Life.SetFlat(
+                    PlayerStatManager.Instance.Life.GetAdded() + healthAddedValue);
             }
 
             equipped = true;
@@ -71,22 +74,22 @@ namespace GameplayMechanics.Effects
         {
             if (_equipmentType == EquipmentType.ARMOR)
             {
-                PlayerStatManager.Instance.armour.SetAdded(
-                    PlayerStatManager.Instance.armour.GetAdded() - armourAddedValue);
-                PlayerStatManager.Instance.evasion.SetAdded(
-                    PlayerStatManager.Instance.evasion.GetAdded() - evasionAddedValue);
+                PlayerStatManager.Instance.Armour.SetAdded(
+                    PlayerStatManager.Instance.Armour.GetAdded() - armourAddedValue);
+                PlayerStatManager.Instance.Evasion.SetAdded(
+                    PlayerStatManager.Instance.Evasion.GetAdded() - evasionAddedValue);
             }
 
             if (_equipmentType == EquipmentType.MAINHAND)
             {
-                PlayerStatManager.Instance.meleeDamage.SetAdded(
-                    PlayerStatManager.Instance.meleeDamage.GetAdded() - damageAddedValue);
+                PlayerStatManager.Instance.MeleeDamage.SetAdded(
+                    PlayerStatManager.Instance.MeleeDamage.GetAdded() - damageAddedValue);
             }
 
             if (_equipmentType == EquipmentType.OFFHAND)
             {
-                PlayerStatManager.Instance.life.SetFlat(
-                    PlayerStatManager.Instance.life.GetAdded() - healthAddedValue);
+                PlayerStatManager.Instance.Life.SetFlat(
+                    PlayerStatManager.Instance.Life.GetAdded() - healthAddedValue);
             }
 
             equipped = false;

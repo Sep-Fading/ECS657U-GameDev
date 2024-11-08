@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace GameplayMechanics.Character
 {
+    // A single ton class that handles the Level Up 
+    // system using a levelling formula that scales 
+    // over levels.
     public class XpManager
     {
         public static XpManager Instance { get; private set; }
@@ -10,16 +13,19 @@ namespace GameplayMechanics.Character
         private float LevelUpThreshold { get; set; }
         private int Level { get; set; }
 
-        private const float BaseXpThreshold = 50f;
+        private int CurrentSkillPoints { get; set; }
+
+        private float BaseXpThreshold = 50f;
         private const float GrowthFactor = 1.4f;
 
         private XpManager()
         {
             CurrentXp = 0f;
+            CurrentSkillPoints = 0;
             LevelUpThreshold = BaseXpThreshold;
             Level = 1;
         }
-
+    
         public static XpManager Initialize()
         {
             if (Instance == null)
@@ -29,11 +35,19 @@ namespace GameplayMechanics.Character
             return Instance;
         }
 
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
         private static void LevelUp()
         {
             Instance.Level += 1;
-            Instance.LevelUpThreshold = BaseXpThreshold * Mathf.Pow(GrowthFactor, Instance.Level);
-            Debug.Log($"Leveled up to level {Instance.Level}. New XP threshold: {Instance.LevelUpThreshold}");
+            Instance.CurrentSkillPoints += 1;
+            Instance.BaseXpThreshold = GetCurrentXp();
+            Instance.LevelUpThreshold = Instance.BaseXpThreshold * Mathf.Pow(GrowthFactor, Instance.Level);
+            // Heal to full after Level Up
+            PlayerStatManager.Instance.Life.SetCurrent(
+                PlayerStatManager.Instance.Life.GetAppliedTotal());
         }
 
         public static void GiveXp(float amount)
@@ -49,5 +63,14 @@ namespace GameplayMechanics.Character
         {
             return Instance.CurrentXp;
         }
+
+        public static void SetCurrentSkillPoints(int points)
+        {
+            Instance.CurrentSkillPoints = points;
+        }
+
+        public static float GetLevelUpThreshold() => Instance.LevelUpThreshold;
+        public static int GetLevel() => Instance.Level;
+        public static int GetCurrentSkillPoints() => Instance.CurrentSkillPoints;
     }
 }

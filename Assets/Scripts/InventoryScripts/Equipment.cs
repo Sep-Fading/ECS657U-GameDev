@@ -1,4 +1,5 @@
 using GameplayMechanics.Effects;
+using UnityEngine;
 
 namespace InventoryScripts
 {
@@ -7,10 +8,12 @@ namespace InventoryScripts
         public GameItem Item;
         private EquipmentEffects _effects;
         public EquipmentType type;
+        private GameObject obj;
 
-        public Equipment(EquipmentType type)
+        public Equipment(EquipmentType type, GameObject obj)
         {
             this.type = type;
+            this.obj = obj;
             _effects = new EquipmentEffects(type);
             Item = new GameItem(_effects.name, _effects.description,
                 1, ItemType.EQUIPMENT);
@@ -29,6 +32,11 @@ namespace InventoryScripts
         public GameItem GetItem()
         {
             return this.Item;
+        }
+
+        public GameObject GetGameObject()
+        {
+            return this.obj;
         }
     }
 }

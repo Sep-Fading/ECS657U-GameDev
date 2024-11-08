@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameplayMechanics.Effects;
 using TMPro;
 using UnityEditor;
@@ -6,6 +7,8 @@ using UnityEngine.Serialization;
 
 namespace InventoryScripts
 {
+    // This script initialises and manages the related GameObjects
+    // in the scene for Inventory.
     public class InventoryManager : MonoBehaviour
     {
         [FormerlySerializedAs("_inventoryItemsUI")] public GameObject[] inventoryItemsUI = new GameObject[3];
@@ -26,7 +29,6 @@ namespace InventoryScripts
         {
             if (i < 0 || i >= inventoryItemsUI.Length)
             {
-                Debug.Log("Inventory out of space!");
                 return;
             }
             inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().
@@ -35,32 +37,79 @@ namespace InventoryScripts
 
         public void MoveToEquipment(InventoryItem inventoryItem, int i)
         {
-            inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().SetText("");
-            InventoryItem item = Inventory.Instance.Pop(inventoryItem);
-            EquipmentType type = Inventory.Instance.Equip(item.equipment);
-            Debug.Log(type);
-            Debug.Log(item.gameItem.GetName());
+            if (Inventory.Instance.IsEmpty(inventoryItem.equipment.type))
+            {
+                inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().SetText("");
+                InventoryItem item = Inventory.Instance.Pop(inventoryItem);
+                EquipmentType type = Inventory.Instance.Equip(item.equipment);
+                if (type == EquipmentType.NONE)
+                {
+                    
+                }
+                else if (type == EquipmentType.MAINHAND)
+                {
+                    equippedItemsUI[0].GetComponent<TextMeshProUGUI>()
+                        .SetText(item.gameItem.GetName()[0].ToString());
+                }
+                else if (type == EquipmentType.ARMOR)
+                {
+                    equippedItemsUI[1].GetComponent<TextMeshProUGUI>()
+                        .SetText(item.gameItem.GetName()[0].ToString());
+                }
+                else if (type == EquipmentType.OFFHAND)
+                {
+                    equippedItemsUI[2].GetComponent<TextMeshProUGUI>()
+                        .SetText(item.gameItem.GetName()[0].ToString());
+                }
+            }
+        }
 
-            if (type == EquipmentType.NONE)
+        public void MoveToInventory(EquipmentType equipmentType, int i)
+        {
+            Equipment equipment;
+            if (equipmentType == EquipmentType.MAINHAND)
             {
-                Debug.Log("Item is not equippable.");
+                equipment = Inventory.Instance.EquippedMainHand;
             }
-            else if (type == EquipmentType.MAINHAND)
+            else if (equipmentType == EquipmentType.ARMOR)
             {
-                equippedItemsUI[0].GetComponent<TextMeshProUGUI>()
-                    .SetText(item.gameItem.GetName()[0].ToString());
+                equipment = Inventory.Instance.EquippedArmour;
             }
-            else if (type == EquipmentType.ARMOR)
+            else if (equipmentType == EquipmentType.OFFHAND)
             {
-                equippedItemsUI[1].GetComponent<TextMeshProUGUI>()
-                    .SetText(item.gameItem.GetName()[0].ToString());
+                equipment = Inventory.Instance.EquippedOffHand;
             }
-            else if (type == EquipmentType.OFFHAND)
+            else
             {
-                equippedItemsUI[2].GetComponent<TextMeshProUGUI>()
-                    .SetText(item.gameItem.GetName()[0].ToString());
+                equipment = null;
             }
-            
+            if (equipment != null)
+            {
+                InventoryItem item = new InventoryItem(equipment.GetItem(), equipment);
+                Inventory.Instance.Unequip(equipment);
+                equippedItemsUI[i].GetComponent<TextMeshProUGUI>()
+                    .SetText("");
+                this.PrintInventoryStack();
+                this.Push(item);
+            }
+        }
+
+        private void PrintInventoryStack()
+        {
+            Stack<InventoryItem>[] itemStack = Inventory.Instance.GetStack();
+            bool[] results = new bool[itemStack.Length];
+
+            for (int i = 0; i < itemStack.Length; i++)
+            {
+                if (itemStack[i] != null)
+                {
+                    results[i] = true;
+                }
+                else
+                {
+                    results[i] = false;
+                }
+            }
         }
     }
 }

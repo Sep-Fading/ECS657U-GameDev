@@ -17,9 +17,7 @@ void OnCollisionEnter(Collision collision){
     DummyScript enemy = target.GetComponent<DummyScript>();
 
     if (enemy != null) {
-        Debug.Log(enemy.GetHealth());
         enemy.SetHealth(enemy.GetHealth() - 10f);
-        Debug.Log(enemy.GetHealth());
     }
 
 }

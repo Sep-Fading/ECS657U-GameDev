@@ -4,21 +4,24 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
-  - Enemy
+  - Environment
   - Weapon
+  - Enemy
   - WeaponHolder
+  - WeaponSlot
+  - ShieldSlot
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Wall
+  - 
   - Water
   - UI
-  - Interactable
-  - Weapon
-  - Enemy
-  - Shield
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

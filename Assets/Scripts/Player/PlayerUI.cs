@@ -1,63 +1,102 @@
-using System.Collections;
-using System.Collections.Generic;
-using GameplayMechanics.Character;
-using Player;
-using UnityEngine;
 using TMPro;
+using UI;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
-public class PlayerUI : MonoBehaviour
+namespace Player
 {
-
-    [SerializeField] private TextMeshProUGUI promptText;
-    [SerializeField] private PlayerSkillTreeManager _playerSkillTreeManager;
-    [SerializeField] private GameObject _inventoryUI;
-
-    // Start is called before the first frame update
-    void Start()
+    // Handles the player UI, such as
+    // Menu toggles and interact messages.
+    public class PlayerUI : MonoBehaviour
     {
-        _playerSkillTreeManager = GetComponent<PlayerSkillTreeManager>();
-        _inventoryUI = GameObject.Find("-- Inventory UI");
-        _inventoryUI.SetActive(false);
-    }
-
-    // Update is called once per frame
-    public void UpdateText(string promptMessage)
-    {
-        promptText.text = promptMessage;
-    }
-
-    public void SkillTreeToggle(InputAction.CallbackContext context)
-    {
-        _playerSkillTreeManager._skillTreeUI.SetActive(
-            !_playerSkillTreeManager._skillTreeUI.activeSelf);
-
-        if (_playerSkillTreeManager._skillTreeUI.activeSelf)
+        private bool _uiActive;
+        [SerializeField] private TextMeshProUGUI promptText;
+        [FormerlySerializedAs("_playerSkillTreeManager")]
+        [SerializeField] private PlayerSkillTreeManager playerSkillTreeManager;
+        [FormerlySerializedAs("_inventoryUI")]
+        [SerializeField] private GameObject inventoryUI;
+        [FormerlySerializedAs("_StatUI")]
+        [SerializeField] private GameObject statUI;
+        [FormerlySerializedAs("_StatUIText")]
+        [SerializeField] private GameObject statUIText;
+        // Start is called before the first frame update
+        void Start()
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
+            playerSkillTreeManager = GetComponent<PlayerSkillTreeManager>();
+            inventoryUI = GameObject.Find("-- Inventory UI");
+            inventoryUI.SetActive(false);
+            statUI.SetActive(false);
         }
-        else
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
 
-    public void InventoryToggle(InputAction.CallbackContext context)
-    {
-        _inventoryUI.SetActive(
-            !_inventoryUI.activeSelf);
-
-        if (_inventoryUI.activeSelf)
+        // Update is called once per frame
+        public void UpdateText(string promptMessage)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
+            promptText.text = promptMessage;
         }
-        else
+
+        public void SkillTreeToggle(InputAction.CallbackContext context)
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+
+            playerSkillTreeManager.skillTreeUI.SetActive(
+                !playerSkillTreeManager.skillTreeUI.activeSelf);
+
+            if (playerSkillTreeManager.skillTreeUI.activeSelf)
+            {
+                _uiActive = true;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+                //playerSkillTreeManager.PrintDebugConnections();
+            }
+            else
+            {
+                _uiActive = false;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+        public bool GetUIActive()
+        { 
+            return _uiActive;
+        }
+
+        public void InventoryToggle(InputAction.CallbackContext context)
+        { 
+            inventoryUI.SetActive(
+                !inventoryUI.activeSelf);
+        
+            if (inventoryUI.activeSelf)
+            { 
+                _uiActive = true; 
+                Cursor.visible = true; 
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+            else
+            {
+                _uiActive = false;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
+        public void StatMenuToggle(InputAction.CallbackContext context)
+        {
+            statUI.SetActive(
+                !statUI.activeSelf);
+            if (statUI.activeSelf)
+            {
+                _uiActive = true;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+                statUIText.GetComponent<StatUpdater>().UpdateStatMenu();
+            }
+
+            else
+            {
+                _uiActive = false;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 }

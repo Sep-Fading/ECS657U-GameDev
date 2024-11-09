@@ -27,6 +27,8 @@ namespace Player
             inventoryUI = GameObject.Find("-- Inventory UI");
             inventoryUI.SetActive(false);
             statUI.SetActive(false);
+            
+            UIManager.Initialize();
         }
 
         // Update is called once per frame
@@ -44,15 +46,13 @@ namespace Player
             if (playerSkillTreeManager.skillTreeUI.activeSelf)
             {
                 _uiActive = true;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
+                UIManager.Instance.PushUI(playerSkillTreeManager.skillTreeUI);
                 //playerSkillTreeManager.PrintDebugConnections();
             }
             else
             {
                 _uiActive = false;
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                UIManager.Instance.PopUIByGameObject(playerSkillTreeManager.skillTreeUI);
             }
         }
         public bool GetUIActive()
@@ -68,14 +68,12 @@ namespace Player
             if (inventoryUI.activeSelf)
             { 
                 _uiActive = true; 
-                Cursor.visible = true; 
-                Cursor.lockState = CursorLockMode.Confined;
+                UIManager.Instance.PushUI(inventoryUI);
             }
             else
             {
                 _uiActive = false;
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                UIManager.Instance.PopUIByGameObject(inventoryUI);
             }
         }
 
@@ -86,16 +84,14 @@ namespace Player
             if (statUI.activeSelf)
             {
                 _uiActive = true;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.Confined;
+                UIManager.Instance.PushUI(statUI);
                 statUIText.GetComponent<StatUpdater>().UpdateStatMenu();
             }
 
             else
             {
                 _uiActive = false;
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                UIManager.Instance.PopUIByGameObject(statUI);
             }
         }
     }

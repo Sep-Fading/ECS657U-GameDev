@@ -58,16 +58,6 @@ namespace Combat
             PlayerStatManager.Instance.IsBlocking = _blocking;
         }
 
-
-        public void ChangeWeapon(MeleeWeapon newWeapon)
-        {
-
-        }
-        public void ChangeShield(Shield newShield)
-        {
-
-        }
-
         public bool GetBlockingStatus() => _blocking;
 
 

@@ -6,6 +6,7 @@ namespace Interactables
     {
         public override void Interact()
         {
+            
         }
     }
 }

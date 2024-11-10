@@ -64,7 +64,8 @@ namespace GameplayMechanics.Character
                    $" {Armour.GetName()}, {Armour.GetAppliedTotal()} \n" +
                    $" {Evasion.GetName()}, {Evasion.GetAppliedTotal()} \n" +
                    $" {BlockEffect.GetName()}, {BlockEffect.GetAppliedTotal()} \n" +
-                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n";
+                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n" +
+                   $" Bleed Chance, {Bleed.GetChance() * 100}%";
         }
         
         public string GetHealth() => this.Life.GetAppliedTotal().ToString();

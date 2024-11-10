@@ -5,6 +5,9 @@ using UnityEngine;
         private Animator _anim;
         [SerializeField] private GameObject npcObject;
         private static readonly int Talking = Animator.StringToHash("talking");
+        [SerializeField] private string[] lines;
+        [SerializeField] private string npcName;
+        [SerializeField] private NpcDialogue npcDialogue;
         
         private void Awake()
         {
@@ -15,8 +18,8 @@ using UnityEngine;
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 _anim.SetTrigger(Talking);
+                npcDialogue.startDialogue( lines, npcName);
             }
-       
         }
     }
 

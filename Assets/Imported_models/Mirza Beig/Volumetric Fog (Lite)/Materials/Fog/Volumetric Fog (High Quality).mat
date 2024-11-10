@@ -13,7 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MAIN_LIGHT_ENABLED
-  - _MAIN_LIGHT_SHADOWS_CASCADE
+  - _MAIN_LIGHT_SHADOWS
   m_InvalidKeywords:
   - PROBE_VOLUMES_OFF
   m_LightmapFlags: 4
@@ -144,7 +144,7 @@ Material:
     - _Curl_Strength_Raymarch_Offset: 2
     - _Curl_Strength_Raymarch_Sample: 0.2
     - _Cutoff: 0.5
-    - _Density: 0.1
+    - _Density: 0.15
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -164,7 +164,7 @@ Material:
     - _Indirect_Light_Intensity: 1
     - _Indirect_Light_Strength: 0.6
     - _Invert_Noise: 0
-    - _MAIN_LIGHT: 1
+    - _MAIN_LIGHT: 0
     - _MAIN_LIGHT_ENABLED: 1
     - _MAIN_LIGHT_HIGH_QUALITY_ANISOTROPY: 1
     - _MAIN_LIGHT_LERP_BLEND: 0
@@ -193,7 +193,7 @@ Material:
     - _PROBE_VOLUMES: 2
     - _PROCEDURAL_DENSITY: 0
     - _Parallax: 0.005
-    - _Power: 1
+    - _Power: 2
     - _QueueOffset: 0
     - _RAYMARCH_CLAMP_TO_SURFACE: 0
     - _RaymarchSteps: 2.29
@@ -207,7 +207,7 @@ Material:
     - _Raymarch_Max_Depth: 0
     - _Raymarch_Noise: 0.04
     - _Raymarch_Self_Shadow_Steps: 4
-    - _Raymarch_Steps: 64
+    - _Raymarch_Steps: 90
     - _ReceiveShadows: 1
     - _Remap_Max: 0.9
     - _Remap_Min: 0
@@ -249,14 +249,14 @@ Material:
     - _Cloud_Noise_Voronoi_Animation: {r: 0, g: 0, b: 0.5, a: 0.5}
     - _Cloud_Noise_Voronoi_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 0.36933854, b: 0, a: 1}
-    - _Colour: {r: 0.05490196, g: 0.09411765, b: 0.20784314, a: 1}
+    - _Colour: {r: 0.0501958, g: 0.09538029, b: 0.2264151, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 45}
     - _Raymarch_Vertical_Range: {r: 0, g: 0.1, b: 0, a: 0}
     - _Simplex_Noise_Animation: {r: 0.2, g: 0.2, b: -0.25, a: -0.5}
     - _Simplex_Noise_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
     - _Voronoi_Noise_Animation: {r: -0.08, g: 0.2, b: -0.2, a: 1}
     - _Voronoi_Noise_Offset: {r: 0, g: 0, b: 0, a: 45}
   m_BuildTextureStacks: []

@@ -1,4 +1,5 @@
 using GameplayMechanics.Character;
+using InventoryScripts;
 using UnityEngine;
 using Player;
 namespace Combat
@@ -33,7 +34,7 @@ namespace Combat
 
         public void Attack()
         {
-            if (! player.GetComponent<PlayerUI>().GetUIActive())
+            if (! player.GetComponent<PlayerUI>().GetUIActive() && Inventory.Instance.EquippedMainHand != null)
             {
                 _anim.SetTrigger(Attacking);
             }

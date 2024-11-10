@@ -1,4 +1,4 @@
-using DefaultNamespace;
+using GameplayMechanics.Character;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +24,6 @@ namespace Dialogue
             {
                 _anim.SetTrigger(Talking);
                 npcDialogue.startDialogue(lines, npcName);
-            
             }
         }
     }

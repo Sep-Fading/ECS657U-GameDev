@@ -31,18 +31,33 @@ namespace GameplayMechanics.Character
             SkillTreeEffect addedBlockEffect = new AddedBlockEffect();
             SkillTreeEffect addedBlockEffect2 = new AddedBlockEffect();
 
-            /* --- Notables --- */
-            // -- Gladiator --
-            SkillTreeEffect gladiator = new GladiatorEffect();
-            // -- Champion -- 
-            //SkillTreeEffect champion = new ChampionEffect();
-            
             /* --- Masteries ---*/
             // Armour Mastery
             SkillTreeEffect armourMasteryEffect = new ArmourMasteryEffect();
 
             // Versatility Mastery
-            SkillTreeEffect versatilityMasteryEffect = new VersatilityMasteryEffect();
+            SkillTreeEffect versatilityMasteryEffect = new VersatilityMasteryEffect(); 
+            
+            /* --- Tier 2 Nodes ---*/
+            // Increased Health
+            SkillTreeEffect increasedHealthEffect3 = new IncreasedHpEffect();
+            SkillTreeEffect increasedHealthEffect4 = new IncreasedHpEffect();
+
+            // Increased Melee Damage
+            SkillTreeEffect increasedMeleeDamageEffect3 = new IncreasedMeleeDamageEffect();
+            SkillTreeEffect increasedMeleeDamageEffect4 = new IncreasedMeleeDamageEffect();
+
+            // Added Block Effectiveness
+            SkillTreeEffect addedBlockEffect3 = new AddedBlockEffect();
+            SkillTreeEffect addedBlockEffect4 = new AddedBlockEffect(); 
+            
+            /* --- Ascendencies ---*/
+            // -- Gladiator --
+            SkillTreeEffect slayer = new SlayerEffect();
+            // -- Champion -- 
+            SkillTreeEffect juggernaut = new JuggernautEffect();
+            
+            
 
             /* --- Initialise the skill nodes --- */
 
@@ -71,15 +86,39 @@ namespace GameplayMechanics.Character
                 armourMasteryEffect.description, armourMasteryEffect);
             SkillNode versatilityMasteryNode = new SkillNode("versMastery", versatilityMasteryEffect.name,
                 versatilityMasteryEffect.description, versatilityMasteryEffect);
+            
+            /* -- Tier 2 Nodes --*/
+            SkillNode increasedHealthNode3 = new SkillNode("health_3", increasedHealthEffect3.name,
+                increasedHealthEffect3.description, increasedHealthEffect3);
+            SkillNode increasedHealthNode4 = new SkillNode("health_4", increasedHealthEffect4.name,
+                increasedHealthEffect4.description, increasedHealthEffect4);
 
+            SkillNode increasedMeleeDamageNode3 = new SkillNode("meleeDamage_3", increasedMeleeDamageEffect3.name,
+                increasedMeleeDamageEffect3.description, increasedMeleeDamageEffect3);
+            SkillNode increasedMeleeDamageNode4 = new SkillNode("meleeDamage_4", increasedMeleeDamageEffect4.name,
+                increasedMeleeDamageEffect4.description, increasedMeleeDamageEffect4);
+
+            SkillNode addedBlockEffectNode3 = new SkillNode("blockEffect_3", addedBlockEffect3.name,
+                addedBlockEffect3.description, addedBlockEffect3);
+            SkillNode addedBlockEffectNode4 = new SkillNode("blockEffect_4", addedBlockEffect4.name,
+                addedBlockEffect4.description, addedBlockEffect4); 
+            
+            /* --- Ascendencies --*/
+            SkillNode juggernautNode = new SkillNode("juggernautAsc", juggernaut.name,
+                juggernaut.description, juggernaut);
+            SkillNode slayerNode = new SkillNode("slayerAsc", slayer.name,
+                slayer.description, slayer);
+            
             /* --- Load the nodes into an array --- */
             SkillNode[] _skillNodes = new[]
             {
                 swordShieldStartNode,
-                increasedHealthNode1, increasedHealthNode2,
-                increasedMeleeDamageNode1, increasedMeleeDamageNode2,
-                addedBlockEffectNode1, addedBlockEffectNode2,
-                armourMasteryNode, versatilityMasteryNode
+                increasedHealthNode1, increasedMeleeDamageNode1, addedBlockEffectNode1,
+                increasedHealthNode2, increasedMeleeDamageNode2, addedBlockEffectNode2,
+                armourMasteryNode, versatilityMasteryNode,
+                increasedHealthNode3, increasedMeleeDamageNode3, addedBlockEffectNode3,
+                increasedHealthNode4, increasedMeleeDamageNode4, addedBlockEffectNode4,
+                juggernautNode, slayerNode
             };
 
         /* --- Construct a SkillTreeBranch ---*/
@@ -107,52 +146,68 @@ namespace GameplayMechanics.Character
             this.SkillNodes = skillNodes;
             
             /* --- Create the relationships in the tree --- */
-            //this.SkillNodes[0].parent = null;
-            this.SkillNodes[0].children.Add(SkillNodes[1]);
-            this.SkillNodes[0].children.Add(SkillNodes[3]);
-            this.SkillNodes[0].children.Add(SkillNodes[5]);
+            // Start Node
+            skillNodes[0].children.Add(skillNodes[1]);
+            skillNodes[0].children.Add(skillNodes[2]);
+            skillNodes[0].children.Add(skillNodes[3]);
             
-            foreach (SkillNode skillNode in this.SkillNodes[0].children)
-            {
-                skillNode.parent.Add(this.SkillNodes[0]);
-            }
+            // Tier 1
+            // HP
+            skillNodes[1].parent.Add(skillNodes[0]);
+            skillNodes[1].children.Add(skillNodes[4]);
+            skillNodes[4].parent.Add(skillNodes[1]);
+            skillNodes[4].children.Add(skillNodes[7]);
+            // DPS
+            skillNodes[2].parent.Add(skillNodes[0]);
+            skillNodes[2].children.Add(skillNodes[5]);
+            skillNodes[5].parent.Add(skillNodes[2]);
+            skillNodes[5].children.Add(skillNodes[7]);
+            skillNodes[5].children.Add(skillNodes[8]);
+            // BE
+            skillNodes[3].parent.Add(skillNodes[0]);
+            skillNodes[3].children.Add(skillNodes[6]);
+            skillNodes[6].parent.Add(skillNodes[3]);
+            skillNodes[6].children.Add(skillNodes[8]);
             
-            SkillNodes[1].children.Add(SkillNodes[2]);
-            foreach (SkillNode skillNode in this.SkillNodes[1].children)
-            {
-                skillNode.parent.Add(SkillNodes[1]);
-            }
+            // Masteries
+            // Armour 
+            skillNodes[7].parent.Add(skillNodes[4]);
+            skillNodes[7].parent.Add(skillNodes[5]);
+            skillNodes[7].children.Add(skillNodes[9]);
+            skillNodes[7].children.Add(skillNodes[10]);
+            // Versatile Combatant
+            skillNodes[8].parent.Add(skillNodes[5]);
+            skillNodes[8].parent.Add(skillNodes[6]); 
+            skillNodes[8].children.Add(skillNodes[10]); 
+            skillNodes[8].children.Add(skillNodes[11]);
             
-            SkillNodes[2].children.Add(SkillNodes[7]);
-            foreach (SkillNode skillNode in SkillNodes[2].children)
-            {
-                skillNode.parent.Add(SkillNodes[2]);
-            }
+            // Tier 2
+            // HP
+            skillNodes[9].parent.Add(skillNodes[7]);
+            skillNodes[9].children.Add(skillNodes[12]);
+            skillNodes[12].parent.Add(skillNodes[9]);
+            skillNodes[12].children.Add(skillNodes[15]);
+            // DPS
+            skillNodes[10].parent.Add(skillNodes[7]);
+            skillNodes[10].parent.Add(skillNodes[8]);
+            skillNodes[10].children.Add(skillNodes[13]);
+            skillNodes[13].parent.Add(skillNodes[10]);
+            skillNodes[13].children.Add(skillNodes[15]);
+            skillNodes[13].children.Add(skillNodes[16]);
+            // BE
+            skillNodes[11].parent.Add(skillNodes[8]);
+            skillNodes[11].children.Add(skillNodes[14]);
+            skillNodes[14].parent.Add(skillNodes[11]);
+            skillNodes[14].children.Add(skillNodes[16]);
             
-            SkillNodes[3].children.Add(SkillNodes[4]);
-            foreach (SkillNode skillNode in this.SkillNodes[3].children)
-            {
-                skillNode.parent.Add(this.SkillNodes[3]);
-            }
+            // Ascendencies
+            // Juggernaut
+            skillNodes[15].parent.Add(skillNodes[12]);
+            skillNodes[15].parent.Add(skillNodes[13]);
             
-            this.SkillNodes[4].children.Add(SkillNodes[7]);
-            this.SkillNodes[4].children.Add(SkillNodes[8]);
-            foreach (SkillNode skillNode in this.SkillNodes[4].children)
-            {
-                skillNode.parent.Add(this.SkillNodes[4]);
-            }
-            
-            skillNodes[5].children.Add(SkillNodes[6]);
-            foreach (SkillNode skillNode in this.SkillNodes[5].children)
-            {
-                skillNode.parent.Add(this.SkillNodes[5]);
-            }
-            
-            skillNodes[6].children.Add(SkillNodes[8]);
-            foreach (SkillNode skillNode in this.SkillNodes[6].children)
-            {
-                skillNode.parent.Add(this.SkillNodes[6]);
-            }
+            // Slayer
+            skillNodes[16].parent.Add(skillNodes[13]);
+            skillNodes[16].parent.Add(skillNodes[14]);
         }
         
         /*------------------
@@ -172,6 +227,19 @@ namespace GameplayMechanics.Character
         private string SkillBranchStringify(SkillNode[] nodes)
         {
             return "";
+        }
+
+        public SkillNode GetNodeByName(string name)
+        {
+            foreach (SkillNode node in SkillNodes)
+            {
+                if (node.name == name)
+                {
+                    return node;
+                }
+            }
+
+            return null;
         }
     }
     

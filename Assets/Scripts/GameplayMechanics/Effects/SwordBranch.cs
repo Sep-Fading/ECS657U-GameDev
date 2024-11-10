@@ -1,4 +1,6 @@
 using GameplayMechanics.Character;
+using Player;
+using UnityEngine;
 
 namespace GameplayMechanics.Effects
 {
@@ -173,32 +175,28 @@ namespace GameplayMechanics.Effects
     // Versatility Mastery - Converts Evasion into Armour
     public class VersatilityMasteryEffect : SkillTreeEffect
     {
-        private float _armourEvMulti = 0.15f;
+        private float _damageMulti = 0.35f;
 
         public VersatilityMasteryEffect()
         {
             this.name = "Versatile Combatant Mastery";
-            this.description = "15% Increased Armour and Evasion";
+            this.description = "35% Increased damage while not wearing a body armour";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.Armour.SetMultiplier(
-                PlayerStatManager.Instance.Armour.GetMultiplier()+_armourEvMulti);
-            PlayerStatManager.Instance.Evasion.SetMultiplier(
-                PlayerStatManager.Instance.Evasion.GetMultiplier()+_armourEvMulti);
+            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier()+_damageMulti);
             
             this.isActive = true;
         }
         
         public override void Clear()
         {
-            PlayerStatManager.Instance.Armour.SetMultiplier(
-                PlayerStatManager.Instance.Armour.GetMultiplier() - _armourEvMulti);
-            PlayerStatManager.Instance.Evasion.SetMultiplier(
-                PlayerStatManager.Instance.Evasion.GetMultiplier() - _armourEvMulti); 
+            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier()-_damageMulti);
             
             this.isActive = false;
         }
@@ -207,13 +205,13 @@ namespace GameplayMechanics.Effects
     /* ---------------
      NOTABLES
      -----------------*/
-    // Gladiator
-    public class GladiatorEffect : SkillTreeEffect
+    // Slayer
+    public class SlayerEffect : SkillTreeEffect
     {
         private float _bleedMulti = 0.5f;
-        public GladiatorEffect()
+        public SlayerEffect()
         {
-            this.name = "Gladiator";
+            this.name = "Slayer";
             this.description = "Your attacks apply bleed, dealing 50% of your physical damage over 5 seconds";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
@@ -233,6 +231,54 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.Bleed.SetMultiplier(
                 PlayerStatManager.Instance.Bleed.GetMultiplier() - _bleedMulti);
             this.isActive = false;
+        }
+    }
+    
+    // Juggernaut
+    public class JuggernautEffect : SkillTreeEffect
+    {
+        private float _damageReductionPerEnemy = 0.05f;
+        private float _maxdamageReduction = 0.35f;
+        private float _currentdamageReduction = 0f;
+        private float _detectionRadius = 10f;
+
+        public JuggernautEffect()
+        {
+            this.name = "Juggernaut";
+            this.description = "Gain up to 5% damage reduction for each enemy nearby up to 35%.";
+            this.duration = -1f;
+            this.effectType = EffectType.Buff;
+            this.isActive = false;
+        }
+
+        public override void Apply()
+        {
+            PlayerSkillTreeManager.Instance.JuggernautRepeatingInvoke();
+            this.isActive = true;
+        }
+
+        public override void Clear()
+        {
+            isActive = false;
+        }
+
+
+        public void UpdateDamageReduction(MonoBehaviour manager)
+        {
+            _currentdamageReduction = 0f;
+            Collider[] hitColliders = Physics.OverlapSphere(manager.transform.position, _detectionRadius);
+
+            int enemycount = 0;
+            foreach (Collider hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Enemy"))
+                {
+                    enemycount++;
+                }
+            }
+
+            _currentdamageReduction = Mathf.Min(enemycount * _damageReductionPerEnemy, _maxdamageReduction);
+            PlayerStatManager.Instance.DamageReduction.SetMultiplier(_currentdamageReduction);
         }
     }
 }

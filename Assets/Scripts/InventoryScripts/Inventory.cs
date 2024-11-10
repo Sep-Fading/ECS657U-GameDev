@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
+using Player;
 using UnityEngine;
 
 namespace InventoryScripts
@@ -109,6 +111,14 @@ namespace InventoryScripts
             {
                 EquippedArmour.Unequip();
                 EquippedArmour = null;
+                
+                Debug.Log("We about to be in");
+                if (PlayerSkillTreeManager.Instance.ManagerSkillTree
+                    .branchSwordShield.GetNodeByName("Juggernaut")._effect.isActive)
+                {
+                    Debug.Log("We In");
+                    PlayerSkillTreeManager.Instance.JuggernautRepeatingInvoke();
+                }
                 return EquipmentType.ARMOR;
             }
 

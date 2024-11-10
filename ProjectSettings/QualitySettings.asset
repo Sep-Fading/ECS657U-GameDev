@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 5
+  m_CurrentQuality: 2
   m_QualitySettings:
   - serializedVersion: 3
     name: Very Low
@@ -27,7 +27,7 @@ QualitySettings:
     softVegetation: 0
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
-    useLegacyDetailDistribution: 0
+    useLegacyDetailDistribution: 1
     vSyncCount: 0
     realtimeGICPUUsage: 25
     lodBias: 0.3
@@ -76,7 +76,7 @@ QualitySettings:
     softVegetation: 0
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
-    useLegacyDetailDistribution: 0
+    useLegacyDetailDistribution: 1
     vSyncCount: 0
     realtimeGICPUUsage: 25
     lodBias: 0.4
@@ -125,7 +125,7 @@ QualitySettings:
     softVegetation: 0
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
-    useLegacyDetailDistribution: 0
+    useLegacyDetailDistribution: 1
     vSyncCount: 1
     realtimeGICPUUsage: 25
     lodBias: 0.7
@@ -142,7 +142,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: 8e6fd6ea1b655244ab295c51c881877c, type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1
     terrainDetailDensityScale: 1
@@ -174,7 +174,7 @@ QualitySettings:
     softVegetation: 1
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
-    useLegacyDetailDistribution: 0
+    useLegacyDetailDistribution: 1
     vSyncCount: 1
     realtimeGICPUUsage: 50
     lodBias: 1
@@ -223,7 +223,7 @@ QualitySettings:
     softVegetation: 1
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
-    useLegacyDetailDistribution: 0
+    useLegacyDetailDistribution: 1
     vSyncCount: 1
     realtimeGICPUUsage: 50
     lodBias: 1.5
@@ -263,16 +263,16 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
-    skinWeights: 255
+    skinWeights: 4
     globalTextureMipmapLimit: 0
     textureMipmapLimitSettings: []
     anisotropicTextures: 2
-    antiAliasing: 2
+    antiAliasing: 0
     softParticles: 1
     softVegetation: 1
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
-    useLegacyDetailDistribution: 0
+    useLegacyDetailDistribution: 1
     vSyncCount: 1
     realtimeGICPUUsage: 100
     lodBias: 2
@@ -289,7 +289,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: a2bea71e79457fb40a019a37e80cd689, type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1
     terrainDetailDensityScale: 1
@@ -303,15 +303,13 @@ QualitySettings:
   m_TextureMipmapLimitGroupNames: []
   m_PerPlatformDefaultQuality:
     Android: 2
-    EmbeddedLinux: 5
-    GameCoreScarlett: 5
-    GameCoreXboxOne: 5
-    LinuxHeadlessSimulation: 5
+    Lumin: 5
+    Nintendo 3DS: 5
     Nintendo Switch: 5
     PS4: 5
-    PS5: 5
-    QNX: 5
-    Server: 5
+    PSP2: 2
+    Server: 0
+    Stadia: 5
     Standalone: 5
     WebGL: 3
     Windows Store Apps: 5

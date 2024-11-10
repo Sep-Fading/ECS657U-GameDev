@@ -1,6 +1,7 @@
 using Combat;
 using InventoryScripts;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -65,6 +66,9 @@ public class InputManager : MonoBehaviour
     }
     private void LateUpdate()
     {
-        _look.ProcessLook(PlayerInput.grounded.looking.ReadValue<Vector2>());
+        if(UIManager.Instance.GetIsEmpty())
+        {
+            _look.ProcessLook(PlayerInput.grounded.looking.ReadValue<Vector2>());
+        }
     }
 }

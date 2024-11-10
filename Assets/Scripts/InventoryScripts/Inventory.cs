@@ -97,8 +97,8 @@ namespace InventoryScripts
                 EquippedMainHand.Equip();
                 //david part
                 this.MainHandItem = GameObject.Instantiate(EquippedMainHand.GetGameObject(),new Vector3(0,0,0),  Quaternion.identity, GameObject.FindWithTag("WeaponSlot").transform);
-                this.MainHandItem.transform.localPosition = new Vector3(0, 0, 0);
-                this.MainHandItem.transform.localRotation = Quaternion.identity;
+                this.MainHandItem.transform.localPosition = new Vector3(0.4629989f, 0f, 0.5099995f);
+                this.MainHandItem.transform.localRotation = Quaternion.Euler(0,90f,0f);
                 return EquipmentType.MAINHAND;
             }
 
@@ -116,7 +116,6 @@ namespace InventoryScripts
                 if (PlayerSkillTreeManager.Instance.ManagerSkillTree
                     .branchSwordShield.GetNodeByName("Juggernaut")._effect.isActive)
                 {
-                    Debug.Log("We In");
                     PlayerSkillTreeManager.Instance.JuggernautRepeatingInvoke();
                 }
                 return EquipmentType.ARMOR;

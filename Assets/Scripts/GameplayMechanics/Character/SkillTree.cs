@@ -332,5 +332,10 @@ namespace GameplayMechanics.Character
         {
             throw new NotImplementedException();
         }
+
+        public virtual void turnOff()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

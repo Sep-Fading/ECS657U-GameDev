@@ -49,6 +49,15 @@ namespace UI
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
+
+        public bool GetIsEmpty()
+        {
+            if (_uiStack.Count == 0)
+            {
+                return true;
+            }
+            return false;
+        }
     
     }
 }

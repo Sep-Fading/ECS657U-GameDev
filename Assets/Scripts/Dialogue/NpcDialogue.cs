@@ -61,6 +61,11 @@ namespace Dialogue
                 gameObject.SetActive(false); //REMOVE LATER WHEN ADDED BUTTONS TO INTERACT WITH
                 //- THIS CLOSES THE UI WHEN DONE TALKING, BUT YOU MIGHT WANT TO STAY LONGER
                 UIManager.Instance.PopUIByGameObject(gameObject);
+
+                if (npcName == "Bernard")
+                {
+                    GameStateManager.Instance.SetTransitionState(true);
+                }
             }
         }
 

@@ -114,6 +114,7 @@ namespace InventoryScripts
                     new Vector3(0,0,0),  Quaternion.identity, GameObject.FindWithTag("WeaponSlot").transform);
                 this.MainHandItem.transform.localPosition = new Vector3(0.4629989f, 0f, 0.5099995f);
                 this.MainHandItem.transform.localRotation = Quaternion.Euler(0,90f,0f);
+                this.MainHandItem.tag = "Weapon";
                 return EquipmentType.MAINHAND;
             }
 

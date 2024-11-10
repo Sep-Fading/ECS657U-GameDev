@@ -143,43 +143,43 @@ namespace Player
         }
 
         private bool CheckActiveChildren(int index)
-        {
-            SkillNode currentNode = ManagerSkillTree.branchSwordShield.SkillNodes[index];
+{
+    SkillNode currentNode = ManagerSkillTree.branchSwordShield.SkillNodes[index];
     
-            // If the current node has no children, return false
-            if (currentNode.children == null || currentNode.children.Count == 0)
-            {
-                return false;
-            }
+    // If the current node has no children, return false
+    if (currentNode.children == null || currentNode.children.Count == 0)
+    {
+        return false;
+    }
 
-            // Iterate over each child of the current node
-            foreach (SkillNode childNode in currentNode.children)
+    // Iterate over each child of the current node
+    foreach (SkillNode childNode in currentNode.children)
+    {
+        // Check if the child node is active
+        if (childNode._effect.isActive)
+        {
+            bool otherParentActive = false;
+
+            // Check if any other parent of the child node is active
+            foreach (SkillNode parentNode in childNode.parent)
             {
-                // Check if the child node is active
-                if (childNode._effect.isActive)
+                if (parentNode != currentNode && parentNode._effect.isActive)
                 {
-                    bool otherParentActive = false;
-
-                    // Check if any other parent of the child node is active
-                    foreach (SkillNode parentNode in childNode.parent)
-                    {
-                        if (parentNode != currentNode && parentNode._effect.isActive)
-                        {
-                            otherParentActive = true;
-                            break; // Stop checking other parents if one is active
-                        }
-                    }
-
-                    // If no other parents are active, this child depends solely on the current node
-                    if (!otherParentActive)
-                    {
-                        return true; // Return true if the child has no other active parent
-                    }
+                    otherParentActive = true;
+                    break; // Stop checking other parents if one is active
                 }
             }
 
-            return false; // Return false if all active children have other active parents
+            // If no other parents are active, this child depends solely on the current node
+            if (!otherParentActive)
+            {
+                return true; // Return true if the child has no other active parent
+            }
         }
+    }
+
+    return false; // Return false if all active children have other active parents
+}
 
 
         private void UpdateButtonAppearance(int index)

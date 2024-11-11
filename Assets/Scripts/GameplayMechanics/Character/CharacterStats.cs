@@ -37,7 +37,7 @@ namespace GameplayMechanics.Character
             Evasion = new Stat("Evasion", 0f);
             Life = new Stat("Life", 100f);
             Stamina = new Stat("Stamina", 100f);
-            MeleeDamage = new Stat("MeleeDamage", 10f);
+            MeleeDamage = new Stat("MeleeDamage", 0f);
             BlockEffect = new Stat("BlockEffect", 0.05f);
             Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
             DamageReduction = new Stat("DamageReduction", 0);

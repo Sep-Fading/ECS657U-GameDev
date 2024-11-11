@@ -18,7 +18,7 @@ namespace Player
             PlayerStatManager.Instance.Armour.SetFlat(0.0f);
             PlayerStatManager.Instance.Evasion.SetFlat(0.0f);
             PlayerStatManager.Instance.BlockEffect.SetFlat(0.0f);
-            PlayerStatManager.Instance.MeleeDamage.SetFlat(20.0f);
+            PlayerStatManager.Instance.MeleeDamage.SetFlat(0.0f);
 
             /* --- XP Manager ---*/
             XpManager.Initialize();

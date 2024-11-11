@@ -8092,6 +8092,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemPrefab: {fileID: 7311507267931744905, guid: 0fe8c4ad20ce8b946a61d68e14e204e0, type: 3}
   equipmentType: 2
+  name: Longsword
+  description: A reliable blade to strike with.
+  equipmentEffectTypes:
+  - _equipmentType: 0
+    multi: 0
+    flat: 35
+  - _equipmentType: 1
+    multi: 0.25
+    flat: 0
 --- !u!4 &2131410957 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7943331267950571571, guid: 0fe8c4ad20ce8b946a61d68e14e204e0, type: 3}

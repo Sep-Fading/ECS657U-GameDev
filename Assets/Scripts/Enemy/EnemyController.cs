@@ -43,13 +43,13 @@ namespace Enemy
 
         private void Awake()
         {
-            player = GameObject.FindWithTag("Player");
+            player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
             if (player != null)
             {
                 playerTransform = player.transform;
                 playerMotor = player.GetComponent<PlayerMotor>();
             }
-            playerWeaponAnimator = GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>();
+            playerWeaponAnimator = GameStateSaver.Instance.GetSharedObjectByName("WeaponHolder").GetComponent<Animator>();
             enemyRenderer = GetComponent<Renderer>();
             enemyRenderer.material = defaultMaterial;
             wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();

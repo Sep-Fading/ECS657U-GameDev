@@ -8,15 +8,7 @@ public class EnemyHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerPos = GameObject.FindWithTag("Player").transform;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //transform.LookAt(playerPos);
-        //Vector3 currentRotation = transform.eulerAngles;
-        //currentRotation.y += 180;
-        //transform.eulerAngles = currentRotation;
+        //playerPos = GameObject.FindWithTag("Player").transform;
+        playerPos = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject").transform;
     }
 }

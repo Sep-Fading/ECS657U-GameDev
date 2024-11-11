@@ -18,6 +18,7 @@ namespace InventoryScripts
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            Debug.Log($"OnPointerClick: {equipmentIndex}");
             _inventoryManager.MoveToInventory(equipmentType, equipmentIndex);
         }
     }

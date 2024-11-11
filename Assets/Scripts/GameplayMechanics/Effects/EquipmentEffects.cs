@@ -6,94 +6,131 @@ namespace GameplayMechanics.Effects
     // This class extends IEffect interface
     // to create some effects for equipment such as 
     // the stats on that piece of equipment.
-    public class EquipmentEffects : IEffect
+    
+    public class EquipmentEffect : IEffect
     {
         public EffectType effectType { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public float duration { get; set; }
+        
+        public virtual void Apply()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
         private EquipmentType _equipmentType;
-        public bool equipped = false;
+        public bool Equipped = false;
         
-        /* --- Some base values to work with --- */
-        private float armourAddedValue = 100f;
-        private float evasionAddedValue = 100f;
-        private float healthAddedValue = 10f;
-        private float damageAddedValue = 10f;
-        private float blockAddedValue = 0.1f;
+    }
 
-        public EquipmentEffects(EquipmentType equipmentType)
+    public class FlatMeleeDamageEffect : EquipmentEffect
+    {
+        private float FlatMeleeDamage;
+        private string _text;
+
+        internal FlatMeleeDamageEffect(float flat)
         {
-            _equipmentType = equipmentType;
-            if (_equipmentType == EquipmentType.ARMOR)
-            {
-                this.name = "Armour";
-                this.description = $"+{armourAddedValue} Armour\n +{evasionAddedValue} evasion";
-            }
-
-            if (_equipmentType == EquipmentType.OFFHAND)
-            {
-                this.name = "Shield";
-                this.description = $"+{healthAddedValue} Health";
-            }
-
-            if (_equipmentType == EquipmentType.MAINHAND)
-            {
-                this.name = "Sword";
-                this.description = $"+{damageAddedValue} Damage";
-            }
-        }
-        
-        
-        public void Apply()
-        {
-            if (_equipmentType == EquipmentType.ARMOR)
-            {
-                PlayerStatManager.Instance.Armour.SetAdded(
-                    PlayerStatManager.Instance.Armour.GetAdded() + armourAddedValue);
-                PlayerStatManager.Instance.Evasion.SetAdded(
-                    PlayerStatManager.Instance.Evasion.GetAdded() + evasionAddedValue);
-            }
-
-            if (_equipmentType == EquipmentType.MAINHAND)
-            {
-                PlayerStatManager.Instance.MeleeDamage.SetAdded(
-                    PlayerStatManager.Instance.MeleeDamage.GetAdded() + damageAddedValue);
-            }
-
-            if (_equipmentType == EquipmentType.OFFHAND)
-            {
-                PlayerStatManager.Instance.Life.SetFlat(
-                    PlayerStatManager.Instance.Life.GetAdded() + healthAddedValue);
-            }
-
-            equipped = true;
+            _text = $"{FlatMeleeDamage} Added Physical Damage";
+            FlatMeleeDamage = flat;
         }
 
-        public void Clear()
+        public override void Apply()
         {
-            if (_equipmentType == EquipmentType.ARMOR)
-            {
-                PlayerStatManager.Instance.Armour.SetAdded(
-                    PlayerStatManager.Instance.Armour.GetAdded() - armourAddedValue);
-                PlayerStatManager.Instance.Evasion.SetAdded(
-                    PlayerStatManager.Instance.Evasion.GetAdded() - evasionAddedValue);
-            }
-
-            if (_equipmentType == EquipmentType.MAINHAND)
-            {
-                PlayerStatManager.Instance.MeleeDamage.SetAdded(
-                    PlayerStatManager.Instance.MeleeDamage.GetAdded() - damageAddedValue);
-            }
-
-            if (_equipmentType == EquipmentType.OFFHAND)
-            {
-                PlayerStatManager.Instance.Life.SetFlat(
-                    PlayerStatManager.Instance.Life.GetAdded() - healthAddedValue);
-            }
-
-            equipped = false;
+            PlayerStatManager.Instance.MeleeDamage.SetAdded(
+                PlayerStatManager.Instance.MeleeDamage.GetAdded() + FlatMeleeDamage);
         }
+
+        public override void Clear()
+        {
+            PlayerStatManager.Instance.MeleeDamage.SetAdded(
+                PlayerStatManager.Instance.MeleeDamage.GetAdded() - FlatMeleeDamage);
+        }
+        
+        public string GetDisplayDescription() => _text;
+    }
+
+    public class MultiplierMeleeDamageEffect : EquipmentEffect
+    {
+        private float MultiplierMeleeDamage;
+        private string _text;
+
+        internal MultiplierMeleeDamageEffect(float multi)
+        {
+            _text = $"{MultiplierMeleeDamage*100}% Increased Physical Damage";
+            MultiplierMeleeDamage = multi;
+        }
+
+        public override void Apply()
+        {
+            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier() + MultiplierMeleeDamage);
+        }
+
+        public override void Clear()
+        {
+            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier() - MultiplierMeleeDamage);
+        }
+        
+        public string GetDisplayDescription() => _text;
+    }
+
+    public class FlatArmourEffect : EquipmentEffect
+    {
+        private float FlatArmour;
+        private string _text;
+
+        internal FlatArmourEffect(float flat)
+        {
+            _text = $"Armour : {FlatArmour}";
+            FlatArmour = flat;
+        }
+
+        public override void Apply()
+        {
+            PlayerStatManager.Instance.Armour.SetFlat(
+                PlayerStatManager.Instance.Armour.GetAdded() + FlatArmour);
+        }
+
+        public override void Clear()
+        {
+            PlayerStatManager.Instance.Armour.SetFlat(
+                PlayerStatManager.Instance.Armour.GetFlat() - FlatArmour);
+        }
+        
+        public string GetDisplayDescription() => _text;
+    }
+    
+    public class MultiplierArmourEffect : EquipmentEffect
+    {
+        private float MultiplierArmour;
+        private string _text;
+
+        internal MultiplierArmourEffect(float multi)
+        {
+            _text = $"{MultiplierArmour*100}% Increased Armour";
+            MultiplierArmour = multi;
+        }
+
+        public override void Apply()
+        {
+            PlayerStatManager.Instance.Armour.SetMultiplier(
+                PlayerStatManager.Instance.Armour.GetMultiplier() + MultiplierArmour);
+        }
+
+        public override void Clear()
+        {
+            PlayerStatManager.Instance.Armour.SetMultiplier(
+                PlayerStatManager.Instance.Armour.GetMultiplier() - MultiplierArmour);
+        }
+        
+        public string GetDisplayDescription() => _text;
     }
 
     public enum EquipmentType
@@ -103,4 +140,5 @@ namespace GameplayMechanics.Effects
         MAINHAND,
         OFFHAND
     }
+
 }

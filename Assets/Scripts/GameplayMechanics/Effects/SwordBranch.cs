@@ -1,4 +1,5 @@
 using GameplayMechanics.Character;
+using InventoryScripts;
 using Player;
 using UnityEngine;
 
@@ -111,12 +112,12 @@ namespace GameplayMechanics.Effects
     // Block Effectiveness Travel Node
     public class AddedBlockEffect : SkillTreeEffect
     {
-        private float _addedBlockEffect = 0.01f;
+        private float _addedBlockEffect = 0.025f;
 
         public AddedBlockEffect()
         {
             this.name = "1% Added Effectiveness of Block";
-            this.description = "Increases the player's block effectiveness by 1%";
+            this.description = "Increases the player's block effectiveness by 2.5%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }
@@ -179,7 +180,7 @@ namespace GameplayMechanics.Effects
 
         public VersatilityMasteryEffect()
         {
-            this.name = "Versatile Combatant Mastery";
+            this.name = "Versatile Combatant";
             this.description = "35% Increased damage while not wearing a body armour";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
@@ -187,18 +188,30 @@ namespace GameplayMechanics.Effects
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
-                PlayerStatManager.Instance.MeleeDamage.GetMultiplier()+_damageMulti);
-            
+            if (Inventory.Instance.EquippedArmour == null)
+            {
+                PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                    PlayerStatManager.Instance.MeleeDamage.GetMultiplier() + _damageMulti);
+            }
+
             this.isActive = true;
         }
         
         public override void Clear()
         {
+            if (Inventory.Instance.EquippedArmour == null)
+            {
+                PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
+                    PlayerStatManager.Instance.MeleeDamage.GetMultiplier() - _damageMulti);
+            }
+
+            this.isActive = false;
+        }
+
+        public override void turnOff()
+        {
             PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.MeleeDamage.GetMultiplier()-_damageMulti);
-            
-            this.isActive = false;
         }
     }
     
@@ -209,17 +222,18 @@ namespace GameplayMechanics.Effects
     public class SlayerEffect : SkillTreeEffect
     {
         private float _bleedMulti = 0.5f;
+        private float _bleedChance = 0.5f;
         public SlayerEffect()
         {
             this.name = "Slayer";
-            this.description = "Your attacks apply bleed, dealing 50% of your physical damage over 5 seconds";
+            this.description = "Your attacks have a 50% chance to apply bleed, dealing 50% of your physical damage over 5 seconds";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.Bleed.SetChance(1f);
+            PlayerStatManager.Instance.Bleed.SetChance(_bleedChance);
             PlayerStatManager.Instance.Bleed.SetMultiplier(
                 PlayerStatManager.Instance.Bleed.GetMultiplier() + _bleedMulti);
             this.isActive = true;
@@ -231,6 +245,16 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.Bleed.SetMultiplier(
                 PlayerStatManager.Instance.Bleed.GetMultiplier() - _bleedMulti);
             this.isActive = false;
+        }
+
+        public override void turnOff()
+        {
+            if (this.isActive)
+            {
+                PlayerStatManager.Instance.Bleed.SetChance(0f);
+                PlayerStatManager.Instance.Bleed.SetMultiplier(
+                    PlayerStatManager.Instance.Bleed.GetMultiplier() - _bleedMulti);
+            }
         }
     }
     
@@ -273,6 +297,7 @@ namespace GameplayMechanics.Effects
             {
                 if (hitCollider.CompareTag("Enemy"))
                 {
+                    Debug.Log($"Juggernaut : {enemycount} Enemies around you!");
                     enemycount++;
                 }
             }

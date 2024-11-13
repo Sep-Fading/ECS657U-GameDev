@@ -31,25 +31,25 @@ namespace GameplayMechanics.Effects
 
     public class FlatMeleeDamageEffect : EquipmentEffect
     {
-        private float FlatMeleeDamage;
-        private string _text;
+        private readonly float _flatMeleeDamage;
+        private readonly string _text;
 
         internal FlatMeleeDamageEffect(float flat)
         {
-            _text = $"{FlatMeleeDamage} Added Physical Damage";
-            FlatMeleeDamage = flat;
+            _text = $"{_flatMeleeDamage} Added Physical Damage";
+            _flatMeleeDamage = flat;
         }
 
         public override void Apply()
         {
             PlayerStatManager.Instance.MeleeDamage.SetAdded(
-                PlayerStatManager.Instance.MeleeDamage.GetAdded() + FlatMeleeDamage);
+                PlayerStatManager.Instance.MeleeDamage.GetAdded() + _flatMeleeDamage);
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.MeleeDamage.SetAdded(
-                PlayerStatManager.Instance.MeleeDamage.GetAdded() - FlatMeleeDamage);
+                PlayerStatManager.Instance.MeleeDamage.GetAdded() - _flatMeleeDamage);
         }
         
         public string GetDisplayDescription() => _text;
@@ -57,25 +57,25 @@ namespace GameplayMechanics.Effects
 
     public class MultiplierMeleeDamageEffect : EquipmentEffect
     {
-        private float MultiplierMeleeDamage;
-        private string _text;
+        private readonly float _multiplierMeleeDamage;
+        private readonly string _text;
 
         internal MultiplierMeleeDamageEffect(float multi)
         {
-            _text = $"{MultiplierMeleeDamage*100}% Increased Physical Damage";
-            MultiplierMeleeDamage = multi;
+            _text = $"{_multiplierMeleeDamage*100}% Increased Physical Damage";
+            _multiplierMeleeDamage = multi;
         }
 
         public override void Apply()
         {
             PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
-                PlayerStatManager.Instance.MeleeDamage.GetMultiplier() + MultiplierMeleeDamage);
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier() + _multiplierMeleeDamage);
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
-                PlayerStatManager.Instance.MeleeDamage.GetMultiplier() - MultiplierMeleeDamage);
+                PlayerStatManager.Instance.MeleeDamage.GetMultiplier() - _multiplierMeleeDamage);
         }
         
         public string GetDisplayDescription() => _text;
@@ -83,25 +83,25 @@ namespace GameplayMechanics.Effects
 
     public class FlatArmourEffect : EquipmentEffect
     {
-        private float FlatArmour;
-        private string _text;
+        private readonly float _flatArmour;
+        private readonly string _text;
 
         internal FlatArmourEffect(float flat)
         {
-            _text = $"Armour : {FlatArmour}";
-            FlatArmour = flat;
+            _text = $"Armour : {_flatArmour}";
+            _flatArmour = flat;
         }
 
         public override void Apply()
         {
             PlayerStatManager.Instance.Armour.SetFlat(
-                PlayerStatManager.Instance.Armour.GetAdded() + FlatArmour);
+                PlayerStatManager.Instance.Armour.GetAdded() + _flatArmour);
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.Armour.SetFlat(
-                PlayerStatManager.Instance.Armour.GetFlat() - FlatArmour);
+                PlayerStatManager.Instance.Armour.GetFlat() - _flatArmour);
         }
         
         public string GetDisplayDescription() => _text;
@@ -109,25 +109,25 @@ namespace GameplayMechanics.Effects
     
     public class MultiplierArmourEffect : EquipmentEffect
     {
-        private float MultiplierArmour;
-        private string _text;
+        private readonly float _multiplierArmour;
+        private readonly string _text;
 
         internal MultiplierArmourEffect(float multi)
         {
-            _text = $"{MultiplierArmour*100}% Increased Armour";
-            MultiplierArmour = multi;
+            _text = $"{_multiplierArmour*100}% Increased Armour";
+            _multiplierArmour = multi;
         }
 
         public override void Apply()
         {
             PlayerStatManager.Instance.Armour.SetMultiplier(
-                PlayerStatManager.Instance.Armour.GetMultiplier() + MultiplierArmour);
+                PlayerStatManager.Instance.Armour.GetMultiplier() + _multiplierArmour);
         }
 
         public override void Clear()
         {
             PlayerStatManager.Instance.Armour.SetMultiplier(
-                PlayerStatManager.Instance.Armour.GetMultiplier() - MultiplierArmour);
+                PlayerStatManager.Instance.Armour.GetMultiplier() - _multiplierArmour);
         }
         
         public string GetDisplayDescription() => _text;

@@ -1,3 +1,4 @@
+using GameplayMechanics.Character;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,8 @@ namespace Player
         {
             controller = GetComponent<CharacterController>(); 
             GameStateManager.Initialize();
+            normalSpeed = PlayerStatManager.Instance.MoveSpeed.GetAppliedTotal();
+            sprintSpeed = PlayerStatManager.Instance.SprintSpeed.GetAppliedTotal();
             speed = normalSpeed;
         }
 

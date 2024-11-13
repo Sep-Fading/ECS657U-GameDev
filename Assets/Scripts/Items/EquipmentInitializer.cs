@@ -3,6 +3,7 @@ using System.Linq;
 using GameplayMechanics.Effects;
 using InventoryScripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items
 {
@@ -10,38 +11,38 @@ namespace Items
     // GameObject.
     public class EquipmentInitializer : MonoBehaviour
     {
-        public Equipment equipment;
-        [SerializeField] public GameObject ItemPrefab;
+        public Equipment Equipment;
+        [FormerlySerializedAs("ItemPrefab")] [SerializeField] public GameObject itemPrefab;
         [SerializeField] private EquipmentType equipmentType = EquipmentType.NONE;
         [SerializeField] private string name;
         [SerializeField] private string description;
         [SerializeField] private List<StatInfo> equipmentEffectTypes;
-        private List<EquipmentEffect> equipmentEffects = new List<EquipmentEffect>();
+        private readonly List<EquipmentEffect> _equipmentEffects = new List<EquipmentEffect>();
         void Start()
         {
             if (equipmentType != EquipmentType.NONE)
             {
                 foreach (StatInfo stat in equipmentEffectTypes)
                 {
-                    if (stat._equipmentType == EquipmentEffectTypes.FLAT_MELEE_DAMAGE)
+                    if (stat.equipmentType == EquipmentEffectTypes.FLAT_MELEE_DAMAGE)
                     {
-                        equipmentEffects.Add(new FlatMeleeDamageEffect(stat.flat));
+                        _equipmentEffects.Add(new FlatMeleeDamageEffect(stat.flat));
                     }
-                    else if (stat._equipmentType == EquipmentEffectTypes.MULTI_MELEE_DAMAGE)
+                    else if (stat.equipmentType == EquipmentEffectTypes.MULTI_MELEE_DAMAGE)
                     {
-                        equipmentEffects.Add(new MultiplierMeleeDamageEffect(stat.multi));
+                        _equipmentEffects.Add(new MultiplierMeleeDamageEffect(stat.multi));
                     }
-                    else if (stat._equipmentType == EquipmentEffectTypes.FLAT_ARMOUR)
+                    else if (stat.equipmentType == EquipmentEffectTypes.FLAT_ARMOUR)
                     {
-                        equipmentEffects.Add(new FlatArmourEffect(stat.flat));
+                        _equipmentEffects.Add(new FlatArmourEffect(stat.flat));
                     }
-                    else if (stat._equipmentType == EquipmentEffectTypes.MULTI_ARMOUR)
+                    else if (stat.equipmentType == EquipmentEffectTypes.MULTI_ARMOUR)
                     {
-                        equipmentEffects.Add(new MultiplierArmourEffect(stat.multi));
+                        _equipmentEffects.Add(new MultiplierArmourEffect(stat.multi));
                     }
                 }
-                equipment = new Equipment(name, description, equipmentType, ItemPrefab,
-                    equipmentEffects);
+                Equipment = new Equipment(name, description, equipmentType, itemPrefab,
+                    _equipmentEffects);
             }
         }
     }
@@ -57,7 +58,7 @@ namespace Items
     [System.Serializable]
     class StatInfo
     {
-        public EquipmentEffectTypes _equipmentType;
+        [FormerlySerializedAs("_equipmentType")] public EquipmentEffectTypes equipmentType;
         public float multi;
         public float flat;
     }

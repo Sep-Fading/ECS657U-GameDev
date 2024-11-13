@@ -4,7 +4,9 @@ using System.Linq;
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using InventoryScripts;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -24,13 +26,19 @@ namespace Player
         [SerializeField] private Transform connectionsParentTransform;
         [SerializeField] private Transform[] connectionsChildTransforms;
         public List<NodeConnection> connections;
+
+        [SerializeField] private TextMeshProUGUI tooltipTitle;
+        [SerializeField] private TextMeshProUGUI tooltipDesc;
         void Start()
         {
             Instance = this;
             ManagerSkillTree = new SkillTree();
             _skillTreeButtonsStatus = new bool[skillTreeButtons.Length];
-            skillTreeUI.SetActive(false);
+            
+            tooltipTitle = GameObject.Find("-- ToolTip").transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            tooltipDesc = GameObject.Find("-- ToolTip").transform.Find("Description").GetComponent<TextMeshProUGUI>();
 
+            skillTreeUI.SetActive(false);
             // Default state of nodes (DISABLED)
             for (int i = 0; i < _skillTreeButtonsStatus.Length; i++)
             {
@@ -42,10 +50,51 @@ namespace Player
             {
                 int index = i;
                 skillTreeButtons[i].onClick.AddListener(() => ToggleButtonState(index));
+
+                AddHoverEvents(skillTreeButtons[i], index);
             }
             
             // Cheats
             XpManager.SetCurrentSkillPoints(SkillCheats);
+        }
+
+        private void AddHoverEvents(Button button, int index)
+        {
+            EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
+            
+            // Entry
+            EventTrigger.Entry entryEnter = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerEnter
+            };
+            
+            entryEnter.callback.AddListener((data) => OnButtonHoverStart(index));
+            trigger.triggers.Add(entryEnter);
+            
+            // Exit
+            EventTrigger.Entry entryExit = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerExit
+            };
+            entryExit.callback.AddListener((data) => OnButtonHoverEnd());
+            trigger.triggers.Add(entryExit);
+        }
+
+        private void OnButtonHoverEnd()
+        {
+            tooltipTitle.text = "";
+            tooltipDesc.text = "";
+            tooltipTitle.gameObject.SetActive(false);
+            tooltipDesc.gameObject.SetActive(false);
+        }
+
+        private void OnButtonHoverStart(int index)
+        {
+            SkillNode node = ManagerSkillTree.branchSwordShield.SkillNodes[index];
+            tooltipTitle.text = node.name;
+            tooltipDesc.text = node._effect.description;
+            tooltipDesc.gameObject.SetActive(true);
+            tooltipTitle.gameObject.SetActive(true);
         }
 
         private void ToggleButtonState(int index)
@@ -94,21 +143,44 @@ namespace Player
         }
 
         private bool CheckActiveChildren(int index)
+{
+    SkillNode currentNode = ManagerSkillTree.branchSwordShield.SkillNodes[index];
+    
+    // If the current node has no children, return false
+    if (currentNode.children == null || currentNode.children.Count == 0)
+    {
+        return false;
+    }
+
+    // Iterate over each child of the current node
+    foreach (SkillNode childNode in currentNode.children)
+    {
+        // Check if the child node is active
+        if (childNode._effect.isActive)
         {
-            if (ManagerSkillTree.branchSwordShield.SkillNodes[index].children == null)
+            bool otherParentActive = false;
+
+            // Check if any other parent of the child node is active
+            foreach (SkillNode parentNode in childNode.parent)
             {
-                return false;
-            }
-            foreach (SkillNode node in ManagerSkillTree.branchSwordShield.SkillNodes[index].children)
-            {
-                if (node._effect.isActive)
+                if (parentNode != currentNode && parentNode._effect.isActive)
                 {
-                    return true;
+                    otherParentActive = true;
+                    break; // Stop checking other parents if one is active
                 }
             }
 
-            return false;
+            // If no other parents are active, this child depends solely on the current node
+            if (!otherParentActive)
+            {
+                return true; // Return true if the child has no other active parent
+            }
         }
+    }
+
+    return false; // Return false if all active children have other active parents
+}
+
 
         private void UpdateButtonAppearance(int index)
         {
@@ -162,12 +234,13 @@ namespace Player
 
             if (effect is JuggernautEffect juggernautEffect)
             {
-                if (Inventory.Instance.EquippedArmour == null)
+                if (Inventory.Instance.EquippedArmour != null)
                 {
-                    juggernautEffect.UpdateDamageReduction(this); // Ensure UpdateDamageReduction is parameterless
+                    juggernautEffect.UpdateDamageReduction(this);
                 }
                 else
                 {
+                    Debug.Log("No Juggernaut");
                     CancelInvoke(nameof(UpdateJuggernautEffect));
                 }
             }

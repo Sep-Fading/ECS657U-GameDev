@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675711849811898812}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.16400003, y: -0.5860001, z: 0.296}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,7 +33,6 @@ Transform:
   - {fileID: 8206892620013136470}
   - {fileID: 923475016708371170}
   m_Father: {fileID: 3229383380274777777}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3092909570279148212
 Animator:
@@ -81,6 +81,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520966280791487784}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -88,7 +89,6 @@ Transform:
   m_Children:
   - {fileID: 4571435885037920825}
   m_Father: {fileID: 5702201869673132794}
-  m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3782069317876617588
 Camera:
@@ -172,6 +172,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999134075822481770}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -179,7 +180,6 @@ Transform:
   m_Children:
   - {fileID: 187609269678773053}
   m_Father: {fileID: 4571435885037920825}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5218530265393794694
 GameObject:
@@ -204,6 +204,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5218530265393794694}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -211,7 +212,6 @@ Transform:
   m_Children:
   - {fileID: 8100465762974054735}
   m_Father: {fileID: 4571435885037920825}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7127359042228535284
 GameObject:
@@ -239,13 +239,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7127359042228535284}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.13200045, y: 0.11600065, z: 0.37600064}
   m_LocalScale: {x: 0.8, y: 0.009999998, z: 0.80000013}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 923475016708371170}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &6873460004345115112
 MeshFilter:
@@ -343,6 +343,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7228067489444790241}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.2, y: 23.3, z: -26.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -350,7 +351,6 @@ Transform:
   m_Children:
   - {fileID: 5702201869673132794}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7693003015074817163
 GameObject:
@@ -388,6 +388,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7693003015074817163}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5.01, y: 2.65, z: -1.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -395,7 +396,6 @@ Transform:
   m_Children:
   - {fileID: 3229383380274777777}
   m_Father: {fileID: 5784477208606227619}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7152199848355872708
 MeshFilter:
@@ -488,7 +488,7 @@ MonoBehaviour:
   interactableDistance: 3
   mask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   canPickUp: 0
 --- !u!114 &6203096422365950721
 MonoBehaviour:
@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8e971790111fd4ea0ef0ac00c24b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillTreeUI: {fileID: 0}
+  skillTreeUI: {fileID: 0}
   skillTreeButtons:
   - {fileID: 0}
   - {fileID: 0}
@@ -589,6 +589,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  SkillCheats: 0
+  connectionsParentTransform: {fileID: 0}
+  connectionsChildTransforms: []
+  connections: []
+  tooltipTitle: {fileID: 0}
+  tooltipDesc: {fileID: 0}
 --- !u!114 &4599595182133682577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,6 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b23a87b0587401899cc70f845dcfbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   weaponPrefab: {fileID: 675711849811898812}
   weaponColliderParent: {fileID: 4763626840160307768}
 --- !u!114 &7105068842563505672

@@ -37,7 +37,7 @@ namespace GameplayMechanics.Character
             Evasion = new Stat("Evasion", 0f);
             Life = new Stat("Life", 100f);
             Stamina = new Stat("Stamina", 100f);
-            MeleeDamage = new Stat("MeleeDamage", 10f);
+            MeleeDamage = new Stat("MeleeDamage", 0f);
             BlockEffect = new Stat("BlockEffect", 0.05f);
             Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
             DamageReduction = new Stat("DamageReduction", 0);
@@ -64,7 +64,8 @@ namespace GameplayMechanics.Character
                    $" {Armour.GetName()}, {Armour.GetAppliedTotal()} \n" +
                    $" {Evasion.GetName()}, {Evasion.GetAppliedTotal()} \n" +
                    $" {BlockEffect.GetName()}, {BlockEffect.GetAppliedTotal()} \n" +
-                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n";
+                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n" +
+                   $" Bleed Chance, {Bleed.GetChance() * 100}%";
         }
         
         public string GetHealth() => this.Life.GetAppliedTotal().ToString();

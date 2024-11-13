@@ -14,6 +14,7 @@ namespace InventoryScripts
         [FormerlySerializedAs("_inventoryItemsUI")] public GameObject[] inventoryItemsUI = new GameObject[3];
         [FormerlySerializedAs("_equippedItemsUI")] public GameObject[] equippedItemsUI = new GameObject[3];
         // Start is called before the first frame update
+
         void Start()
         {
             Inventory.Initialize();
@@ -66,6 +67,7 @@ namespace InventoryScripts
 
         public void MoveToInventory(EquipmentType equipmentType, int i)
         {
+            Debug.Log("MoveToInventory");
             Equipment equipment;
             if (equipmentType == EquipmentType.MAINHAND)
             {

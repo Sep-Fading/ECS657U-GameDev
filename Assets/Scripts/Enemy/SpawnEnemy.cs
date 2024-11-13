@@ -6,6 +6,11 @@ public class SpawnEnemy : MonoBehaviour
 {
     public GameObject enemyPrefab;
     float timeSince = 0f;
+
+    [SerializeField] private float xRangeMin = 125f;
+    [SerializeField] private float xRangeMax = 280f;
+    [SerializeField] private float yRangeMin = 125f;
+    [SerializeField] private float yRangeMax = 350f;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +32,7 @@ public class SpawnEnemy : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            Instantiate(enemyPrefab, new Vector3(Random.Range(-149, 149), 20f, Random.Range(-149, 149)), Quaternion.identity, transform);
+            Instantiate(enemyPrefab, new Vector3(Random.Range(xRangeMin, xRangeMax), 20f, Random.Range(yRangeMin, yRangeMax)), Quaternion.identity, transform);
         }
     }
 }

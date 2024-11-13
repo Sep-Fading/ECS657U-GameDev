@@ -1,6 +1,6 @@
 <h1>Crusade Against the Undead</h1>
 <h3>Project Link: https://github.com/users/Sep-Fading/projects/1</h3>
-<h3>Link to WebGL Latest Release: https://sep-fading.github.io/ECS657U-GameDev-Builds/v0.4(PrototypeFinal)/index.html</h3>
+<h3>Link to WebGL Latest Release: https://sep-fading.github.io/ECS657U-GameDev-Builds/v0.5/index.html</h3>
 <br>
 A medieval zombie survival game.
 
@@ -46,4 +46,13 @@ Try to die less than we did :)
   <li>UnityAssetStore Pixel Art Icon Pack - RPG - https://assetstore.unity.com/packages/2d/gui/icons/pixel-art-icon-pack-rpg-158343</li>
   <li>UnityAssetStore GUI Parts - https://assetstore.unity.com/packages/2d/gui/icons/gui-parts-159068</li>
   <li>Tooltip Tutorial by CodeMonkey - https://www.youtube.com/watch?v=d_qk7egZ8_c</li>
+  <li>Lowpoly Medieval Peasants - https://assetstore.unity.com/packages/3d/characters/humanoids/humans/lowpoly-medieval-peasants-free-medieval-fantasy-series-122225</li>
+  <li>Lowpoly Medieval Weapons Pack - https://assetstore.unity.com/packages/3d/props/weapons/lowpoly-medieval-weapon-pack-291374</li>
+  <li>Handpainted Grass and Ground Textures - https://assetstore.unity.com/packages/2d/textures-materials/nature/handpainted-grass-ground-textures-187634</li>
+  <li>Lowpoly Medieval Market - https://assetstore.unity.com/packages/3d/environments/low-poly-medieval-market-262473</li>
+  <li>Ultimate Lowpoly Dungeon - https://assetstore.unity.com/packages/3d/environments/dungeons/ultimate-low-poly-dungeon-143535</li>
+  <li>Mixamo animation packs - https://www.mixamo.com/#/?page=1&query=idle</li>
+  <li>Dafont - https://www.dafont.com/alkhemikal.font</li>
+  <li>Campfires and Torches Models - https://assetstore.unity.com/packages/3d/environments/campfires-torches-models-and-fx-242552 </li>
+  <li>Volumetric Fog - https://assetstore.unity.com/packages/vfx/shaders/fullscreen-camera-effects/volumetric-fog-urp-277702</li>
 </ul>

@@ -1,6 +1,7 @@
 using Combat;
 using InventoryScripts;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -61,10 +62,22 @@ public class InputManager : MonoBehaviour
     //getting the player to move based off of the inputs
     private void FixedUpdate()
     {
-        _playerMotor.ProcessMove(PlayerInput.grounded.movement.ReadValue<Vector2>());
+        if (!GameStateManager.Instance.GetTransitionState())
+        {
+            _playerMotor.ProcessMove(PlayerInput.grounded.movement.ReadValue<Vector2>());
+        }
+        else
+        {
+            gameObject.transform.position = new Vector3(300f, 10f, 250f);
+            GameStateManager.Instance.SetTransitionState(false);
+            GameStateManager.Instance.MoveToNextScene("World-v0.1");
+        }
     }
     private void LateUpdate()
     {
-        _look.ProcessLook(PlayerInput.grounded.looking.ReadValue<Vector2>());
+        if(UIManager.Instance.GetIsEmpty())
+        {
+            _look.ProcessLook(PlayerInput.grounded.looking.ReadValue<Vector2>());
+        }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 // Script handling player locomotions & 
 // Movement related logic.
@@ -14,8 +15,8 @@ namespace Player
         public float sprintSpeed = 8f;
         private float crouchSpeed = 3f;
         private float crouchRate = 2.5f; //2.5f is currently the most realistic
-        public float gravity = -20f;
-        public float jumpheight = 1.5f;
+        public float gravity = -30f;
+        public float jumpheight = 1f;
         private bool onFloor;
         private bool LerpCrouch;
         private float crouchTimer;
@@ -25,12 +26,19 @@ namespace Player
         // Start is called before the first frame update
         void Start()
         {
-            controller = GetComponent<CharacterController>();
+            controller = GetComponent<CharacterController>(); 
+            GameStateManager.Initialize();
             speed = normalSpeed;
         }
 
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log("Motor");
+            transform.position = new Vector3(0,0,0);
+        }
+
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             //CROUCHING FUNCTIONALITY SECTION
             onFloor = controller.isGrounded;

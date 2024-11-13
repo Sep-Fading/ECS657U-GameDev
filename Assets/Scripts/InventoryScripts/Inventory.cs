@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
+using Player;
 using UnityEngine;
 
 namespace InventoryScripts
 {
+    // A singleton class that holds our inventory items together
+    // including our equipment slots.
     public class Inventory
     { 
         public static Inventory Instance { get; private set; }
@@ -16,6 +20,11 @@ namespace InventoryScripts
             }
             return Instance;
         }
+
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
         
         /* Class Behaviours and Properties */
         Stack<InventoryItem>[] _inventoryArray = new Stack<InventoryItem>[3]; // Inventory Space
@@ -23,6 +32,7 @@ namespace InventoryScripts
         public Equipment EquippedArmour;
         public Equipment EquippedMainHand;
         public Equipment EquippedOffHand;
+        private GameObject MainHandItem;
 
         public int Push(InventoryItem item)
         {
@@ -85,6 +95,10 @@ namespace InventoryScripts
             {
                 EquippedMainHand = equipment;
                 EquippedMainHand.Equip();
+                //david part
+                this.MainHandItem = GameObject.Instantiate(EquippedMainHand.GetGameObject(),new Vector3(0,0,0),  Quaternion.identity, GameObject.FindWithTag("WeaponSlot").transform);
+                this.MainHandItem.transform.localPosition = new Vector3(0, 0, 0);
+                this.MainHandItem.transform.localRotation = Quaternion.identity;
                 return EquipmentType.MAINHAND;
             }
 
@@ -97,6 +111,14 @@ namespace InventoryScripts
             {
                 EquippedArmour.Unequip();
                 EquippedArmour = null;
+                
+                Debug.Log("We about to be in");
+                if (PlayerSkillTreeManager.Instance.ManagerSkillTree
+                    .branchSwordShield.GetNodeByName("Juggernaut")._effect.isActive)
+                {
+                    Debug.Log("We In");
+                    PlayerSkillTreeManager.Instance.JuggernautRepeatingInvoke();
+                }
                 return EquipmentType.ARMOR;
             }
 
@@ -111,6 +133,8 @@ namespace InventoryScripts
             {
                 EquippedMainHand.Unequip();
                 EquippedMainHand = null;
+                //david part
+                GameObject.Destroy(this.MainHandItem);
                 return EquipmentType.MAINHAND;
             }
 

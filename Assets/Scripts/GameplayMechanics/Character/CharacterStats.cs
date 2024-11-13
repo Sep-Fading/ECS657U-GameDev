@@ -1,4 +1,9 @@
+using Enemy;
 using GameplayMechanics.Effects;
+using InventoryScripts;
+using Player;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameplayMechanics.Character
 {
@@ -12,26 +17,30 @@ namespace GameplayMechanics.Character
         public static PlayerStatManager Instance { get; private set; }
 
         // Stat fields
-        public  Stat armour;
-        public  Stat evasion;
-        public  Stat life;
-        public  Stat stamina;
-        public  Stat meleeDamage;
-        public  Stat blockEffect;
+        public Stat Armour;
+        public Stat Evasion;
+        public Stat Life;
+        public Stat Stamina;
+        public Stat MeleeDamage;
+        public Stat BlockEffect;
+        public Stat Bleed;
+        public Stat DamageReduction;
         
-        // Masteries / Notables Active
-        public bool versMasteryActive;
-
+        // Constant for diminishing return calculations used for armor:
+        private const float K = 125f;
+        public bool IsBlocking { set; get; }
+        
         // Constructor
         private PlayerStatManager()
         {
-            armour = new Stat("Armour");
-            evasion = new Stat("Evasion");
-            life = new Stat("Life");
-            stamina = new Stat("Stamina");
-            meleeDamage = new Stat("MeleeDamage");
-            blockEffect = new Stat("BlockEffect");
-            versMasteryActive = false;
+            Armour = new Stat("Armour", 0f);
+            Evasion = new Stat("Evasion", 0f);
+            Life = new Stat("Life", 100f);
+            Stamina = new Stat("Stamina", 100f);
+            MeleeDamage = new Stat("MeleeDamage", 10f);
+            BlockEffect = new Stat("BlockEffect", 0.05f);
+            Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
+            DamageReduction = new Stat("DamageReduction", 0);
         }
 
         // Method to initialize the Singleton
@@ -44,16 +53,72 @@ namespace GameplayMechanics.Character
             return Instance;
         }
 
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
         public string GetPlayerStats()
         {
+            return $" {Life.GetName()}, {Life.GetAppliedTotal()} \n" +
+                   $" {Stamina.GetName()}, {Stamina.GetAppliedTotal()} \n" +
+                   $" {Armour.GetName()}, {Armour.GetAppliedTotal()} \n" +
+                   $" {Evasion.GetName()}, {Evasion.GetAppliedTotal()} \n" +
+                   $" {BlockEffect.GetName()}, {BlockEffect.GetAppliedTotal()} \n" +
+                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n";
+        }
+        
+        public string GetHealth() => this.Life.GetAppliedTotal().ToString();
+        public void TakeDamage(float damage)
+        {
+            // Armor Formula
+            float effectiveDamage = damage / (1 + (Armour.GetAppliedTotal() / K));
+            // Block effectiveness formula
+            float effectiveDamageOnBlock = effectiveDamage * (1-BlockEffect.GetAppliedTotal());
 
-            return $" {life.GetName()}, {life.GetAppliedTotal()} \n" +
-                   $" {stamina.GetName()}, {stamina.GetAppliedTotal()} \n" +
-                   $" {armour.GetName()}, {armour.GetAppliedTotal()} \n" +
-                   $" {evasion.GetName()}, {evasion.GetAppliedTotal()} \n" +
-                   $" {blockEffect.GetName()}, {blockEffect.GetAppliedTotal()} \n" +
-                   $" {meleeDamage.GetName()}, {meleeDamage.GetAppliedTotal()} \n";
+            if (IsBlocking)
+            {
+                Life.SetCurrent(Life.GetCurrent() - effectiveDamageOnBlock);
+            }
+            else
+            {
+                Life.SetCurrent(Life.GetCurrent() - effectiveDamage);
+            }
+            
+            
+            if (Life.GetCurrent() <= 0)
+            {
+                PlayerDeathHandler();
+            }
+        }
 
+        public void DoDamage(EnemyController enemy)
+        {
+            StatManager enemyStatManager = enemy.GetStatManager();
+            HealthBar enemyHealthBar = enemy.GetComponentInChildren<HealthBar>(); // Assuming HealthBar is a child of enemy
+            enemyStatManager.Life.SetCurrent(
+                enemyStatManager.Life.GetCurrent() - Instance.MeleeDamage.GetAppliedTotal());
+            if (RollForBleed())
+            {
+                BleedEffect bleed =
+                    new BleedEffect(3f, enemyStatManager, enemyHealthBar, enemy); 
+                bleed.Apply();
+            }
+        }
+
+        private bool RollForBleed()
+        {
+            float sucessChance = Instance.Bleed.GetChance();
+            float roll = Random.Range(0f, 100f);
+            return roll <= sucessChance*100;
+        }
+
+        private void PlayerDeathHandler()
+        {
+            // Restart Scene on death
+            XpManager.ResetInstance();
+            Inventory.ResetInstance();
+            PlayerStatManager.ResetInstance();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
     
@@ -64,60 +129,96 @@ namespace GameplayMechanics.Character
      ------------------ */
     public class Stat
     {
-        private float flat;
-        private float multiplier;
-        private float added;
-        private float appliedTotal;
-        private string name;
+        private float _flat;
+        private float _multiplier;
+        private float _added;
+        private float _appliedTotal;
+        private string _name;
+        private float _current;
+        private float _chance;
 
-        public Stat(string name, float flat = 0f, float multiplier = 1f,
-            float added = 0f)
+        public Stat(string name, float flat, float multiplier = 1f,
+            float added = 0f, float chance = 0f)
         {
-            this.name = name;
-            this.flat = flat;
-            this.added = added;
-            this.multiplier = multiplier;
-            this.appliedTotal = (this.flat + this.added) * this.multiplier;
+            this._name = name;
+            this._flat = flat;
+            this._added = added;
+            this._multiplier = multiplier;
+            this._appliedTotal = (this._flat + this._added) * this._multiplier;
+            this._chance = chance;
+            _current = this._appliedTotal;
         }
         
-        public new string ToString() => $"{this.flat},{this.multiplier},{this.name}";
-        public string GetName() => this.name;
+        public new string ToString() => $"{this._flat},{this._multiplier},{this._name}";
+        public string GetName() => this._name;
         
         // Used after every change to flat or multi to reflect correct stats.
         public void Recalculate()
         {
-            this.appliedTotal = (this.flat + this.added) * this.multiplier;
+            bool currentNeedsUpdate = false || _current == _appliedTotal;
+            this._appliedTotal = (this._flat + this._added) * this._multiplier;
+            if (currentNeedsUpdate)
+            {
+                SetCurrent(this._appliedTotal);
+            }
         }
         
         // Setters for stats:
         public void SetFlat(float flat)
         {
-            this.flat = flat;
+            this._flat = flat;
             this.Recalculate();
         }
 
         public void SetMultiplier(float multiplier)
         {
-            this.multiplier = multiplier;
+            this._multiplier = multiplier;
             this.Recalculate();
         }
 
         public void SetAdded(float added)
         {
-            this.added = added;
+            this._added = added;
             this.Recalculate();
         }
 
         public void SetAppliedTotal(float appliedTotal)
         {
-            this.appliedTotal = appliedTotal;
+            if (_current == _appliedTotal)
+            { 
+                _current = appliedTotal;
+            }
+            this._appliedTotal = appliedTotal;
+            
             this.Recalculate();
         }
+
+        public void SetCurrent(float newVal)
+        {
+            if (newVal > this._appliedTotal)
+            {
+                _current = this._appliedTotal;
+            }
+            else
+            {
+                _current = Mathf.Max(0, newVal);
+            }
+        }
+
+        public void SetChance(float chance)
+        {
+            this._chance = chance;
+            this.Recalculate();
+        }
+
+        
         
         // Getters for stats:
-        public float GetFlat() => this.flat;
-        public float GetMultiplier() => this.multiplier;
-        public float GetAdded() => this.added;
-        public float GetAppliedTotal() => this.appliedTotal;
+        public float GetCurrent() => this._current;
+        public float GetFlat() => this._flat;
+        public float GetMultiplier() => this._multiplier;
+        public float GetAdded() => this._added;
+        public float GetAppliedTotal() => this._appliedTotal;
+        public float GetChance() => this._chance;
     }
 }

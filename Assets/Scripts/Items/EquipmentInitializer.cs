@@ -4,21 +4,20 @@ using UnityEngine;
 
 namespace Items
 {
+    // Initialises a piece of equipment as a functional
+    // GameObject.
     public class EquipmentInitializer : MonoBehaviour
     {
         public Equipment equipment;
+        [SerializeField] public GameObject ItemPrefab;
         [SerializeField] private EquipmentType equipmentType = EquipmentType.NONE;
         void Start()
         {
             if (equipmentType != EquipmentType.NONE)
             {
-                equipment = new Equipment(equipmentType);
-                Debug.Log($"{equipment.GetItem().GetName()}");
-            }
-            else
-            {
-                Debug.LogWarning("No equipment type selected in the inspector!");
+                equipment = new Equipment(equipmentType,ItemPrefab);
             }
         }
+        
     }
 }

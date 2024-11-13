@@ -1,90 +1,209 @@
 using System.Collections;
-using System.Collections.Generic;
+using GameplayMechanics.Character;
+using Player;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Video;
 
-public class EnemyController : MonoBehaviour
+namespace Enemy
 {
-    public Transform player;
-    public Collider wallCollider;
-    public float speed;
-    public float minDistance = 3f;
-    public float maxDistance = 10f;
-    float idleTime = 0f;
-    public LayerMask obstacleLayer;
-    Vector3 target = new Vector3();
-    private bool isRotating = false; // To track whether the enemy is currently rotating
-
-    // Start is called before the first frame update
-    void Start()
+    public class EnemyController : MonoBehaviour
     {
-        speed = 1f;
-    }
+        private static readonly int Color1 = Shader.PropertyToID("_Color");
+        GameObject player;
+        public Transform playerTransform; 
+        public PlayerMotor playerMotor;
+        public Collider wallCollider;
+        public float speed;
+        public float minDistance = 1.8f;
+        public float maxDistance = 10f;
+        float idleTime = 0f;
+        float attackCooldown = 1f;
+        public LayerMask obstacleLayer;
+        float randomRot;
+        private bool isRotating = false;
+        private bool triggered;
+        public Animator playerWeaponAnimator;
+        public Material triggeredMaterial;
+        public Material defaultMaterial;
+        Renderer enemyRenderer;
+        public TextMeshProUGUI healthText;
+        private MaterialPropertyBlock propBlock;
+        
+        private StatManager _statManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3 playerPos = player.position;
-        float distance = Vector3.Distance(transform.position, playerPos);
-        bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
-
-        if (distance > minDistance && distance <= maxDistance && !obstacleBetween)
+        // Start is called before the first frame update
+        void Start()
         {
-            speed = 5f;
-            var targetRotation = Quaternion.LookRotation(player.transform.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
-        else if (distance <= minDistance)
-        {
-            //attack
-        }
-        else
-        {
-            idle();
-        }
-    }
-
-    void idle()
-    {
-        idleTime += Time.deltaTime;
-        speed = 1f;
-        if (idleTime > 0.1f)
-        {
-            var targetRotation = Quaternion.LookRotation(target - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-            idleTime = 0f;
-        }
-        transform.position += transform.forward * speed * Time.deltaTime;
-        target = new Vector3(0, Random.Range(-360f, 360f), 0);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Wall" && !isRotating)
-        {
-            Debug.Log("Collided with wall");
-            StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
-        }
-    }
-
-    IEnumerator SmoothTurn(float angle, float duration)
-    {
-        isRotating = true;
-
-        Quaternion startRotation = transform.rotation;
-        Quaternion targetRotation = startRotation * Quaternion.Euler(0, angle, 0);
-
-        float time = 0;
-        while (time < duration)
-        {
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, time / duration);
-            time += Time.deltaTime;
-            yield return null;
+            speed = 4f;
+            triggered = false;
+            //enemyRenderer = GetComponent<Renderer>();
+            randomRot = Random.Range(-360f, 360f);
+            _statManager = new StatManager();
         }
 
-        transform.rotation = targetRotation;
+        private void Awake()
+        {
+            player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                playerTransform = player.transform;
+                playerMotor = player.GetComponent<PlayerMotor>();
+            }
+            playerWeaponAnimator = GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>();
+            enemyRenderer = GetComponent<Renderer>();
+            enemyRenderer.material = defaultMaterial;
+            wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();
 
-        isRotating = false;
+            propBlock = new MaterialPropertyBlock();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (_statManager.Life.GetCurrent() <= 0)
+            {
+                DefeatEnemy();
+            }
+
+            Vector3 playerPos = playerTransform.position;
+            float distance = Vector3.Distance(transform.position, playerPos);
+            bool obstacleBetween = Physics.Raycast(transform.position, (playerPos - transform.position).normalized, distance, obstacleLayer);
+            healthText.text = _statManager.Life.GetCurrent() + "/" + _statManager.Life.GetAppliedTotal();
+
+            if (playerMotor.getCrouching() && !triggered)
+            {
+                maxDistance = minDistance = 0;
+            }
+            else
+            {
+                minDistance = 1.8f;
+                maxDistance = 10f;
+            }
+
+            bool inChaseRange = distance > minDistance && distance <= maxDistance && !obstacleBetween;
+            bool inAttackRange = distance <= minDistance;
+
+            //enemyRenderer.material = triggered ? triggeredMaterial : defaultMaterial;
+            //Color healthColor = enemyRenderer.material.color;
+            //healthColor.a = (currentHealth/maxHealth);
+            //enemyRenderer.material.color = healthColor;
+            /* --- DONT USE .material CALL AS IT MAKES BACKGROUND COPIES OF THE MATERIAL LEADING TO MEMORY LEAK ---*/
+            enemyRenderer.GetPropertyBlock(propBlock);
+            Color healthColor = triggered ? triggeredMaterial.color : defaultMaterial.color;
+            healthColor.a = _statManager.Life.GetCurrent() / _statManager.Life.GetAppliedTotal();
+            propBlock.SetColor(Color1, healthColor);
+            enemyRenderer.SetPropertyBlock(propBlock);
+
+            if (triggered)
+            {
+                if (inChaseRange)
+                {
+                    TrackPlayer(playerPos);
+                }
+                else if (inAttackRange)
+                {
+                    Attack();
+                }
+            }
+            else
+            {
+                Idle();
+            }
+
+            triggered = inChaseRange || inAttackRange;
+        }
+
+        void Idle()
+        {
+            triggered = false;
+            idleTime += Time.deltaTime;
+            speed = 1f;
+            if (!isRotating)
+            {
+                StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+            }
+            else if (idleTime > 2f)
+            {
+                idleTime = 0f;
+            }
+            transform.position += transform.forward * (speed * Time.deltaTime);
+        }
+
+        void TrackPlayer(Vector3 playerPos) 
+        {
+            speed = 4.5f;
+            isRotating = false;
+            triggered = true;
+            transform.LookAt(playerPos);
+            transform.position += transform.forward * (speed * Time.deltaTime);
+        }
+
+        void Attack() 
+        { 
+            attackCooldown -= Time.deltaTime;
+            if (attackCooldown <= 0)
+            {
+                PlayerStatManager.Instance.TakeDamage(15f);
+                attackCooldown = 1f;
+            }
+        }
+
+        void DefeatEnemy() 
+        {
+            XpManager.GiveXp(10f);
+            Destroy(gameObject);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Wall") && !isRotating)
+            {
+                StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
+            }
+
+            if (playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length > playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime
+                && playerWeaponAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "TempSwordAnimation"
+                && collision.gameObject.CompareTag("Weapon"))
+            {
+                triggered = true;
+                PlayerStatManager.Instance.DoDamage(this);
+                //currentHealth -= PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal();
+                
+                
+                //Rigidbody enemyRb = gameObject.GetComponent<Rigidbody>();
+                //if (enemyRb != null)
+                //{
+                //    // Calculate the knockback direction (away from the player)
+                //    Vector3 knockbackDirection = collision.transform.position - transform.position;
+                //    knockbackDirection.y = 0;  // Keep knockback horizontal (no vertical force)
+
+                //    // Apply the knockback force
+                //    float knockbackForce = 50f; // Adjust this value based on desired knockback strength
+                //    enemyRb.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode.Impulse);
+                //}
+            }
+        }
+        
+        public StatManager GetStatManager() => _statManager;
+
+        IEnumerator SmoothTurn(float angle, float duration)
+        {
+            isRotating = true;
+
+            Quaternion startRotation = transform.rotation;
+            Quaternion targetRotation = startRotation * Quaternion.Euler(0, angle, 0);
+
+            float time = 0;
+            while (time < duration)
+            {
+                transform.rotation = Quaternion.Slerp(startRotation, targetRotation, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.rotation = targetRotation;
+
+            isRotating = false;
+        }
     }
 }

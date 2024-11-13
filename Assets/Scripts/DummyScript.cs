@@ -27,7 +27,6 @@ public class DummyScript : MonoBehaviour
     }
     private void Death()
     {
-        Debug.Log("Enemy Died");
         
     }
 }

@@ -19,4 +19,7 @@ public abstract class MeleeWeapon : MonoBehaviour
         attackSpeed = speed;
         attackDamage = damage;
     }
+
+    public virtual void StartAttack() { }
+    public virtual void StopAttack() { }
 }

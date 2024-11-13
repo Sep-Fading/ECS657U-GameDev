@@ -5,6 +5,9 @@ using UnityEngine.Serialization;
 
 namespace Player
 {
+    // Ray-casting based system to detect objects that 
+    // the player is looking at, used for interacting with
+    // game objects within the scene.
     public class PlayerInteract : MonoBehaviour
     {
         private Camera _cam;
@@ -44,7 +47,7 @@ namespace Player
                 {
                     Interactable interactedObj = hitInfo.collider.GetComponent<Interactable>();
                     _playerUI.UpdateText(interactedObj.HoverMessage);
-                    if(_inputManager.playerInput.grounded.Interacting.triggered) 
+                    if(_inputManager.PlayerInput.grounded.Interacting.triggered) 
                     {
                         interactedObj.BaseInteract();
                     }

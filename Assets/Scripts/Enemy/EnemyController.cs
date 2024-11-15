@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using GameplayMechanics.Character;
+using NUnit.Framework;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -37,7 +40,7 @@ namespace Enemy
             speed = 4f;
             triggered = false;
             //enemyRenderer = GetComponent<Renderer>();
-            randomRot = Random.Range(-360f, 360f);
+            randomRot = UnityEngine.Random.Range(-360f, 360f);
             _statManager = new StatManager();
         }
 
@@ -120,7 +123,7 @@ namespace Enemy
             speed = 1f;
             if (!isRotating)
             {
-                StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+                StartCoroutine(SmoothTurn(UnityEngine.Random.Range(-360f, 360f), 5f));
             }
             else if (idleTime > 2f)
             {
@@ -158,7 +161,7 @@ namespace Enemy
         {
             if (collision.gameObject.CompareTag("Wall") && !isRotating)
             {
-                StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
+                StartCoroutine(SmoothTurn(UnityEngine.Random.Range(90f, 180f), 1f));
             }
 
             if (playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length > playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime

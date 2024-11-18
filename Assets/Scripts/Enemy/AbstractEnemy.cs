@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbstractEnemy
+public class AbstractEnemy : MonoBehaviour
 {
     GameObject player;
     StatManager enemyStats;
@@ -11,7 +11,7 @@ public class AbstractEnemy
     EnemyState enemyState;
     float idleTime;
 
-    AbstractEnemy()
+    protected virtual void Awake()
     {
         player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
         enemyStats = new StatManager();
@@ -19,7 +19,26 @@ public class AbstractEnemy
         idleTime = 0f;
     }
 
+    protected virtual void Update()
+    {
+        switch (enemyState)
+        {
+            case EnemyState.Idle:
+                idle();
+                break;
+            case EnemyState.Triggered:
+                trackPlayer();
+                break;
+            case EnemyState.Attack: 
+                attack(); 
+                break;
+            default:
+                break;
+        }
+    }
+
     void idle() { }
+    void trackPlayer() { }
     void attack() { }
     void block() { }
 }

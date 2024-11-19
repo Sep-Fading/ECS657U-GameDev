@@ -169,7 +169,7 @@ namespace Enemy
                 && collision.gameObject.CompareTag("Weapon"))
             {
                 triggered = true;
-                PlayerStatManager.Instance.DoDamage(this);
+                //PlayerStatManager.Instance.DoDamage(this);
                 //currentHealth -= PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal();
                 
                 

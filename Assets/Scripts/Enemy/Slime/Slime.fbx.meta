@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 83e8b790814b9b040a7c3eb7303845db
+guid: ae1ad284bc08aa840be485f358b54ee8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -55,8 +55,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.9996311
-        functionName: destroySelf
+      - time: 0.4999989
+        functionName: IncreaseBoxCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.56088966
+        functionName: ResetBoxCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -90,7 +97,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.9996307
+        functionName: destroySelf
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

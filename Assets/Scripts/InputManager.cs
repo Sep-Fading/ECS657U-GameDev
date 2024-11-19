@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
         PlayerInput.UI.OpenInventory.performed += playerUI.InventoryToggle;
         PlayerInput.UI.ItemPickUp.performed += pickupManager.HandlePickUp;
         PlayerInput.UI.StatMenu.performed += playerUI.StatMenuToggle;
+        PlayerInput.UI.OpenOptions.performed += playerUI.OptionsMenuToggle;
         PlayerInput.grounded.SwordAction.performed += _ => weaponmanager.Attack();
         PlayerInput.grounded.ShieldAction.performed += _ => weaponmanager.Block();
         PlayerInput.grounded.ShieldAction.canceled += _ => weaponmanager.OnBlockCancelled();
@@ -56,6 +57,7 @@ public class InputManager : MonoBehaviour
         PlayerInput.UI.OpenSkillTree.performed -= playerUI.InventoryToggle;
         PlayerInput.UI.ItemPickUp.performed -= pickupManager.HandlePickUp;
         PlayerInput.UI.StatMenu.performed -= playerUI.StatMenuToggle;
+        PlayerInput.UI.OpenOptions.performed -= playerUI.OptionsMenuToggle;
         PlayerInput.Disable();
     }
 

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace Player
         [SerializeField] private GameObject statUI;
         [FormerlySerializedAs("_StatUIText")]
         [SerializeField] private GameObject statUIText;
+        
+        [SerializeField] private GameObject optionsUI;
         // Start is called before the first frame update
         void Start()
         {
@@ -27,6 +30,7 @@ namespace Player
             inventoryUI = GameObject.Find("-- Inventory UI");
             inventoryUI.SetActive(false);
             statUI.SetActive(false);
+            optionsUI.SetActive(false); 
             
             UIManager.Initialize();
         }
@@ -92,6 +96,24 @@ namespace Player
             {
                 _uiActive = false;
                 UIManager.Instance.PopUIByGameObject(statUI);
+            }
+        }
+
+        public void OptionsMenuToggle(InputAction.CallbackContext context)
+        {
+            
+            optionsUI.SetActive(
+                !optionsUI.activeSelf);
+            if (optionsUI.activeSelf)
+            {
+                _uiActive = true;
+                UIManager.Instance.PushUI(optionsUI);
+            }
+
+            else
+            {
+                _uiActive = false;
+                UIManager.Instance.PopUIByGameObject(optionsUI);
             }
         }
     }

@@ -1,8 +1,10 @@
+using System;
 using Combat;
 using InventoryScripts;
 using Player;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
@@ -29,7 +31,6 @@ public class InputManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    
     
     private void OnEnable()
     {
@@ -81,5 +82,17 @@ public class InputManager : MonoBehaviour
         {
             _look.ProcessLook(PlayerInput.grounded.looking.ReadValue<Vector2>());
         }
+    }
+
+    public void RefreshBindings(PlayerInput action)
+    {
+        Debug.Log(PlayerInput == action);
+        PlayerInput.grounded.jumping.performed -= _playerMotor.Jump;
+        PlayerInput.grounded.jumping.performed += _playerMotor.Jump;
+    }
+
+    public PlayerInput getPlayerInput()
+    {
+        return PlayerInput;
     }
 }

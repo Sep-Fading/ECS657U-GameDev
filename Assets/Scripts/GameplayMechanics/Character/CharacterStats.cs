@@ -25,6 +25,10 @@ namespace GameplayMechanics.Character
         public Stat BlockEffect;
         public Stat Bleed;
         public Stat DamageReduction;
+        public Stat MoveSpeed;
+        public Stat SprintSpeed;
+        public Stat MagicDamage;
+        public Stat HealPower;
         
         // Constant for diminishing return calculations used for armor:
         private const float K = 125f;
@@ -37,10 +41,14 @@ namespace GameplayMechanics.Character
             Evasion = new Stat("Evasion", 0f);
             Life = new Stat("Life", 100f);
             Stamina = new Stat("Stamina", 100f);
-            MeleeDamage = new Stat("MeleeDamage", 10f);
-            BlockEffect = new Stat("BlockEffect", 0.05f);
+            MeleeDamage = new Stat("Melee Damage", 0f);
+            BlockEffect = new Stat("Block Effectiveness", 0.05f);
             Bleed = new Stat("Bleed", MeleeDamage.GetAppliedTotal());
-            DamageReduction = new Stat("DamageReduction", 0);
+            DamageReduction = new Stat("Damage Reduction", 0);
+            MoveSpeed = new Stat("MoveSpeed", 5f);
+            SprintSpeed = new Stat("SprintSpeed", 8f);
+            MagicDamage = new Stat("Magic Damage", 0f);
+            HealPower = new Stat("Healing Power", 0f, 1f);
         }
 
         // Method to initialize the Singleton
@@ -67,8 +75,8 @@ namespace GameplayMechanics.Character
                    $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n" +
                    $" Bleed Chance, {Bleed.GetChance() * 100}%";
         }
-        
-        public string GetHealth() => this.Life.GetAppliedTotal().ToString();
+
+        public string GetHealth() => this.Life.GetAppliedTotal().ToString("F1");
         public void TakeDamage(float damage)
         {
             // Armor Formula

@@ -2,6 +2,8 @@ using GameplayMechanics.Character;
 using InventoryScripts;
 using UnityEngine;
 using Player;
+using UI;
+
 namespace Combat
 {
     // This script handles some basic states for Combat
@@ -34,7 +36,7 @@ namespace Combat
 
         public void Attack()
         {
-            if (! player.GetComponent<PlayerUI>().GetUIActive() && Inventory.Instance.EquippedMainHand != null)
+            if (UIManager.Instance.GetIsEmpty() && Inventory.Instance.EquippedMainHand != null)
             {
                 _anim.SetTrigger(Attacking);
             }
@@ -43,7 +45,7 @@ namespace Combat
 
         public void Block()
         {
-            if (! player.GetComponent<PlayerUI>().GetUIActive())
+            if (UIManager.Instance.GetIsEmpty())
             {
                 _blocking = !_blocking;
                 _anim.SetBool(Blocking, _blocking);

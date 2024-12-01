@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.75
+  m_AmbientIntensity: 0.5
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 0ffaa0b7117ba8c47a9d05ae701d4b4d, type: 2}
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.32129002, g: 0.52959734, b: 0.6689592, a: 1}
+  m_IndirectSpecularColor: {r: 0.36428174, g: 0.6231951, b: 0.6643642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2649,6 +2649,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1065176376799538906, guid: 4066b69ead49d39438006f007286e158, type: 3}
+--- !u!1 &611599695 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3072625872834206173, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+  m_PrefabInstance: {fileID: 1191836215}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &621299564 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1021574647021818235, guid: 6eef9e580c001db45934a1ce61d95a7b, type: 3}
@@ -2747,6 +2752,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1520920826}
   m_SourcePrefab: {fileID: 100100000, guid: 5dec8fc8d6610fc41993a2270e013c7d, type: 3}
+--- !u!1 &636557072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7008768502601929308, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
+  m_PrefabInstance: {fileID: 1041909266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &636557077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636557072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d10f47d4f1f471fbce30d38eea08d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiObject: {fileID: 1491236466}
 --- !u!1 &667207122 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1842484674051313894, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
@@ -3775,7 +3798,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1413701481157463825, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
       insertIndex: 1
       addedObject: {fileID: 2138354171}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7008768502601929308, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 636557077}
   m_SourcePrefab: {fileID: 100100000, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
 --- !u!1 &1041909267 stripped
 GameObject:
@@ -4297,6 +4323,71 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2856288629170332598, guid: 2e45c1c225716ea4484d5bee1aa394c3, type: 3}
+--- !u!1001 &1191836215
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3072625872834206173, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_Name
+      value: ItemObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 250.1882
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.968
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 229.01517
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6156532978394812848, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685863570430269069, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: ItemPrefab
+      value: 
+      objectReference: {fileID: 611599695}
+    - target: {fileID: 6685863570430269069, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
+      propertyPath: equipmentType
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbdfea5660678254eb49ab6c3cf409c3, type: 3}
 --- !u!1 &1193007128 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1196144969555983692, guid: 6eef9e580c001db45934a1ce61d95a7b, type: 3}
@@ -4993,6 +5084,7 @@ MonoBehaviour:
   npcObject: {fileID: 1353336068}
   lines:
   - I see that Barry has taught you well...
+  - Remember to increase your expertise via the skill tree [P] as you gain more experience.
   - Now you shall fight the undead.
   npcName: Bernard
   npcDialogue: {fileID: 1468723536}
@@ -6251,6 +6343,14 @@ PrefabInstance:
     - target: {fileID: 1999134075822481770, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       propertyPath: m_TagString
       value: WeaponSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327163698627067756, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782069317876617588, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
+      propertyPath: field of view
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 4599595182133682577, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       propertyPath: player
@@ -8289,3 +8389,4 @@ SceneRoots:
   - {fileID: 1041909266}
   - {fileID: 1393831409}
   - {fileID: 1386350571}
+  - {fileID: 1191836215}

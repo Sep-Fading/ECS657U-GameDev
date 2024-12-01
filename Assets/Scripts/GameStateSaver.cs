@@ -16,23 +16,10 @@ public class GameStateSaver : MonoBehaviour
             {
                 DontDestroyOnLoad(carryOverObject);
             }
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        foreach (GameObject obj in CarryOverObjects)
-        {
-            if (obj.name == "-- Player")
-            {
-                obj.transform.position = new Vector3(0, 20, 0);
-            }
         }
     }
 
@@ -75,5 +62,14 @@ public class GameStateSaver : MonoBehaviour
         }
 
         return null;
+    }
+
+    public static void ResetInstance()
+    {
+        foreach (GameObject obj in Instance.CarryOverObjects)
+        {
+            Destroy(obj);
+        }
+        Instance = null;
     }
 }

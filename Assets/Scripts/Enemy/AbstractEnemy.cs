@@ -1,8 +1,11 @@
+using GameplayMechanics.Character;
+using GameplayMechanics.Effects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 namespace Enemy
@@ -11,6 +14,7 @@ namespace Enemy
     {
         GameObject player;
         public StatManager stats;
+        public PlayerStatManager playerStats;
         public List<Action> attackPattern;
         public EnemyState enemyState;
         public Animator animator;
@@ -20,6 +24,7 @@ namespace Enemy
         float idleTime;
         public float attackCooldown; // Cooldown duration in seconds
         private float lastAttackTime = -Mathf.Infinity;
+        public bool isAttacking;
 
         protected virtual void Awake()
         {
@@ -32,6 +37,7 @@ namespace Enemy
         protected virtual void Start()
         {
             player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
+            playerStats = PlayerStatManager.Instance;
             animator = GetComponent<Animator>();
         }
 
@@ -109,13 +115,16 @@ namespace Enemy
             }
             else
             {
-                animator.SetBool("isMoving", false);
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isIdle", true);
                 if (idleTime <= 0)
                 {
                     // Randomly decide between moving or staying still
                     bool willMove = Random.value > 0.5f; // 50% chance to move or stay idle
                     if (willMove)
                     {
+                        animator.SetBool("isWalking", true);
+                        animator.SetBool("isIdle", false);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
                         randomDirection.y = transform.position.y; // Maintain current Y position
@@ -148,7 +157,8 @@ namespace Enemy
             }
             else
             {
-                animator.SetBool("isMoving", true);
+                animator.SetBool("isRunning", true);
+                animator.SetBool("isWalking", false);
                 StopAllCoroutines();
                 StartCoroutine(MoveTo(player.transform.position));
             }
@@ -194,5 +204,23 @@ namespace Enemy
             Debug.Log("Enemy Dead");
             Destroy(gameObject);
         }
+
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (GetState() == EnemyState.ATTACK && !playerStats.IsBlocking && collision.gameObject.tag == "Player")
+        //    {
+        //        Debug.Log("Player Hit");
+        //        float damage = 1;
+        //        if (stats.Damage.GetCurrent() - PlayerStatManager.Instance.Armour.GetCurrent() > 1)
+        //        playerStats.Life.SetCurrent(
+        //            playerStats.Life.SetCurrent - pla.MeleeDamage.GetAppliedTotal());
+        //        if (RollForBleed())
+        //        {
+        //            BleedEffect bleed =
+        //                new BleedEffect(3f, (StatManager) playerStats, enemy);
+        //            bleed.Apply();
+        //        }
+        //    }
+        //}
     } 
 }

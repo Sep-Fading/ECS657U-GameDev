@@ -25,6 +25,7 @@ public class Slime : AbstractEnemy
 
         originalColliderSize = boxCollider.size;
         originalColliderCenter = boxCollider.center;
+        stats.Speed.SetFlat(5f);
     }
     protected override void Update()
     {

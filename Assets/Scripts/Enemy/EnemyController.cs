@@ -159,6 +159,11 @@ namespace Enemy
             Destroy(gameObject);
         }
 
+        public void DestroyEnemy() //does not give XP to player, just removes the object
+        {
+            Destroy(gameObject);
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Wall") && !isRotating)

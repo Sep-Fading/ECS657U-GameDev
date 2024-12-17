@@ -21,6 +21,8 @@ public class AllyController : MonoBehaviour
     private bool triggered;
     public Material defaultMaterial;
     Renderer allyRenderer;
+
+    Vector3 guardPosition;
     
 
     // Start is called before the first frame update
@@ -38,6 +40,7 @@ public class AllyController : MonoBehaviour
         allyRenderer = GetComponent<Renderer>();
         allyRenderer.material = defaultMaterial;
         wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();
+        guardPosition = transform.position; // setting the orignal starting position to guard
         
     }
 
@@ -46,11 +49,22 @@ public class AllyController : MonoBehaviour
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, maxDistance);
 
+        ArrayList targets = new ArrayList();
+
         foreach (Collider hit in hitColliders)
         {
-            if (hit.CompareTag("Enemy"))
+            if (hit.CompareTag("Enemy") && !targets.Contains(hit.gameObject))
             {
-                Vector3 enemypos = hit.transform.position;
+                targets.Add(hit);
+                Debug.Log(hit.gameObject.name);
+            }
+        }
+
+        if (targets.Capacity > 0)
+        {
+            foreach (Collider target in targets)
+            {
+                Vector3 enemypos = target.transform.position;
                 float distance = Vector3.Distance(transform.position, enemypos);
                 bool obstacleBetween = Physics.Raycast(transform.position, (enemypos - transform.position).normalized, distance, obstacleLayer);
                 bool inChaseRange = distance > minDistance && distance <= maxDistance && !obstacleBetween;
@@ -58,41 +72,52 @@ public class AllyController : MonoBehaviour
                 
                 triggered = inChaseRange || inAttackRange;
                 
-                if (triggered)
+                if (triggered && target.gameObject.activeInHierarchy)
                 {
+                    Debug.Log("Chasing: " + target.gameObject.name);
                     if (inChaseRange)
                     {
                         TrackEnemy(enemypos);
                     }
                     else if (inAttackRange)
                     {
-                        Attack(hit);
+                        Attack(target);
                     }
                 }
-            }
-            else
-            {
-                Idle();
+                targets.Remove(target);
+                Debug.Log("Removed: " + target.gameObject.name);
             }
         }
-        
-        
+        else
+        {
+            Idle();
+            Debug.Log("Idling rn boss, nothing to see here");
+        }
+
     }
 
     void Idle()
     {
-        triggered = false;
-        idleTime += Time.deltaTime;
-        speed = 1f;
-        if (!isRotating)
+        if(Vector3.Distance(transform.position, guardPosition) > 3f)
         {
-            StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+            GoToPosition(guardPosition); // return to guard position
         }
-        else if (idleTime > 2f)
+        else
         {
-            idleTime = 0f;
+            triggered = false;
+            idleTime += Time.deltaTime;
+            speed = 1f;
+            if (!isRotating)
+            {
+                StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+            }
+            else if (idleTime > 2f)
+            {
+                idleTime = 0f;
+            }
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
-        transform.position += transform.forward * (speed * Time.deltaTime);
+        
     }
 
     void TrackEnemy(Vector3 enemypos) 
@@ -109,7 +134,11 @@ public class AllyController : MonoBehaviour
             hit.GetComponent<EnemyController>().DestroyEnemy();
     }
 
-   
+    void GoToPosition(Vector3 guardPos)
+    {
+        transform.LookAt(guardPos);
+        transform.position += transform.forward * (speed * Time.deltaTime);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

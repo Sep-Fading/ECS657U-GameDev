@@ -7,9 +7,6 @@ namespace enemy
 {
     public class OrcController : AbstractEnemy
     {
-        private BoxCollider boxCollider;
-        private Vector3 originalColliderSize;
-        private Vector3 originalColliderCenter;
         protected override void Awake()
         {
             base.Awake();
@@ -18,15 +15,11 @@ namespace enemy
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
             attackPattern.Add(weaponAttack);
-
-            boxCollider = GetComponent<BoxCollider>();
         }
         protected override void Start()
         {
             base.Start();
 
-            //originalColliderSize = boxCollider.size;
-            //originalColliderCenter = boxCollider.center;
             stats.Speed.SetFlat(2f);
         }
         protected override void Update()

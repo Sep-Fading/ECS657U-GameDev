@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @PlayerInput: IInputActionCollection2, IDisposable
+public partial class @PlayerInput : IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @PlayerInput()
@@ -351,6 +351,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""ItemPickUp"",
                     ""type"": ""Button"",
                     ""id"": ""87b2026f-4564-4ca6-90ca-058afcede68d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StatMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef0eff69-9e84-47f9-afc0-92e43de833f4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -808,6 +817,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ItemPickUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""937cbac2-e35d-42cd-9b69-b40399f6ceb7"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StatMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -839,6 +859,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_UI_OpenSkillTree = m_UI.FindAction("OpenSkillTree", throwIfNotFound: true);
         m_UI_OpenInventory = m_UI.FindAction("OpenInventory", throwIfNotFound: true);
         m_UI_ItemPickUp = m_UI.FindAction("ItemPickUp", throwIfNotFound: true);
+        m_UI_StatMenu = m_UI.FindAction("StatMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1015,6 +1036,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_OpenSkillTree;
     private readonly InputAction m_UI_OpenInventory;
     private readonly InputAction m_UI_ItemPickUp;
+    private readonly InputAction m_UI_StatMenu;
     public struct UIActions
     {
         private @PlayerInput m_Wrapper;
@@ -1032,6 +1054,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @OpenSkillTree => m_Wrapper.m_UI_OpenSkillTree;
         public InputAction @OpenInventory => m_Wrapper.m_UI_OpenInventory;
         public InputAction @ItemPickUp => m_Wrapper.m_UI_ItemPickUp;
+        public InputAction @StatMenu => m_Wrapper.m_UI_StatMenu;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1080,6 +1103,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ItemPickUp.started += instance.OnItemPickUp;
             @ItemPickUp.performed += instance.OnItemPickUp;
             @ItemPickUp.canceled += instance.OnItemPickUp;
+            @StatMenu.started += instance.OnStatMenu;
+            @StatMenu.performed += instance.OnStatMenu;
+            @StatMenu.canceled += instance.OnStatMenu;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1123,6 +1149,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ItemPickUp.started -= instance.OnItemPickUp;
             @ItemPickUp.performed -= instance.OnItemPickUp;
             @ItemPickUp.canceled -= instance.OnItemPickUp;
+            @StatMenu.started -= instance.OnStatMenu;
+            @StatMenu.performed -= instance.OnStatMenu;
+            @StatMenu.canceled -= instance.OnStatMenu;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1166,5 +1195,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnOpenSkillTree(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
+        void OnStatMenu(InputAction.CallbackContext context);
     }
 }

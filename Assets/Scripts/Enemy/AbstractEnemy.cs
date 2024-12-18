@@ -12,25 +12,25 @@ namespace Enemy
 {
     public abstract class AbstractEnemy : MonoBehaviour
     {
-        GameObject player;
+        public GameObject player;
         public StatManager stats;
         public PlayerStatManager playerStats;
         public List<Action> attackPattern;
         public EnemyState enemyState;
         public Animator animator;
 
-        float distanceBetweenPlayer;
+        public float distanceBetweenPlayer;
         public float attackDistance;
-        float idleTime;
+        public float idleTime;
         public float attackCooldown; // Cooldown duration in seconds
-        private float lastAttackTime = -Mathf.Infinity;
-        public bool isAttacking;
+        public float lastAttackTime = -Mathf.Infinity;
+        public bool isAttackComplete = false;
 
         protected virtual void Awake()
         {
             stats = new StatManager();
             attackPattern = new List<Action>();
-            setState(EnemyState.IDLE);
+            SetState(EnemyState.IDLE);
             idleTime = 0f;
         }
 
@@ -39,11 +39,13 @@ namespace Enemy
             player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
             playerStats = PlayerStatManager.Instance;
             animator = GetComponent<Animator>();
+            animator.SetBool("isMoving", false);
         }
 
         protected virtual void Update()
         {
             distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
+            //Debug.Log("Moving: " + animator.GetBool("isMoving"));
             switch (enemyState)
             {
                 case EnemyState.IDLE:
@@ -64,7 +66,7 @@ namespace Enemy
         }
         public StatManager GetStatManager() => stats;
         public EnemyState GetState() { return enemyState; }
-        public void setState(EnemyState state) { enemyState = state; } 
+        public void SetState(EnemyState state) { enemyState = state; } 
         public virtual IEnumerator MoveTo(Vector3 targetPosition)
         {
             // Calculate the direction to the target
@@ -84,8 +86,8 @@ namespace Enemy
 
             while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
             {
-                // Rotate toward the target
                 animator.SetBool("isMoving", true);
+                // Rotate toward the target
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     targetRotation,
@@ -97,34 +99,30 @@ namespace Enemy
                     targetPosition,
                     stats.Speed.GetCurrent() * Time.deltaTime
                 );
-                animator.SetBool("isMoving", false);
                 yield return null; // Wait for the next frame
             }
+            animator.SetBool("isMoving", false);
         }
-
-
         public virtual void idle()
         {
             if (stats.Life.GetCurrent() <= 0)
             {
-                setState(EnemyState.DEAD);
+                SetState(EnemyState.DEAD);
             }
             else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal())
             {
-                setState(EnemyState.TRIGGERED);
+                SetState(EnemyState.TRIGGERED);
             }
             else
             {
-                animator.SetBool("isWalking", false);
-                animator.SetBool("isIdle", true);
+                animator.SetBool("isMoving", false);
                 if (idleTime <= 0)
                 {
                     // Randomly decide between moving or staying still
                     bool willMove = Random.value > 0.5f; // 50% chance to move or stay idle
                     if (willMove)
                     {
-                        animator.SetBool("isWalking", true);
-                        animator.SetBool("isIdle", false);
+                        animator.SetBool("isMoving", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
                         randomDirection.y = transform.position.y; // Maintain current Y position
@@ -145,21 +143,20 @@ namespace Enemy
         {
             if (stats.Life.GetCurrent() <= 0)
             {
-                setState(EnemyState.DEAD);
+                SetState(EnemyState.DEAD);
             }
             else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal())
             {
-                setState(EnemyState.IDLE);
+                SetState(EnemyState.IDLE);
             }
             else if (distanceBetweenPlayer <= attackDistance)
             {
-                setState(EnemyState.ATTACK);
+                SetState(EnemyState.ATTACK);
             }
             else
             {
-                animator.SetBool("isRunning", true);
-                animator.SetBool("isWalking", false);
                 StopAllCoroutines();
+                animator.SetBool("isMoving", true);
                 StartCoroutine(MoveTo(player.transform.position));
             }
         }
@@ -167,11 +164,11 @@ namespace Enemy
         {
             if (stats.Life.GetCurrent() <= 0)
             {
-                setState(EnemyState.DEAD);
+                SetState(EnemyState.DEAD);
             }
             else if (distanceBetweenPlayer > attackDistance)
             {
-                setState(EnemyState.IDLE);
+                SetState(EnemyState.IDLE);
             }
             else
             {
@@ -198,29 +195,25 @@ namespace Enemy
         {
             animator.SetTrigger("deathTrigger");
         }
-
         public void destroySelf()
         {
             Debug.Log("Enemy Dead");
             Destroy(gameObject);
         }
-
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (GetState() == EnemyState.ATTACK && !playerStats.IsBlocking && collision.gameObject.tag == "Player")
-        //    {
-        //        Debug.Log("Player Hit");
-        //        float damage = 1;
-        //        if (stats.Damage.GetCurrent() - PlayerStatManager.Instance.Armour.GetCurrent() > 1)
-        //        playerStats.Life.SetCurrent(
-        //            playerStats.Life.SetCurrent - pla.MeleeDamage.GetAppliedTotal());
-        //        if (RollForBleed())
-        //        {
-        //            BleedEffect bleed =
-        //                new BleedEffect(3f, (StatManager) playerStats, enemy);
-        //            bleed.Apply();
-        //        }
-        //    }
-        //}
+        public void onAttack()
+        {
+            isAttackComplete = true;
+            //GetComponentInChildren<EnemyWeapon>().collider.enabled = true;
+            foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
+            if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
+            //Debug.Log("Animation End");
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (GetState() == EnemyState.ATTACK && !playerStats.IsBlocking && collision.gameObject.tag == "Player")
+            {
+                
+            }
+        }
     } 
 }

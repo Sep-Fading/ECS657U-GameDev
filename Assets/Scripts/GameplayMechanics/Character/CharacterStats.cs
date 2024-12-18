@@ -83,6 +83,7 @@ namespace GameplayMechanics.Character
             else
             {
                 Life.SetCurrent(Life.GetCurrent() - effectiveDamage);
+                Debug.Log("Damage Taken: " + effectiveDamage);
             }
             
             

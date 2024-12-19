@@ -20,6 +20,11 @@ namespace Enemy
             _enemyController = enemy.GetComponent<EnemyController>();
             if (_enemyController != null)
             {
+                if (_enemyController.GetStatManager() == null)
+                {
+                    _enemyController.setStatManager(new StatManager());
+                }
+
                 _maxHealth = _enemyController.GetStatManager().Life.GetAppliedTotal();
                 _targetHealth = _currentDisplayedHealth = _enemyController.GetStatManager().Life.GetCurrent();
                 slider.value = _currentDisplayedHealth / _maxHealth;

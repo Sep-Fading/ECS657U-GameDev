@@ -15,7 +15,7 @@ namespace Player
         public float sprintSpeed = 8f;
         private float crouchSpeed = 3f;
         private float crouchRate = 2.5f; //2.5f is currently the most realistic
-        public float gravity = -30f;
+        public float gravity = -30f; //-30 is currently most realistic
         public float jumpheight = 1f;
         private bool onFloor;
         private bool LerpCrouch;

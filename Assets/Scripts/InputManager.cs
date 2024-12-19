@@ -1,8 +1,10 @@
+using System;
 using Combat;
 using InventoryScripts;
 using Player;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
@@ -30,7 +32,6 @@ public class InputManager : MonoBehaviour
         Cursor.visible = false;
     }
     
-    
     private void OnEnable()
     {
         PlayerInput.Enable();
@@ -42,6 +43,7 @@ public class InputManager : MonoBehaviour
         PlayerInput.UI.OpenInventory.performed += playerUI.InventoryToggle;
         PlayerInput.UI.ItemPickUp.performed += pickupManager.HandlePickUp;
         PlayerInput.UI.StatMenu.performed += playerUI.StatMenuToggle;
+        PlayerInput.UI.OpenOptions.performed += playerUI.OptionsMenuToggle;
         PlayerInput.grounded.SwordAction.performed += _ => weaponmanager.Attack();
         PlayerInput.grounded.ShieldAction.performed += _ => weaponmanager.Block();
         PlayerInput.grounded.ShieldAction.canceled += _ => weaponmanager.OnBlockCancelled();
@@ -56,6 +58,7 @@ public class InputManager : MonoBehaviour
         PlayerInput.UI.OpenSkillTree.performed -= playerUI.InventoryToggle;
         PlayerInput.UI.ItemPickUp.performed -= pickupManager.HandlePickUp;
         PlayerInput.UI.StatMenu.performed -= playerUI.StatMenuToggle;
+        PlayerInput.UI.OpenOptions.performed -= playerUI.OptionsMenuToggle;
         PlayerInput.Disable();
     }
 
@@ -79,5 +82,17 @@ public class InputManager : MonoBehaviour
         {
             _look.ProcessLook(PlayerInput.grounded.looking.ReadValue<Vector2>());
         }
+    }
+
+    public void RefreshBindings(PlayerInput action)
+    {
+        Debug.Log(PlayerInput == action);
+        PlayerInput.grounded.jumping.performed -= _playerMotor.Jump;
+        PlayerInput.grounded.jumping.performed += _playerMotor.Jump;
+    }
+
+    public PlayerInput getPlayerInput()
+    {
+        return PlayerInput;
     }
 }

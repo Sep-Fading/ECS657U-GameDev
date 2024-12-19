@@ -5,6 +5,7 @@ using GameplayMechanics.Character;
 using NUnit.Framework;
 using Player;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Enemy
@@ -46,13 +47,17 @@ namespace Enemy
 
         private void Awake()
         {
-            player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
+            
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerWeaponAnimator = GameObject.FindGameObjectWithTag("WeaponHolder").GetComponent<Animator>();
+            
+
             if (player != null)
             {
                 playerTransform = player.transform;
                 playerMotor = player.GetComponent<PlayerMotor>();
             }
-            playerWeaponAnimator = GameStateSaver.Instance.GetSharedObjectByName("WeaponHolder").GetComponent<Animator>();
+            
             enemyRenderer = GetComponent<Renderer>();
             enemyRenderer.material = defaultMaterial;
             wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();
@@ -157,6 +162,11 @@ namespace Enemy
             Destroy(gameObject);
         }
 
+        public void DestroyEnemy() //does not give XP to player, just removes the object
+        {
+            Destroy(gameObject);
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Wall") && !isRotating)
@@ -188,6 +198,11 @@ namespace Enemy
         }
         
         public StatManager GetStatManager() => _statManager;
+
+        public void setStatManager(StatManager statManager)
+        {
+           _statManager = statManager;
+        }
 
         IEnumerator SmoothTurn(float angle, float duration)
         {

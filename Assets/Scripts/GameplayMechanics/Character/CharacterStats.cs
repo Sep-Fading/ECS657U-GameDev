@@ -83,6 +83,7 @@ namespace GameplayMechanics.Character
             else
             {
                 Life.SetCurrent(Life.GetCurrent() - effectiveDamage);
+                Debug.Log("Damage Taken: " + effectiveDamage);
             }
             
             
@@ -92,16 +93,15 @@ namespace GameplayMechanics.Character
             }
         }
 
-        public void DoDamage(EnemyController enemy)
+        public void DoDamage(AbstractEnemy enemy)
         {
             StatManager enemyStatManager = enemy.GetStatManager();
-            HealthBar enemyHealthBar = enemy.GetComponentInChildren<HealthBar>(); // Assuming HealthBar is a child of enemy
             enemyStatManager.Life.SetCurrent(
                 enemyStatManager.Life.GetCurrent() - Instance.MeleeDamage.GetAppliedTotal());
             if (RollForBleed())
             {
                 BleedEffect bleed =
-                    new BleedEffect(3f, enemyStatManager, enemyHealthBar, enemy); 
+                    new BleedEffect(3f, enemyStatManager, enemy); 
                 bleed.Apply();
             }
         }

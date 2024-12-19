@@ -24,7 +24,7 @@ namespace InventoryScripts
         
         public void SetItemToPickUp(EquipmentInitializer item)
         {
-            _inventoryItem = new InventoryItem(item.equipment.GetItem(), item.equipment);
+            _inventoryItem = new InventoryItem(item.Equipment.GetItem(), item.Equipment);
             pickUpPrefab = item.gameObject;
         }
         

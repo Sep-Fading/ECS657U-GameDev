@@ -35,7 +35,13 @@ namespace UI
             {
                 if (_uiStack[i] == ui)
                 {
+                    _uiStack[i].SetActive(false);
                     _uiStack.RemoveAt(i);
+                    Debug.Log(_uiStack.Count);
+                    foreach (GameObject go in _uiStack)
+                    {
+                        Debug.Log(go.name);
+                    }
                 }
             }
             CheckEmpty();

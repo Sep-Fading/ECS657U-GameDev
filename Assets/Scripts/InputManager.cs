@@ -71,9 +71,9 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            gameObject.transform.position = new Vector3(300f, 10f, 250f);
+            gameObject.transform.position = new Vector3(250f, 10f, 380f);
             GameStateManager.Instance.SetTransitionState(false);
-            GameStateManager.Instance.MoveToNextScene("World-v0.1");
+            GameStateManager.Instance.MoveToNextScene("World-v0.2");
         }
     }
     private void LateUpdate()

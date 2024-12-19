@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VolumetricFogRendererFeatureLite
   m_EditorClassIdentifier: 
   m_Active: 1
-  renderInSceneView: 1
+  renderInSceneView: 0
   renderPassEvent: 400
   settings:
     fogDownsampleLevel: 8

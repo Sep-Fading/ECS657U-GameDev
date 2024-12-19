@@ -158,7 +158,7 @@ namespace Enemy
 
         void DefeatEnemy() 
         {
-            XpManager.GiveXp(10f);
+            XpManager.GiveXp(20f);
             Destroy(gameObject);
         }
 

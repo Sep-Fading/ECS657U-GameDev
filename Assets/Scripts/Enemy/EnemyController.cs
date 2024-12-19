@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using GameplayMechanics.Character;
+using NUnit.Framework;
 using Player;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Enemy
@@ -37,19 +41,23 @@ namespace Enemy
             speed = 4f;
             triggered = false;
             //enemyRenderer = GetComponent<Renderer>();
-            randomRot = Random.Range(-360f, 360f);
+            randomRot = UnityEngine.Random.Range(-360f, 360f);
             _statManager = new StatManager();
         }
 
         private void Awake()
         {
-            player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
+            
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerWeaponAnimator = GameObject.FindGameObjectWithTag("WeaponHolder").GetComponent<Animator>();
+            
+
             if (player != null)
             {
                 playerTransform = player.transform;
                 playerMotor = player.GetComponent<PlayerMotor>();
             }
-            playerWeaponAnimator = GameStateSaver.Instance.GetSharedObjectByName("WeaponHolder").GetComponent<Animator>();
+            
             enemyRenderer = GetComponent<Renderer>();
             enemyRenderer.material = defaultMaterial;
             wallCollider = GameObject.FindWithTag("Environment").GetComponent<Collider>();
@@ -120,7 +128,7 @@ namespace Enemy
             speed = 1f;
             if (!isRotating)
             {
-                StartCoroutine(SmoothTurn(Random.Range(-360f, 360f), 5f));
+                StartCoroutine(SmoothTurn(UnityEngine.Random.Range(-360f, 360f), 5f));
             }
             else if (idleTime > 2f)
             {
@@ -154,11 +162,16 @@ namespace Enemy
             Destroy(gameObject);
         }
 
+        public void DestroyEnemy() //does not give XP to player, just removes the object
+        {
+            Destroy(gameObject);
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Wall") && !isRotating)
             {
-                StartCoroutine(SmoothTurn(Random.Range(90f, 180f), 1f));
+                StartCoroutine(SmoothTurn(UnityEngine.Random.Range(90f, 180f), 1f));
             }
 
             if (playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length > playerWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime
@@ -166,7 +179,7 @@ namespace Enemy
                 && collision.gameObject.CompareTag("Weapon"))
             {
                 triggered = true;
-                PlayerStatManager.Instance.DoDamage(this);
+                //PlayerStatManager.Instance.DoDamage(this);
                 //currentHealth -= PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal();
                 
                 
@@ -185,6 +198,11 @@ namespace Enemy
         }
         
         public StatManager GetStatManager() => _statManager;
+
+        public void setStatManager(StatManager statManager)
+        {
+           _statManager = statManager;
+        }
 
         IEnumerator SmoothTurn(float angle, float duration)
         {

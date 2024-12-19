@@ -342,6 +342,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenOptions",
+                    "type": "Button",
+                    "id": "21dc5809-dff0-45d2-8fd5-0ba3247f68f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -806,8 +815,25 @@
                     "action": "StatMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f55fe87b-21a5-437b-980d-85e528a161be",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenOptions",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Rebinding",
+            "id": "2c921361-38c3-4ac0-a2a1-7ca7398c4624",
+            "actions": [],
+            "bindings": []
         }
     ],
     "controlSchemes": []

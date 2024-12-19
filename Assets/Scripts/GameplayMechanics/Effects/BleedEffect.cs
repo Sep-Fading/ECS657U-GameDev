@@ -20,7 +20,7 @@ namespace GameplayMechanics.Effects
         private MonoBehaviour _coroutineStarter; // To start coroutine correctly
 
         // Constructor for applying bleed to an enemy
-        public BleedEffect(float duration, StatManager statManager, HealthBar healthBar, MonoBehaviour coroutineStarter)
+        public BleedEffect(float duration, StatManager statManager, MonoBehaviour coroutineStarter)
         {
             this.effectType = EffectType.Debuff;
             this.name = "Bleeding";
@@ -28,7 +28,6 @@ namespace GameplayMechanics.Effects
                                $" physical damage over {duration.ToString("F1")} seconds.";
             this.duration = duration;
             _statManager = statManager;
-            _healthBar = healthBar;
             _coroutineStarter = coroutineStarter;
 
             _totalDamage = PlayerStatManager.Instance.Bleed.GetAppliedTotal();

@@ -46,11 +46,17 @@ namespace enemy
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
 
+            Vector3 lastPosition = transform.position;
+            float stuckCheckInterval = 0.5f;
+            float stuckThreshold = 0.05f;
+            float elapsedTime = 0f;
+
             while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
             {
                 animator.SetBool("isMoving", true);
                 if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", true);
                 if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", true);
+
                 // Rotate toward the target
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
@@ -58,13 +64,37 @@ namespace enemy
                     Time.deltaTime * stats.Speed.GetCurrent()
                 );
 
+                // Move toward the target
                 transform.position = Vector3.MoveTowards(
                     transform.position,
                     targetPosition,
                     stats.Speed.GetCurrent() * Time.deltaTime
                 );
+
+                // Increment elapsed time
+                elapsedTime += Time.deltaTime;
+
+                // Check for stuck condition
+                if (elapsedTime >= stuckCheckInterval)
+                {
+                    float distanceMoved = Vector3.Distance(transform.position, lastPosition);
+                    if (distanceMoved <= stuckThreshold)
+                    {
+                        animator.SetBool("isMoving", false);
+                        animator.SetBool("isWalking", false);
+                        animator.SetBool("isRunning", false);
+                        SetState(EnemyState.IDLE);
+                        yield break; // Stop moving
+                    }
+
+                    // Reset for the next interval
+                    lastPosition = transform.position;
+                    elapsedTime = 0f;
+                }
+
                 yield return null; // Wait for the next frame
             }
+
             animator.SetBool("isMoving", false);
             if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
             if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);

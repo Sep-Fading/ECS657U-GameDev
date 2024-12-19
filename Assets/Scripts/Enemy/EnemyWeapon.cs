@@ -30,7 +30,7 @@ public class EnemyWeapon : MonoBehaviour
             // Perform damage or other logic
             //Debug.Log("Player hit!");
             // Reset the attack state
-            enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+            //enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
             Debug.Log("Player HP: " + enemy.playerStats.Life.GetCurrent() + "/" + enemy.playerStats.Life.GetFlat());
         }
         gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;

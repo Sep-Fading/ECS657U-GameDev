@@ -66,7 +66,7 @@ namespace Enemy
         }
         public StatManager GetStatManager() => stats;
         public EnemyState GetState() { return enemyState; }
-        public void SetState(EnemyState state) { enemyState = state; } 
+        public void SetState(EnemyState state) { enemyState = state; }
         public virtual IEnumerator MoveTo(Vector3 targetPosition)
         {
             // Calculate the direction to the target
@@ -84,6 +84,11 @@ namespace Enemy
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
 
+            Vector3 lastPosition = transform.position;
+            float stuckCheckInterval = 0.5f;
+            float stuckThreshold = 0.05f;
+            float elapsedTime = 0f;
+
             while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
             {
                 animator.SetBool("isMoving", true);
@@ -94,13 +99,35 @@ namespace Enemy
                     Time.deltaTime * stats.Speed.GetCurrent()
                 );
 
+                // Move toward the target
                 transform.position = Vector3.MoveTowards(
                     transform.position,
                     targetPosition,
                     stats.Speed.GetCurrent() * Time.deltaTime
                 );
+
+                // Increment elapsed time
+                elapsedTime += Time.deltaTime;
+
+                // Check for stuck condition
+                if (elapsedTime >= stuckCheckInterval)
+                {
+                    float distanceMoved = Vector3.Distance(transform.position, lastPosition);
+                    if (distanceMoved <= stuckThreshold)
+                    {
+                        animator.SetBool("isMoving", false);
+                        SetState(EnemyState.IDLE);
+                        yield break; // Stop moving
+                    }
+
+                    // Reset for the next interval
+                    lastPosition = transform.position;
+                    elapsedTime = 0f;
+                }
+
                 yield return null; // Wait for the next frame
             }
+
             animator.SetBool("isMoving", false);
         }
         public virtual void idle()
@@ -172,6 +199,7 @@ namespace Enemy
             }
             else
             {
+                animator.SetBool("isMoving", false);
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
                     bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack

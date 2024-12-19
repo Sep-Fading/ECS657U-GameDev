@@ -1,17 +1,17 @@
-using Enemy;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-namespace enemy
+namespace Enemy
 {
-    public class OrcController : AbstractEnemy
+    public class MushroomKingController : AbstractEnemy
     {
         protected override void Awake()
         {
             base.Awake();
 
-            attackDistance = 1.65f;
+            attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
             attackPattern.Add(weaponAttack);
@@ -46,10 +46,10 @@ namespace enemy
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
 
-            Vector3 lastPosition = transform.position;
-            float stuckCheckInterval = 0.5f;
-            float stuckThreshold = 0.05f;
-            float elapsedTime = 0f;
+            Vector3 lastPosition = transform.position; 
+            float stuckCheckInterval = 0.5f;           
+            float stuckThreshold = 0.05f;             
+            float elapsedTime = 0f;                    
 
             while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
             {

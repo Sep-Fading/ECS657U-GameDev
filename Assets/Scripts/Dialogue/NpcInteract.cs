@@ -23,6 +23,12 @@ namespace Dialogue
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 _anim.SetTrigger(Talking);
+                if (!GameObject.Find("--DialogueBox").transform.GetChild(0).gameObject.active)
+                {
+                    GameObject.Find("--DialogueBox").transform.GetChild(0).gameObject.SetActive(true);
+                    npcDialogue = GameObject.Find("--DialogueBox").transform.GetChild(0).GetComponent<NpcDialogue>();
+                }
+                npcDialogue = transform.GetChild(0).GetComponent<NpcDialogue>();
                 npcDialogue.startDialogue(lines, npcName);
             }
         }

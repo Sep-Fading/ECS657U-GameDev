@@ -199,9 +199,11 @@ namespace Enemy
             }
             else
             {
+                StopAllCoroutines();
                 animator.SetBool("isMoving", false);
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
+                    stats.Speed.SetCurrent(0f);
                     bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
                     if (runPattern)
                     {
@@ -235,6 +237,10 @@ namespace Enemy
             foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
             if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
             //Debug.Log("Animation End");
+        }
+        public void onAttackComplete()
+        {
+            stats.Speed.SetCurrent(stats.Speed.GetFlat());
         }
         private void OnCollisionEnter(Collision collision)
         {

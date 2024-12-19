@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/World-v0.2.unity
     guid: faaa4fdbf96ea0b43b40562f2a9b9d5f
   - enabled: 1
-    path: Assets/Scenes/World-v.03.unity
-    guid: 21e3a89f3973961478781895b092e4e2
+    path: Assets/Scenes/World-v0.3.unity
+    guid: 62ac5e706228b4349bf5f9fff40a06b7
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PortalInteract : Interactable
 {
-
+    string[] scenes = { "Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3" };
     // Start is called before the first frame update
     void Start()
     {
@@ -12,6 +12,6 @@ public class PortalInteract : Interactable
     }
     public override void Interact()
     {
-        GameStateManager.Instance.SetTransitionState(true);
+        GameStateManager.Instance.MoveToNextScene(scenes[2]);
     }
 }

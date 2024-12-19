@@ -12,7 +12,7 @@ namespace Dialogue
         [SerializeField] private string[] lines;
         [SerializeField] private string npcName;
         [SerializeField] private NpcDialogue npcDialogue;
-        
+
         private void Awake()
         {
             _anim = npcObject.GetComponent<Animator>();
@@ -28,7 +28,6 @@ namespace Dialogue
                     GameObject.Find("--DialogueBox").transform.GetChild(0).gameObject.SetActive(true);
                     npcDialogue = GameObject.Find("--DialogueBox").transform.GetChild(0).GetComponent<NpcDialogue>();
                 }
-                npcDialogue = transform.GetChild(0).GetComponent<NpcDialogue>();
                 npcDialogue.startDialogue(lines, npcName);
             }
         }

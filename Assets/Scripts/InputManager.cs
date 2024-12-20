@@ -88,7 +88,6 @@ public class InputManager : MonoBehaviour
 
     public void RefreshBindings(PlayerInput action)
     {
-        Debug.Log(PlayerInput == action);
         PlayerInput.grounded.jumping.performed -= _playerMotor.Jump;
         PlayerInput.grounded.jumping.performed += _playerMotor.Jump;
     }

@@ -21,7 +21,7 @@ namespace Player
         [SerializeField] private GameObject statUI;
         [FormerlySerializedAs("_StatUIText")]
         [SerializeField] private GameObject statUIText;
-        
+        [FormerlySerializedAs("_optionsUIText")]
         [SerializeField] private GameObject optionsUI;
         // Start is called before the first frame update
         void Start()

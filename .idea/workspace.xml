@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13439fa5-246b-42c2-825c-bf9978f37496" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Imported_models/Mirza Beig/Volumetric Fog (Lite)/Materials/Fog/Composite.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Imported_models/Mirza Beig/Volumetric Fog (Lite)/Materials/Fog/Composite.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Tutorial.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Tutorial.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ally/AllyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ally/AllyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Options/OptionsMenuManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Options/OptionsMenuManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/input/PlayerInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/input/PlayerInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/input/PlayerInput.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/input/PlayerInput.inputactions" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +22,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Ally/AllyController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InputManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Options/OptionsMenuManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -51,7 +55,7 @@
       <updated>1734007299293</updated>
       <workItem from="1734007304840" duration="7879000" />
       <workItem from="1734048802975" duration="178000" />
-      <workItem from="1734434730454" duration="570000" />
+      <workItem from="1734434730454" duration="5341000" />
     </task>
     <servers />
   </component>

@@ -56,7 +56,6 @@ public class AllyController : MonoBehaviour
             if (hit.CompareTag("Enemy") && !targets.Contains(hit.gameObject))
             {
                 targets.Add(hit);
-                Debug.Log(hit.gameObject.name);
             }
         }
 
@@ -74,7 +73,7 @@ public class AllyController : MonoBehaviour
                 
                 if (triggered && target.gameObject.activeInHierarchy)
                 {
-                    Debug.Log("Chasing: " + target.gameObject.name);
+                    //Debug.Log("Chasing: " + target.gameObject.name);
                     if (inChaseRange)
                     {
                         TrackEnemy(enemypos);
@@ -85,13 +84,13 @@ public class AllyController : MonoBehaviour
                     }
                 }
                 targets.Remove(target);
-                Debug.Log("Removed: " + target.gameObject.name);
+                //Debug.Log("Removed: " + target.gameObject.name);
             }
         }
         else
         {
             Idle();
-            Debug.Log("Idling rn boss, nothing to see here");
+            //Debug.Log("Idling rn boss, nothing to see here");
         }
 
     }

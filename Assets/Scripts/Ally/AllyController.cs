@@ -83,9 +83,11 @@ public class AllyController : MonoBehaviour
                         Attack(target);
                     }
                 }
-                targets.Remove(target);
+                //targets.Remove(target);
                 //Debug.Log("Removed: " + target.gameObject.name);
             }
+            
+            targets.Clear();
         }
         else
         {

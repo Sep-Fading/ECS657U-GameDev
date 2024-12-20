@@ -2337,7 +2337,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Heal
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5379,7 +5379,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1123637451}
-  - {fileID: 1857708267}
   m_Father: {fileID: 1468723533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.73426586, y: 0}
@@ -6719,6 +6718,7 @@ RectTransform:
   - {fileID: 2023651779}
   - {fileID: 1181466317}
   - {fileID: 2019911443}
+  - {fileID: 1857708267}
   m_Father: {fileID: 2037194191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6780,7 +6780,7 @@ MonoBehaviour:
   textSpeed: 0.05
   OptionContainer: {fileID: 1181466316}
   button1: {fileID: 1123637452}
-  button2: {fileID: 1857708268}
+  HealButton: {fileID: 1857708268}
   NextButton: {fileID: 2019911444}
 --- !u!114 &1473746699 stripped
 MonoBehaviour:
@@ -8649,7 +8649,7 @@ GameObject:
   - component: {fileID: 1857708269}
   - component: {fileID: 1857708268}
   m_Layer: 5
-  m_Name: Option2
+  m_Name: HealButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8662,18 +8662,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1857708266}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 462680226}
-  m_Father: {fileID: 1181466317}
+  m_Father: {fileID: 1468723533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -20}
-  m_SizeDelta: {x: 160, y: 50}
+  m_AnchoredPosition: {x: 580, y: -22.499996}
+  m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1857708268
 MonoBehaviour:

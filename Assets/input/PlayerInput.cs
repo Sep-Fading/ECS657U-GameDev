@@ -850,12 +850,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Rebinding"",
-            ""id"": ""2c921361-38c3-4ac0-a2a1-7ca7398c4624"",
-            ""actions"": [],
-            ""bindings"": []
         }
     ],
     ""controlSchemes"": []
@@ -887,8 +881,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_UI_ItemPickUp = m_UI.FindAction("ItemPickUp", throwIfNotFound: true);
         m_UI_StatMenu = m_UI.FindAction("StatMenu", throwIfNotFound: true);
         m_UI_OpenOptions = m_UI.FindAction("OpenOptions", throwIfNotFound: true);
-        // Rebinding
-        m_Rebinding = asset.FindActionMap("Rebinding", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1206,44 +1198,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
-
-    // Rebinding
-    private readonly InputActionMap m_Rebinding;
-    private List<IRebindingActions> m_RebindingActionsCallbackInterfaces = new List<IRebindingActions>();
-    public struct RebindingActions
-    {
-        private @PlayerInput m_Wrapper;
-        public RebindingActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputActionMap Get() { return m_Wrapper.m_Rebinding; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(RebindingActions set) { return set.Get(); }
-        public void AddCallbacks(IRebindingActions instance)
-        {
-            if (instance == null || m_Wrapper.m_RebindingActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_RebindingActionsCallbackInterfaces.Add(instance);
-        }
-
-        private void UnregisterCallbacks(IRebindingActions instance)
-        {
-        }
-
-        public void RemoveCallbacks(IRebindingActions instance)
-        {
-            if (m_Wrapper.m_RebindingActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IRebindingActions instance)
-        {
-            foreach (var item in m_Wrapper.m_RebindingActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_RebindingActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public RebindingActions @Rebinding => new RebindingActions(this);
     public interface IGroundedActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -1272,8 +1226,5 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnItemPickUp(InputAction.CallbackContext context);
         void OnStatMenu(InputAction.CallbackContext context);
         void OnOpenOptions(InputAction.CallbackContext context);
-    }
-    public interface IRebindingActions
-    {
     }
 }

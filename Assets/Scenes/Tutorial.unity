@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.32129002, g: 0.52959734, b: 0.6689592, a: 1}
+  m_IndirectSpecularColor: {r: 0.36428174, g: 0.6231951, b: 0.6643642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1655,13 +1655,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 29180846}
+  - {fileID: 970676501}
+  - {fileID: 1329601924}
   - {fileID: 1732970268}
   - {fileID: 217110006}
   - {fileID: 1244371549}
   - {fileID: 471987786}
-  - {fileID: 1329601924}
   - {fileID: 1195625878}
-  - {fileID: 970676501}
   m_Father: {fileID: 922228526}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3428,6 +3428,10 @@ PrefabInstance:
     - target: {fileID: 5214908557479739440, guid: bed64454f5ab7244d8b46d1837d459b7, type: 3}
       propertyPath: m_Name
       value: -- Inventory UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5214908557479739440, guid: bed64454f5ab7244d8b46d1837d459b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6630967354413808580, guid: bed64454f5ab7244d8b46d1837d459b7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5315,7 +5319,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -25.155838, y: 0, z: -24.801651, w: 19.883528}
+  m_margin: {x: -25.155838, y: 0, z: -24.801651, w: 33.67042}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5538,7 +5542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1842484674051313894, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2137894350024456944, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
       propertyPath: m_UiScaleMode
@@ -5555,6 +5559,10 @@ PrefabInstance:
     - target: {fileID: 4322165890110519031, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
       propertyPath: m_LocalPosition.y
       value: 73.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558769664888270449, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7994842489798594405, guid: 8c829a415c94d9b449f5dbc35284f0fe, type: 3}
       propertyPath: m_Name
@@ -11791,15 +11799,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf3d6dbd2d836c41a55c72b9c5ee679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemPrefab: {fileID: 7311507267931744905, guid: 0fe8c4ad20ce8b946a61d68e14e204e0, type: 3}
+  itemPrefab: {fileID: 7311507267931744905, guid: 0fe8c4ad20ce8b946a61d68e14e204e0, type: 3}
   equipmentType: 2
   name: Longsword
   description: A reliable blade to strike with.
   equipmentEffectTypes:
-  - _equipmentType: 0
+  - equipmentType: 0
     multi: 0
     flat: 35
-  - _equipmentType: 1
+  - equipmentType: 1
     multi: 0.25
     flat: 0
 --- !u!4 &2131410957 stripped

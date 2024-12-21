@@ -11,6 +11,8 @@ TagManager:
   - WeaponSlot
   - ShieldSlot
   - Wall
+  - EnemyWeapon
+  - EnemyWeaponThrowable
   layers:
   - Default
   - TransparentFX

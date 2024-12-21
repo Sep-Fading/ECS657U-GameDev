@@ -11,7 +11,7 @@ public class EnemyWeapon : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        collider = GetComponent<BoxCollider>();
+        collider = GetComponent<Collider>();
         collider.enabled = false;
     }
 

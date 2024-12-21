@@ -1,6 +1,8 @@
 using Enemy;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.Examples;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -8,27 +10,38 @@ namespace enemy
 {
     public class OrcBossController : AbstractEnemy
     {
+        bool isThrowing;
         protected override void Awake()
         {
             base.Awake();
 
-            attackDistance = 3f;
-            attackCooldown = 1f;
-            attackPattern.Add(punchAttack);
-            attackPattern.Add(weaponAttack);
+            attackDistance = 3.5f;
+            attackCooldown = 3f;
+            attackPattern.Add(jumpAttack);
+            //attackPattern.Add(weaponAttack);
+            //attackPattern.Add(punchAttack);
+            //attackPattern.Add(throwAttack);
         }
         protected override void Start()
         {
+            baseSpeed = 2f;
+            runSpeed = 7f;
             base.Start();
-
-            stats.Speed.SetFlat(2f);
         }
         protected override void Update()
         {
             base.Update();
 
-            if (GetState() == EnemyState.TRIGGERED) stats.Speed.SetFlat(7f);
-            else stats.Speed.SetFlat(2f);
+            if ((GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK) 
+                && player.GetComponent<InputManager>().getPlayerInput().grounded.SwordAction.triggered 
+                && Random.value < 0.3
+                && !animator.GetAnimatorTransitionInfo(0).IsName("Dodge")
+                && GameObject.FindWithTag("WeaponSlot").transform.childCount > 0)
+            {
+                animator.SetTrigger("dodgeTrigger");
+                Debug.Log("Dodging");
+            }
+            //Debug.Log("Speed: " + stats.Speed.GetCurrent());
         }
         public override IEnumerator MoveTo(Vector3 targetPosition)
         {
@@ -102,11 +115,8 @@ namespace enemy
         }
         public override void idle()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal() && !(animator.GetAnimatorTransitionInfo(0).IsName("Jump") || animator.GetAnimatorTransitionInfo(0).IsName("JumpIdle")))
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal())
             {
                 SetState(EnemyState.TRIGGERED);
             }
@@ -146,14 +156,8 @@ namespace enemy
         }
         public override void followPlayer()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.IDLE);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
             else if (distanceBetweenPlayer <= attackDistance)
             {
                 SetState(EnemyState.ATTACK);
@@ -167,20 +171,41 @@ namespace enemy
                 //animator.SetTrigger("jumpTrigger");
             }
         }
-        public void jumpBackwards()
+        public void punchAttack() { animator.SetTrigger("punchTrigger"); }
+        public void weaponAttack() { animator.SetTrigger("weaponTrigger"); }
+        public void throwAttack() 
         {
-            // Calculate the direction opposite to the player
-            Vector3 backwardDirection = (transform.position - player.transform.position).normalized;
-
-            // Add an upward and backward force to the Rigidbody
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null)
+            animator.SetTrigger("weaponTrigger");
+            isThrowing = true;
+        }
+        public void checkThrowAttack()
+        {
+            if (isThrowing)
             {
-                Vector3 jumpForce = (Vector3.back + Vector3.up) * 5f; // Adjust the multiplier for strength
-                rb.AddForce(jumpForce, ForceMode.Impulse);
+                GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = false;
+                GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
+                newWeapon.GetComponent<Renderer>().enabled = true;
+                newWeapon.GetComponent<Rigidbody>().isKinematic = false;
+                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 30f, ForceMode.Impulse);
             }
         }
-        public void animateJump()
+        public void enableWeapon()
+        {
+            if (isThrowing)
+            {
+                GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = true;
+                //Destroy(GameObject.FindWithTag("EnemyWeaponThrowable"));
+                GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
+                isThrowing = false;
+            }
+        }
+        public void jump() 
+        {
+            setSpeed(0f);
+            Debug.Log((transform.position - player.transform.position).normalized);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 10f, ForceMode.Impulse);
+        }
+        public void jumpAttack()
         {
             animator.SetTrigger("jumpTrigger");
         }
@@ -190,15 +215,11 @@ namespace enemy
         }
         public void checkNearGround()
         {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 3f)) animator.SetTrigger("jumpEndTrigger");
-        }
-        public void punchAttack()
-        {
-            animator.SetTrigger("punchTrigger");
-        }
-        public void weaponAttack()
-        {
-            animator.SetTrigger("weaponTrigger");
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 4f)) 
+            { 
+                animator.SetTrigger("jumpEndTrigger");
+                setSpeed(runSpeed); 
+            }
         }
     }
 }

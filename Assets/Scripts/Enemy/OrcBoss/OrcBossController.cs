@@ -47,7 +47,6 @@ namespace enemy
             switch (enemyState)
             {
                 case EnemyState.TRIGGERED:
-                    stats.Speed.SetFlat(runSpeed);
                     followPlayer();
                     break;
                 case EnemyState.ATTACK:
@@ -67,6 +66,7 @@ namespace enemy
                 && !animator.GetAnimatorTransitionInfo(0).IsName("Dodge")
                 && GameObject.FindWithTag("WeaponSlot").transform.childCount > 0)
             {
+                setSpeed(0f);
                 GetComponent<Rigidbody>().isKinematic = true;
                 GetComponent<Collider>().enabled = false;
                 animator.SetTrigger("dodgeTrigger");
@@ -270,6 +270,7 @@ namespace enemy
         {
             GetComponent<Collider>().enabled = true;
             GetComponent<Rigidbody>().isKinematic = false;
+            resetSpeed();
         }
         public void resetSpeed()
         {

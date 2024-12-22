@@ -18,16 +18,13 @@ namespace Enemy
         }
         protected override void Start()
         {
+            baseSpeed = 2f;
+            runSpeed = 6f;
             base.Start();
-
-            stats.Speed.SetFlat(2f);
         }
         protected override void Update()
         {
             base.Update();
-
-            if (GetState() == EnemyState.TRIGGERED) stats.Speed.SetFlat(7f);
-            else stats.Speed.SetFlat(2f);
         }
         public override IEnumerator MoveTo(Vector3 targetPosition)
         {

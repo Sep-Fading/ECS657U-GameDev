@@ -97,7 +97,8 @@ namespace GameplayMechanics.Character
             
             if (Life.GetCurrent() <= 0)
             {
-                PlayerDeathHandler();
+                //PlayerDeathHandler();
+                Debug.Log("Player Died");
             }
         }
 

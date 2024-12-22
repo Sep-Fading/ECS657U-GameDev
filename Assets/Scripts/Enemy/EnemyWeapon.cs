@@ -11,7 +11,7 @@ public class EnemyWeapon : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        collider = GetComponent<BoxCollider>();
+        collider = GetComponent<Collider>();
         collider.enabled = false;
     }
 
@@ -35,7 +35,7 @@ public class EnemyWeapon : MonoBehaviour
         }
         gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
         collider.enabled = false;
-        GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = true;
+        GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
     }
     private void OnCollisionEnter(Collision collision)
     {

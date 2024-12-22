@@ -35,7 +35,7 @@ public class EnemyWeapon : MonoBehaviour
         }
         gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
         collider.enabled = false;
-        GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = true;
+        GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
     }
     private void OnCollisionEnter(Collision collision)
     {

@@ -13,6 +13,7 @@ TagManager:
   - Wall
   - EnemyWeapon
   - EnemyWeaponThrowable
+  - Boss
   layers:
   - Default
   - TransparentFX

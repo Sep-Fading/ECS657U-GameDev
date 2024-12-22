@@ -231,12 +231,5 @@ namespace Enemy
         {
             setSpeed(runSpeed);
         }
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (GetState() == EnemyState.ATTACK && !playerStats.IsBlocking && collision.gameObject.tag == "Player")
-            {
-                
-            }
-        }
     } 
 }

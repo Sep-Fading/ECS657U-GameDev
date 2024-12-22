@@ -53,7 +53,7 @@ public class AllyController : MonoBehaviour
 
         foreach (Collider hit in hitColliders)
         {
-            if (hit.CompareTag("Enemy") && !targets.Contains(hit.gameObject))
+            if ((hit.CompareTag("Enemy") || hit.CompareTag("Boss")) && !targets.Contains(hit.gameObject))
             {
                 targets.Add(hit);
                 Debug.Log(hit.gameObject.name);

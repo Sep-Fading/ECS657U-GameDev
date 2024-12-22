@@ -11,107 +11,127 @@ namespace enemy
     public class OrcBossController : AbstractEnemy
     {
         bool isThrowing;
+        bool isCircling;
+        float circlingTimer;
+        float circlingCooldown;
+        [SerializeField] float speed;
         protected override void Awake()
         {
             base.Awake();
 
             attackDistance = 3.5f;
-            attackCooldown = 3f;
-            attackPattern.Add(jumpAttack);
-            //attackPattern.Add(weaponAttack);
-            //attackPattern.Add(punchAttack);
+            attackCooldown = 2f;
+            attackPattern.Add(weaponAttack);
+            attackPattern.Add(punchAttack);
+            //attackPattern.Add(jumpAttack);
             //attackPattern.Add(throwAttack);
         }
         protected override void Start()
         {
             baseSpeed = 2f;
             runSpeed = 7f;
+            isCircling = false;
+            circlingTimer = 5f;
+            circlingCooldown = 10f;
+            SetState(EnemyState.IDLE);
             base.Start();
+            stats.TriggeredDistance.SetCurrent(100f);
+            stats.Speed.SetFlat(runSpeed);
+            stats.Life.SetFlat(1000f);
+            speed = stats.Speed.GetCurrent();
         }
         protected override void Update()
         {
-            base.Update();
+            distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
+            //Debug.Log("Moving: " + animator.GetBool("isMoving"));
+            switch (enemyState)
+            {
+                case EnemyState.TRIGGERED:
+                    stats.Speed.SetFlat(runSpeed);
+                    followPlayer();
+                    break;
+                case EnemyState.ATTACK:
+                    attack();
+                    break;
+                case EnemyState.DEAD:
+                    despawn();
+                    break;
+                default:
+                    break;
+            }
 
-            if ((GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK) 
-                && player.GetComponent<InputManager>().getPlayerInput().grounded.SwordAction.triggered 
+            if ((GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK)
+                && distanceBetweenPlayer <= attackDistance
+                && player.GetComponent<InputManager>().getPlayerInput().grounded.SwordAction.triggered
                 && Random.value < 0.3
                 && !animator.GetAnimatorTransitionInfo(0).IsName("Dodge")
                 && GameObject.FindWithTag("WeaponSlot").transform.childCount > 0)
             {
+                GetComponent<Rigidbody>().isKinematic = true;
+                GetComponent<Collider>().enabled = false;
                 animator.SetTrigger("dodgeTrigger");
                 Debug.Log("Dodging");
             }
+
+            if (!isCircling) circlingCooldown -= Time.deltaTime;
             //Debug.Log("Speed: " + stats.Speed.GetCurrent());
         }
         public override IEnumerator MoveTo(Vector3 targetPosition)
         {
-            // Calculate the direction to the target
-            Vector3 direction = targetPosition - transform.position;
-
-            if (direction.magnitude <= 0.001f)
+            // Normal chasing behavior if not circling
+            if (!isCircling)
             {
-                yield break; // Exit if the target position is too close
-            }
+                Vector3 direction = targetPosition - transform.position;
 
-            // Normalize the direction
-            direction.Normalize();
-
-            // Calculate target rotation
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
-
-            Vector3 lastPosition = transform.position;
-            float stuckCheckInterval = 0.5f;
-            float stuckThreshold = 0.05f;
-            float elapsedTime = 0f;
-
-            while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
-            {
-                animator.SetBool("isMoving", true);
-                if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", true);
-                if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", true);
-
-                // Rotate toward the target
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    targetRotation,
-                    Time.deltaTime * stats.Speed.GetCurrent()
-                );
-
-                // Move toward the target
-                transform.position = Vector3.MoveTowards(
-                    transform.position,
-                    targetPosition,
-                    stats.Speed.GetCurrent() * Time.deltaTime
-                );
-
-                // Increment elapsed time
-                elapsedTime += Time.deltaTime;
-
-                // Check for stuck condition
-                if (elapsedTime >= stuckCheckInterval)
+                if (direction.magnitude <= 0.001f)
                 {
-                    float distanceMoved = Vector3.Distance(transform.position, lastPosition);
-                    if (distanceMoved <= stuckThreshold)
-                    {
-                        animator.SetBool("isMoving", false);
-                        animator.SetBool("isWalking", false);
-                        animator.SetBool("isRunning", false);
-                        SetState(EnemyState.IDLE);
-                        yield break; // Stop moving
-                    }
-
-                    // Reset for the next interval
-                    lastPosition = transform.position;
-                    elapsedTime = 0f;
+                    yield break; // Exit if the target position is too close
                 }
 
-                yield return null; // Wait for the next frame
-            }
+                direction.Normalize();
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
 
-            animator.SetBool("isMoving", false);
-            if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
-            if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);
+                while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
+                {
+                    animator.SetBool("isMoving", true);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * stats.Speed.GetCurrent());
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, stats.Speed.GetCurrent() * Time.deltaTime);
+                    yield return null; // Wait for the next frame
+                }
+
+                animator.SetBool("isMoving", false);
+            }
+            else
+            {
+                // Circling behavior
+                while (circlingTimer > 0f)
+                {
+                    animator.SetBool("isMoving", true);
+
+                    circlingTimer -= Time.deltaTime;
+
+                    // Rotate around the player
+                    transform.RotateAround(targetPosition, Vector3.up, stats.Speed.GetCurrent() * 2f * Time.deltaTime);
+
+                    Quaternion targetRotation = Quaternion.LookRotation(Vector3.Cross(transform.position - targetPosition, Vector3.up).normalized * -1);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * stats.Speed.GetCurrent());
+                    // Randomly throw a weapon at the player
+                    if (Random.value < 0.5f && Time.time - lastAttackTime >= attackCooldown)
+                    {
+                        throwAttack();
+                        lastAttackTime = Time.time;
+                    }
+
+                    yield return null;
+                }
+
+                // Exit circling
+                isCircling = false;
+                circlingCooldown = 10f;
+                animator.SetBool("isMoving", false);
+                setSpeed(runSpeed);
+            }
         }
         public override void idle()
         {
@@ -123,52 +143,68 @@ namespace enemy
             else
             {
                 animator.SetBool("isMoving", false);
-                animator.SetBool("isRunning", false);
-                if (idleTime <= 0)
-                {
-                    // Randomly decide between moving or staying still
-                    bool willMove = Random.value > 0.5f; // 50% chance to move or stay idle
-                    if (willMove)
-                    {
-                        animator.SetBool("isWalking", true);
-                        Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
-                        randomDirection += transform.position; // Offset by current position
-                        randomDirection.y = transform.position.y; // Maintain current Y position
-
-                        StopAllCoroutines();
-                        StartCoroutine(MoveTo(randomDirection));
-                    }
-                    else
-                    {
-                        //bool willJump = Random.value > 0.5f;
-                        //if (willJump) animator.SetTrigger("jumpTrigger");
-                        //else animator.SetBool("isWalking", false);
-                        animator.SetBool("isWalking", false);
-                    }
-                    // Set a new idle duration (2-5 seconds)
-                    idleTime = Random.Range(2f, 5f);
-                }
-                else
-                {
-                    idleTime -= Time.deltaTime; // Count down idle time
-                }
             }
         }
         public override void followPlayer()
         {
-            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
-            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
+            if (stats.Life.GetCurrent() <= 0)
+            {
+                SetState(EnemyState.DEAD);
+            }
             else if (distanceBetweenPlayer <= attackDistance)
             {
                 SetState(EnemyState.ATTACK);
             }
             else
             {
+                // Normal chasing behavior
                 StopAllCoroutines();
-                animator.SetBool("isRunning", true);
+                attackDistance = 3.5f;
                 animator.SetBool("isWalking", false);
+                animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
-                //animator.SetTrigger("jumpTrigger");
+            }
+        }
+        private void StartCircling()
+        {
+            isCircling = true;
+            circlingTimer = 4f; // Reset circling duration
+            //attackDistance = 7f; // Increase distance to allow circling
+            StopAllCoroutines();
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", true);
+            StartCoroutine(MoveTo(player.transform.position));
+        }
+        public override void attack()
+        {
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else
+            {
+                StopAllCoroutines();
+                animator.SetBool("isMoving", false);
+
+                if (Time.time - lastAttackTime >= attackCooldown && !isCircling) // Check cooldown
+                {
+                    bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
+                    if (runPattern)
+                    {
+                        foreach (var attack in attackPattern)
+                        {
+                            attack.Invoke();
+                            Debug.Log("Attack: " + attack.Method);
+                        }
+                    }
+                    else
+                    {
+                        int attack = Random.Range(0, attackPattern.Count);
+                        attackPattern[attack].Invoke();
+                        Debug.Log("Attack: " + attackPattern[attack].Method);
+                    }
+                    lastAttackTime = Time.time; // Reset cooldown
+                }
+                if (Random.value < 0.2f && !isCircling && circlingCooldown <= 0f)
+                { jumpAttack(); isCircling = true; }
+                SetState(EnemyState.TRIGGERED);
             }
         }
         public void punchAttack() { animator.SetTrigger("punchTrigger"); }
@@ -186,6 +222,7 @@ namespace enemy
                 GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
+                newWeapon.transform.Rotate(-90f, 0f, 90f, 0);
                 newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 30f, ForceMode.Impulse);
             }
         }
@@ -203,7 +240,7 @@ namespace enemy
         {
             setSpeed(0f);
             Debug.Log((transform.position - player.transform.position).normalized);
-            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 10f, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 7f, ForceMode.Impulse);
         }
         public void jumpAttack()
         {
@@ -218,8 +255,25 @@ namespace enemy
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 4f)) 
             { 
                 animator.SetTrigger("jumpEndTrigger");
-                setSpeed(runSpeed); 
+                setSpeed(runSpeed);
             }
+        }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Weapon") && (GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK))
+            {
+                setSpeed(0f);
+                animator.SetTrigger("stunTrigger");
+            }
+        }
+        public void endDodge()
+        {
+            GetComponent<Collider>().enabled = true;
+            GetComponent<Rigidbody>().isKinematic = false;
+        }
+        public void resetSpeed()
+        {
+            setSpeed(stats.Speed.GetFlat());
         }
     }
 }

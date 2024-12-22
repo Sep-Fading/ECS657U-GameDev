@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 72595409121178875}
   - component: {fileID: 2725849341936771200}
-  - component: {fileID: 5123126575037443661}
   - component: {fileID: 8675199671310447631}
   - component: {fileID: 4836495737043528471}
+  - component: {fileID: -3589247491392434478}
+  - component: {fileID: 6066918872871928809}
   m_Layer: 0
   m_Name: Orc_Skull_Weapon
   m_TagString: EnemyWeaponThrowable
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.44220796, y: -0.50080323, z: 0.46261188, w: 0.5827851}
   m_LocalPosition: {x: -1.238, y: 0.435, z: -0.229}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 150, y: 150, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -42,28 +43,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5613604939448527448}
-  m_Mesh: {fileID: -2148151789739415165, guid: eac18f1cc4f99eb43a0ad132dd844a05, type: 3}
---- !u!64 &5123126575037443661
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5613604939448527448}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: -2148151789739415165, guid: eac18f1cc4f99eb43a0ad132dd844a05, type: 3}
 --- !u!23 &8675199671310447631
 MeshRenderer:
@@ -134,3 +113,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3589247491392434478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613604939448527448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c35a536bef4f24eb012495865db812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &6066918872871928809
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613604939448527448}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0072204447, y: 0.017432576, z: 0.006972085}
+  m_Center: {x: 0.001764288, y: -0.0026943446, z: 0.0004296775}

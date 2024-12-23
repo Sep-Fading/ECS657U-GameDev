@@ -230,6 +230,7 @@ namespace Enemy
         public void onAttackComplete()
         {
             setSpeed(runSpeed);
+            SetState(EnemyState.TRIGGERED);
         }
     } 
 }

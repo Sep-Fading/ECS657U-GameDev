@@ -11,7 +11,7 @@ namespace enemy
     public class OrcBossController : AbstractEnemy
     {
         bool isThrowing;
-        bool isCircling;
+        public bool isCircling;
         float circlingTimer;
         float circlingCooldown;
         [SerializeField] float speed;
@@ -33,7 +33,7 @@ namespace enemy
             isCircling = false;
             circlingTimer = 5f;
             circlingCooldown = 10f;
-            SetState(EnemyState.IDLE);
+            SetState(EnemyState.TRIGGERED);
             base.Start();
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);
@@ -59,6 +59,9 @@ namespace enemy
                     break;
             }
 
+            if (animator.GetAnimatorTransitionInfo(0).IsName("Stun")) GetComponent<Rigidbody>().isKinematic = true;
+            else GetComponent<Rigidbody>().isKinematic = false;
+
             if ((GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK)
                 && distanceBetweenPlayer <= attackDistance
                 && player.GetComponent<InputManager>().getPlayerInput().grounded.SwordAction.triggered
@@ -67,8 +70,6 @@ namespace enemy
                 && GameObject.FindWithTag("WeaponSlot").transform.childCount > 0)
             {
                 setSpeed(0f);
-                GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<Collider>().enabled = false;
                 animator.SetTrigger("dodgeTrigger");
                 Debug.Log("Dodging");
             }
@@ -92,11 +93,32 @@ namespace enemy
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
 
+                Vector3 lastPosition = transform.position;
+                float stuckCheckInterval = 0.1f;
+                float stuckThreshold = 0.0005f;
+                float elapsedTime = 0f;
+
                 while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
                 {
                     animator.SetBool("isMoving", true);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * stats.Speed.GetCurrent());
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, stats.Speed.GetCurrent() * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * stats.Speed.GetFlat());
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, stats.Speed.GetFlat() * Time.deltaTime);
+                    // Increment elapsed time
+                    elapsedTime += Time.deltaTime;
+                    float distanceMoved = 0f;
+                    // Check for stuck condition
+                    if (elapsedTime >= stuckCheckInterval)
+                    {
+                        distanceMoved = Vector3.Distance(transform.position, lastPosition);
+                        if (distanceMoved <= stuckThreshold)
+                        {
+                            yield break; // Stop moving
+                        }
+
+                        // Reset for the next interval
+                        lastPosition = transform.position;
+                        elapsedTime = 0f;
+                    }
                     yield return null; // Wait for the next frame
                 }
 
@@ -115,14 +137,13 @@ namespace enemy
                     transform.RotateAround(targetPosition, Vector3.up, stats.Speed.GetCurrent() * 2f * Time.deltaTime);
 
                     Quaternion targetRotation = Quaternion.LookRotation(Vector3.Cross(transform.position - targetPosition, Vector3.up).normalized * -1);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * stats.Speed.GetCurrent());
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * stats.Speed.GetFlat());
                     // Randomly throw a weapon at the player
                     if (Random.value < 0.5f && Time.time - lastAttackTime >= attackCooldown)
                     {
                         throwAttack();
                         lastAttackTime = Time.time;
                     }
-
                     yield return null;
                 }
 
@@ -163,12 +184,14 @@ namespace enemy
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
+                if (Random.value < 0.001 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
             }
         }
         private void StartCircling()
         {
             isCircling = true;
-            circlingTimer = 4f; // Reset circling duration
+            circlingTimer = 10f; // Reset circling duration
+            attackCooldown = 2.5f;
             //attackDistance = 7f; // Increase distance to allow circling
             StopAllCoroutines();
             animator.SetBool("isWalking", false);
@@ -218,6 +241,7 @@ namespace enemy
         {
             if (isThrowing)
             {
+                transform.LookAt(player.transform);
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = false;
                 GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
@@ -245,6 +269,7 @@ namespace enemy
         }
         public void jumpAttack()
         {
+            transform.LookAt(player.transform);
             animator.SetTrigger("jumpTrigger");
         }
         public void onJump()
@@ -253,7 +278,7 @@ namespace enemy
         }
         public void checkNearGround()
         {
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 4f)) 
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 5f)) 
             { 
                 animator.SetTrigger("jumpEndTrigger");
                 setSpeed(runSpeed);
@@ -261,16 +286,25 @@ namespace enemy
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon") && (GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK))
+            if (collision.gameObject.CompareTag("Weapon") 
+                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
+                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+                )
             {
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }
         }
+        public void dodge()
+        {
+            GetComponent<Rigidbody>().isKinematic = true;
+            Physics.IgnoreLayerCollision(6,7,true);
+        }
         public void endDodge()
         {
-            GetComponent<Collider>().enabled = true;
+            Physics.IgnoreLayerCollision(6, 7, false);
             GetComponent<Rigidbody>().isKinematic = false;
+            SetState(EnemyState.TRIGGERED);
             resetSpeed();
         }
         public void resetSpeed()

@@ -1,4 +1,6 @@
 using Enemy;
+using GameplayMechanics.Character;
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +9,13 @@ namespace enemy
 {
     public class OrcController : AbstractEnemy
     {
+        [SerializeField] float speed;
+
         protected override void Awake()
         {
             base.Awake();
 
-            attackDistance = 1.65f;
+            attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
             attackPattern.Add(weaponAttack);
@@ -25,6 +29,11 @@ namespace enemy
         protected override void Update()
         {
             base.Update();
+            if (animator.GetAnimatorTransitionInfo(0).IsName("Punch")
+                || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")
+                || animator.GetAnimatorTransitionInfo(0).IsName("Stun"))
+                setSpeed(0f);
+            speed = stats.Speed.GetCurrent();
         }
         public override IEnumerator MoveTo(Vector3 targetPosition)
         {
@@ -108,6 +117,7 @@ namespace enemy
             }
             else
             {
+                setSpeed(baseSpeed);
                 animator.SetBool("isMoving", false);
                 animator.SetBool("isRunning", false);
                 if (idleTime <= 0)
@@ -163,6 +173,17 @@ namespace enemy
         public void weaponAttack()
         {
             animator.SetTrigger("weaponTrigger");
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Weapon"))
+            {
+                Debug.Log("Enemy Attacked");
+                PlayerStatManager.Instance.DoDamage(this);
+                //PlayerStatManager.Instance.DoDamage(enemy);
+                animator.SetTrigger("stunTrigger");
+            }
         }
     }
 }

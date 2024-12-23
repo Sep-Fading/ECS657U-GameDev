@@ -23,7 +23,7 @@ public class TempSword : MonoBehaviour
             AbstractEnemy enemy = target.GetComponent<AbstractEnemy>();
             if (enemy != null)
             {
-                PlayerStatManager.Instance.DoDamage(enemy);
+                //PlayerStatManager.Instance.DoDamage(enemy);
                 Debug.Log($"{enemy.stats.Life.GetCurrent()}/{enemy.stats.Life.GetFlat()}");
             }
         }

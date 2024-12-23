@@ -218,7 +218,7 @@ namespace Enemy
             Debug.Log("Enemy Dead");
             Destroy(gameObject);
         }
-        public void setSpeed(float speed) { stats.Speed.SetCurrent((float) speed); }
+        public void setSpeed(float speed) { stats.Speed.SetFlat((float) speed); }
         public void onAttack()
         {
             isAttackComplete = true;

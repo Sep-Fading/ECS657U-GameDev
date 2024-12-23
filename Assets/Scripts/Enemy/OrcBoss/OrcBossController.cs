@@ -19,8 +19,8 @@ namespace enemy
         {
             base.Awake();
 
-            attackDistance = 3.5f;
-            attackCooldown = 2f;
+            attackDistance = 3f;
+            attackCooldown = 1.5f;
             attackPattern.Add(weaponAttack);
             attackPattern.Add(punchAttack);
             //attackPattern.Add(jumpAttack);
@@ -159,7 +159,7 @@ namespace enemy
             {
                 // Normal chasing behavior
                 StopAllCoroutines();
-                attackDistance = 3.5f;
+                attackDistance = 3f;
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -202,7 +202,7 @@ namespace enemy
                     }
                     lastAttackTime = Time.time; // Reset cooldown
                 }
-                if (Random.value < 0.2f && !isCircling && circlingCooldown <= 0f)
+                if (Random.value < 0.4f && !isCircling && circlingCooldown <= 0f)
                 { jumpAttack(); isCircling = true; }
                 SetState(EnemyState.TRIGGERED);
             }
@@ -220,9 +220,10 @@ namespace enemy
             {
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = false;
                 GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
+                newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-                newWeapon.transform.Rotate(-90f, 0f, 90f, 0);
+                newWeapon.transform.Rotate(0f, 80f, -5f, 0);
                 newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 30f, ForceMode.Impulse);
             }
         }
@@ -240,7 +241,7 @@ namespace enemy
         {
             setSpeed(0f);
             Debug.Log((transform.position - player.transform.position).normalized);
-            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 7f, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 10f, ForceMode.Impulse);
         }
         public void jumpAttack()
         {

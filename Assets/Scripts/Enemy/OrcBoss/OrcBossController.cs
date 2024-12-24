@@ -42,22 +42,7 @@ namespace enemy
         }
         protected override void Update()
         {
-            distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
-            //Debug.Log("Moving: " + animator.GetBool("isMoving"));
-            switch (enemyState)
-            {
-                case EnemyState.TRIGGERED:
-                    followPlayer();
-                    break;
-                case EnemyState.ATTACK:
-                    attack();
-                    break;
-                case EnemyState.DEAD:
-                    despawn();
-                    break;
-                default:
-                    break;
-            }
+            base.Update();
 
             if (animator.GetAnimatorTransitionInfo(0).IsName("Stun")) GetComponent<Rigidbody>().isKinematic = true;
             else GetComponent<Rigidbody>().isKinematic = false;
@@ -243,7 +228,7 @@ namespace enemy
             {
                 transform.LookAt(player.transform);
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = false;
-                GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
+                GameObject newWeapon = Instantiate(Resources.Load("OrcBossWeapon"), transform) as GameObject;
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;

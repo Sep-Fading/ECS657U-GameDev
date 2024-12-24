@@ -56,7 +56,6 @@ namespace Enemy
                     idle();
                     break;
                 case EnemyState.TRIGGERED:
-                    stats.Speed.SetFlat(runSpeed);
                     followPlayer();
                     break;
                 case EnemyState.ATTACK:
@@ -138,7 +137,6 @@ namespace Enemy
         public virtual void idle()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
-            else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.TRIGGERED);
 
             else
@@ -175,6 +173,7 @@ namespace Enemy
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
+                StopAllCoroutines();
                 animator.SetBool("isMoving", true);
                 StartCoroutine(MoveTo(player.transform.position));
             }

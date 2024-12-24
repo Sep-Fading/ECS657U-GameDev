@@ -107,14 +107,8 @@ namespace enemy
         }
         public override void idle()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.TRIGGERED);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.TRIGGERED);
             else
             {
                 setSpeed(baseSpeed);
@@ -146,18 +140,9 @@ namespace enemy
         }
         public override void followPlayer()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.IDLE);
-            }
-            else if (distanceBetweenPlayer <= attackDistance)
-            {
-                SetState(EnemyState.ATTACK);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
+            else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
                 StopAllCoroutines();
@@ -180,7 +165,7 @@ namespace enemy
             if (collision.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
-                PlayerStatManager.Instance.DoDamage(this);
+                //PlayerStatManager.Instance.DoDamage(this);
                 //PlayerStatManager.Instance.DoDamage(enemy);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");

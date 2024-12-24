@@ -31,10 +31,11 @@ public class GameStateSaver : MonoBehaviour
         {
             if (obj.name == "-- Player")
             {
-                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(255f, 30f, 106f) };
+                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(100f, 30f, 250f), new Vector3(240f, 2f, 65), new Vector3(314f, -88f, -200f), new Vector3(46f, 1f, 3752f), new Vector3(-1f, 0.7f, -1.7f), new Vector3(50f, 1f, 14f) };
                 obj.transform.position = new Vector3(0, 20, 0);
                 if (scene.buildIndex < spawnPoints.Length) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position);
-                if (scene.buildIndex == 4) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(new Vector3(0f, 1f, 0f) - obj.transform.GetChild(0).position);
+                Debug.Log("World " + scene.buildIndex + " " + (scene.buildIndex < spawnPoints.Length));
+                //if (scene.buildIndex == 4) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(new Vector3(0f, 1f, 0f) - obj.transform.GetChild(0).position);
             }
         }
     }

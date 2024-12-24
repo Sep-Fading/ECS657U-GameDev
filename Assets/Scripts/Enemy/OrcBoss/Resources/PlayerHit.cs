@@ -16,7 +16,7 @@ public class PlayerHit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (thrownTime >= 2f) Destroy(gameObject);
+        if (thrownTime >= 1f) Destroy(gameObject);
         else thrownTime += Time.deltaTime;
 
         if (PlayerStatManager.Instance != null)

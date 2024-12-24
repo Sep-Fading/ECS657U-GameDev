@@ -164,5 +164,16 @@ namespace Enemy
         {
             animator.SetTrigger("weaponTrigger");
         }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Weapon")
+                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
+                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+                )
+            {
+                setSpeed(0f);
+                animator.SetTrigger("stunTrigger");
+            }
+        }
     }
 }

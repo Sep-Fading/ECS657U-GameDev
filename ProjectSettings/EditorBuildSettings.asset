@@ -8,9 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 4b7e21de90eb13e4caac5e48b02acb08
-  - enabled: 0
-    path: Assets/Scenes/TestScene.unity
-    guid: 316abaf1b719ec4498d9eec48590df40
   - enabled: 1
     path: Assets/Scenes/World-v0.1.unity
     guid: dfebdb00d88024db9ae64e70e586d247
@@ -19,9 +16,15 @@ EditorBuildSettings:
     guid: faaa4fdbf96ea0b43b40562f2a9b9d5f
   - enabled: 1
     path: Assets/Scenes/World-v0.3.unity
-    guid: 62ac5e706228b4349bf5f9fff40a06b7
+    guid: c074f5283200a1544845f52bdbb2eb36
   - enabled: 1
-    path: Assets/Scenes/DemoScene.unity
+    path: Assets/Scenes/World-v0.4.unity
+    guid: 507b42444aa2dd742a3a35f0523a027f
+  - enabled: 1
+    path: Assets/Scenes/World-v0.3_2.unity
     guid: cc10df96022b19841ac18003dab61704
+  - enabled: 1
+    path: Assets/Scenes/World-v0.4_2.unity
+    guid: 18bde99f575ed724f83274fed4c00dc5
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

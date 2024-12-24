@@ -182,6 +182,7 @@ namespace enemy
                 Debug.Log("Enemy Attacked");
                 PlayerStatManager.Instance.DoDamage(this);
                 //PlayerStatManager.Instance.DoDamage(enemy);
+                setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }
         }

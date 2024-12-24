@@ -182,7 +182,6 @@ namespace Enemy
         public virtual void attack()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
-            else if (distanceBetweenPlayer > attackDistance) SetState(EnemyState.IDLE);
             else
             {
                 StopAllCoroutines();

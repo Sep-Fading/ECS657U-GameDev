@@ -11,7 +11,7 @@ public class EnemyWeapon : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        collider = GetComponent<BoxCollider>();
+        collider = GetComponent<Collider>();
         collider.enabled = false;
     }
 
@@ -30,12 +30,12 @@ public class EnemyWeapon : MonoBehaviour
             // Perform damage or other logic
             //Debug.Log("Player hit!");
             // Reset the attack state
-            enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+            //enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
             Debug.Log("Player HP: " + enemy.playerStats.Life.GetCurrent() + "/" + enemy.playerStats.Life.GetFlat());
         }
         gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
         collider.enabled = false;
-        GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = true;
+        GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
     }
     private void OnCollisionEnter(Collision collision)
     {

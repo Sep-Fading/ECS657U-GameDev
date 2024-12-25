@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using Player;
@@ -34,6 +35,22 @@ namespace InventoryScripts
         public Equipment EquippedMainHand;
         public Equipment EquippedOffHand;
         private GameObject MainHandItem;
+        
+        /* --- Gold --- */
+        private static int Gold = 0;
+
+        public static int GetGold() => Gold;
+        private static void SetGold(int gold) => Gold = gold;
+
+        public static void GiveGold(int amount)
+        {
+            SetGold(GetGold() + amount);
+        }
+
+        public static void TakeGold(int amount)
+        {
+            SetGold(GetGold() - amount);
+        }
 
         public int Push(InventoryItem item)
         {
@@ -184,6 +201,11 @@ namespace InventoryScripts
             }
 
             return false;
+        }
+
+        public bool ItemExistsInInventory(InventoryItem item)
+        {
+            return _inventoryArray.Any(stack => stack != null && stack.Contains(item));
         }
     }
 }

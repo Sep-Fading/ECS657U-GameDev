@@ -26,6 +26,9 @@ namespace Enemy
         public float lastAttackTime = -Mathf.Infinity;
         public bool isAttackComplete = false;
 
+        public float baseSpeed;
+        public float runSpeed;
+
         protected virtual void Awake()
         {
             stats = new StatManager();
@@ -40,6 +43,7 @@ namespace Enemy
             playerStats = PlayerStatManager.Instance;
             animator = GetComponent<Animator>();
             animator.SetBool("isMoving", false);
+            stats.Speed.SetFlat(baseSpeed);
         }
 
         protected virtual void Update()
@@ -132,16 +136,12 @@ namespace Enemy
         }
         public virtual void idle()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.TRIGGERED);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.TRIGGERED);
+
             else
             {
+                stats.Speed.SetCurrent(stats.Life.GetFlat());
                 animator.SetBool("isMoving", false);
                 if (idleTime <= 0)
                 {
@@ -168,18 +168,9 @@ namespace Enemy
         }
         public virtual void followPlayer()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.IDLE);
-            }
-            else if (distanceBetweenPlayer <= attackDistance)
-            {
-                SetState(EnemyState.ATTACK);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
+            else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
                 StopAllCoroutines();
@@ -189,32 +180,28 @@ namespace Enemy
         }
         public virtual void attack()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer > attackDistance)
-            {
-                SetState(EnemyState.IDLE);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else
             {
                 StopAllCoroutines();
                 animator.SetBool("isMoving", false);
+
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
-                    stats.Speed.SetCurrent(0f);
                     bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
                     if (runPattern)
                     {
                         foreach (var attack in attackPattern)
                         {
                             attack.Invoke();
+                            Debug.Log("Attack: " + attack.Method);
                         }
                     }
                     else
                     {
-                        attackPattern[Random.Range(0, attackPattern.Count)].Invoke();
+                        int attack = Random.Range(0, attackPattern.Count);
+                        attackPattern[attack].Invoke();
+                        Debug.Log("Attack: " + attackPattern[attack].Method);
                     }
                     lastAttackTime = Time.time; // Reset cooldown
                 }
@@ -223,13 +210,13 @@ namespace Enemy
         public virtual void block() { }
         public virtual void despawn()
         {
-            animator.SetTrigger("deathTrigger");
-        }
+            animator.SetTrigger("deathTrigger");        }
         public void destroySelf()
         {
             Debug.Log("Enemy Dead");
             Destroy(gameObject);
         }
+        public void setSpeed(float speed) { stats.Speed.SetFlat((float) speed); }
         public void onAttack()
         {
             isAttackComplete = true;
@@ -240,14 +227,8 @@ namespace Enemy
         }
         public void onAttackComplete()
         {
-            stats.Speed.SetCurrent(stats.Speed.GetFlat());
-        }
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (GetState() == EnemyState.ATTACK && !playerStats.IsBlocking && collision.gameObject.tag == "Player")
-            {
-                
-            }
+            setSpeed(runSpeed);
+            SetState(EnemyState.TRIGGERED);
         }
     } 
 }

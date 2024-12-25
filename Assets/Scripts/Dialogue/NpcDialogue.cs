@@ -17,9 +17,9 @@ namespace Dialogue
         private int index;
         [SerializeField] private GameObject OptionContainer;
         [SerializeField] private Button button1;
-        [SerializeField] private Button button2;
+        [SerializeField] private Button HealButton;
         [SerializeField] private Button NextButton;
-    
+
 
         // Update is called once per frame
         private void Awake()
@@ -27,12 +27,13 @@ namespace Dialogue
             gameObject.SetActive(false);
             OptionContainer.SetActive(false);
             NextButton.onClick.AddListener(() => NextButtonOnClick());
+            HealButton.onClick.AddListener(() => HealButtonOnClick());
         }
         public void startDialogue(String[] lines, String npcName)
         {
             gameObject.SetActive(true);
             UIManager.Instance.PushUI(gameObject);
-        
+
             textComponent.text = String.Empty;
             this.lines = lines;
             this.npcName = npcName;
@@ -40,7 +41,8 @@ namespace Dialogue
             StartCoroutine(TypeLine());
         }
 
-        IEnumerator TypeLine(){
+        IEnumerator TypeLine()
+        {
             foreach (char c in lines[index])
             {
                 textComponent.text += c;
@@ -73,13 +75,22 @@ namespace Dialogue
         {
             if (textComponent.text == lines[index])
             {
-                nextLine();   
+                nextLine();
             }
             else
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
             }
+        }
+
+        void HealButtonOnClick()
+        {
+            Debug.Log("Heal");
+            // PlayerStatManager.Instance.Life.SetCurrent(50f);
+            // Debug.Log(PlayerStatManager.Instance.Life.GetCurrent());
+            // PlayerStatManager.Instance.Life.SetCurrent(PlayerStatManager.Instance.Life.GetFlat());
+            // Debug.Log(PlayerStatManager.Instance.Life.GetCurrent());
         }
     }
 }

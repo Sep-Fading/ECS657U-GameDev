@@ -295,7 +295,7 @@ namespace GameplayMechanics.Effects
             int enemycount = 0;
             foreach (Collider hitCollider in hitColliders)
             {
-                if (hitCollider.CompareTag("Enemy"))
+                if (hitCollider.CompareTag("Enemy") || hitCollider.CompareTag("Boss"))
                 {
                     Debug.Log($"Juggernaut : {enemycount} Enemies around you!");
                     enemycount++;

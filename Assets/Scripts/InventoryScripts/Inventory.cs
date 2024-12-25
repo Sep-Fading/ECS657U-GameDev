@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using Player;
@@ -200,6 +201,11 @@ namespace InventoryScripts
             }
 
             return false;
+        }
+
+        public bool ItemExistsInInventory(InventoryItem item)
+        {
+            return _inventoryArray.Any(stack => stack != null && stack.Contains(item));
         }
     }
 }

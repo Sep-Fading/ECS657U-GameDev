@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Enemy/World1Boss/OrcAnimator.controller.meta
+guid: b26efbd94db391c49bb471e85bb19e19
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+========
+guid: d2fdfd5750243de45a87a158e4306569
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 15600000
+>>>>>>>> Shucab-branch:Assets/New Terrain 4.asset.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

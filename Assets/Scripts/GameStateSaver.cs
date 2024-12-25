@@ -78,4 +78,13 @@ public class GameStateSaver : MonoBehaviour
 
         return null;
     }
+
+    public static void ResetInstance()
+    {
+        foreach (GameObject obj in Instance.CarryOverObjects)
+        {
+            Destroy(obj);
+        }
+        Instance = null;
+    }
 }

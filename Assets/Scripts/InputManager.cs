@@ -30,6 +30,8 @@ public class InputManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        UIManager.Initialize();
     }
     
     private void OnEnable()
@@ -71,9 +73,9 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            gameObject.transform.position = new Vector3(300f, 10f, 250f);
+            gameObject.transform.position = new Vector3(250f, 10f, 380f);
             GameStateManager.Instance.SetTransitionState(false);
-            GameStateManager.Instance.MoveToNextScene("World-v0.1");
+            GameStateManager.Instance.MoveToNextScene("World-v0.2");
         }
     }
     private void LateUpdate()
@@ -86,7 +88,6 @@ public class InputManager : MonoBehaviour
 
     public void RefreshBindings(PlayerInput action)
     {
-        Debug.Log(PlayerInput == action);
         PlayerInput.grounded.jumping.performed -= _playerMotor.Jump;
         PlayerInput.grounded.jumping.performed += _playerMotor.Jump;
     }

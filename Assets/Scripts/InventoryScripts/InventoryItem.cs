@@ -8,7 +8,7 @@
         public Equipment equipment;
         public bool isEquipped;
 
-        public InventoryItem(GameItem gameItem, Equipment equipment) 
+        public InventoryItem(GameItem gameItem, Equipment equipment)
         {
             this.isEquipped = false;
             this.gameItem = gameItem;

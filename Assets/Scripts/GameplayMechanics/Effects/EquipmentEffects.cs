@@ -132,58 +132,6 @@ namespace GameplayMechanics.Effects
         
         public string GetDisplayDescription() => _text;
     }
-    
-    public class FlatBlockEffectivenessEffect : EquipmentEffect
-    {
-        private readonly float _flatBlockEffectiveness;
-        private readonly string _text;
-
-        internal FlatBlockEffectivenessEffect(float flat)
-        {
-            _text = $"{_flatBlockEffectiveness*100}% to Block Effectiveness";
-            _flatBlockEffectiveness = flat;
-        }
-
-        public override void Apply()
-        {
-            PlayerStatManager.Instance.BlockEffect.SetFlat(
-                PlayerStatManager.Instance.BlockEffect.GetFlat() + _flatBlockEffectiveness);
-        }
-
-        public override void Clear()
-        {
-            PlayerStatManager.Instance.BlockEffect.SetFlat(
-                PlayerStatManager.Instance.BlockEffect.GetFlat() - _flatBlockEffectiveness);
-        }
-        
-        public string GetDisplayDescription() => _text;
-    }
-    
-    public class FlatHealthEffect : EquipmentEffect
-    {
-        private readonly float _flatHealth;
-        private readonly string _text;
-
-        internal FlatHealthEffect(float flat)
-        {
-            _text = $"{_flatHealth} Added Health";
-            _flatHealth = flat;
-        }
-
-        public override void Apply()
-        {
-            PlayerStatManager.Instance.Life.SetFlat(
-                PlayerStatManager.Instance.Life.GetFlat() + _flatHealth);
-        }
-
-        public override void Clear()
-        {
-            PlayerStatManager.Instance.Life.SetFlat(
-                PlayerStatManager.Instance.Life.GetFlat() - _flatHealth);
-        }
-        
-        public string GetDisplayDescription() => _text;
-    }
 
     public enum EquipmentType
     {
@@ -192,4 +140,5 @@ namespace GameplayMechanics.Effects
         MAINHAND,
         OFFHAND
     }
+
 }

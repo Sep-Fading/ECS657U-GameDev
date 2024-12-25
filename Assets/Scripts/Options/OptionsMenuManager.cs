@@ -44,7 +44,6 @@ public class OptionsMenuManagerMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statMenuButtonText;
     
     
-    
     private PlayerInput _playerInput;
 
     public InputActionReference jumpActionReference;

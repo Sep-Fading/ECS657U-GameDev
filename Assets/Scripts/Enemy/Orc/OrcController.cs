@@ -1,4 +1,6 @@
 using Enemy;
+using GameplayMechanics.Character;
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,27 +9,31 @@ namespace enemy
 {
     public class OrcController : AbstractEnemy
     {
+        [SerializeField] float speed;
+
         protected override void Awake()
         {
             base.Awake();
 
-            attackDistance = 1.65f;
+            attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
             attackPattern.Add(weaponAttack);
         }
         protected override void Start()
         {
+            baseSpeed = 2f;
+            runSpeed = 7f;
             base.Start();
-
-            stats.Speed.SetFlat(2f);
         }
         protected override void Update()
         {
             base.Update();
-
-            if (GetState() == EnemyState.TRIGGERED) stats.Speed.SetFlat(7f);
-            else stats.Speed.SetFlat(2f);
+            if (animator.GetAnimatorTransitionInfo(0).IsName("Punch")
+                || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")
+                || animator.GetAnimatorTransitionInfo(0).IsName("Stun"))
+                setSpeed(0f);
+            speed = stats.Speed.GetCurrent();
         }
         public override IEnumerator MoveTo(Vector3 targetPosition)
         {
@@ -46,11 +52,17 @@ namespace enemy
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             float stopDistance = GetState() == EnemyState.TRIGGERED ? attackDistance : 0.1f;
 
+            Vector3 lastPosition = transform.position;
+            float stuckCheckInterval = 0.5f;
+            float stuckThreshold = 0.05f;
+            float elapsedTime = 0f;
+
             while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
             {
                 animator.SetBool("isMoving", true);
                 if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", true);
                 if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", true);
+
                 // Rotate toward the target
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
@@ -58,29 +70,48 @@ namespace enemy
                     Time.deltaTime * stats.Speed.GetCurrent()
                 );
 
+                // Move toward the target
                 transform.position = Vector3.MoveTowards(
                     transform.position,
                     targetPosition,
                     stats.Speed.GetCurrent() * Time.deltaTime
                 );
+
+                // Increment elapsed time
+                elapsedTime += Time.deltaTime;
+
+                // Check for stuck condition
+                if (elapsedTime >= stuckCheckInterval)
+                {
+                    float distanceMoved = Vector3.Distance(transform.position, lastPosition);
+                    if (distanceMoved <= stuckThreshold)
+                    {
+                        animator.SetBool("isMoving", false);
+                        animator.SetBool("isWalking", false);
+                        animator.SetBool("isRunning", false);
+                        SetState(EnemyState.IDLE);
+                        yield break; // Stop moving
+                    }
+
+                    // Reset for the next interval
+                    lastPosition = transform.position;
+                    elapsedTime = 0f;
+                }
+
                 yield return null; // Wait for the next frame
             }
+
             animator.SetBool("isMoving", false);
             if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
             if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);
         }
         public override void idle()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.TRIGGERED);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer <= stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.TRIGGERED);
             else
             {
+                setSpeed(baseSpeed);
                 animator.SetBool("isMoving", false);
                 animator.SetBool("isRunning", false);
                 if (idleTime <= 0)
@@ -109,18 +140,9 @@ namespace enemy
         }
         public override void followPlayer()
         {
-            if (stats.Life.GetCurrent() <= 0)
-            {
-                SetState(EnemyState.DEAD);
-            }
-            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal())
-            {
-                SetState(EnemyState.IDLE);
-            }
-            else if (distanceBetweenPlayer <= attackDistance)
-            {
-                SetState(EnemyState.ATTACK);
-            }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
+            else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
                 StopAllCoroutines();
@@ -136,6 +158,18 @@ namespace enemy
         public void weaponAttack()
         {
             animator.SetTrigger("weaponTrigger");
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Weapon"))
+            {
+                Debug.Log("Enemy Attacked");
+                //PlayerStatManager.Instance.DoDamage(this);
+                //PlayerStatManager.Instance.DoDamage(enemy);
+                setSpeed(0f);
+                animator.SetTrigger("stunTrigger");
+            }
         }
     }
 }

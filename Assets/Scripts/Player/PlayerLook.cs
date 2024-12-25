@@ -9,8 +9,8 @@ namespace Player
         // Start is called before the first frame update
         public Camera cam;
         private float xRotation = 0f;
-        private float xSensitivity = 1f;
-        private float ySensitivity = 1f;
+        private float xSensitivity = 10f;
+        private float ySensitivity = 10f;
         public void ProcessLook(Vector2 input)
         {
             float mouseX = input.x;

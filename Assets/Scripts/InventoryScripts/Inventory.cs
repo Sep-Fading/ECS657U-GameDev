@@ -34,6 +34,22 @@ namespace InventoryScripts
         public Equipment EquippedMainHand;
         public Equipment EquippedOffHand;
         private GameObject MainHandItem;
+        
+        /* --- Gold --- */
+        private static int Gold = 0;
+
+        public static int GetGold() => Gold;
+        private static void SetGold(int gold) => Gold = gold;
+
+        public static void GiveGold(int amount)
+        {
+            SetGold(GetGold() + amount);
+        }
+
+        public static void TakeGold(int amount)
+        {
+            SetGold(GetGold() - amount);
+        }
 
         public int Push(InventoryItem item)
         {

@@ -34,6 +34,16 @@ public class OptionsMenuManagerMenu : MonoBehaviour
     [SerializeField] private Button pickupButton;
     [SerializeField] private TextMeshProUGUI pickupButtonText;
     
+    [SerializeField] private Button skillTreeButton;
+    [SerializeField] private TextMeshProUGUI skillTreeButtonText;
+    
+    [SerializeField] private Button inventoryButton;
+    [SerializeField] private TextMeshProUGUI inventoryButtonText;
+    
+    [SerializeField] private Button statMenuButton;
+    [SerializeField] private TextMeshProUGUI statMenuButtonText;
+    
+    
     private PlayerInput _playerInput;
 
     public InputActionReference jumpActionReference;
@@ -41,6 +51,9 @@ public class OptionsMenuManagerMenu : MonoBehaviour
     public InputActionReference sprintActionReference;
     public InputActionReference interactActionReference;
     public InputActionReference pickupActionReference;
+    public InputActionReference skillTreeActionReference;
+    public InputActionReference inventoryActionReference;
+    public InputActionReference statMenuActionReference;
     
     
     private InputActionReference currentActionReference;
@@ -57,6 +70,9 @@ public class OptionsMenuManagerMenu : MonoBehaviour
         SPRINT,
         INTERACT,       
         PICKUP,
+        SKILLTREE,
+        INVENTORY,
+        STATMENU,
         NONE
     }       
 
@@ -71,12 +87,18 @@ public class OptionsMenuManagerMenu : MonoBehaviour
         sprintButton.onClick.AddListener(() => StartBinding(ButtonBind.SPRINT));
         interactButton.onClick.AddListener(() => StartBinding(ButtonBind.INTERACT));
         pickupButton.onClick.AddListener(() => StartBinding(ButtonBind.PICKUP));
+        skillTreeButton.onClick.AddListener(() => StartBinding(ButtonBind.SKILLTREE));
+        inventoryButton.onClick.AddListener(() => StartBinding(ButtonBind.INVENTORY));
+        statMenuButton.onClick.AddListener(() => StartBinding(ButtonBind.STATMENU));
 
         jumpButtonText.text = KeyOnly(_playerInput.grounded.jumping.bindings[0].effectivePath);
         crouchButtonText.text = KeyOnly(_playerInput.grounded.crouching.bindings[0].effectivePath);
         sprintButtonText.text = KeyOnly(_playerInput.grounded.sprinting.bindings[0].effectivePath);
         interactButtonText.text = KeyOnly(_playerInput.grounded.Interacting.bindings[0].effectivePath);
         pickupButtonText.text = KeyOnly(_playerInput.UI.ItemPickUp.bindings[0].effectivePath);
+        skillTreeButtonText.text = KeyOnly(_playerInput.UI.OpenSkillTree.bindings[0].effectivePath);
+        inventoryButtonText.text = KeyOnly(_playerInput.UI.OpenInventory.bindings[0].effectivePath);
+        statMenuButtonText.text = KeyOnly(_playerInput.UI.StatMenu.bindings[0].effectivePath);
         
         
         
@@ -91,11 +113,7 @@ public class OptionsMenuManagerMenu : MonoBehaviour
     public void StartBinding(ButtonBind activeButton)
     {
         InputAction action = null;
-        jumpButton.enabled = false;
-        crouchButton.enabled = false;
-        sprintButton.enabled = false;
-        interactButton.enabled = false;
-        pickupButton.enabled = false;
+        SetAll(false);
         switch (activeButton)
         {
             case ButtonBind.JUMP: 
@@ -122,6 +140,21 @@ public class OptionsMenuManagerMenu : MonoBehaviour
                 action = _playerInput.UI.ItemPickUp;
                 pickupButtonText.text = "Awaiting Input";
                 currentActionReference = pickupActionReference;
+                break;
+            case ButtonBind.SKILLTREE:
+                action = _playerInput.UI.OpenSkillTree;
+                skillTreeButtonText.text = "Awaiting Input";
+                currentActionReference = skillTreeActionReference;
+                break;
+            case ButtonBind.INVENTORY:
+                action = _playerInput.UI.OpenInventory;
+                inventoryButtonText.text = "Awaiting Input";
+                currentActionReference = inventoryActionReference;
+                break;
+            case ButtonBind.STATMENU:
+                action = _playerInput.UI.StatMenu;
+                statMenuButtonText.text = "Awaiting Input";
+                currentActionReference = statMenuActionReference;
                 break;
             
         }
@@ -196,12 +229,17 @@ public class OptionsMenuManagerMenu : MonoBehaviour
             case ButtonBind.PICKUP:
                 pickupButtonText.text = readablebinding;
                 break;
+            case ButtonBind.SKILLTREE:
+                skillTreeButtonText.text = readablebinding;
+                break;
+            case ButtonBind.INVENTORY:
+                inventoryButtonText.text = readablebinding;
+                break;
+            case ButtonBind.STATMENU:
+                statMenuButtonText.text = readablebinding;
+                break;
         }
-        jumpButton.enabled = true;
-        crouchButton.enabled = true;
-        sprintButton.enabled = true;
-        interactButton.enabled = true;
-        pickupButton.enabled = true;
+        SetAll(true);
         helpText.text = "";
     }
 
@@ -227,18 +265,25 @@ public class OptionsMenuManagerMenu : MonoBehaviour
             case ButtonBind.PICKUP:
                 pickupButtonText.text = "Unbound";
                 break;
+            case ButtonBind.SKILLTREE:
+                skillTreeButtonText.text = "Unbound";
+                break;
+            case ButtonBind.INVENTORY:
+                inventoryButtonText.text = "Unbound";
+                break;
+            case ButtonBind.STATMENU:
+                statMenuButtonText.text = "Unbound";
+                break;
         }
-        jumpButton.enabled = true;
-        crouchButton.enabled = true;
-        sprintButton.enabled = true;
-        interactButton.enabled = true;
-        pickupButton.enabled = true;
+
+        SetAll(true);
+
     }
     private string KeyOnly(string effectivePath)
     {
-        // Split by '/' and take the last part
-        string[] parts = effectivePath.Split('/');
-        return parts[parts.Length - 1]; // Get the last element
+        
+        string[] parts = effectivePath.Split('/'); // get input after the / part
+        return parts[parts.Length - 1];
     }
 
     private List<string> GetActiveKeys()
@@ -260,5 +305,17 @@ public class OptionsMenuManagerMenu : MonoBehaviour
             }
         }
         return keys;
+    }
+
+    private void SetAll(bool state)
+    {
+        jumpButton.enabled = state;
+        crouchButton.enabled = state;
+        sprintButton.enabled = state;
+        interactButton.enabled = state;
+        pickupButton.enabled = state;
+        skillTreeButton.enabled = state;
+        inventoryButton.enabled = state;
+        statMenuButton.enabled = state;
     }
 }

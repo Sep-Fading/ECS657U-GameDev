@@ -28,7 +28,7 @@ public class SpawnEnemy : MonoBehaviour
         }
     }
 
-    void Spawn(int num)
+    public void Spawn(int num)
     {
         for (int i = 0; i < num; i++)
         {

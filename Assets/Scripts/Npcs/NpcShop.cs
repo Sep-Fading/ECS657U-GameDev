@@ -9,7 +9,8 @@ namespace Npcs
     public class NpcShop
     {
         List<InventoryItem> _forSale = new List<InventoryItem>();
-        NpcShop(List<InventoryItem> forSale = null)
+
+        public NpcShop(List<InventoryItem> forSale = null)
         {
             if (forSale != null)
             {
@@ -35,13 +36,13 @@ namespace Npcs
                 EquipmentType equipmentType = equipmentTypes[RandomNumberGenerator.GetInt32(0, equipmentTypes.Length)];
                 ItemType[] itemTypes = (ItemType[])Enum.GetValues(typeof(ItemType));
                 ItemType itemType = itemTypes[RandomNumberGenerator.GetInt32(0, itemTypes.Length)];
-
+                
                 String name = EquipmentNameGenerator.GenerateEquipmentName(equipmentType);
 
                 GameItem item; 
-                if (itemType == ItemType.CONSUMABLE)
+                if (itemType == ItemType.CONSUMABLE | equipmentType == EquipmentType.NONE)
                 {
-                    item = new GameItem("Healing Potion" + i,
+                    item = new GameItem("Healing Potion",
                         "Consuming this potion recovers 50 health over 1 second.", 1,
                         ItemType.CONSUMABLE, 50, 100);
                 }
@@ -53,7 +54,7 @@ namespace Npcs
 
                 Equipment equipment;
                 // Need some  equipment effects generator?
-                if (equipmentType != EquipmentType.NONE)
+                if (equipmentType != EquipmentType.NONE && itemType == ItemType.EQUIPMENT)
                 {
                     List<EquipmentEffect> effects = EquipmentEffectGenerator.Instance.GenerateRandomEquipmentEffects(
                         equipmentType);
@@ -99,6 +100,9 @@ namespace Npcs
         public void RerollShop()
         {
             GenerateRandomShopItems(5);
+            Inventory.TakeGold(100);
         }
+
+        public List<InventoryItem> GetForSale() => _forSale;
     }
 }

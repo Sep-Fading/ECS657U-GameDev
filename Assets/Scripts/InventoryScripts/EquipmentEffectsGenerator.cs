@@ -44,6 +44,8 @@ namespace InventoryScripts
             switch (equipmentType)
             {
                 case EquipmentType.MAINHAND:
+                case EquipmentType.AXE:
+                case EquipmentType.GREATSWORD:
                     validEffectTypes = new EquipmentEffectTypes[]
                     {
                         EquipmentEffectTypes.FLAT_MELEE_DAMAGE,
@@ -101,7 +103,7 @@ namespace InventoryScripts
                     }
                     case EquipmentEffectTypes.MULTI_MELEE_DAMAGE:
                     {
-                        float randomMultiDamage = UnityEngine.Random.Range(1.1f, 2.0f);
+                        float randomMultiDamage = UnityEngine.Random.Range(0.15f, 1.5f);
                         effects.Add(new MultiplierMeleeDamageEffect(randomMultiDamage));
                         break;
                     }

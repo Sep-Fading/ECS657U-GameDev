@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using Player;
@@ -177,7 +178,13 @@ namespace InventoryScripts
 
         public InventoryItem GetItemFromIndex(int i)
         {
-            return _inventoryArray[i].Peek();
+            InventoryItem item;
+            if (_inventoryArray[i] != null)
+            {
+                _inventoryArray[i].TryPeek(out item);
+                return item;
+            }
+            return null;
         }
         
         public Stack<InventoryItem>[] GetStack() => this._inventoryArray;
@@ -204,15 +211,21 @@ namespace InventoryScripts
         
         public bool ItemExistsInInventory(InventoryItem item)
         {
-            for (int i = 0; i < _inventoryArray.Length; i++)
+            return _inventoryArray.Any(stack => stack != null && stack.Contains(item));
+        }
+
+        public List<InventoryItem> GetInventory()
+        {
+            List<InventoryItem> inventory = new List<InventoryItem>();
+            foreach (var stack in _inventoryArray)
             {
-                if (_inventoryArray[i] != null && _inventoryArray[i].Contains(item))
+                if (stack != null)
                 {
-                    return true;
+                    inventory.AddRange(stack);
                 }
             }
 
-            return false;
+            return inventory;
         }
     }
 }

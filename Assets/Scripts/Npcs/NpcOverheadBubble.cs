@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpeechBubble : MonoBehaviour
 {
-    public GameObject speechBubble; // Reference to the speech bubble GameObject
+    public GameObject speechBubble; // Reference to the speech bubble container
     public float displayTime = 3f; // Time the bubble stays visible after appearing
 
     private Transform player; // Reference to the player's transform
@@ -20,12 +20,12 @@ public class SpeechBubble : MonoBehaviour
 
     void Update()
     {
-        if (playerIsNearby)
+        if (playerIsNearby && speechBubble != null)
         {
-            // Face the player for better visibility (optional)
-            Vector3 lookDirection = (player.position - transform.position).normalized;
-            lookDirection.y = 0; // Keep the speech bubble horizontal
-            transform.forward = lookDirection;
+            // Rotate the speech bubble to face the player
+            Vector3 lookDirection = (player.position - speechBubble.transform.position).normalized;
+            lookDirection.y = 0; // Keep the bubble's rotation horizontal
+            speechBubble.transform.forward = lookDirection;
         }
     }
 

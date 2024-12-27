@@ -15,8 +15,8 @@ namespace GameplayMechanics.Character
 
         private int CurrentSkillPoints { get; set; }
 
-        private float BaseXpThreshold = 50f;
-        private const float GrowthFactor = 1.4f;
+        private float BaseXpThreshold = 20f;
+        private const float GrowthFactor = 1.1f;
 
         private XpManager()
         {

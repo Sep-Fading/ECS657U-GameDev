@@ -125,10 +125,12 @@ namespace GameplayMechanics.Character
         private void PlayerDeathHandler()
         {
             // Restart Scene on death
+            Debug.Log("Player Death");
             XpManager.ResetInstance();
             Inventory.ResetInstance();
-            PlayerStatManager.ResetInstance();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            ResetInstance();
+            GameStateSaver.ResetInstance();
+            SceneManager.LoadScene("Tutorial");
         }
     }
     

@@ -269,7 +269,7 @@ namespace GameplayMechanics.Effects
         public JuggernautEffect()
         {
             this.name = "Juggernaut";
-            this.description = "Gain up to 5% damage reduction for each enemy nearby up to 35%.";
+            this.description = "Gain up to 5% damage reduction for each enemy nearby up to 35% while wearing Armour";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
             this.isActive = false;

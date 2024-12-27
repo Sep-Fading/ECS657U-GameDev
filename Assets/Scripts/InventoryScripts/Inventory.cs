@@ -201,6 +201,19 @@ namespace InventoryScripts
 
             return false;
         }
+        
+        public bool ItemExistsInInventory(InventoryItem item)
+        {
+            for (int i = 0; i < _inventoryArray.Length; i++)
+            {
+                if (_inventoryArray[i] != null && _inventoryArray[i].Contains(item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
 

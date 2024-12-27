@@ -1,8 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Imported_models/Runemark Studio/Freebies/PolyDesert Mobile/Meshes/Materials/defaultMat.mat.meta
 guid: 509b963c0521fa24aa0fb981f80152f2
+========
+guid: ea4fe13b42535c543b51f82470b84750
+>>>>>>>> main:Assets/Imported_models/animations/idle.anim.meta
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 2100000
+  mainObjectFileID: 7400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

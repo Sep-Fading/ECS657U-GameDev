@@ -145,6 +145,7 @@ namespace enemy
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
+                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);

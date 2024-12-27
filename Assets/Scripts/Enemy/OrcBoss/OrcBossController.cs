@@ -28,7 +28,7 @@ namespace enemy
         }
         protected override void Start()
         {
-            baseSpeed = 2f;
+            baseSpeed = 7f;
             runSpeed = 7f;
             isCircling = false;
             circlingTimer = 5f;
@@ -287,7 +287,7 @@ namespace enemy
         }
         public void endDodge()
         {
-            Physics.IgnoreLayerCollision(6, 7, false);
+            Physics.IgnoreLayerCollision(6,7,false);
             GetComponent<Rigidbody>().isKinematic = false;
             SetState(EnemyState.TRIGGERED);
             resetSpeed();

@@ -5,7 +5,7 @@ using InventoryScripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Items
+namespace InventoryScripts
 {
     // Initialises a piece of equipment as a functional
     // GameObject.

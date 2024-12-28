@@ -28,6 +28,11 @@ namespace InventoryScripts
         public string GetName() => this._name;
         public int GetSellPrice() => this.sellPrice;
         public int GetBuyPrice() => this.buyPrice;
+
+        public string GetDescription()
+        {
+            return _description;
+        }
     }
 
     public enum ItemType

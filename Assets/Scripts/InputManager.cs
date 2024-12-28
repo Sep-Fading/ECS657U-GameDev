@@ -46,6 +46,7 @@ public class InputManager : MonoBehaviour
         PlayerInput.UI.ItemPickUp.performed += pickupManager.HandlePickUp;
         PlayerInput.UI.StatMenu.performed += playerUI.StatMenuToggle;
         PlayerInput.UI.OpenOptions.performed += playerUI.OptionsMenuToggle;
+        PlayerInput.UI.CloseMenu.performed += playerUI.CloseMenuHandler;
         PlayerInput.grounded.SwordAction.performed += _ => weaponmanager.Attack();
         PlayerInput.grounded.ShieldAction.performed += _ => weaponmanager.Block();
         PlayerInput.grounded.ShieldAction.canceled += _ => weaponmanager.OnBlockCancelled();

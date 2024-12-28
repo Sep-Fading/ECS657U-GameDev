@@ -27,7 +27,6 @@ namespace InventoryScripts
                 "Elven",
                 "Arcane",
                 "Dwarven",
-                "Nightstalker's",
                 "Valkyrie's",
                 "Stormforged",
                 "Demonhunter's",
@@ -41,19 +40,16 @@ namespace InventoryScripts
             Suffixes = new List<string>
             {
                 "of Strength",
-                "of the Phoenix",
                 "of the Giants",
                 "of Agility",
                 "of Power",
-                "of the Dragon",
                 "of Doom",
                 "of the Night",
-                "of Enlightenment",
                 "of Fury",
                 "of Reckoning",
                 "of Valor",
                 "of the Wolf",
-                "of Unending Night",
+                "of Unending",
                 "of Devastation",
                 "of the Abyss"
             };
@@ -122,7 +118,9 @@ namespace InventoryScripts
             {
                 return $"{prefix} Armor {suffix}";
             }
-            if (equipmentType == EquipmentType.MAINHAND)
+            if (equipmentType == EquipmentType.MAINHAND
+                | equipmentType == EquipmentType.AXE
+                | equipmentType == EquipmentType.GREATSWORD)
             {
                 return $"{prefix} {actualName} {suffix}";
             }

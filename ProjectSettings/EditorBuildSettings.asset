@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World-v0.4_2.unity
     guid: 18bde99f575ed724f83274fed4c00dc5
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: 316abaf1b719ec4498d9eec48590df40
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Imported_models/animations.meta
 guid: 2f0ba2a815e373148b3fa2d3630c6777
+========
+guid: 5ae1b35e849c60a42866b984f0a72a1a
+>>>>>>>> main:Assets/Imported_models/low-poly-graveyard.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

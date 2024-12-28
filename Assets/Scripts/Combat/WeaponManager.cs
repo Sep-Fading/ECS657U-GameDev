@@ -40,7 +40,6 @@ namespace Combat
             {
                 _anim.SetTrigger(Attacking);
             }
-            
         }
 
         public void Block()

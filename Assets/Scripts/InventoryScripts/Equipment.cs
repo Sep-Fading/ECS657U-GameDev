@@ -46,5 +46,15 @@ namespace InventoryScripts
         {
             return this.obj;
         }
+        
+        public EquipmentType GetEquipmentType()
+        {
+            return this.type;
+        }
+        
+        public List<EquipmentEffect> GetEffects()
+        {
+            return _equipmentEffects;
+        }
     }
 }

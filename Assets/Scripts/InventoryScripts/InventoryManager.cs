@@ -1,117 +1,300 @@
 using System.Collections.Generic;
 using GameplayMechanics.Effects;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace InventoryScripts
 {
-    // This script initialises and manages the related GameObjects
-    // in the scene for Inventory.
     public class InventoryManager : MonoBehaviour
     {
-        [FormerlySerializedAs("_inventoryItemsUI")] public GameObject[] inventoryItemsUI = new GameObject[3];
-        [FormerlySerializedAs("_equippedItemsUI")] public GameObject[] equippedItemsUI = new GameObject[3];
-        // Start is called before the first frame update
+        [SerializeField] public GameObject[] inventoryItemsUI; // Inventory slots
+        [SerializeField] public GameObject[] equippedItemsUI;  // Equipment slots
+
+        [SerializeField] private int CheatGold;
+
+        [SerializeField] private Sprite swordIcon;
+        [SerializeField] private Sprite shieldIcon;
+        [SerializeField] private Sprite greatswordIcon;
+        [SerializeField] private Sprite axeIcon;
+        [SerializeField] private Sprite armorIcon;
+        [SerializeField] private Sprite potionIcon;
 
         void Start()
         {
             Inventory.Initialize();
+            Inventory.GiveGold(CheatGold);
+            
+            for (int i = 0; i < inventoryItemsUI.Length; i++)
+            {
+                inventoryItemsUI[i].GetComponent<Image>().color = Color.clear;
+            }
+            for (int i = 0; i < equippedItemsUI.Length; i++)
+            {
+                equippedItemsUI[i].GetComponent<Image>().color = Color.clear;
+            }
+
+            // Add EventTriggers to inventory and equipment slots
+            //SetupInventorySlotTriggers();
+            //SetupEquipmentSlotTriggers();
         }
 
+        /// <summary>
+        /// Adds an inventory item to a slot.
+        /// </summary>
         public void Push(InventoryItem inventoryItem)
         {
             int i = Inventory.Instance.Push(inventoryItem);
             AddToInventoryUI(inventoryItem, i);
         }
 
+        /// <summary>
+        /// Updates the inventory slot UI and assigns click handling.
+        /// </summary>
         private void AddToInventoryUI(InventoryItem inventoryItem, int i)
         {
-            if (i < 0 || i >= inventoryItemsUI.Length)
+            if (i < 0 || i >= inventoryItemsUI.Length) return;
+
+            // Update the UI with the item's sprite
+            Image imageComponent = inventoryItemsUI[i].GetComponent<Image>();
+            if (imageComponent != null)
             {
-                return;
+                imageComponent.sprite = GetCorrectSprite(inventoryItem);
+                imageComponent.color = Color.white;
+                imageComponent.enabled = true;
             }
-            inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().
-                SetText(inventoryItem.gameItem.GetName()[0].ToString());
         }
 
-        public void MoveToEquipment(InventoryItem inventoryItem, int i)
+        /// <summary>
+        /// Moves an inventory item to equipment.
+        /// </summary>
+        public void MoveToEquipment(InventoryItem inventoryItem, int index)
         {
             if (Inventory.Instance.IsEmpty(inventoryItem.equipment.type))
             {
-                inventoryItemsUI[i].GetComponent<TextMeshProUGUI>().SetText("");
-                InventoryItem item = Inventory.Instance.Pop(inventoryItem);
-                EquipmentType type = Inventory.Instance.Equip(item.equipment);
-                if (type == EquipmentType.NONE)
+                Inventory.Instance.Pop(inventoryItem);
+
+                int equipmentIndex = GetEquipmentIndex(inventoryItem.equipment.type);
+                if (equipmentIndex >= 0)
                 {
-                    
-                }
-                else if (type == EquipmentType.MAINHAND)
-                {
-                    equippedItemsUI[0].GetComponent<TextMeshProUGUI>()
-                        .SetText(item.gameItem.GetName()[0].ToString());
-                }
-                else if (type == EquipmentType.ARMOR)
-                {
-                    equippedItemsUI[1].GetComponent<TextMeshProUGUI>()
-                        .SetText(item.gameItem.GetName()[0].ToString());
-                }
-                else if (type == EquipmentType.OFFHAND)
-                {
-                    equippedItemsUI[2].GetComponent<TextMeshProUGUI>()
-                        .SetText(item.gameItem.GetName()[0].ToString());
+                    Inventory.Instance.Equip(inventoryItem.equipment);
+
+                    // Clear inventory slot UI
+                    ClearSlot(inventoryItemsUI[index]);
+
+                    // Update equipment slot UI
+                    UpdateEquipmentSlot(equipmentIndex, inventoryItem);
                 }
             }
+            
+            UpdateInventoryUI();
         }
 
-        public void MoveToInventory(EquipmentType equipmentType, int i)
+        /// <summary>
+        /// Moves an equipment item back to the inventory.
+        /// </summary>
+        public void MoveToInventory(EquipmentType equipmentType, int index)
         {
-            Debug.Log("MoveToInventory");
-            Equipment equipment;
-            if (equipmentType == EquipmentType.MAINHAND)
+            Equipment equipment = equipmentType switch
             {
-                equipment = Inventory.Instance.EquippedMainHand;
-            }
-            else if (equipmentType == EquipmentType.ARMOR)
-            {
-                equipment = Inventory.Instance.EquippedArmour;
-            }
-            else if (equipmentType == EquipmentType.OFFHAND)
-            {
-                equipment = Inventory.Instance.EquippedOffHand;
-            }
-            else
-            {
-                equipment = null;
-            }
+                EquipmentType.MAINHAND or EquipmentType.AXE or EquipmentType.GREATSWORD => Inventory.Instance.EquippedMainHand,
+                EquipmentType.ARMOR => Inventory.Instance.EquippedArmour,
+                EquipmentType.OFFHAND => Inventory.Instance.EquippedOffHand,
+                _ => null
+            };
+
             if (equipment != null)
             {
-                InventoryItem item = new InventoryItem(equipment.GetItem(), equipment);
                 Inventory.Instance.Unequip(equipment);
-                equippedItemsUI[i].GetComponent<TextMeshProUGUI>()
-                    .SetText("");
-                this.PrintInventoryStack();
-                this.Push(item);
+                InventoryItem inventoryItem = new InventoryItem(equipment.GetItem(), equipment);
+
+                int inventoryIndex = Inventory.Instance.Push(inventoryItem);
+                if (inventoryIndex >= 0)
+                {
+                    UpdateInventorySlot(inventoryIndex, inventoryItem);
+                    ClearSlot(equippedItemsUI[index]);
+                }
             }
+            
+            UpdateInventoryUI();
         }
 
-        private void PrintInventoryStack()
+        /// <summary>
+        /// Dynamically sets up EventTriggers for inventory slots.
+        /// </summary>
+        /*private void SetupInventorySlotTriggers()
         {
-            Stack<InventoryItem>[] itemStack = Inventory.Instance.GetStack();
-            bool[] results = new bool[itemStack.Length];
-
-            for (int i = 0; i < itemStack.Length; i++)
+            for (int i = 0; i < inventoryItemsUI.Length; i++)
             {
-                if (itemStack[i] != null)
+                AddEventTrigger(inventoryItemsUI[i], PointerEventData.InputButton.Left, () =>
                 {
-                    results[i] = true;
+                    InventoryItem item = Inventory.Instance.GetItemFromIndex(i);
+                    if (item != null)
+                    {
+                        MoveToEquipment(item, i);
+                    }
+                });
+            }
+        }
+        */
+
+        /// <summary>
+        /// Dynamically sets up EventTriggers for equipment slots.
+        /// </summary>
+        /*private void SetupEquipmentSlotTriggers()
+        {
+            for (int i = 0; i < equippedItemsUI.Length; i++)
+            {
+                int index = i; // Prevent closure issues
+                EquipmentType type = index switch
+                {
+                    0 => EquipmentType.MAINHAND,
+                    1 => EquipmentType.ARMOR,
+                    2 => EquipmentType.OFFHAND,
+                    _ => EquipmentType.NONE
+                };
+
+                AddEventTrigger(equippedItemsUI[i], PointerEventData.InputButton.Left, () =>
+                {
+                    MoveToInventory(type, index);
+                });
+            }
+        }
+        */
+
+        /// <summary>
+        /// Adds an EventTrigger to a GameObject for a specific action.
+        /// </summary>
+        /*private void AddEventTrigger(GameObject obj, PointerEventData.InputButton button, System.Action callback)
+        {
+            EventTrigger trigger = obj.GetComponent<EventTrigger>() ?? obj.AddComponent<EventTrigger>();
+
+            EventTrigger.Entry entry = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerClick
+            };
+            entry.callback.AddListener((data) =>
+            {
+                if (((PointerEventData)data).button == button)
+                {
+                    callback();
+                }
+            });
+
+            trigger.triggers.Add(entry);
+        }
+        */
+
+        /// <summary>
+        /// Updates an inventory slot with an item's sprite.
+        /// </summary>
+        private void UpdateInventorySlot(int index, InventoryItem item)
+        {
+            Image imageComponent = inventoryItemsUI[index].GetComponent<Image>();
+            if (imageComponent != null)
+            {
+                if (item != null)
+                {
+                    imageComponent.sprite = GetCorrectSprite(item);
+                    imageComponent.enabled = true;
                 }
                 else
                 {
-                    results[i] = false;
+                    ClearSlot(inventoryItemsUI[index]);
                 }
             }
         }
+
+        /// <summary>
+        /// Updates an equipment slot with an item's sprite.
+        /// </summary>
+        private void UpdateEquipmentSlot(int index, InventoryItem item)
+        {
+            Image imageComponent = equippedItemsUI[index].GetComponent<Image>();
+            if (imageComponent != null)
+            {
+                if (item != null)
+                {
+                    imageComponent.sprite = GetCorrectSprite(item);
+                    imageComponent.color = Color.white;
+                    imageComponent.enabled = true;
+                }
+                else
+                {
+                    ClearSlot(equippedItemsUI[index]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears a UI slot.
+        /// </summary>
+        private void ClearSlot(GameObject slot)
+        {
+            Image imageComponent = slot.GetComponent<Image>();
+            if (imageComponent != null)
+            {
+                imageComponent.sprite = null;
+                imageComponent.enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the correct sprite for an inventory item.
+        /// </summary>
+        private Sprite GetCorrectSprite(InventoryItem item)
+        {
+            return item.equipment?.GetEquipmentType() switch
+            {
+                EquipmentType.MAINHAND => swordIcon,
+                EquipmentType.AXE => axeIcon,
+                EquipmentType.GREATSWORD => greatswordIcon,
+                EquipmentType.OFFHAND => shieldIcon,
+                EquipmentType.ARMOR => armorIcon,
+                _ => potionIcon
+            };
+        }
+
+        /// <summary>
+        /// Maps EquipmentType to equipment slot index.
+        /// </summary>
+        private int GetEquipmentIndex(EquipmentType type)
+        {
+            return type switch
+            {
+                EquipmentType.MAINHAND or EquipmentType.AXE or EquipmentType.GREATSWORD => 0,
+                EquipmentType.ARMOR => 1,
+                EquipmentType.OFFHAND => 2,
+                _ => -1
+            };
+        }
+        
+        public void UpdateInventoryUI()
+        {
+            // Get the current inventory list
+            List<InventoryItem> playerItems = Inventory.Instance.GetInventory();
+
+            // Update the inventory UI slots
+            for (int i = 0; i < inventoryItemsUI.Length; i++)
+            {
+                Image imageComponent = inventoryItemsUI[i].GetComponent<Image>();
+
+                if (i >= playerItems.Count)
+                {
+                    // Clear the slot if there are no more items
+                    ClearSlot(inventoryItemsUI[i]);
+                }
+                else
+                {
+                    // Update the slot with the item's sprite
+                    InventoryItem item = playerItems[i];
+                    imageComponent.sprite = GetCorrectSprite(item);
+                    imageComponent.color = Color.white;
+                    imageComponent.enabled = true;
+                }
+            }
+        }
+
+        
     }
 }

@@ -11,7 +11,7 @@ namespace Enemy
         {
             base.Awake();
 
-            attackDistance = 2f;
+            attackDistance = 2.5f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
             attackPattern.Add(weaponAttack);
@@ -157,6 +157,7 @@ namespace Enemy
             }
             else
             {
+                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);

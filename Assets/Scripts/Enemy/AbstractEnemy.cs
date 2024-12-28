@@ -173,6 +173,7 @@ namespace Enemy
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
+                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -194,14 +195,14 @@ namespace Enemy
                         foreach (var attack in attackPattern)
                         {
                             attack.Invoke();
-                            Debug.Log("Attack: " + attack.Method);
+                            //Debug.Log("Attack: " + attack.Method);
                         }
                     }
                     else
                     {
                         int attack = Random.Range(0, attackPattern.Count);
                         attackPattern[attack].Invoke();
-                        Debug.Log("Attack: " + attackPattern[attack].Method);
+                        //Debug.Log("Attack: " + attackPattern[attack].Method);
                     }
                     lastAttackTime = Time.time; // Reset cooldown
                 }
@@ -217,7 +218,7 @@ namespace Enemy
             Destroy(gameObject);
         }
         public void setSpeed(float speed) { stats.Speed.SetFlat((float) speed); }
-        public void onAttack()
+        public virtual void onAttack()
         {
             isAttackComplete = true;
             //GetComponentInChildren<EnemyWeapon>().collider.enabled = true;
@@ -225,7 +226,7 @@ namespace Enemy
             if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
             //Debug.Log("Animation End");
         }
-        public void onAttackComplete()
+        public virtual void onAttackComplete()
         {
             setSpeed(runSpeed);
             SetState(EnemyState.TRIGGERED);

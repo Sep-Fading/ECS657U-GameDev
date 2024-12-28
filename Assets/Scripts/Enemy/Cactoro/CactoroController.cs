@@ -159,6 +159,7 @@ namespace Enemy
             }
             else
             {
+                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);

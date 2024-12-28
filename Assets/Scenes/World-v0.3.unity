@@ -5184,6 +5184,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 797578739}
+    - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 797578741}
   m_SourcePrefab: {fileID: 100100000, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
 --- !u!1 &797578737 stripped
 GameObject:
@@ -5230,6 +5233,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.262731, y: 1.8954483, z: 5.1256256}
   m_Center: {x: 0.523046, y: 0.8942435, z: 2.0628126}
+--- !u!114 &797578741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797578737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 214e00315845189489176df41f5c99c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoverMessage: 'Talk to Shopkeeper [F]'
+  npcObject: {fileID: 797578737}
+  lines:
+  - Buy from my shop!
+  npcName: Shopkeeper
+  npcDialogue: {fileID: 0}
+  hasQuest: 0
+  hasShop: 1
 --- !u!1001 &835498453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9928,6 +9951,8 @@ MonoBehaviour:
   - Please save our kingdom!
   npcName: Old Soldier
   npcDialogue: {fileID: 0}
+  hasQuest: 0
+  hasShop: 0
 --- !u!136 &1382005454
 CapsuleCollider:
   m_ObjectHideFlags: 0

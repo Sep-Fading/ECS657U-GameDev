@@ -33,7 +33,7 @@ namespace enemy
             isCircling = false;
             circlingTimer = 5f;
             circlingCooldown = 10f;
-            SetState(EnemyState.TRIGGERED);
+            SetState(EnemyState.IDLE);
             base.Start();
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);

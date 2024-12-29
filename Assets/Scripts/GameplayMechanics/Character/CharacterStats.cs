@@ -67,11 +67,13 @@ namespace GameplayMechanics.Character
         }
         public string GetPlayerStats()
         {
-            return $"{Life.GetName()}: {Life.GetAppliedTotal():N0} \n\n" +
-                   $"{Armour.GetName()}: {Armour.GetAppliedTotal():N0} \n\n" +
-                   $"Block Effectiveness: {BlockEffect.GetAppliedTotal():N0}% of incoming damage.\n\n" +
-                   $"{MeleeDamage.GetName()}: {MeleeDamage.GetAppliedTotal():N0} \n\n" +
-                   $"Bleed Chance: {(Bleed.GetChance() * 100):N0}% chance to inflict bleed on hit.\n\n";
+            return $" {Life.GetName()}, {Life.GetAppliedTotal()} \n" +
+                   $" {Stamina.GetName()}, {Stamina.GetAppliedTotal()} \n" +
+                   $" {Armour.GetName()}, {Armour.GetAppliedTotal()} \n" +
+                   $" {Evasion.GetName()}, {Evasion.GetAppliedTotal()} \n" +
+                   $" {BlockEffect.GetName()}, {BlockEffect.GetAppliedTotal()} \n" +
+                   $" {MeleeDamage.GetName()}, {MeleeDamage.GetAppliedTotal()} \n" +
+                   $" Bleed Chance, {Bleed.GetChance() * 100}%";
         }
 
         public string GetHealth() => this.Life.GetAppliedTotal().ToString("F1");

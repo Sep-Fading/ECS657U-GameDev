@@ -49,12 +49,12 @@ namespace Combat
                 
                 if (WeaponSlot.transform.childCount > 0 && WeaponSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
                 {
+
+                    EquipmentType targetType = Inventory.Instance.EquippedMainHand.GetEquipmentType();
                     
-                    EquipmentInitializer target = WeaponSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>();
-                    
-                    if (target != null)
+                    if (targetType != null)
                     {
-                        switch (target.GetEquipmentType())
+                        switch (targetType)
                         {
                             case EquipmentType.GREATSWORD:
                                 _anim.SetTrigger(LongSwordAction);
@@ -77,10 +77,10 @@ namespace Combat
                 
                 if (ShieldSlot.transform.childCount > 0 && ShieldSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
                 {
-                    EquipmentInitializer target = ShieldSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>();
-                    switch(target.GetEquipmentType())
+                    EquipmentType targetType = Inventory.Instance.EquippedOffHand.GetEquipmentType();
+                    switch(targetType)
                     {
-                        case EquipmentType.SHIELD:
+                        case EquipmentType.OFFHAND:
                             _anim.SetTrigger(ShieldAction);
                             break;
                         case EquipmentType.GREATSWORD:

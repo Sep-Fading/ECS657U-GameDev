@@ -12,13 +12,20 @@ namespace InventoryScripts
         private GameObject obj;
 
         public Equipment(string name, string description, EquipmentType type, GameObject obj,
-            List<EquipmentEffect> equipmentEffects)
+            List<EquipmentEffect> equipmentEffects, GameItem item = null)
         {
             this.obj = obj;
             this.type = type;
             _equipmentEffects = equipmentEffects;
-            Item = new GameItem(name, description,
-                1, ItemType.EQUIPMENT);
+            if (item == null)
+            {
+                Item = new GameItem(name, description,
+                    1, ItemType.EQUIPMENT);
+            }
+            else
+            {
+                Item = item;
+            }
         }
 
         public void Equip()

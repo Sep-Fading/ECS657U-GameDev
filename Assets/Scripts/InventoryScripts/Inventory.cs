@@ -4,6 +4,7 @@ using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using Player;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace InventoryScripts
 {
@@ -34,6 +35,9 @@ namespace InventoryScripts
         public Equipment EquippedArmour;
         public Equipment EquippedMainHand;
         public Equipment EquippedOffHand;
+        public InventoryItem EquippedArmourItem;
+        public InventoryItem EquippedMainHandItem;
+        public InventoryItem EquippedOffHandItem;
         private GameObject MainHandItem;
         
         /* --- Gold --- */
@@ -93,11 +97,12 @@ namespace InventoryScripts
         }
         
         // Equipment Setters
-        public EquipmentType Equip(Equipment equipment)
+        public EquipmentType Equip(InventoryItem item)
         {
-            if (equipment.type == EquipmentType.ARMOR)
+            if (item.equipment.type == EquipmentType.ARMOR)
             {
-                EquippedArmour = equipment;
+                EquippedArmourItem = item;
+                EquippedArmour = item.equipment;
                 EquippedArmour.Equip();
                 if (PlayerSkillTreeManager.Instance.ManagerSkillTree.branchSwordShield
                     .GetNodeByName("Versatile Combatant")._effect.isActive)
@@ -116,16 +121,18 @@ namespace InventoryScripts
                 return EquipmentType.ARMOR;
             }
 
-            if (equipment.type == EquipmentType.OFFHAND)
+            if (item.equipment.type == EquipmentType.OFFHAND)
             {
-                EquippedOffHand = equipment;
+                EquippedOffHandItem = item;
+                EquippedOffHand = item.equipment;
                 EquippedOffHand.Equip();
                 return EquipmentType.OFFHAND;
             }
 
-            if (equipment.type == EquipmentType.MAINHAND)
+            if (item.equipment.type == EquipmentType.MAINHAND)
             {
-                EquippedMainHand = equipment;
+                EquippedMainHandItem = item;
+                EquippedMainHand = item.equipment;
                 EquippedMainHand.Equip();
                 //david part
                 this.MainHandItem = GameObject.Instantiate(EquippedMainHand.GetGameObject(),
@@ -214,18 +221,27 @@ namespace InventoryScripts
             return _inventoryArray.Any(stack => stack != null && stack.Contains(item));
         }
 
-        public List<InventoryItem> GetInventory()
+        public List<Stack<InventoryItem>> GetInventory() => this._inventoryArray.ToList();
+
+        public string GetInventoryString()
         {
-            List<InventoryItem> inventory = new List<InventoryItem>();
+            string inventoryString = "[";
             foreach (var stack in _inventoryArray)
             {
                 if (stack != null)
                 {
-                    inventory.AddRange(stack);
+                    foreach (var item in stack)
+                    {
+                        inventoryString += item.gameItem.GetName() + " ,";
+                    }
                 }
-            }
 
-            return inventory;
+                
+            }
+            char[] arr = inventoryString.ToCharArray();
+                            arr[arr.Length - 1] = ']';
+                            inventoryString = new string(arr);
+            return inventoryString;
         }
     }
 }

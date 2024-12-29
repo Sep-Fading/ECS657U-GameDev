@@ -14,7 +14,7 @@ namespace InventoryScripts
         public Equipment Equipment;
         [FormerlySerializedAs("ItemPrefab")] [SerializeField] public GameObject itemPrefab;
         [SerializeField] private EquipmentType equipmentType = EquipmentType.NONE;
-        [SerializeField] private string name;
+        [SerializeField] private new string name;
         [SerializeField] private string description;
         [SerializeField] private List<StatInfo> equipmentEffectTypes;
         private readonly List<EquipmentEffect> _equipmentEffects = new List<EquipmentEffect>();

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI
 {
@@ -7,6 +8,7 @@ namespace UI
     {
         public static UIManager Instance;
         private List<GameObject> _uiStack = new List<GameObject>();
+        public UnityEvent OnUIPop = new UnityEvent();
 
         public static void Initialize()
         {
@@ -25,6 +27,7 @@ namespace UI
 
         public void PopUI()
         {
+            OnUIPop.Invoke();
             GameObject ui = _uiStack[_uiStack.Count - 1];
             ui.SetActive(false);
             _uiStack.RemoveAt(_uiStack.Count - 1);
@@ -37,6 +40,7 @@ namespace UI
             {
                 if (_uiStack[i] == ui)
                 {
+                    OnUIPop.Invoke();
                     _uiStack[i].SetActive(false);
                     _uiStack.RemoveAt(i);
                     Debug.Log(_uiStack.Count);

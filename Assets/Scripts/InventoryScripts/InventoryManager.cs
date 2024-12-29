@@ -45,6 +45,11 @@ namespace InventoryScripts
         public void Push(InventoryItem inventoryItem)
         {
             int i = Inventory.Instance.Push(inventoryItem);
+            /*
+            Debug.LogWarning($"Pushed {inventoryItem.equipment.GetItem().GetName()} " +
+                             $"to inventory ui slot {i}");
+            Debug.LogWarning($"Inventory array: {Inventory.Instance.GetInventoryString()}");
+            */
             AddToInventoryUI(inventoryItem, i);
         }
 
@@ -60,6 +65,10 @@ namespace InventoryScripts
             if (imageComponent != null)
             {
                 imageComponent.sprite = GetCorrectSprite(inventoryItem);
+                /*
+                Debug.LogWarning($"Replaced sprite for {inventoryItem.equipment.GetItem().GetName()} " +
+                                 $"in inventory ui slot {i} with {imageComponent.sprite.name}");
+                */
                 imageComponent.color = Color.white;
                 imageComponent.enabled = true;
             }
@@ -72,12 +81,20 @@ namespace InventoryScripts
         {
             if (Inventory.Instance.IsEmpty(inventoryItem.equipment.type))
             {
-                Inventory.Instance.Pop(inventoryItem);
-
+                /*
+                Debug.LogWarning($"{inventoryItem.equipment.GetEquipmentType()}" +
+                                 $" slot is empty");
+                */
+                InventoryItem item = Inventory.Instance.Pop(inventoryItem);
+                /*
+                Debug.LogWarning($"Popped {item.equipment.GetItem().GetName()} " +
+                                 $"from inventory ui slot {index}");
+                Debug.LogWarning($"Inventory array: {Inventory.Instance.GetInventoryString()}");
+                */
                 int equipmentIndex = GetEquipmentIndex(inventoryItem.equipment.type);
                 if (equipmentIndex >= 0)
                 {
-                    Inventory.Instance.Equip(inventoryItem.equipment);
+                    Inventory.Instance.Equip(inventoryItem);
 
                     // Clear inventory slot UI
                     ClearSlot(inventoryItemsUI[index]);
@@ -235,6 +252,7 @@ namespace InventoryScripts
             if (imageComponent != null)
             {
                 imageComponent.sprite = null;
+                imageComponent.color = Color.clear;
                 imageComponent.enabled = false;
             }
         }
@@ -272,22 +290,19 @@ namespace InventoryScripts
         public void UpdateInventoryUI()
         {
             // Get the current inventory list
-            List<InventoryItem> playerItems = Inventory.Instance.GetInventory();
+            List<Stack<InventoryItem>> playerItems = Inventory.Instance.GetInventory();
 
             // Update the inventory UI slots
             for (int i = 0; i < inventoryItemsUI.Length; i++)
             {
                 Image imageComponent = inventoryItemsUI[i].GetComponent<Image>();
-
-                if (i >= playerItems.Count)
+                if (playerItems[i] == null || i >= playerItems.Count || playerItems[i].Count == 0)
                 {
-                    // Clear the slot if there are no more items
                     ClearSlot(inventoryItemsUI[i]);
                 }
                 else
                 {
-                    // Update the slot with the item's sprite
-                    InventoryItem item = playerItems[i];
+                    InventoryItem item = playerItems[i].Peek();
                     imageComponent.sprite = GetCorrectSprite(item);
                     imageComponent.color = Color.white;
                     imageComponent.enabled = true;

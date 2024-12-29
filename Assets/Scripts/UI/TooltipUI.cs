@@ -14,6 +14,7 @@ namespace UI
         void Start()
         {
             // Ensure the tooltip starts hidden
+            UIManager.Instance.OnUIPop.AddListener(HideTooltip);
             HideTooltip();
         }
 

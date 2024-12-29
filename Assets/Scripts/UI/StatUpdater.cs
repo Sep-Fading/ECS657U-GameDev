@@ -9,16 +9,12 @@ namespace UI
     {
         private string _statString;
         private string _prefix;
-        private void Start()
-        {
-            _prefix = "Stats: \n";
-            GetComponent<TextMeshProUGUI>().SetText(_statString);
-        }
+        [SerializeField] private TextMeshProUGUI statText;
 
         public void UpdateStatMenu()
         {
-            _statString = _prefix + PlayerStatManager.Instance.GetPlayerStats();
-            GetComponent<TextMeshProUGUI>().SetText(_statString);
+            _statString = PlayerStatManager.Instance.GetPlayerStats();
+            statText.SetText(_statString);
         }
     }
 }

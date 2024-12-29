@@ -129,7 +129,7 @@ namespace InventoryScripts
                 return EquipmentType.OFFHAND;
             }
 
-            if (item.equipment.type == EquipmentType.MAINHAND)
+            if (equipment.type == EquipmentType.MAINHAND || equipment.type == EquipmentType.GREATSWORD || equipment.type == EquipmentType.AXE)
             {
                 EquippedMainHandItem = item;
                 EquippedMainHand = item.equipment;
@@ -140,7 +140,7 @@ namespace InventoryScripts
                 this.MainHandItem.transform.localPosition = new Vector3(0.4629989f, 0f, 0.5099995f);
                 this.MainHandItem.transform.localRotation = Quaternion.Euler(0,90f,0f);
                 this.MainHandItem.tag = "Weapon";
-                return EquipmentType.MAINHAND;
+                return equipment.type;
             }
 
             return EquipmentType.NONE;

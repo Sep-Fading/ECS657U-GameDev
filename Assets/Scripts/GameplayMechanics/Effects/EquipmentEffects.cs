@@ -171,7 +171,9 @@ namespace GameplayMechanics.Effects
         MAINHAND,
         OFFHAND,
         GREATSWORD,
-        AXE
+        AXE,
+        SHORTSWORD,
+        SHIELD
     }
 
 }

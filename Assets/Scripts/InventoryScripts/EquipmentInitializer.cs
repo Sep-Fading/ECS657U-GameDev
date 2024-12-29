@@ -53,6 +53,10 @@ namespace InventoryScripts
                     _equipmentEffects);
             }
         }
+        public EquipmentType GetEquipmentType()
+        {
+            return equipmentType;
+        }
     }
 
     public enum EquipmentEffectTypes

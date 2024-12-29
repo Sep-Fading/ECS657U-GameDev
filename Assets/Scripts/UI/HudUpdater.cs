@@ -1,18 +1,17 @@
 using GameplayMechanics.Character;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class HudUpdater : MonoBehaviour
     {
-        [SerializeField] private GameObject _healthObject;
-        private TextMeshProUGUI _healthText;
+        [SerializeField] private Slider HealthBar;
+        [SerializeField] private Slider XPBar;
+        [SerializeField] private TextMeshProUGUI HealthText;
+        [SerializeField] private TextMeshProUGUI LevelText;
 
-        private void Start()
-        {
-            _healthText = _healthObject.GetComponentInChildren<TextMeshProUGUI>();
-        }
         private void LateUpdate()
         {
             UpdateHUD();
@@ -21,13 +20,23 @@ namespace UI
         {
             if (PlayerStatManager.Instance != null & XpManager.Instance != null)
             {
-                string txtLife = "Life : " + PlayerStatManager.Instance.Life.GetCurrent();
-                string txtLevel = "Level: " + XpManager.GetLevel().ToString();
-                string txtXP = "Exp: " + XpManager.GetCurrentXp().ToString("F1") + " / " +
-                               XpManager.GetLevelUpThreshold().ToString("F1");
-
-                string txt = txtLife + "\n" + txtLevel + "\n" + txtXP;
-                _healthText.SetText(txt);
+                float currentHealth = PlayerStatManager.Instance.Life.GetCurrent();
+                float maxHealth = PlayerStatManager.Instance.Life.GetAppliedTotal();
+                HealthBar.value = currentHealth / maxHealth;
+                
+                if (HealthText != null)
+                {
+                    HealthText.text = currentHealth + "/" + maxHealth;
+                }
+                
+                float currentXP = XpManager.GetCurrentXp();
+                float levelUpThreshold = XpManager.GetLevelUpThreshold();
+                XPBar.value = currentXP / levelUpThreshold;
+                
+                if (LevelText != null)
+                {
+                    LevelText.text = "Level " + XpManager.GetLevel();
+                }
             }
         }
     }

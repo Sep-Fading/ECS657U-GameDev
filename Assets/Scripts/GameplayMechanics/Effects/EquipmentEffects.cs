@@ -172,8 +172,6 @@ namespace GameplayMechanics.Effects
         OFFHAND,
         GREATSWORD,
         AXE,
-        SHORTSWORD,
-        SHIELD
     }
 
 }

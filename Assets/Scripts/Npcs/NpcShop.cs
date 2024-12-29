@@ -59,7 +59,7 @@ namespace Npcs
                     List<EquipmentEffect> effects = EquipmentEffectGenerator.Instance.GenerateRandomEquipmentEffects(
                         equipmentType);
                     equipment = new Equipment(name, "", equipmentType,
-                        null, effects, item);
+                        PrefabBank.Instance.GetRandomPrefab(equipmentType), effects, item);
                 }
                 else
                 {

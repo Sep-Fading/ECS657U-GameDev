@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using Player;
@@ -122,7 +123,7 @@ namespace InventoryScripts
                 return EquipmentType.OFFHAND;
             }
 
-            if (equipment.type == EquipmentType.MAINHAND)
+            if (equipment.type == EquipmentType.MAINHAND || equipment.type == EquipmentType.GREATSWORD)
             {
                 EquippedMainHand = equipment;
                 EquippedMainHand.Equip();
@@ -132,7 +133,7 @@ namespace InventoryScripts
                 this.MainHandItem.transform.localPosition = new Vector3(0.4629989f, 0f, 0.5099995f);
                 this.MainHandItem.transform.localRotation = Quaternion.Euler(0,90f,0f);
                 this.MainHandItem.tag = "Weapon";
-                return EquipmentType.MAINHAND;
+                return equipment.type;
             }
 
             return EquipmentType.NONE;
@@ -177,7 +178,13 @@ namespace InventoryScripts
 
         public InventoryItem GetItemFromIndex(int i)
         {
-            return _inventoryArray[i].Peek();
+            InventoryItem item;
+            if (_inventoryArray[i] != null)
+            {
+                _inventoryArray[i].TryPeek(out item);
+                return item;
+            }
+            return null;
         }
         
         public Stack<InventoryItem>[] GetStack() => this._inventoryArray;
@@ -200,6 +207,25 @@ namespace InventoryScripts
             }
 
             return false;
+        }
+        
+        public bool ItemExistsInInventory(InventoryItem item)
+        {
+            return _inventoryArray.Any(stack => stack != null && stack.Contains(item));
+        }
+
+        public List<InventoryItem> GetInventory()
+        {
+            List<InventoryItem> inventory = new List<InventoryItem>();
+            foreach (var stack in _inventoryArray)
+            {
+                if (stack != null)
+                {
+                    inventory.AddRange(stack);
+                }
+            }
+
+            return inventory;
         }
     }
 }

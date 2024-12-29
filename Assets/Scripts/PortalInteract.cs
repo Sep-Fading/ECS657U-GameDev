@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PortalInteract : Interactable
 {
-    string[] scenes = { "Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3", "Scenes/World-v0.4", "Scenes/World-v0.3_2", "Scenes/World-v0.4_2"};
+    string[] scenes = { "Scenes/TestScene","Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3", "Scenes/World-v0.4", "Scenes/World-v0.3_2", "Scenes/World-v0.4_2"};
     // Start is called before the first frame update
     void Start()
     {

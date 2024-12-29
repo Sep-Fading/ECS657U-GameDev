@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5242745964237522716}
   - component: {fileID: 8008823887849419734}
   - component: {fileID: -56212235168293449}
+  - component: {fileID: -8185313601696065967}
   m_Layer: 0
   m_Name: DisplayAxe
   m_TagString: Weapon
@@ -96,3 +97,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6772ac7bf54d5192a006d1236e6c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8185313601696065967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369362202175656451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf3d6dbd2d836c41a55c72b9c5ee679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 8369362202175656451}
+  equipmentType: 5
+  name: THROWING AXE
+  description: Small throwing axe, try not to cut your fingers, the edges are razor
+    sharp...
+  equipmentEffectTypes: []

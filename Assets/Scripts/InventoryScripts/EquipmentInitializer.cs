@@ -5,7 +5,7 @@ using InventoryScripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Items
+namespace InventoryScripts
 {
     // Initialises a piece of equipment as a functional
     // GameObject.
@@ -40,10 +40,22 @@ namespace Items
                     {
                         _equipmentEffects.Add(new MultiplierArmourEffect(stat.multi));
                     }
+                    else if (stat.equipmentType == EquipmentEffectTypes.FLAT_HEALTH)
+                    {
+                        _equipmentEffects.Add(new FlatHealthEffect(stat.flat));
+                    }
+                    else if (stat.equipmentType == EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS)
+                    {
+                        _equipmentEffects.Add(new FlatBlockEffectivenessEffect(stat.flat));
+                    }
                 }
                 Equipment = new Equipment(name, description, equipmentType, itemPrefab,
                     _equipmentEffects);
             }
+        }
+        public EquipmentType GetEquipmentType()
+        {
+            return equipmentType;
         }
     }
 
@@ -52,7 +64,9 @@ namespace Items
         FLAT_MELEE_DAMAGE,
         MULTI_MELEE_DAMAGE,
         FLAT_ARMOUR,
-        MULTI_ARMOUR
+        MULTI_ARMOUR,
+        FLAT_HEALTH,
+        FLAT_BLOCK_EFFECTIVENESS
     }
     
     [System.Serializable]

@@ -116,5 +116,19 @@ namespace Player
                 UIManager.Instance.PopUIByGameObject(optionsUI);
             }
         }
+
+        public void CloseMenuHandler(InputAction.CallbackContext obj)
+        {
+            if (!UIManager.Instance.GetIsEmpty())
+            {
+                _uiActive = true;
+                UIManager.Instance.PopUI();
+            }
+            else
+            {
+                _uiActive = false;
+                OptionsMenuToggle(obj);
+            }
+        }
     }
 }

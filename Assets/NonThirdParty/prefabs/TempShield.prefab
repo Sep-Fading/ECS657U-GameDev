@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1602899855144205306}
   - component: {fileID: 5059621896712799898}
   - component: {fileID: 4080262198395360988}
+  - component: {fileID: 5213350341440049212}
   m_Layer: 9
   m_Name: TempShield
   m_TagString: Untagged
@@ -107,3 +108,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &5213350341440049212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2390116445277570301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf3d6dbd2d836c41a55c72b9c5ee679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 2390116445277570301}
+  equipmentType: 7
+  name: SHIELD
+  description: Stops damage
+  equipmentEffectTypes: []

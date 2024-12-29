@@ -25,6 +25,8 @@ namespace UI
 
         public void PopUI()
         {
+            GameObject ui = _uiStack[_uiStack.Count - 1];
+            ui.SetActive(false);
             _uiStack.RemoveAt(_uiStack.Count - 1);
             CheckEmpty();
         }

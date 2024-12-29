@@ -59,5 +59,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2043016117327300245, guid: 18316d8df39495b44ab8d0fcea434874, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4912218582457530655}
+    - targetCorrespondingSourceObject: {fileID: 2043016117327300245, guid: 18316d8df39495b44ab8d0fcea434874, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8522515323713336865}
   m_SourcePrefab: {fileID: 100100000, guid: 18316d8df39495b44ab8d0fcea434874, type: 3}
+--- !u!1 &7869200249139886605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2043016117327300245, guid: 18316d8df39495b44ab8d0fcea434874, type: 3}
+  m_PrefabInstance: {fileID: 8173826317458144408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4912218582457530655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869200249139886605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf3d6dbd2d836c41a55c72b9c5ee679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 7869200249139886605}
+  equipmentType: 4
+  name: ZWEILANDER
+  description: Make sure to keep hold with both hands, you wouldnt want to drop this...
+  equipmentEffectTypes: []
+--- !u!136 &8522515323713336865
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869200249139886605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 1.6
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.7}

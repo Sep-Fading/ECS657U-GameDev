@@ -16,7 +16,7 @@ namespace Combat
         private static readonly int Attacking = Animator.StringToHash("Attacking");
         private static readonly int ShieldAction = Animator.StringToHash("ShieldAction");
         private static readonly int LongSwordAction = Animator.StringToHash("LongSwordAction");
-        private static readonly int ShortSwordAction = Animator.StringToHash("ShortSword");
+        private static readonly int MainHandAction = Animator.StringToHash("MainHandAction");
         
         
         
@@ -46,8 +46,7 @@ namespace Combat
             if (UIManager.Instance.GetIsEmpty() )
             {
                 _anim.SetTrigger(Attacking);
-
-                Debug.Log(WeaponSlot.transform.childCount > 0);
+                
                 if (WeaponSlot.transform.childCount > 0 && WeaponSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
                 {
                     
@@ -60,8 +59,8 @@ namespace Combat
                             case EquipmentType.GREATSWORD:
                                 _anim.SetTrigger(LongSwordAction);
                                 break;
-                            case EquipmentType.SHORTSWORD:
-                                _anim.SetTrigger(ShortSwordAction);
+                            case EquipmentType.MAINHAND:
+                                _anim.SetTrigger(MainHandAction);
                                 break;
                         }
                     }
@@ -75,8 +74,7 @@ namespace Combat
             {
                 _blocking = !_blocking;
                 _anim.SetBool(Blocking, _blocking);
-
-        
+                
                 if (ShieldSlot.transform.childCount > 0 && ShieldSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
                 {
                     EquipmentInitializer target = ShieldSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>();

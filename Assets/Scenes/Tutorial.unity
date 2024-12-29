@@ -13994,6 +13994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentIndex: 1
   equipmentType: 1
+  _tooltipUI: {fileID: 1542147066}
 --- !u!222 &1206686068621320636
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25851,6 +25852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentIndex: 0
   equipmentType: 2
+  _tooltipUI: {fileID: 1542147066}
 --- !u!114 &7906376447143379731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28147,8 +28149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a72f1d7543154e55b145640ec50ba7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipmentIndex: 1
+  equipmentIndex: 2
   equipmentType: 3
+  _tooltipUI: {fileID: 1542147066}
 --- !u!114 &9136893184759406120
 MonoBehaviour:
   m_ObjectHideFlags: 0

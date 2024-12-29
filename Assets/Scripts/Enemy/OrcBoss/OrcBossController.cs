@@ -242,7 +242,7 @@ namespace enemy
             {
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = true;
                 //Destroy(GameObject.FindWithTag("EnemyWeaponThrowable"));
-                GameObject newWeapon = Instantiate(Resources.Load("OrcSkullWeapon"), transform) as GameObject;
+                GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
                 isThrowing = false;
             }
         }

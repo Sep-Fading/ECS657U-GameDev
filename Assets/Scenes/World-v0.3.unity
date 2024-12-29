@@ -9951,6 +9951,8 @@ MonoBehaviour:
   - Please save our kingdom!
   npcName: Old Soldier
   npcDialogue: {fileID: 0}
+  hasQuest: 0
+  hasShop: 0
 --- !u!136 &1382005454
 CapsuleCollider:
   m_ObjectHideFlags: 0

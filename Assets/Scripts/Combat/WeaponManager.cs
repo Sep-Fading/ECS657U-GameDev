@@ -42,7 +42,7 @@ namespace Combat
         }
 
         public void Attack()
-        { //add this line in the if statement after testing ----> && Inventory.Instance.EquippedMainHand != null
+        {
             if (UIManager.Instance.GetIsEmpty() )
             {
                 _anim.SetTrigger(Attacking);

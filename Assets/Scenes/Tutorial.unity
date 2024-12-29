@@ -26257,15 +26257,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordPrefabs:
-  - {fileID: 7311507267931744905, guid: 0fe8c4ad20ce8b946a61d68e14e204e0, type: 3}
+  - {fileID: 5118660327031747451, guid: 5b7d3f98a3e200241b2624b00a82419d, type: 3}
+  - {fileID: 5443118591475356444, guid: 83a73108bea7b0646bdf84f2d85941b0, type: 3}
+  - {fileID: 7877441343542505112, guid: 89f7d9563ad144c47be288bd87682a83, type: 3}
   shieldPrefabs:
-  - {fileID: 490126637162147899, guid: d6fdb1e4c30f266459d2118f85d3f2aa, type: 3}
+  - {fileID: 2617382622632418427, guid: 4b7b7a408a627d64a9826cec5b610b9a, type: 3}
+  - {fileID: 31327853036915769, guid: c5d317528547e7d43a61c1c4cfe843eb, type: 3}
+  - {fileID: 7779632204941282152, guid: 84e4e0f5481694041a7786a9a131ebc3, type: 3}
   armourPrefabs: []
   healthPotionPrefabs: []
   greatSwordPrefabs:
-  - {fileID: 2043016117327300245, guid: 18316d8df39495b44ab8d0fcea434874, type: 3}
+  - {fileID: 7869200249139886605, guid: 592210e65b93c364bb96ec7a372776a3, type: 3}
+  - {fileID: 459222818834948334, guid: 8e1eb7b7072fe4a4f9087f68bf183778, type: 3}
+  - {fileID: 3738170357184239541, guid: 8317365d53511d44f92ae40a96587383, type: 3}
+  - {fileID: 4826507475498438846, guid: bd7a89604db47934f90e8b228da614be, type: 3}
   axePrefabs:
-  - {fileID: 3948646351138943590, guid: 8b8e806db3adde3489409c3768a42f9a, type: 3}
+  - {fileID: 8369362202175656451, guid: c29deafc6b074764892788725c387800, type: 3}
 --- !u!222 &7707533113497081222
 CanvasRenderer:
   m_ObjectHideFlags: 0

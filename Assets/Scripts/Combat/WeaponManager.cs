@@ -47,9 +47,8 @@ namespace Combat
             {
                 _anim.SetTrigger(Attacking);
                 
-                if (WeaponSlot.transform.childCount > 0 && WeaponSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
+                if (Inventory.Instance.EquippedMainHand != null)
                 {
-
                     EquipmentType targetType = Inventory.Instance.EquippedMainHand.GetEquipmentType();
                     
                     if (targetType != null)
@@ -75,7 +74,7 @@ namespace Combat
                 _blocking = !_blocking;
                 _anim.SetBool(Blocking, _blocking);
                 
-                if (ShieldSlot.transform.childCount > 0 && ShieldSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
+                if (Inventory.Instance.EquippedOffHand != null)
                 {
                     EquipmentType targetType = Inventory.Instance.EquippedOffHand.GetEquipmentType();
                     switch(targetType)
@@ -91,9 +90,9 @@ namespace Combat
                 
                 else
                 {
-                    if (WeaponSlot.transform.childCount > 0 && WeaponSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>() != null)
+                    if (Inventory.Instance.EquippedMainHand != null)
                     {
-                        if (WeaponSlot.transform.GetChild(0).GetComponent<EquipmentInitializer>().GetEquipmentType() == EquipmentType.GREATSWORD)
+                        if (Inventory.Instance.EquippedMainHand.GetEquipmentType() == EquipmentType.GREATSWORD)
                         {
                             _anim.SetTrigger(LongSwordAction);
                         }
@@ -112,7 +111,5 @@ namespace Combat
         }
 
         public bool GetBlockingStatus() => _blocking;
-
-
     }
 }

@@ -35,7 +35,6 @@ namespace Enemy
                 setSpeed(0f);
             if (!attacking)
             {
-                stats.Damage.SetMultiplier(0f);
                 switch (enemyState)
                 {
                     case EnemyState.IDLE:
@@ -56,7 +55,6 @@ namespace Enemy
             }
             else
             {
-                transform.LookAt(player.transform);
                 if (spellcastTime <= 0f) { animator.SetTrigger("shootTrigger"); }
                 spellcastTime -= Time.deltaTime;
             }
@@ -202,7 +200,6 @@ namespace Enemy
             animator.SetTrigger("castTrigger");
             attacking = true;
             spellcastTime = Random.Range(1, 5);
-            stats.Damage.SetMultiplier(spellcastTime);
         }
         public override void onAttack()
         {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.36428154, g: 0.62319434, b: 0.66436315, a: 1}
+  m_IndirectSpecularColor: {r: 0.36428174, g: 0.6231951, b: 0.6643642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1734,7 +1734,6 @@ MonoBehaviour:
   - {fileID: 175085901}
   ShopButton: {fileID: 2137425551}
   RerollButton: {fileID: 463862842}
-  _tooltipUI: {fileID: 0}
 --- !u!1 &364111679
 GameObject:
   m_ObjectHideFlags: 0
@@ -12934,7 +12933,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
   inventoryIndex: 1
-  _tooltipUI: {fileID: 0}
 --- !u!114 &1015915388243698612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21525,7 +21523,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
   inventoryIndex: 0
-  _tooltipUI: {fileID: 0}
 --- !u!114 &5832755801998532743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23471,7 +23468,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
   inventoryIndex: 2
-  _tooltipUI: {fileID: 0}
 --- !u!114 &6962288400454719747
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8393,6 +8393,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerObject
       objectReference: {fileID: 0}
+    - target: {fileID: 7693003015074817163, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8410692523377958371, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       propertyPath: cam
       value: 

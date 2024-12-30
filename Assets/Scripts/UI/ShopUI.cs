@@ -176,7 +176,8 @@ namespace UI
 
         private void Buy(InventoryItem item)
         {
-            if (Inventory.GetGold() >= item.gameItem.GetBuyPrice())
+            if (Inventory.GetGold() >= item.gameItem.GetBuyPrice()
+                && Inventory.Instance.HasSpace())
             {
                 InventoryItem bought = npcShop.Buy(item);
                 _inventoryManager.Push(bought);

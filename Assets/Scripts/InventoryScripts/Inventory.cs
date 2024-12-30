@@ -247,6 +247,24 @@ namespace InventoryScripts
                             inventoryString = new string(arr);
             return inventoryString;
         }
+
+        public bool HasSpace()
+        {
+            for (int i = 0; i < _inventoryArray.Length; i++)
+            {
+                if (_inventoryArray[i] == null || _inventoryArray[i].Count == 0)
+                {
+                    return true;
+                }
+
+                /*if (_inventoryArray[i].Count < _inventoryArray[i].Peek().gameItem.GetStackSize())
+                {
+                    return true;
+                }*/
+            }
+
+            return false;
+        }
     }
 }
 

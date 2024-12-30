@@ -43,11 +43,6 @@ namespace UI
                     OnUIPop.Invoke();
                     _uiStack[i].SetActive(false);
                     _uiStack.RemoveAt(i);
-                    Debug.Log(_uiStack.Count);
-                    foreach (GameObject go in _uiStack)
-                    {
-                        Debug.Log(go.name);
-                    }
                 }
             }
             CheckEmpty();

@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 70911237}
   m_Layer: 0
   m_Name: -- Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2325,6 +2325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1588153200}
   - component: {fileID: 1588153199}
+  - component: {fileID: 1588153201}
   m_Layer: 0
   m_Name: SafeZone
   m_TagString: Untagged
@@ -2344,8 +2345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13daa738a042b34d9230854d5fb5beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  safeZonePosition: {x: 304.38, y: 11.05, z: 312.36}
-  safeZoneRadius: 50
+  safeZoneRadius: 0
+  retreatSpeed: 5
 --- !u!4 &1588153200
 Transform:
   m_ObjectHideFlags: 0
@@ -2361,6 +2362,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1588153201
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588153198}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 47.860832
+  m_Center: {x: 0.784935, y: 4.5211945, z: 1.8621521}
 --- !u!1 &1732504379
 GameObject:
   m_ObjectHideFlags: 0

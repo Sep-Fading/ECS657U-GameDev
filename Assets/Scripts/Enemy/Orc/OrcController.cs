@@ -166,7 +166,7 @@ namespace enemy
             if (collision.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
-                //PlayerStatManager.Instance.DoDamage(this);
+                PlayerStatManager.Instance.DoDamage(this);
                 //PlayerStatManager.Instance.DoDamage(enemy);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");

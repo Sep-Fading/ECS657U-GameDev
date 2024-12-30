@@ -36,7 +36,7 @@ namespace Enemy
             if (collision.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
-                //PlayerStatManager.Instance.DoDamage(this);
+                playerStats.DoDamage(this);
                 //PlayerStatManager.Instance.DoDamage(enemy);
                 setSpeed(0f);
                 gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back + Vector3.up) * 2f, ForceMode.Impulse);

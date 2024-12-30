@@ -1,3 +1,4 @@
+using GameplayMechanics.Character;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -248,7 +249,9 @@ namespace Enemy
                 )
             {
                 setSpeed(0f);
+                PlayerStatManager.Instance.DoDamage(this);
                 animator.SetTrigger("stunTrigger");
+                SetState(EnemyState.TRIGGERED);
             }
         }
     }

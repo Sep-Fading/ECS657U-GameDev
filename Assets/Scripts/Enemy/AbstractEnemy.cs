@@ -212,8 +212,9 @@ namespace Enemy
         public virtual void block() { }
         public virtual void despawn()
         {
-            animator.SetTrigger("deathTrigger");        }
-        public void destroySelf()
+            animator.SetTrigger("deathTrigger");        
+        }
+        public virtual void destroySelf()
         {
             Debug.Log("Enemy Dead");
             Destroy(gameObject);

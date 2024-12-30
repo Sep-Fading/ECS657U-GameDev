@@ -1,4 +1,5 @@
 using Enemy;
+using GameplayMechanics.Character;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
@@ -37,15 +38,12 @@ namespace enemy
             base.Start();
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);
-            stats.Life.SetFlat(1000f);
+            stats.Life.SetFlat(10f);
             speed = stats.Speed.GetCurrent();
         }
         protected override void Update()
         {
             base.Update();
-
-            if (animator.GetAnimatorTransitionInfo(0).IsName("Stun")) GetComponent<Rigidbody>().isKinematic = true;
-            else GetComponent<Rigidbody>().isKinematic = false;
 
             if (!isCircling) circlingCooldown -= Time.deltaTime;
             //Debug.Log("Speed: " + stats.Speed.GetCurrent());
@@ -220,7 +218,6 @@ namespace enemy
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-                //newWeapon.transform.Rotate(0f, 80f, -5f, 0);
                 newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);
             }
         }
@@ -229,7 +226,6 @@ namespace enemy
             if (isThrowing)
             {
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = true;
-                //Destroy(GameObject.FindWithTag("EnemyWeaponThrowable"));
                 GameObject newWeapon = Instantiate(Resources.Load("OrcBossWeapon"), transform) as GameObject;
                 isThrowing = false;
             }
@@ -239,7 +235,7 @@ namespace enemy
             setSpeed(0f);
             transform.LookAt(player.transform);
             Debug.Log((transform.position - player.transform.position).normalized);
-            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 5f, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 7f, ForceMode.Impulse);
         }
         public void jumpAttack()
         {
@@ -260,20 +256,25 @@ namespace enemy
                 setSpeed(runSpeed);
             }
         }
+        public override void destroySelf()
+        {
+            GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+            GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+            base.destroySelf();
+        }
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Weapon") 
                 //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
                 //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+                && Random.value <= 0.5f
                 )
             {
+                PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
+                SetState(EnemyState.TRIGGERED);
             }
-        }
-        public void resetSpeed()
-        {
-            setSpeed(stats.Speed.GetFlat());
         }
     }
 }

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/Enemy/Skeletons/Magic.meta
-guid: 69a85ddd25203e746af89e775f9d155b
-========
 guid: 0d7552dc2fa275844b461b71002b37f5
->>>>>>>> Zubair-Branch:Assets/Scripts/Enemy/SkeleGhostBoss.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

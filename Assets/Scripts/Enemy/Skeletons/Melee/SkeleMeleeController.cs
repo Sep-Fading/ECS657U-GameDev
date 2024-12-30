@@ -169,6 +169,7 @@ namespace Enemy
 
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
+                    transform.LookAt(player.transform);
                     int attack = Random.Range(0, attackPattern.Count);
                     attackPattern[attack].Invoke();
                     lastAttackTime = Time.time; // Reset cooldown

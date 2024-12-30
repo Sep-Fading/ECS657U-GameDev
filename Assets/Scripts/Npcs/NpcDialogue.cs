@@ -106,6 +106,11 @@ namespace Npcs
                 {
                     GameStateManager.Instance.SetTransitionState(true);
                 }
+
+                if (npcName == "Shopkeeper")
+                {
+                    GameStateManager.Instance.SetTransitionState(true);
+                }
             }
         }
 

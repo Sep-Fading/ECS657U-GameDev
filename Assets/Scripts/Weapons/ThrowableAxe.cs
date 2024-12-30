@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using GameplayMechanics.Effects;
+using InventoryScripts;
 using UnityEngine;
 
 namespace Weapons
@@ -23,8 +25,20 @@ namespace Weapons
         {
             readyToThrow = true;
         }
+
+        private void OnEnable()
+        {
+            readyToThrow = true;
+        }
+
         public void Throw()
         {
+            if (Inventory.Instance.EquippedMainHand != null &&
+                Inventory.Instance.EquippedMainHand.GetEquipmentType() == EquipmentType.AXE && currentAxe == null)
+            {
+                readyToThrow = true;
+            }
+
             if (readyToThrow)
             {
                 readyToThrow = false;
@@ -44,14 +58,21 @@ namespace Weapons
 
                 currentAxe = throwable;
 
-                Destroy(weaponSlot.transform.GetChild(0).gameObject);
-                Invoke(nameof(ResetThrow), 0.5f);
+                if (weaponSlot.transform.childCount > 0)
+                {
+                    Destroy(weaponSlot.transform.GetChild(0).gameObject);
+                }
+                Invoke(nameof(ResetThrow), 2f);
             }
         }
 
         private void ResetThrow()
         {
-            currentAxe.GetComponent<AxeReturn>().ToggleReturn();
+            if (Inventory.Instance.EquippedMainHand != null && currentAxe != null)
+            {
+                currentAxe.GetComponent<AxeReturn>().ToggleReturn();
+            }
+            
         }
         
         public void DestroyAxe()

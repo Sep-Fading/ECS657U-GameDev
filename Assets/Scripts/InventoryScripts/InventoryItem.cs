@@ -34,7 +34,6 @@ namespace InventoryScripts
             description += "Type: " + equipment.GetEquipmentType() + "\n";
             foreach (EquipmentEffect effect in equipment.GetEffects())
             {
-                Debug.Log(effect.GetDisplayDescription());
                 description += effect.GetDisplayDescription() + "\n";
             }
 

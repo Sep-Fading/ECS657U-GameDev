@@ -26,7 +26,8 @@ namespace UI
                 
                 if (HealthText != null)
                 {
-                    HealthText.text = currentHealth + "/" + maxHealth;
+                    HealthText.text = currentHealth.ToString("N0") +
+                                      "/" + maxHealth.ToString("N0");
                 }
                 
                 float currentXP = XpManager.GetCurrentXp();

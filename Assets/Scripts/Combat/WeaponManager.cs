@@ -51,21 +51,18 @@ namespace Combat
                 if (Inventory.Instance.EquippedMainHand != null)
                 {
                     EquipmentType targetType = Inventory.Instance.EquippedMainHand.GetEquipmentType();
-                    
-                    if (targetType != null)
+
+                    switch (targetType)
                     {
-                        switch (targetType)
-                        {
-                            case EquipmentType.GREATSWORD:
-                                _anim.SetTrigger(LongSwordAction);
-                                break;
-                            case EquipmentType.MAINHAND:
-                                _anim.SetTrigger(MainHandAction);
-                                break;
-                            case EquipmentType.AXE:
-                                player.GetComponent<ThrowableAxe>().Throw();
-                                break;
-                        }
+                        case EquipmentType.GREATSWORD:
+                            _anim.SetTrigger(LongSwordAction);
+                            break;
+                        case EquipmentType.MAINHAND:
+                            _anim.SetTrigger(MainHandAction);
+                            break;
+                        case EquipmentType.AXE:
+                            player.GetComponent<ThrowableAxe>().Throw();
+                            break;
                     }
                 }
             }

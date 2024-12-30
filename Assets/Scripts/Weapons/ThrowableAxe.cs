@@ -62,7 +62,7 @@ namespace Weapons
                 {
                     Destroy(weaponSlot.transform.GetChild(0).gameObject);
                 }
-                Invoke(nameof(ResetThrow), 2f);
+                Invoke(nameof(ResetThrow), 0.5f);
             }
         }
 

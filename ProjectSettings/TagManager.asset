@@ -15,6 +15,7 @@ TagManager:
   - EnemyWeaponThrowable
   - Boss
   - Shield
+  - DisplayAxe
   layers:
   - Default
   - TransparentFX

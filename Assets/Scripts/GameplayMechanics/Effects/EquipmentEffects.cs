@@ -13,6 +13,7 @@ namespace GameplayMechanics.Effects
         public string name { get; set; }
         public string description { get; set; }
         public float duration { get; set; }
+        protected string _text;
         
         public virtual void Apply()
         {
@@ -26,18 +27,16 @@ namespace GameplayMechanics.Effects
 
         private EquipmentType _equipmentType;
         public bool Equipped = false;
-        
+        public string GetDisplayDescription() => _text;
     }
 
     public class FlatMeleeDamageEffect : EquipmentEffect
     {
         private readonly float _flatMeleeDamage;
-        private readonly string _text;
-
         internal FlatMeleeDamageEffect(float flat)
         {
-            _text = $"{_flatMeleeDamage} Added Physical Damage";
             _flatMeleeDamage = flat;
+            _text = $"{_flatMeleeDamage:F1} Added Physical Damage";
         }
 
         public override void Apply()
@@ -51,19 +50,16 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.MeleeDamage.SetAdded(
                 PlayerStatManager.Instance.MeleeDamage.GetAdded() - _flatMeleeDamage);
         }
-        
-        public string GetDisplayDescription() => _text;
     }
 
     public class MultiplierMeleeDamageEffect : EquipmentEffect
     {
         private readonly float _multiplierMeleeDamage;
-        private readonly string _text;
 
         internal MultiplierMeleeDamageEffect(float multi)
         {
-            _text = $"{_multiplierMeleeDamage*100}% Increased Physical Damage";
             _multiplierMeleeDamage = multi;
+            _text = $"{_multiplierMeleeDamage*100:F1}% Increased Physical Damage";
         }
 
         public override void Apply()
@@ -77,19 +73,16 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.MeleeDamage.SetMultiplier(
                 PlayerStatManager.Instance.MeleeDamage.GetMultiplier() - _multiplierMeleeDamage);
         }
-        
-        public string GetDisplayDescription() => _text;
     }
 
     public class FlatArmourEffect : EquipmentEffect
     {
         private readonly float _flatArmour;
-        private readonly string _text;
 
         internal FlatArmourEffect(float flat)
         {
-            _text = $"Armour : {_flatArmour}";
             _flatArmour = flat;
+            _text = $"{_flatArmour:N0} Added Armour";
         }
 
         public override void Apply()
@@ -103,19 +96,16 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.Armour.SetFlat(
                 PlayerStatManager.Instance.Armour.GetFlat() - _flatArmour);
         }
-        
-        public string GetDisplayDescription() => _text;
     }
     
     public class MultiplierArmourEffect : EquipmentEffect
     {
         private readonly float _multiplierArmour;
-        private readonly string _text;
 
         internal MultiplierArmourEffect(float multi)
         {
-            _text = $"{_multiplierArmour*100}% Increased Armour";
             _multiplierArmour = multi;
+            _text = $"{_multiplierArmour*100:F1}% Increased Armour";
         }
 
         public override void Apply()
@@ -129,18 +119,16 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.Armour.SetMultiplier(
                 PlayerStatManager.Instance.Armour.GetMultiplier() - _multiplierArmour);
         }
-        
-        public string GetDisplayDescription() => _text;
+
     }
     
     public class FlatBlockEffectivenessEffect : EquipmentEffect
     {
         private readonly float _flatBlockEffectiveness;
-        private readonly string _text;
         internal FlatBlockEffectivenessEffect(float flat)
         {
-            _text = $"{_flatBlockEffectiveness*100}% to Block Effectiveness";
             _flatBlockEffectiveness = flat;
+            _text = $"{_flatBlockEffectiveness*100:F1}% to Block Effectiveness";
         }
         public override void Apply()
         {
@@ -152,18 +140,16 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.BlockEffect.SetFlat(
                 PlayerStatManager.Instance.BlockEffect.GetFlat() - _flatBlockEffectiveness);
         }
-        
-        public string GetDisplayDescription() => _text;
+
     }
     
     public class FlatHealthEffect : EquipmentEffect
     {
         private readonly float _flatHealth;
-        private readonly string _text;
         internal FlatHealthEffect(float flat)
         {
-            _text = $"{_flatHealth} Added Health";
             _flatHealth = flat;
+            _text = $"{_flatHealth:N0} Added Health";
         }
         public override void Apply()
         {
@@ -175,8 +161,7 @@ namespace GameplayMechanics.Effects
             PlayerStatManager.Instance.Life.SetFlat(
                 PlayerStatManager.Instance.Life.GetFlat() - _flatHealth);
         }
-        
-        public string GetDisplayDescription() => _text;
+
     }
 
     public enum EquipmentType
@@ -184,7 +169,9 @@ namespace GameplayMechanics.Effects
         NONE,
         ARMOR,
         MAINHAND,
-        OFFHAND
+        OFFHAND,
+        GREATSWORD,
+        AXE
     }
 
 }

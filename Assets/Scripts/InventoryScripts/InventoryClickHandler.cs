@@ -6,11 +6,12 @@ namespace InventoryScripts
 {
     // A simple Click Handler for the inventory slots.
     // Allows us to equip items from our inventory.
-    public class InventoryClickHandler : MonoBehaviour, IPointerClickHandler
+    public class InventoryClickHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private InventoryManager _inventoryManager;
         [SerializeField] private GameObject playerObject;
         [SerializeField] private int inventoryIndex;
+        [SerializeField] private TooltipUI _tooltipUI;
 
         private void Start()
         {
@@ -21,6 +22,21 @@ namespace InventoryScripts
         {
             InventoryItem item = Inventory.Instance.GetItemFromIndex(inventoryIndex);
             _inventoryManager.MoveToEquipment(item, inventoryIndex);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            InventoryItem item = Inventory.Instance.GetItemFromIndex(inventoryIndex);
+            if (item != null)
+            {
+                _tooltipUI.ShowTooltip(item.gameItem.GetName(), item.GetDescription(),
+                    item.gameItem.GetSellPrice().ToString());
+            }
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _tooltipUI.HideTooltip();
         }
     }
 }

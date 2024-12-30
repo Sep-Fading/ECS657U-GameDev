@@ -47,17 +47,17 @@ namespace InventoryScripts
         
         public GameObject GetRandomSword()
         {
-            return swordPrefabs[0];
+            return swordPrefabs[UnityEngine.Random.Range(0, swordPrefabs.Length)];
         }
     
         public GameObject GetRandomShield()
         {
-            return shieldPrefabs[0];
+            return shieldPrefabs[UnityEngine.Random.Range(0, shieldPrefabs.Length)];
         }
     
         public GameObject GetRandomArmour()
         {
-            return armourPrefabs[0];
+            return armourPrefabs[UnityEngine.Random.Range(0, armourPrefabs.Length)];
         }
     
         public GameObject GetRandomHealthPotion()
@@ -67,7 +67,7 @@ namespace InventoryScripts
     
         public GameObject GetRandomGreatSword()
         {
-            return greatSwordPrefabs[0];
+            return greatSwordPrefabs[UnityEngine.Random.Range(0, greatSwordPrefabs.Length)];
         }
     
         public GameObject GetRandomAxe()

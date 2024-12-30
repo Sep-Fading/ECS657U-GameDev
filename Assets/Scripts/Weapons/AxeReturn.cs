@@ -7,7 +7,7 @@ namespace Weapons
     {
         private Collider weaponCollider;
         private GameObject player;
-        private bool returning = false;
+        public bool returning = false;
 
         private void Awake()
         {
@@ -15,15 +15,16 @@ namespace Weapons
             weaponCollider = GetComponent<Collider>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (returning)
             {
                 transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 70f * Time.deltaTime);
                 if(Vector3.Distance(transform.position, player.transform.position) < 2f)
                 {
-                    player.GetComponent<ThrowableAxe>().DestroyAxe();
                     ToggleReturn();
+                    player.GetComponent<ThrowableAxe>().DestroyAxe();
+                    
                 }
             }
         }

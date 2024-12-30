@@ -5233,6 +5233,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4111609208267328869, guid: 4a070bc0e4acab349aa5f22135680b05, type: 3}
+--- !u!1 &947934199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 947934200}
+  m_Layer: 0
+  m_Name: ThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &947934200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947934199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.318, z: 0.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3782069318415625154}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948063817 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8833014857866130543, guid: db8edc7562833af4b9eebea07c69d5d9, type: 3}
@@ -9926,7 +9957,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 6a08ec4b334ea1c46b8171679417a74f, type: 3}
     - target: {fileID: 5230561671864914323, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       propertyPath: CheatGold
-      value: 1000
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 5230561671864914323, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       propertyPath: armorIcon
@@ -10108,7 +10139,10 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4763626840160307768, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
     - {fileID: 7127359042228535284, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3229383380274777777, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 947934200}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7228067489444790241, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       insertIndex: -1
@@ -10116,6 +10150,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7693003015074817163, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7693003016632966734}
+    - targetCorrespondingSourceObject: {fileID: 7693003015074817163, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7693003016632966749}
     - targetCorrespondingSourceObject: {fileID: 1520966280791487784, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
       insertIndex: -1
       addedObject: {fileID: 699050383}
@@ -20056,6 +20093,11 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 3782069317876617588, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
   m_PrefabInstance: {fileID: 1608628916}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &3782069318415625154 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3229383380274777777, guid: c4f0f427f2be94b3c9d8ae69030f9334, type: 3}
+  m_PrefabInstance: {fileID: 1608628916}
+  m_PrefabAsset: {fileID: 0}
 --- !u!222 &3784337291483852654
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -27181,12 +27223,33 @@ MonoBehaviour:
   armourPrefabs: []
   healthPotionPrefabs: []
   greatSwordPrefabs:
-  - {fileID: 7869200249139886605, guid: 592210e65b93c364bb96ec7a372776a3, type: 3}
-  - {fileID: 459222818834948334, guid: 8e1eb7b7072fe4a4f9087f68bf183778, type: 3}
-  - {fileID: 3738170357184239541, guid: 8317365d53511d44f92ae40a96587383, type: 3}
   - {fileID: 4826507475498438846, guid: bd7a89604db47934f90e8b228da614be, type: 3}
+  - {fileID: 3738170357184239541, guid: 8317365d53511d44f92ae40a96587383, type: 3}
+  - {fileID: 459222818834948334, guid: 8e1eb7b7072fe4a4f9087f68bf183778, type: 3}
+  - {fileID: 7869200249139886605, guid: 592210e65b93c364bb96ec7a372776a3, type: 3}
   axePrefabs:
-  - {fileID: 8369362202175656451, guid: c29deafc6b074764892788725c387800, type: 3}
+  - {fileID: 8369362202175656451, guid: 0febff476d8d7554d9407d1710601869, type: 3}
+--- !u!114 &7693003016632966749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7693003016632966719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdba9c7b7824151b8677492d04a748d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 3782069318415625154}
+  throwPoint: {fileID: 947934200}
+  throwPrefab: {fileID: 8369362202175656451, guid: c29deafc6b074764892788725c387800, type: 3}
+  weaponSlot: {fileID: 874688857}
+  displayAxe: {fileID: 8369362202175656451, guid: 0febff476d8d7554d9407d1710601869, type: 3}
+  throwForce: 20
+  throwUpwardForce: 0
+  readyToThrow: 0
+  currentAxe: {fileID: 0}
 --- !u!222 &7707533113497081222
 CanvasRenderer:
   m_ObjectHideFlags: 0

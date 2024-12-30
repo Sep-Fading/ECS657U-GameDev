@@ -184,6 +184,7 @@ namespace Enemy
                 //PlayerStatManager.Instance.DoDamage(enemy);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
+                SetState(EnemyState.TRIGGERED);
             }
         }
     }

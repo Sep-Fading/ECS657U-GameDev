@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemy
 {
     public class SkeleGhostController : AbstractEnemy
     {
+        public float health;
         float moveCooldown;
         public bool attacking;
         public bool raining;
@@ -17,10 +21,11 @@ namespace Enemy
             base.Awake();
 
             attackDistance = 15f;
-            attackCooldown = 20f;
-            moveCooldown = 1.5f;
+            attackCooldown = 10f;
+            stats.Life.SetFlat(100f);
+            moveCooldown = 4f;
             attacking = false;
-            attackPattern.Add(throwBall);
+            attackPattern.Add(shootAttack);
         }
         protected override void Start()
         {
@@ -31,6 +36,7 @@ namespace Enemy
         }
         protected override void Update()
         {
+            health = stats.Life.GetCurrent();
             distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
             //Debug.Log("Moving: " + animator.GetBool("isMoving"));
             switch (enemyState)
@@ -50,16 +56,21 @@ namespace Enemy
                 default:
                     break;
             }
+            if (stats.Life.GetCurrent() <= stats.Life.GetFlat() / 2f)
+            {
+                attackPattern = new List<System.Action>() { rainAttack, shootAttack };
+            }
             transform.LookAt(player.transform);
             if (distanceBetweenPlayer <= 1.5f) { animator.SetTrigger("punchTrigger"); }
-            if (attackCooldown <= 0 && !attacking) { SetState(EnemyState.ATTACK); }
+            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+            else if (attackCooldown <= 0 && !attacking) { SetState(EnemyState.ATTACK); }
             else { attackCooldown -= Time.deltaTime; SetState(EnemyState.TRIGGERED); }
             if (raining)
             {
                 if (rainTimer > 0f && rainSpawnTime <= 0f)
                 {
                     GameObject ghostBall = Instantiate(Resources.Load("GhostBall") as GameObject);
-                    ghostBall.transform.position = new Vector3(Random.Range(-10f, 10f), 11f, Random.Range(-30f, -2f));
+                    ghostBall.transform.position = new Vector3(UnityEngine.Random.Range(-10f, 10f), 11f, Random.Range(-30f, -2f));
                     ghostBall.GetComponent<Renderer>().enabled = true;
                     ghostBall.GetComponent<Rigidbody>().isKinematic = false;
                     ghostBall.GetComponent<Rigidbody>().AddForce(Vector3.down * 10f, ForceMode.Impulse);
@@ -147,7 +158,13 @@ namespace Enemy
                     setSpeed(runSpeed);
                     StopAllCoroutines();
                     animator.SetBool("isMoving", true);
-                    StartCoroutine(MoveTo(player.transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(0f, 1f), Random.Range(-5f, 5f))));
+                    float randomX;
+                    float randomZ;
+                    if (Random.value < 0.5) randomX = Random.Range(-5f, -3f);
+                    else randomX = Random.Range(3f, 5f);
+                    if (Random.value < 0.5) randomZ = Random.Range(-5f, -3f);
+                    else randomZ = Random.Range(3f, 5f);
+                    StartCoroutine(MoveTo(player.transform.position + new Vector3(randomX, Random.Range(0f, 1f), randomZ)));
                 }
                 else moveCooldown -= Time.deltaTime;
             }
@@ -167,6 +184,7 @@ namespace Enemy
         public void shootAttack()
         {
             animator.SetTrigger("shootTrigger");
+            attacking = false;
         }
         public void throwBall()
         {
@@ -174,12 +192,12 @@ namespace Enemy
             ball.GetComponent<Renderer>().enabled = true;
             ball.GetComponent<Rigidbody>().isKinematic = false;
             ball.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 10f, ForceMode.Impulse);
-            attacking = false;
             attackCooldown = 5f;
         }
         public void rainAttack()
         {
             animator.SetTrigger("rainTrigger");
+            attacking = false;
         }
         public void beginRain()
         {
@@ -190,6 +208,38 @@ namespace Enemy
         public override void onAttackComplete()
         {
             base.onAttackComplete();
+        }
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.gameObject.CompareTag("Weapon")
+        //        //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
+        //        //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+        //        )
+        //    {
+        //        Debug.Log("Enemy Attacked");
+        //        setSpeed(0f);
+        //        animator.SetTrigger("stunTrigger");
+        //        playerStats.DoDamage(this);
+        //    }
+        //}
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Weapon")
+    //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
+    //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+    )
+            {
+                Debug.Log("Enemy Attacked");
+                animator.SetTrigger("stunTrigger");
+                playerStats.DoDamage(this);
+                attacking = false;
+                //SetState(EnemyState.TRIGGERED);
+                
+            }
+            if (other.gameObject.CompareTag("EnemyWeaponThrowable"))
+            {
+                playerStats.DoDamage(this);
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace enemy
         {
             base.Awake();
 
-            attackDistance = 3f;
+            attackDistance = 4f;
             attackCooldown = 1.5f;
             attackPattern.Add(weaponAttack);
             attackPattern.Add(punchAttack);
@@ -46,18 +46,6 @@ namespace enemy
 
             if (animator.GetAnimatorTransitionInfo(0).IsName("Stun")) GetComponent<Rigidbody>().isKinematic = true;
             else GetComponent<Rigidbody>().isKinematic = false;
-
-            if ((GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK)
-                && distanceBetweenPlayer <= attackDistance
-                && player.GetComponent<InputManager>().getPlayerInput().grounded.SwordAction.triggered
-                && Random.value < 0.3
-                && !animator.GetAnimatorTransitionInfo(0).IsName("Dodge")
-                && GameObject.FindWithTag("WeaponSlot").transform.childCount > 0)
-            {
-                setSpeed(0f);
-                animator.SetTrigger("dodgeTrigger");
-                Debug.Log("Dodging");
-            }
 
             if (!isCircling) circlingCooldown -= Time.deltaTime;
             //Debug.Log("Speed: " + stats.Speed.GetCurrent());
@@ -232,8 +220,8 @@ namespace enemy
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-                newWeapon.transform.Rotate(0f, 80f, -5f, 0);
-                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 30f, ForceMode.Impulse);
+                //newWeapon.transform.Rotate(0f, 80f, -5f, 0);
+                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);
             }
         }
         public void enableWeapon()
@@ -242,15 +230,16 @@ namespace enemy
             {
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = true;
                 //Destroy(GameObject.FindWithTag("EnemyWeaponThrowable"));
-                GameObject newWeapon = Instantiate(Resources.Load("OrcSkullWeapon"), transform) as GameObject;
+                GameObject newWeapon = Instantiate(Resources.Load("OrcBossWeapon"), transform) as GameObject;
                 isThrowing = false;
             }
         }
         public void jump() 
         {
             setSpeed(0f);
+            transform.LookAt(player.transform);
             Debug.Log((transform.position - player.transform.position).normalized);
-            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 10f, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 5f, ForceMode.Impulse);
         }
         public void jumpAttack()
         {
@@ -260,6 +249,8 @@ namespace enemy
         public void onJump()
         {
             animator.SetTrigger("jumpIdleTrigger");
+            transform.LookAt(player.transform);
+
         }
         public void checkNearGround()
         {
@@ -279,18 +270,6 @@ namespace enemy
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }
-        }
-        public void dodge()
-        {
-            GetComponent<Rigidbody>().isKinematic = true;
-            Physics.IgnoreLayerCollision(6,7,true);
-        }
-        public void endDodge()
-        {
-            Physics.IgnoreLayerCollision(6,7,false);
-            GetComponent<Rigidbody>().isKinematic = false;
-            SetState(EnemyState.TRIGGERED);
-            resetSpeed();
         }
         public void resetSpeed()
         {

@@ -189,6 +189,7 @@ namespace Enemy
 
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
+                    transform.LookAt(player.transform);
                     bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
                     if (runPattern)
                     {
@@ -225,6 +226,10 @@ namespace Enemy
             foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
             if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
             //Debug.Log("Animation End");
+            if (player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered)
+            {
+                Debug.Log("Parrying");
+            }
         }
         public virtual void onAttackComplete()
         {

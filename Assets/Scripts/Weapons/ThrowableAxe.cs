@@ -8,10 +8,10 @@ namespace Weapons
     {
 
         [SerializeField] Transform cam;
-        [SerializeField] Transform ThrowPoint;
-        [SerializeField] GameObject ThrowPrefab;
-        [SerializeField] GameObject WeaponSlot;
-        [SerializeField] GameObject DisplayAxe;
+        [SerializeField] Transform throwPoint;
+        [SerializeField] GameObject throwPrefab;
+        [SerializeField] GameObject weaponSlot;
+        [SerializeField] GameObject displayAxe;
         public float throwForce;
         public float throwUpwardForce;
 
@@ -23,37 +23,30 @@ namespace Weapons
         {
             readyToThrow = true;
         }
-
-
-        private void Update()
+        public void Throw()
         {
-            if (Input.GetKeyDown(KeyCode.L) && readyToThrow) // TODO must bind this through the actual keybinding scheme
+            if (readyToThrow)
             {
-                Throw();
+                readyToThrow = false;
+
+                GameObject throwable = Instantiate(throwPrefab, throwPoint.position, cam.rotation);
+            
+
+                Rigidbody rb = throwable.GetComponent<Rigidbody>();
+            
+
+                Vector3 forceDirection = cam.transform.forward;
+            
+                Vector3 forceToAdd = forceDirection * throwForce + cam.transform.up * throwUpwardForce;
+
+                rb.AddForce(forceToAdd, ForceMode.Impulse);
+                rb.angularVelocity = new Vector3(0f, 45f, 0f);
+
+                currentAxe = throwable;
+
+                Destroy(weaponSlot.transform.GetChild(0).gameObject);
+                Invoke(nameof(ResetThrow), 0.5f);
             }
-        }
-
-        private void Throw()
-        {
-            readyToThrow = false;
-
-            GameObject throwable = Instantiate(ThrowPrefab, ThrowPoint.position, cam.rotation);
-            
-
-            Rigidbody rb = throwable.GetComponent<Rigidbody>();
-            
-
-            Vector3 forceDirection = cam.transform.forward;
-            
-            Vector3 forceToAdd = forceDirection * throwForce + cam.transform.up * throwUpwardForce;
-
-            rb.AddForce(forceToAdd, ForceMode.Impulse);
-            rb.angularVelocity = new Vector3(0f, 45f, 0f);
-
-            currentAxe = throwable;
-
-            Destroy(WeaponSlot.transform.GetChild(0).gameObject);
-            Invoke(nameof(ResetThrow), 0.5f);
         }
 
         private void ResetThrow()
@@ -65,7 +58,7 @@ namespace Weapons
         {
             Destroy(currentAxe);
             currentAxe = null;
-            Instantiate(DisplayAxe, WeaponSlot.transform);
+            Instantiate(displayAxe, weaponSlot.transform);
             readyToThrow = true;
         }
 

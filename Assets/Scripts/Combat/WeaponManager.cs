@@ -4,6 +4,7 @@ using InventoryScripts;
 using UnityEngine;
 using Player;
 using UI;
+using Weapons;
 
 namespace Combat
 {
@@ -60,6 +61,9 @@ namespace Combat
                                 break;
                             case EquipmentType.MAINHAND:
                                 _anim.SetTrigger(MainHandAction);
+                                break;
+                            case EquipmentType.AXE:
+                                player.GetComponent<ThrowableAxe>().Throw();
                                 break;
                         }
                     }

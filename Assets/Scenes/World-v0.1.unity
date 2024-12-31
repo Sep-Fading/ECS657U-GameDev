@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2064841425}
-  m_IndirectSpecularColor: {r: 0.06130194, g: 0.05891526, b: 0.106110096, a: 1}
+  m_IndirectSpecularColor: {r: 0.06125779, g: 0.058871802, b: 0.10606487, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -806,6 +806,99 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 772894962052134933, guid: 055e9d32f820c5b47b707a7882b22893, type: 3}
   m_PrefabInstance: {fileID: 407024404}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &409184177
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5559654456526774429, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_Name
+      value: NPC-holder (Barry)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: lines.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[0]'
+      value: Oh!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[1]'
+      value: We meet again Traveller!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[2]'
+      value: 'Don''t worry. You won''t be harmed here. The world tree wards off all
+        with wicked intentions in their hearts. intentions '
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[3]'
+      value: But there's something amiss. It's power is waning and now this small
+        area is the only safe place here!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[4]'
+      value: It's power stemmed from the mighty giants. They don't seem to be around
+        anymore. What could have happened to them?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[5]'
+      value: Maybe the tree is weaking because of their disappearance? Now all sorts
+        of monsters have been attracted like that fowl Orc King!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[6]'
+      value: Take him down and save this world!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 302.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.529201
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 308.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.09329981
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9956381
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -169.293
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
 --- !u!1001 &410654199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2956,3 +3049,4 @@ SceneRoots:
   - {fileID: 1302170520}
   - {fileID: 1588153200}
   - {fileID: 306538788}
+  - {fileID: 409184177}

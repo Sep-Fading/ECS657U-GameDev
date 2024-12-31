@@ -12,6 +12,6 @@ public class PortalInteract : Interactable
     }
     public override void Interact()
     {
-        GameStateManager.Instance.SetTransitionState(true);
+        GameStateManager.Instance.MoveToNextScene(scenes[3]);
     }
 }

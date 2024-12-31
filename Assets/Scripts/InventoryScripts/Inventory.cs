@@ -39,6 +39,7 @@ namespace InventoryScripts
         public InventoryItem EquippedMainHandItem;
         public InventoryItem EquippedOffHandItem;
         private GameObject MainHandItem;
+        private GameObject OffHandItem;
         
         /* --- Gold --- */
         private static int Gold = 0;
@@ -123,10 +124,18 @@ namespace InventoryScripts
 
             if (item.equipment.type == EquipmentType.OFFHAND)
             {
-                EquippedOffHandItem = item;
-                EquippedOffHand = item.equipment;
-                EquippedOffHand.Equip();
-                return EquipmentType.OFFHAND;
+                if (EquippedMainHand == null ||
+                    Instance.EquippedMainHand.GetEquipmentType() != EquipmentType.GREATSWORD)
+                {
+                    EquippedOffHandItem = item;
+                    EquippedOffHand = item.equipment;
+                    EquippedOffHand.Equip();
+                    this.OffHandItem = GameObject.Instantiate(EquippedOffHand.GetGameObject(),
+                        GameObject.FindWithTag("ShieldSlot").transform);
+                    this.OffHandItem.tag = "Shield";
+                    
+                    return EquipmentType.OFFHAND;
+                }
             }
 
             if (item.equipment.type == EquipmentType.MAINHAND ||

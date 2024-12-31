@@ -40,12 +40,12 @@ public class SpreadFire : MonoBehaviour
                 PlayerStatManager.Instance.TakeDamage(gameObject.GetComponentInParent<AbstractEnemy>().stats.Damage.GetCurrent());
             }
         }
-        else
+        else if (!other.gameObject.Equals(transform.parent.gameObject))
         {
             Debug.Log("Spreading AOE");
             GameObject fireAOE = Instantiate(Resources.Load("FireAOE") as GameObject);
             fireAOE.transform.position = transform.position;
-            if (transform.position.y <= 0.1f) fireAOE.transform.position = new Vector3(fireAOE.transform.position.x, 0.15f, fireAOE.transform.position.z);
+            if (transform.position.y <= -0.67f) fireAOE.transform.position = new Vector3(fireAOE.transform.position.x, -0.67f, fireAOE.transform.position.z);
         }
 
         Destroy(gameObject);

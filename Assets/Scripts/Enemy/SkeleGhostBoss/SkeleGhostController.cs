@@ -31,66 +31,69 @@ namespace Enemy
         {
             baseSpeed = 10f;
             runSpeed = 10f;
-            SetState(EnemyState.TRIGGERED);
+            SetState(EnemyState.IDLE);
             base.Start();
         }
         protected override void Update()
         {
-            health = stats.Life.GetCurrent();
-            distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
-            //Debug.Log("Moving: " + animator.GetBool("isMoving"));
-            switch (enemyState)
+            if (!(GetState() == EnemyState.IDLE))
             {
-                case EnemyState.IDLE:
-                    idle();
-                    break;
-                case EnemyState.TRIGGERED:
-                    followPlayer();
-                    break;
-                case EnemyState.ATTACK:
-                    attack();
-                    break;
-                case EnemyState.DEAD:
-                    despawn();
-                    break;
-                default:
-                    break;
-            }
-            if (stats.Life.GetCurrent() <= stats.Life.GetFlat() / 2f)
-            {
-                attackPattern = new List<System.Action>() { rainAttack, shootAttack };
-            }
-            transform.LookAt(player.transform);
-            if (distanceBetweenPlayer <= 1.5f) { animator.SetTrigger("punchTrigger"); }
-            if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
-            else if (attackCooldown <= 0 && !attacking) { SetState(EnemyState.ATTACK); }
-            else { attackCooldown -= Time.deltaTime; SetState(EnemyState.TRIGGERED); }
-            if (raining)
-            {
-                if (rainTimer > 0f && rainSpawnTime <= 0f)
+                health = stats.Life.GetCurrent();
+                distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
+                //Debug.Log("Moving: " + animator.GetBool("isMoving"));
+                switch (enemyState)
                 {
-                    GameObject ghostBall = Instantiate(Resources.Load("GhostBall") as GameObject);
-                    ghostBall.transform.position = new Vector3(UnityEngine.Random.Range(-10f, 10f), 11f, Random.Range(-30f, -2f));
-                    ghostBall.GetComponent<Renderer>().enabled = true;
-                    ghostBall.GetComponent<Rigidbody>().isKinematic = false;
-                    ghostBall.GetComponent<Rigidbody>().AddForce(Vector3.down * 10f, ForceMode.Impulse);
-                    rainSpawnTime = 1f;
+                    case EnemyState.IDLE:
+                        idle();
+                        break;
+                    case EnemyState.TRIGGERED:
+                        followPlayer();
+                        break;
+                    case EnemyState.ATTACK:
+                        attack();
+                        break;
+                    case EnemyState.DEAD:
+                        despawn();
+                        break;
+                    default:
+                        break;
                 }
-                if (rainTimer <= 0f)
+                if (stats.Life.GetCurrent() <= stats.Life.GetFlat() / 2f)
                 {
-                    attackCooldown = 20f;
-                    rainTimer = 5f;
-                    rainSpawnTime = 1f;
-                    attacking = false;
-                    raining = false;
-                    GetComponentInChildren<Renderer>().enabled = true;
-                    GetComponent<Collider>().enabled = true;
-                    onAttackComplete();
+                    attackPattern = new List<System.Action>() { rainAttack, shootAttack };
                 }
-                else
+                transform.LookAt(player.transform);
+                if (distanceBetweenPlayer <= 1.5f) { animator.SetTrigger("punchTrigger"); }
+                if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
+                else if (attackCooldown <= 0 && !attacking) { SetState(EnemyState.ATTACK); }
+                else { attackCooldown -= Time.deltaTime; SetState(EnemyState.TRIGGERED); }
+                if (raining)
                 {
-                    rainSpawnTime -= Time.deltaTime;
-                    rainTimer -= Time.deltaTime;
+                    if (rainTimer > 0f && rainSpawnTime <= 0f)
+                    {
+                        GameObject ghostBall = Instantiate(Resources.Load("GhostBall") as GameObject);
+                        ghostBall.transform.position = new Vector3(Random.Range(275f, 297f), 11f, Random.Range(402f, 432f));
+                        ghostBall.GetComponent<Renderer>().enabled = true;
+                        ghostBall.GetComponent<Rigidbody>().isKinematic = false;
+                        ghostBall.GetComponent<Rigidbody>().AddForce(Vector3.down * 10f, ForceMode.Impulse);
+                        rainSpawnTime = 1f;
+                    }
+                    if (rainTimer <= 0f)
+                    {
+                        attackCooldown = 20f;
+                        rainTimer = 5f;
+                        rainSpawnTime = 1f;
+                        attacking = false;
+                        raining = false;
+                        GetComponentInChildren<Renderer>().enabled = true;
+                        GetComponent<Collider>().enabled = true;
+                        onAttackComplete();
+                    }
+                    else
+                    {
+                        rainSpawnTime -= Time.deltaTime;
+                        rainTimer -= Time.deltaTime;
+                    }
                 }
             }
         }
@@ -154,7 +157,7 @@ namespace Enemy
             {
                 if (moveCooldown <= 0)
                 {
-                    moveCooldown = 1.5f;
+                    moveCooldown = 3f;
                     setSpeed(runSpeed);
                     StopAllCoroutines();
                     animator.SetBool("isMoving", true);
@@ -238,6 +241,8 @@ namespace Enemy
             }
             if (other.gameObject.CompareTag("EnemyWeaponThrowable"))
             {
+                Debug.Log("Boss sttacked by projectile");
+                animator.SetTrigger("stunTrigger");
                 playerStats.DoDamage(this);
             }
         }

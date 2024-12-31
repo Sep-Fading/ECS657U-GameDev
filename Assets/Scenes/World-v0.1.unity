@@ -1540,8 +1540,8 @@ GameObject:
   - component: {fileID: 987905753}
   - component: {fileID: 987905752}
   - component: {fileID: 987905751}
-  - component: {fileID: 987905750}
   - component: {fileID: 987905749}
+  - component: {fileID: 987905754}
   m_Layer: 0
   m_Name: BossGate
   m_TagString: Untagged
@@ -1561,27 +1561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d4c739a07d33945a8eb4b51a0965f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &987905750
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 987905748}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 12.370166, y: 0.94515824, z: 1.5627728}
-  m_Center: {x: -0.21244964, y: -0.027420806, z: 7.662358}
 --- !u!23 &987905751
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1647,6 +1626,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 3.984, z: 0}
+--- !u!135 &987905754
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987905748}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.9818603
+  m_Center: {x: -0.1622869, y: 0.65990376, z: -12.216336}
 --- !u!1001 &1016910113
 PrefabInstance:
   m_ObjectHideFlags: 0

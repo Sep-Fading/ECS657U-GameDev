@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PortalInteract : Interactable
 {
@@ -12,6 +13,15 @@ public class PortalInteract : Interactable
     }
     public override void Interact()
     {
-        GameStateManager.Instance.SetTransitionState(true);
+
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0:
+                GameStateManager.Instance.MoveToNextScene(scenes[2]); break;
+            case 1:
+                GameStateManager.Instance.MoveToNextScene(scenes[2]); break;
+            case 2:
+                GameStateManager.Instance.MoveToNextScene(scenes[3]); break;
+        }
     }
 }

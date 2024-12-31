@@ -167,7 +167,7 @@ namespace Enemy
 
             else
             {
-                stats.Speed.SetCurrent(stats.Life.GetFlat());
+                stats.Speed.SetCurrent(baseSpeed);
                 animator.SetBool("isMoving", false);
                 if (idleTime <= 0)
                 {

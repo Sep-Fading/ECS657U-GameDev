@@ -142,6 +142,12 @@ namespace enemy
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
+            else if (distanceBetweenPlayer <= attackDistance * 0.7f) // If too close
+            {
+                StopAllCoroutines();
+                setSpeed(baseSpeed); // Use a slower speed for retreating
+                StartCoroutine(MoveBackwards(player.transform.position, 2f, baseSpeed)); // Move 2 units away
+            }
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {

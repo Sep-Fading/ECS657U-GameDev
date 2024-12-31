@@ -28,9 +28,9 @@ namespace Enemy
         {
             base.Update();
             if (animator.GetAnimatorTransitionInfo(0).IsName("Punch")
-            || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")
-            || animator.GetAnimatorTransitionInfo(0).IsName("Stun")
-            || animator.GetAnimatorTransitionInfo(0).IsName("Shoot"))
+                || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")
+                || animator.GetAnimatorTransitionInfo(0).IsName("Stun")
+                || animator.GetAnimatorTransitionInfo(0).IsName("Shoot"))
                 setSpeed(0f);
             if (distanceBetweenPlayer < attackDistance) jumpAttack();
         }
@@ -65,7 +65,7 @@ namespace Enemy
                 // Rotate toward the target
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
-                targetRotation,
+                    targetRotation,
                     Time.deltaTime * stats.Speed.GetCurrent()
                 );
 
@@ -116,6 +116,7 @@ namespace Enemy
             }
             else
             {
+                setSpeed(baseSpeed);
                 animator.SetBool("isMoving", false);
                 animator.SetBool("isRunning", false);
                 if (idleTime <= 0)
@@ -176,21 +177,10 @@ namespace Enemy
 
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
-                    bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
-                    if (runPattern)
-                    {
-                        foreach (var attack in attackPattern)
-                        {
-                            attack.Invoke();
-                            Debug.Log("Attack: " + attack.Method);
-                        }
-                    }
-                    else
-                    {
-                        int attack = Random.Range(0, attackPattern.Count);
-                        attackPattern[attack].Invoke();
-                        Debug.Log("Attack: " + attackPattern[attack].Method);
-                    }
+                    int attack = Random.Range(0, attackPattern.Count);
+                    attackPattern[attack].Invoke();
+                    Debug.Log("Attack: " + attackPattern[attack].Method);
+                    
                     lastAttackTime = Time.time; // Reset cooldown
                 }
                 if (Random.value < 0.4f)
@@ -226,11 +216,13 @@ namespace Enemy
         }
         public void jumpAttack()
         {
+            setSpeed(0f);
             transform.LookAt(player.transform);
             animator.SetTrigger("jumpTrigger");
         }
         public void onJump()
         {
+            setSpeed(0f);
             animator.SetTrigger("jumpIdleTrigger");
         }
         public void checkNearGround()
@@ -238,7 +230,6 @@ namespace Enemy
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 5f))
             {
                 animator.SetTrigger("jumpEndTrigger");
-                setSpeed(runSpeed);
             }
         }
         private void OnCollisionEnter(Collision collision)

@@ -46,62 +46,35 @@ public class SpawnEnemy : MonoBehaviour
                 int w2box3num = num / 3;
                 for (int i = 0; i <= w2box1num; i++)
                 {
-                    if (Random.value <= 0.3)
+                    if (Random.value <= 0.5)
                     {
                         Instantiate(Resources.Load("Cactoro"), new Vector3(Random.Range(150f, 400f), 3f, Random.Range(115f, 220f)), transform.localRotation, transform);
                     }
-                    else if (Random.value <= 0.6)
+                    else 
                     {
                         Instantiate(Resources.Load("Spider"), new Vector3(Random.Range(150f, 400f), 3f, Random.Range(115f, 220f)), transform.localRotation, transform);
-                    }
-                    else
-                    {
-                        Instantiate(Resources.Load("Frog"), new Vector3(Random.Range(150f, 400f), 3f, Random.Range(115f, 220f)), transform.localRotation, transform);
-                    }
-                }
-                for (int i = 0; i <= w2box1num; i++)
-                {
-                    if (Random.value <= 0.3)
-                    {
-                        Instantiate(Resources.Load("Cactoro"), new Vector3(Random.Range(150f, 400f), 3f, Random.Range(115f, 220f)), transform.localRotation, transform);
-                    }
-                    else if (Random.value <= 0.6)
-                    {
-                        Instantiate(Resources.Load("Spider"), new Vector3(Random.Range(150f, 400f), 3f, Random.Range(115f, 220f)), transform.localRotation, transform);
-                    }
-                    else
-                    {
-                        Instantiate(Resources.Load("Frog"), new Vector3(Random.Range(150f, 400f), 3f, Random.Range(115f, 220f)), transform.localRotation, transform);
                     }
                 }
                 for (int i = 0; i <= w2box2num; i++)
                 {
-                    if (Random.value <= 0.3)
+                    if (Random.value <= 0.5)
                     {
                         Instantiate(Resources.Load("Cactoro"), new Vector3(Random.Range(115f, 57f), 3f, Random.Range(231f, 430f)), transform.localRotation, transform);
                     }
-                    else if (Random.value <= 0.6)
+                    else 
                     {
                         Instantiate(Resources.Load("Spider"), new Vector3(Random.Range(115f, 57f), 3f, Random.Range(231f, 430f)), transform.localRotation, transform);
-                    }
-                    else
-                    {
-                        Instantiate(Resources.Load("Frog"), new Vector3(Random.Range(115f, 57f), 3f, Random.Range(231f, 430f)), transform.localRotation, transform);
                     }
                 }
                 for (int i = 0; i <= w2box3num; i++)
                 {
-                    if (Random.value <= 0.3)
+                    if (Random.value <= 0.5)
                     {
                         Instantiate(Resources.Load("Cactoro"), new Vector3(Random.Range(390f, 444f), 3f, Random.Range(268f, 446f)), transform.localRotation, transform);
                     }
-                    else if (Random.value <= 0.6)
-                    {
-                        Instantiate(Resources.Load("Spider"), new Vector3(Random.Range(390f, 444f), 3f, Random.Range(268f, 446f)), transform.localRotation, transform);
-                    }
                     else
                     {
-                        Instantiate(Resources.Load("Frog"), new Vector3(Random.Range(390f, 444f), 3f, Random.Range(268f, 446f)), transform.localRotation, transform);
+                        Instantiate(Resources.Load("Spider"), new Vector3(Random.Range(390f, 444f), 3f, Random.Range(268f, 446f)), transform.localRotation, transform);
                     }
                 }
                 break;

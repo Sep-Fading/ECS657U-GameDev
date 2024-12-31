@@ -67,6 +67,10 @@ namespace Enemy
                 default:
                     break;
             }
+            if (distanceBetweenPlayer < attackDistance)
+            {
+                GetComponent<Rigidbody>().AddForce(Vector3.back * 2f);
+            }
         }
         public StatManager GetStatManager() => stats;
         public EnemyState GetState() { return enemyState; }
@@ -134,6 +138,28 @@ namespace Enemy
 
             animator.SetBool("isMoving", false);
         }
+        public IEnumerator MoveBackwards(Vector3 awayFromPosition, float distanceToMove, float speed)
+        {
+            Vector3 directionAway = (transform.position - awayFromPosition).normalized;
+
+            // Target position is backward in the direction away from the player
+            Vector3 targetPosition = transform.position + directionAway * distanceToMove;
+
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                // Ensure the enemy keeps facing the player
+                transform.rotation = Quaternion.LookRotation(awayFromPosition - transform.position);
+
+                // Move backward
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    targetPosition,
+                    speed * Time.deltaTime
+                );
+
+                yield return null; // Wait for the next frame
+            }
+        }
         public virtual void idle()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
@@ -170,6 +196,12 @@ namespace Enemy
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
+            else if (distanceBetweenPlayer <= attackDistance * 0.5f) // If too close
+            {
+                StopAllCoroutines();
+                setSpeed(baseSpeed); // Use a slower speed for retreating
+                StartCoroutine(MoveBackwards(player.transform.position, 2f, baseSpeed)); // Move 2 units away
+            }
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
@@ -189,7 +221,7 @@ namespace Enemy
 
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
-                    transform.LookAt(player.transform);
+                    //transform.LookAt(player.transform);
                     bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
                     if (runPattern)
                     {

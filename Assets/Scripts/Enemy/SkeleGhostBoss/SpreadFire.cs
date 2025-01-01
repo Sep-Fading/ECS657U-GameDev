@@ -20,12 +20,14 @@ public class SpreadFire : MonoBehaviour
         else thrownTime += Time.deltaTime;
 
         if (PlayerStatManager.Instance != null)
-            if (!PlayerStatManager.Instance.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = false;
-            else GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
+        {
+            if (!PlayerStatManager.Instance.IsBlocking && GameObject.FindWithTag("Shield") != null) GameObject.FindWithTag("Shield").GetComponentInChildren<Collider>().enabled = false;
+            else if (GameObject.FindWithTag("Shield") != null) GameObject.FindWithTag("Shield").GetComponent<Collider>().enabled = true;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent != null && other.transform.parent.tag == "ShieldSlot")
+        if (other.transform.tag == "Shield")
         {
             GameObject ball = Instantiate(Resources.Load("GhostBall") as GameObject, transform.position, Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z), transform.parent);
             ball.transform.LookAt(transform.parent);
@@ -40,7 +42,7 @@ public class SpreadFire : MonoBehaviour
                 PlayerStatManager.Instance.TakeDamage(gameObject.GetComponentInParent<AbstractEnemy>().stats.Damage.GetCurrent());
             }
         }
-        else if (!other.gameObject.Equals(transform.parent.gameObject))
+        else if (!(other.gameObject.tag == "Boss"))
         {
             Debug.Log("Spreading AOE");
             GameObject fireAOE = Instantiate(Resources.Load("FireAOE") as GameObject);

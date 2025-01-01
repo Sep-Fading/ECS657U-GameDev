@@ -138,28 +138,6 @@ namespace Enemy
 
             animator.SetBool("isMoving", false);
         }
-        public IEnumerator MoveBackwards(Vector3 awayFromPosition, float distanceToMove, float speed)
-        {
-            Vector3 directionAway = (transform.position - awayFromPosition).normalized;
-
-            // Target position is backward in the direction away from the player
-            Vector3 targetPosition = transform.position + directionAway * distanceToMove;
-
-            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
-            {
-                // Ensure the enemy keeps facing the player
-                transform.rotation = Quaternion.LookRotation(awayFromPosition - transform.position);
-
-                // Move backward
-                transform.position = Vector3.MoveTowards(
-                    transform.position,
-                    targetPosition,
-                    speed * Time.deltaTime
-                );
-
-                yield return null; // Wait for the next frame
-            }
-        }
         public virtual void idle()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
@@ -196,12 +174,6 @@ namespace Enemy
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
-            else if (distanceBetweenPlayer <= attackDistance * 0.5f) // If too close
-            {
-                StopAllCoroutines();
-                setSpeed(baseSpeed); // Use a slower speed for retreating
-                StartCoroutine(MoveBackwards(player.transform.position, 2f, baseSpeed)); // Move 2 units away
-            }
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
@@ -257,11 +229,19 @@ namespace Enemy
             isAttackComplete = true;
             //GetComponentInChildren<EnemyWeapon>().collider.enabled = true;
             foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
-            if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
+            if (playerStats != null && !playerStats.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null)
+            {
+                GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = false;
+            }
             //Debug.Log("Animation End");
-            if (player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered)
+            if (player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered && GameObject.FindWithTag("Shield") != null)
             {
                 Debug.Log("Parrying");
+                animator.SetTrigger("stunTrigger");
+                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 4f, ForceMode.Impulse);
+                StopAllCoroutines();
+                setSpeed(0f);
+                attackCooldown = 5f;
             }
         }
         public virtual void onAttackComplete()

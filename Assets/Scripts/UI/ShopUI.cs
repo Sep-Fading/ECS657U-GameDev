@@ -176,10 +176,11 @@ namespace UI
 
         private void Buy(InventoryItem item)
         {
-            if (Inventory.GetGold() >= item.gameItem.GetBuyPrice())
+            if (Inventory.GetGold() >= item.gameItem.GetBuyPrice()
+                && Inventory.Instance.HasSpace())
             {
                 InventoryItem bought = npcShop.Buy(item);
-                Inventory.Instance.Push(bought);
+                _inventoryManager.Push(bought);
                 selectedItem = null;
                 previouslySelectedItemText.color = Color.white;
                 previouslySelectedItemText = null;
@@ -190,6 +191,10 @@ namespace UI
 
         private void UpdateShop()
         {
+            if (npcShop == null)
+            {
+                npcShop = new NpcShop();
+            }
              // Setup items in shop
             List<InventoryItem> shopItems = npcShop.GetForSale();
             for (int i = 0; i < shopItemPrefab.Length; i++)
@@ -206,50 +211,69 @@ namespace UI
                         shopItems[i].gameItem.GetName();
 
                     Image itemSprite = shopItemPrefab[i].gameObject.GetComponentInChildren<Image>();
-                    if (shopItems[i].equipment == null)
-                    {
-                        itemSprite.sprite = potionIcon;
-                    }
-                    else if (shopItems[i].equipment.GetEquipmentType() == EquipmentType.MAINHAND)
-                    {
-                        itemSprite.sprite = swordIcon;
-                    }
-                    else if (shopItems[i].equipment.GetEquipmentType() == EquipmentType.AXE)
-                    {
-                        itemSprite.sprite = axeIcon;
-                    }
-                    else if (shopItems[i].equipment.GetEquipmentType() == EquipmentType.GREATSWORD)
-                    {
-                        itemSprite.sprite = greatswordIcon;
-                    }
-                    else if (shopItems[i].equipment.GetEquipmentType() == EquipmentType.OFFHAND)
-                    {
-                        itemSprite.sprite = shieldIcon;
-                    }
-                    else if (shopItems[i].equipment.GetEquipmentType() == EquipmentType.ARMOR)
-                    {
-                        itemSprite.sprite = armorIcon;
-                    }
+                    itemSprite.sprite = GetCorrectSprite(shopItems[i]);
 
                     AddClickListenerBuy(shopItemPrefab[i], shopItems[i]);
                 }
             }
             
             // Inventory items from player
-            List<InventoryItem> playerItems = Inventory.Instance.GetInventory();
-            for (int i = 0; i < shopInventoryPrefab.Length; i++)
+            if (Inventory.Instance == null)
             {
-                if (i >= playerItems.Count)
+                Inventory.Initialize();
+            }
+
+            if (Inventory.Instance != null)
+            {
+                List<Stack<InventoryItem>> playerStacks = Inventory.Instance.GetInventory(); // Updated to fetch stacks
+                for (int i = 0; i < shopInventoryPrefab.Length; i++)
                 {
-                    shopInventoryPrefab[i].gameObject.SetActive(false);
+                    if (i >= playerStacks.Count || playerStacks[i] == null || playerStacks[i].Count == 0)
+                    {
+                        // Hide shop slot if the stack is null or empty
+                        shopInventoryPrefab[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        // Display the top item of the stack
+                        shopInventoryPrefab[i].gameObject.SetActive(true);
+                        InventoryItem topItem = playerStacks[i].Peek(); // Get the top item of the stack
+                        shopInventoryPrefab[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text =
+                            topItem.gameItem.GetName();
+                        
+                        Image itemSprite = shopInventoryPrefab[i].gameObject.GetComponentInChildren<Image>();
+                        itemSprite.sprite = GetCorrectSprite(topItem);
+                        itemSprite.enabled = true;
+
+                        // Add click listener for selling this item
+                        AddClickListenerSell(shopInventoryPrefab[i], topItem);
+                    }
                 }
-                else
-                {
-                    shopInventoryPrefab[i].gameObject.SetActive(true);
-                    shopInventoryPrefab[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text =
-                        playerItems[i].gameItem.GetName();
-                    AddClickListenerSell(shopInventoryPrefab[i], playerItems[i]);
-                }
+            }
+ 
+        }
+        
+        private Sprite GetCorrectSprite(InventoryItem item)
+        {
+            if (item.equipment == null)
+            {
+                return potionIcon; // Default to potion icon for non-equipment items
+            }
+
+            switch (item.equipment.GetEquipmentType())
+            {
+                case EquipmentType.MAINHAND:
+                    return swordIcon;
+                case EquipmentType.AXE:
+                    return axeIcon;
+                case EquipmentType.GREATSWORD:
+                    return greatswordIcon;
+                case EquipmentType.OFFHAND:
+                    return shieldIcon;
+                case EquipmentType.ARMOR:
+                    return armorIcon;
+                default:
+                    return potionIcon; // Default for unknown types
             }
         }
 

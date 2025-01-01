@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9112837512080755548}
   - component: {fileID: 5864489201603709034}
   - component: {fileID: 7275438438753526042}
+  - component: {fileID: 7239967989362257553}
   m_Layer: 0
   m_Name: LongSword.002
   m_TagString: Untagged
@@ -118,3 +119,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd9d0ce3316ba4fa9a73ebcbe6ea4b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7239967989362257553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7311507267931744905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf3d6dbd2d836c41a55c72b9c5ee679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefab: {fileID: 7311507267931744905}
+  equipmentType: 2
+  name: TESTSWROD
+  description: GGSON
+  equipmentEffectTypes: []

@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using GameplayMechanics.Effects;
 using InventoryScripts;
+using UnityEngine;
 
 namespace Npcs
 {
     public class NpcShop
     {
-        List<InventoryItem> _forSale = new List<InventoryItem>();
-
-        public NpcShop(List<InventoryItem> forSale = null)
+        private List<InventoryItem> _forSale;
+        
+        public NpcShop()
+        {
+            _forSale = new List<InventoryItem>();
+            GenerateRandomShopItems(5);
+        }
+        public NpcShop(List<InventoryItem> forSale)
         {
             if (forSale != null)
             {
                 this._forSale = forSale;
                 return;
             }
+            this._forSale = new List<InventoryItem>();
             // Generate a random list of items
             GenerateRandomShopItems(5);
         }
@@ -27,6 +34,10 @@ namespace Npcs
         // </summary>
         private void GenerateRandomShopItems(int numberOfItems)
         {
+            if (_forSale == null)
+            {
+                _forSale = new List<InventoryItem>();
+            }
             _forSale.Clear();
             for (int i = 0; i < numberOfItems; i++)
             {
@@ -58,8 +69,9 @@ namespace Npcs
                 {
                     List<EquipmentEffect> effects = EquipmentEffectGenerator.Instance.GenerateRandomEquipmentEffects(
                         equipmentType);
+                    
                     equipment = new Equipment(name, "", equipmentType,
-                        null, effects);
+                        PrefabBank.Instance.GetRandomPrefab(equipmentType), effects, item);
                 }
                 else
                 {

@@ -5,7 +5,7 @@ using InventoryScripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Items
+namespace InventoryScripts
 {
     // Initialises a piece of equipment as a functional
     // GameObject.
@@ -14,7 +14,7 @@ namespace Items
         public Equipment Equipment;
         [FormerlySerializedAs("ItemPrefab")] [SerializeField] public GameObject itemPrefab;
         [SerializeField] private EquipmentType equipmentType = EquipmentType.NONE;
-        [SerializeField] private string name;
+        [SerializeField] private new string name;
         [SerializeField] private string description;
         [SerializeField] private List<StatInfo> equipmentEffectTypes;
         private readonly List<EquipmentEffect> _equipmentEffects = new List<EquipmentEffect>();
@@ -52,6 +52,10 @@ namespace Items
                 Equipment = new Equipment(name, description, equipmentType, itemPrefab,
                     _equipmentEffects);
             }
+        }
+        public EquipmentType GetEquipmentType()
+        {
+            return equipmentType;
         }
     }
 

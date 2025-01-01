@@ -4,6 +4,7 @@ using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using Player;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace InventoryScripts
 {
@@ -34,7 +35,11 @@ namespace InventoryScripts
         public Equipment EquippedArmour;
         public Equipment EquippedMainHand;
         public Equipment EquippedOffHand;
+        public InventoryItem EquippedArmourItem;
+        public InventoryItem EquippedMainHandItem;
+        public InventoryItem EquippedOffHandItem;
         private GameObject MainHandItem;
+        private GameObject OffHandItem;
         
         /* --- Gold --- */
         private static int Gold = 0;
@@ -93,11 +98,12 @@ namespace InventoryScripts
         }
         
         // Equipment Setters
-        public EquipmentType Equip(Equipment equipment)
+        public EquipmentType Equip(InventoryItem item)
         {
-            if (equipment.type == EquipmentType.ARMOR)
+            if (item.equipment.type == EquipmentType.ARMOR)
             {
-                EquippedArmour = equipment;
+                EquippedArmourItem = item;
+                EquippedArmour = item.equipment;
                 EquippedArmour.Equip();
                 if (PlayerSkillTreeManager.Instance.ManagerSkillTree.branchSwordShield
                     .GetNodeByName("Versatile Combatant")._effect.isActive)
@@ -116,24 +122,32 @@ namespace InventoryScripts
                 return EquipmentType.ARMOR;
             }
 
-            if (equipment.type == EquipmentType.OFFHAND)
+            if (item.equipment.type == EquipmentType.OFFHAND)
             {
-                EquippedOffHand = equipment;
-                EquippedOffHand.Equip();
-                return EquipmentType.OFFHAND;
+                if (EquippedMainHand == null ||
+                    Instance.EquippedMainHand.GetEquipmentType() != EquipmentType.GREATSWORD)
+                {
+                    EquippedOffHandItem = item;
+                    EquippedOffHand = item.equipment;
+                    EquippedOffHand.Equip();
+                    this.OffHandItem = GameObject.Instantiate(EquippedOffHand.GetGameObject(),
+                        GameObject.FindWithTag("ShieldSlot").transform);
+                    this.OffHandItem.tag = "Shield";
+                    
+                    return EquipmentType.OFFHAND;
+                }
             }
 
-            if (equipment.type == EquipmentType.MAINHAND)
+            if (item.equipment.type == EquipmentType.MAINHAND ||
+                item.equipment.type == EquipmentType.GREATSWORD || item.equipment.type == EquipmentType.AXE)
             {
-                EquippedMainHand = equipment;
+                EquippedMainHandItem = item;
+                EquippedMainHand = item.equipment;
                 EquippedMainHand.Equip();
                 //david part
-                this.MainHandItem = GameObject.Instantiate(EquippedMainHand.GetGameObject(),
-                    new Vector3(0,0,0),  Quaternion.identity, GameObject.FindWithTag("WeaponSlot").transform);
-                this.MainHandItem.transform.localPosition = new Vector3(0.4629989f, 0f, 0.5099995f);
-                this.MainHandItem.transform.localRotation = Quaternion.Euler(0,90f,0f);
+                this.MainHandItem = GameObject.Instantiate(EquippedMainHand.GetGameObject(), GameObject.FindWithTag("WeaponSlot").transform);
                 this.MainHandItem.tag = "Weapon";
-                return EquipmentType.MAINHAND;
+                return item.equipment.type;
             }
 
             return EquipmentType.NONE;
@@ -169,6 +183,10 @@ namespace InventoryScripts
                 EquippedMainHand.Unequip();
                 EquippedMainHand = null;
                 //david part
+                if(equipment.GetEquipmentType() == EquipmentType.AXE)
+                {
+                    GameObject.Destroy(GameObject.FindWithTag("Weapon"));
+                }
                 GameObject.Destroy(this.MainHandItem);
                 return EquipmentType.MAINHAND;
             }
@@ -196,7 +214,9 @@ namespace InventoryScripts
                 return true;
             }
 
-            if (equipmentType == EquipmentType.MAINHAND && EquippedMainHand == null)
+            if ((equipmentType == EquipmentType.MAINHAND ||
+                 equipmentType == EquipmentType.GREATSWORD||
+                 equipmentType == EquipmentType.AXE) && EquippedMainHand == null)
             {
                 return true;
             }
@@ -214,18 +234,45 @@ namespace InventoryScripts
             return _inventoryArray.Any(stack => stack != null && stack.Contains(item));
         }
 
-        public List<InventoryItem> GetInventory()
+        public List<Stack<InventoryItem>> GetInventory() => this._inventoryArray.ToList();
+
+        public string GetInventoryString()
         {
-            List<InventoryItem> inventory = new List<InventoryItem>();
+            string inventoryString = "[";
             foreach (var stack in _inventoryArray)
             {
                 if (stack != null)
                 {
-                    inventory.AddRange(stack);
+                    foreach (var item in stack)
+                    {
+                        inventoryString += item.gameItem.GetName() + " ,";
+                    }
                 }
+
+                
+            }
+            char[] arr = inventoryString.ToCharArray();
+                            arr[arr.Length - 1] = ']';
+                            inventoryString = new string(arr);
+            return inventoryString;
+        }
+
+        public bool HasSpace()
+        {
+            for (int i = 0; i < _inventoryArray.Length; i++)
+            {
+                if (_inventoryArray[i] == null || _inventoryArray[i].Count == 0)
+                {
+                    return true;
+                }
+
+                /*if (_inventoryArray[i].Count < _inventoryArray[i].Peek().gameItem.GetStackSize())
+                {
+                    return true;
+                }*/
             }
 
-            return inventory;
+            return false;
         }
     }
 }

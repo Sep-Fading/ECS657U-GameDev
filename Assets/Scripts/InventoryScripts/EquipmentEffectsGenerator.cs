@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using GameplayMechanics.Effects;
-using Items;
 // for Random.Range if you want to use UnityEngine's random
 // for EquipmentEffectTypes enum if it's located there
 

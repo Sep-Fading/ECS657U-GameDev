@@ -658,7 +658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135914189}
   - component: {fileID: 135914188}
-  - component: {fileID: 135914187}
+  - component: {fileID: 135914190}
   m_Layer: 0
   m_Name: BossGate
   m_TagString: Untagged
@@ -666,18 +666,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &135914187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135914186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d4c739a07d33945a8eb4b51a0965f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &135914188
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -714,6 +702,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &135914190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135914186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624aa0a2dae4bf04ea82e4bcf9488296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &184964074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -802,7 +802,7 @@ Transform:
   m_GameObject: {fileID: 202225302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 242.94, y: 29.98, z: 59}
+  m_LocalPosition: {x: 240.47, y: 29.98, z: 59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6041,7 +6041,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1881597480721945162, guid: 3dd0e9398dd5d464092842d83d7fdb6e, type: 3}
       propertyPath: m_Name
-      value: SkullsInSombreros2.0
+      value: SkeleGunBoss
       objectReference: {fileID: 0}
     - target: {fileID: 3190693856893296729, guid: 3dd0e9398dd5d464092842d83d7fdb6e, type: 3}
       propertyPath: m_LocalPosition.x

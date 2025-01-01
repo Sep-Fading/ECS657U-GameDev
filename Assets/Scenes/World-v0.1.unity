@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2064841425}
-  m_IndirectSpecularColor: {r: 0.06125779, g: 0.058871802, b: 0.10606487, a: 1}
+  m_IndirectSpecularColor: {r: 0.06130194, g: 0.05891526, b: 0.106110096, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -146,7 +146,7 @@ Transform:
   m_GameObject: {fileID: 70911235}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 145.26227, y: 0.73877734, z: 135.94746}
+  m_LocalPosition: {x: 49.17, y: 5.34, z: 150.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1633,8 +1633,8 @@ GameObject:
   - component: {fileID: 987905753}
   - component: {fileID: 987905752}
   - component: {fileID: 987905751}
-  - component: {fileID: 987905749}
   - component: {fileID: 987905754}
+  - component: {fileID: 987905755}
   m_Layer: 0
   m_Name: BossGate
   m_TagString: Untagged
@@ -1642,18 +1642,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &987905749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 987905748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d4c739a07d33945a8eb4b51a0965f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &987905751
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1740,6 +1728,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.9818603
   m_Center: {x: -0.1622869, y: 0.65990376, z: -12.216336}
+--- !u!114 &987905755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987905748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624aa0a2dae4bf04ea82e4bcf9488296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1016910113
 PrefabInstance:
   m_ObjectHideFlags: 0

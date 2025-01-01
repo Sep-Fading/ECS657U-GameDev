@@ -20,8 +20,10 @@ public class EnemyThrowable : MonoBehaviour
         else thrownTime += Time.deltaTime;
 
         if (PlayerStatManager.Instance != null)
-            if (!PlayerStatManager.Instance.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = false;
-            else GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
+        {
+            if (!PlayerStatManager.Instance.IsBlocking && GameObject.FindWithTag("Shield") != null) GameObject.FindWithTag("Shield").GetComponent<Collider>().enabled = false;
+            else if (GameObject.FindWithTag("Shield") != null) GameObject.FindWithTag("Shield").GetComponent<Collider>().enabled = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

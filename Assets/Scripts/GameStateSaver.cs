@@ -31,9 +31,15 @@ public class GameStateSaver : MonoBehaviour
         {
             if (obj.name == "-- Player")
             {
-                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(304.38f, 11.05f, 306f), new Vector3(372f, 1f, 361f), new Vector3(175f, 1f, 80f), new Vector3(46f, 1f, 3752f), new Vector3(-1f, 0.7f, -1.7f), new Vector3(50f, 1f, 14f) };
+                Vector3[] spawnPoints = { new Vector3(260f, 10f, 170f), new Vector3(50f, 5f, 150f), new Vector3(240f, 30f, 60f), new Vector3(278f, 2f, 80f), new Vector3(46f, 2f, 3745f) };
                 obj.transform.position = new Vector3(0, 20, 0);
-                if (scene.buildIndex < spawnPoints.Length) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position);
+                if (scene.buildIndex < spawnPoints.Length)
+                {
+                    //obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position); 
+                    obj.transform.GetChild(0).GetComponent<CharacterController>().enabled = false;
+                    obj.transform.GetChild(0).transform.position = spawnPoints[scene.buildIndex];
+                    obj.transform.GetChild(0).GetComponent<CharacterController>().enabled = true;
+                }
                 Debug.Log("World " + scene.buildIndex + " " + (scene.buildIndex < spawnPoints.Length));
                 //if (scene.buildIndex == 4) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(new Vector3(0f, 1f, 0f) - obj.transform.GetChild(0).position);
             }

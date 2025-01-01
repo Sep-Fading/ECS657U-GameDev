@@ -6,17 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class TruggerBossEvent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other != null && other.gameObject.CompareTag("Player"))
@@ -26,9 +15,14 @@ public class TruggerBossEvent : MonoBehaviour
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = false;
                 GameObject.FindWithTag("Player").transform.position = new Vector3(286f, 2.2f, 427f);
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = true;
-                Destroy(GameObject.Find("master"));
             }
-            GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED);
+            if (SceneManager.GetActiveScene().buildIndex == 4)
+            {
+                GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = false;
+                GameObject.FindWithTag("Player").transform.position = new Vector3(-150f, 5f, 4017f);
+                GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = true;
+            }
+            if (GameObject.FindWithTag("Boss") != null) GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED);
             Destroy(gameObject);
         }
     }

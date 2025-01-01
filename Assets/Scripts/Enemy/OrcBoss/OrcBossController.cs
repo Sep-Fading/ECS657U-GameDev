@@ -38,7 +38,7 @@ namespace enemy
             base.Start();
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);
-            stats.Life.SetFlat(10f);
+            stats.Life.SetFlat(500f);
             speed = stats.Speed.GetCurrent();
         }
         protected override void Update()
@@ -155,7 +155,7 @@ namespace enemy
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
-                if (Random.value < 0.001 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
+                if (Random.value < 0.01 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
             }
         }
         private void StartCircling()
@@ -218,7 +218,7 @@ namespace enemy
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);
+                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 25f, ForceMode.Impulse);
             }
         }
         public void enableWeapon()

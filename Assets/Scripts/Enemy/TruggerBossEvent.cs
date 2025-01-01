@@ -26,6 +26,7 @@ public class TruggerBossEvent : MonoBehaviour
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = false;
                 GameObject.FindWithTag("Player").transform.position = new Vector3(286f, 2.2f, 427f);
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = true;
+                Destroy(GameObject.Find("master"));
             }
             GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED);
             Destroy(gameObject);

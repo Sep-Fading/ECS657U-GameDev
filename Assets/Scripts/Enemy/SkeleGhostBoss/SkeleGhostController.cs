@@ -22,7 +22,7 @@ namespace Enemy
 
             attackDistance = 15f;
             attackCooldown = 10f;
-            stats.Life.SetFlat(750f);
+            stats.Life.SetFlat(100f);
             moveCooldown = 4f;
             attacking = false;
             attackPattern.Add(shootAttack);
@@ -38,7 +38,6 @@ namespace Enemy
         {
             if (!(GetState() == EnemyState.IDLE))
             {
-                if (GameObject.Find("master") != null) { GameObject.Find("master").SetActive(false); }
                 health = stats.Life.GetCurrent();
                 distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
                 //Debug.Log("Moving: " + animator.GetBool("isMoving"));
@@ -213,12 +212,19 @@ namespace Enemy
         {
             base.onAttackComplete();
         }
-        public override void destroySelf()
-        {
-            GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
-            GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
-            base.destroySelf();
-        }
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.gameObject.CompareTag("Weapon")
+        //        //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
+        //        //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+        //        )
+        //    {
+        //        Debug.Log("Enemy Attacked");
+        //        setSpeed(0f);
+        //        animator.SetTrigger("stunTrigger");
+        //        playerStats.DoDamage(this);
+        //    }
+        //}
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Weapon")

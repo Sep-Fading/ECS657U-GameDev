@@ -168,11 +168,7 @@ namespace Enemy
                 )
             {
                 setSpeed(0f);
-                playerStats.DoDamage(this);
-                animator.SetTrigger("stunTrigger");
-                StopAllCoroutines();
-                attackCooldown = 1f;
-                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
+                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back + Vector3.up) * 2f, ForceMode.Impulse);
             }
         }
     }

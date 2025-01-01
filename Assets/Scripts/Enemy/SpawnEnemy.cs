@@ -10,7 +10,6 @@ public class SpawnEnemy : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 1) Spawn(150);
         if (SceneManager.GetActiveScene().buildIndex == 2) Spawn(150);
-        if (SceneManager.GetActiveScene().buildIndex == 3) Spawn(70);
     }
 
     // Update is called once per frame
@@ -76,40 +75,6 @@ public class SpawnEnemy : MonoBehaviour
                     else
                     {
                         Instantiate(Resources.Load("Spider"), new Vector3(Random.Range(390f, 444f), 3f, Random.Range(268f, 446f)), transform.localRotation, transform);
-                    }
-                }
-                break;
-            case 3:
-                int w3boxnum = num / 7;
-                int boxes = 7;
-                for (int i = 0; i <= boxes; i++)
-                {
-                    for (int j = 0; j <= w3boxnum; j++)
-                    {
-                        switch (i)
-                        {
-                            case 0:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(271f, 284f), 2f, Random.Range(80f, 305f)), transform.localRotation, transform);
-                                break;
-                            case 1:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(200f, 100f), 2f, Random.Range(250f, 287f)), transform.localRotation, transform);
-                                break;
-                            case 2:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(200f, 240f), 2f, Random.Range(270f, 305f)), transform.localRotation, transform);
-                                break;
-                            case 3:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(210f, 240f), 2f, Random.Range(250f, 220f)), transform.localRotation, transform);
-                                break;
-                            case 4:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(210f, 240f), 2f, Random.Range(170f, 200f)), transform.localRotation, transform);
-                                break;
-                            case 5:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(210f, 240f), 2f, Random.Range(130f, 150f)), transform.localRotation, transform);
-                                break;
-                            case 6:
-                                Instantiate(Resources.Load("Knight"), new Vector3(Random.Range(200f, 170f), 2f, Random.Range(90f, 130f)), transform.localRotation, transform);
-                                break;
-                        }
                     }
                 }
                 break;

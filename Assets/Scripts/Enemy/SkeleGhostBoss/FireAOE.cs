@@ -18,20 +18,8 @@ public class FireAOE : MonoBehaviour
     {
         if (PlayerStatManager.Instance != null)
         {
-            if (!PlayerStatManager.Instance.IsBlocking)
-            {
-                if (GameObject.FindWithTag("Shield") != null)
-                {
-                    GameObject.FindWithTag("Shield").GetComponent<Collider>().enabled = false;
-                }
-            }
-            else
-            {
-                if (GameObject.FindWithTag("Shield") != null)
-                {
-                    GameObject.FindWithTag("Shield").GetComponent<Collider>().enabled = true;
-                }
-            }
+            if (!PlayerStatManager.Instance.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = false;
+            else GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
         }
         if (damageCountdown <= 0f)  
         {

@@ -25,17 +25,14 @@ namespace Enemy
             if (other.gameObject.CompareTag("Player") && enemy.isAttackComplete)
             {
                 // Perform damage or other logic
-                Debug.Log("Player hit!");
+                //Debug.Log("Player hit!");
                 // Reset the attack state
-                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                //enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
                 Debug.Log("Player HP: " + enemy.playerStats.Life.GetCurrent() + "/" + enemy.playerStats.Life.GetFlat());
             }
             gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
             collider.enabled = false;
-            if (GameObject.FindGameObjectWithTag("Shield") != null)
-            {
-                GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = true;
-            }
+            GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
         }
         private void OnCollisionEnter(Collision collision)
         {

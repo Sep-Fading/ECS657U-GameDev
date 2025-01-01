@@ -9,7 +9,7 @@ namespace Enemy
     public class CactoroController : AbstractEnemy
     {
         [SerializeField] float speed;
-        [SerializeField] float health;
+
         protected override void Awake()
         {
             base.Awake();
@@ -28,7 +28,6 @@ namespace Enemy
         protected override void Update()
         {
             base.Update();
-            health = stats.Life.GetCurrent();
             if (animator.GetAnimatorTransitionInfo(0).IsName("Punch")
                 || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")
                 || animator.GetAnimatorTransitionInfo(0).IsName("Stun"))

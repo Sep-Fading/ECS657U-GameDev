@@ -31,7 +31,7 @@ public class GameStateSaver : MonoBehaviour
         {
             if (obj.name == "-- Player")
             {
-                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(304.38f, 11.05f, 306f), new Vector3(372f, 1f, 361f), new Vector3(175f, 1f, 80f), new Vector3(46f, 1f, 3752f), new Vector3(-1f, 0.7f, -1.7f), new Vector3(50f, 1f, 14f) };
+                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(304.38f, 11.05f, 306f), new Vector3(372f, 1f, 361f), new Vector3(150f, 1f, -145f), new Vector3(45f, 1f, 3700f), new Vector3(-1f, 0.7f, -1.7f), new Vector3(50f, 1f, 14f) };
                 obj.transform.position = new Vector3(0, 20, 0);
                 if (scene.buildIndex < spawnPoints.Length) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position);
                 Debug.Log("World " + scene.buildIndex + " " + (scene.buildIndex < spawnPoints.Length));

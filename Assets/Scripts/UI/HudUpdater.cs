@@ -11,6 +11,12 @@ namespace UI
         [SerializeField] private Slider XPBar;
         [SerializeField] private TextMeshProUGUI HealthText;
         [SerializeField] private TextMeshProUGUI LevelText;
+        
+        private void Start()
+        {
+            PlayerStatManager.Instance.Life.SetCurrent(
+                PlayerStatManager.Instance.Life.GetAppliedTotal()/2);
+        }
 
         private void LateUpdate()
         {
@@ -18,7 +24,7 @@ namespace UI
         }
         public void UpdateHUD()
         {
-            if (PlayerStatManager.Instance != null & XpManager.Instance != null)
+            if (PlayerStatManager.Instance != null && XpManager.Instance != null)
             {
                 float currentHealth = PlayerStatManager.Instance.Life.GetCurrent();
                 float maxHealth = PlayerStatManager.Instance.Life.GetAppliedTotal();

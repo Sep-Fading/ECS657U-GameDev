@@ -14,8 +14,7 @@ namespace UI
         
         private void Start()
         {
-            PlayerStatManager.Instance.Life.SetCurrent(
-                PlayerStatManager.Instance.Life.GetAppliedTotal()/2);
+            Debug.Log(PlayerStatManager.Instance.Life.GetCurrent());
         }
 
         private void LateUpdate()

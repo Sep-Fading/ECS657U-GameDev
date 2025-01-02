@@ -16,9 +16,10 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 1000f;
+            goldDrop = 1000;
             attackDistance = 15f;
-            stats.Damage.SetFlat(30f);
+            stats.Damage.SetFlat(45f);
             stats.TriggeredDistance.SetFlat(30f);
             shootCooldown = 1f;
             teleportCooldown = 5f;
@@ -38,6 +39,7 @@ namespace Enemy
         {
             if ((GetState() != EnemyState.IDLE))
             {
+                if (GameObject.Find("--Enemy") != null) { GameObject.Find("--Enemy").SetActive(false); }
                 if (!summoning)
                 {
                     distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);

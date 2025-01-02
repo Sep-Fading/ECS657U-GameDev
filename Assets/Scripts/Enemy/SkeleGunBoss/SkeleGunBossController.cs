@@ -20,7 +20,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 30f;
+            goldDrop = 50;
             attackDistance = 5f;
             attackCooldown = 5f;
             teleportCooldown = 10f;
@@ -28,7 +29,8 @@ namespace Enemy
             afterImageCountdown = 20f;
             afterImage = false;
             attacking = false;
-            stats.Life.SetFlat(500f);
+            stats.Life.SetFlat(750f);
+            stats.Damage.SetFlat(15f);
             SetState(EnemyState.IDLE);
             attackPattern.Add(shootAttack);
         }
@@ -240,7 +242,6 @@ namespace Enemy
                     }
                     else
                     {
-                        //PlayerStatManager.Instance.DoDamage(enemy);
                         setSpeed(0f);
                         gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
                         animator.SetTrigger("stunTrigger");

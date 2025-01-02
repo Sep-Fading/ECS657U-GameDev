@@ -19,10 +19,12 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 45f;
+            goldDrop = 75;
             attackDistance = 15f;
             attackCooldown = 10f;
-            stats.Life.SetFlat(750f);
+            stats.Life.SetFlat(1000f);
+            stats.Damage.SetFlat(30f);
             moveCooldown = 4f;
             attacking = false;
             attackPattern.Add(shootAttack);
@@ -221,10 +223,7 @@ namespace Enemy
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Weapon")
-    //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-    //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-    )
+            if (other.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
                 animator.SetTrigger("stunTrigger");
@@ -235,7 +234,6 @@ namespace Enemy
             }
             if (other.gameObject.CompareTag("EnemyWeaponThrowable"))
             {
-                Debug.Log("Boss sttacked by projectile");
                 animator.SetTrigger("stunTrigger");
                 playerStats.DoDamage(this);
             }

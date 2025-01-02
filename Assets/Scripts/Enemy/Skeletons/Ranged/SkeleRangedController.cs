@@ -11,7 +11,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 15f;
+            goldDrop = 20;
             attackDistance = 15f;
             attackCooldown = 1f;
             stats.TriggeredDistance.SetFlat(30f);
@@ -23,6 +24,8 @@ namespace Enemy
         {
             baseSpeed = 2f;
             runSpeed = 7f;
+            stats.Life.SetFlat(100f);
+            stats.Damage.SetFlat(10f);
             base.Start();
         }
         protected override void Update()
@@ -226,8 +229,8 @@ namespace Enemy
             {
                 Debug.Log("Enemy Attacked");
                 playerStats.DoDamage(this);
-                StopAllCoroutines();
                 gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
+                StopAllCoroutines();
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
                 attacking = false;

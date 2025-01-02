@@ -12,7 +12,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 20f;
+            goldDrop = 25;
             attackDistance = 4f;
             attackCooldown = 1f;
             stats.Life.SetFlat(100f);
@@ -24,6 +25,8 @@ namespace Enemy
             baseSpeed = 2f;
             runSpeed = 6f;
             spawnpoint = transform.position;
+            stats.Life.SetFlat(200f);
+            stats.Damage.SetFlat(20f);
             base.Start();
         }
         protected override void Update()
@@ -229,10 +232,7 @@ namespace Enemy
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon")
-                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-                )
+            if (collision.gameObject.CompareTag("Weapon"))
             {
                 setSpeed(0f);
                 playerStats.DoDamage(this);

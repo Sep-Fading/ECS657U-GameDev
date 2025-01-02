@@ -16,7 +16,7 @@ public class PortalInteract : Interactable
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                GameStateManager.Instance.MoveToNextScene(scenes[5]);
+                GameStateManager.Instance.MoveToNextScene(scenes[2]);
                 break;
             case 1:
                 GameStateManager.Instance.MoveToNextScene(scenes[3]);

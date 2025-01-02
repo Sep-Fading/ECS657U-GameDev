@@ -9,7 +9,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 15f;
+            goldDrop = 20;
             attackDistance = 3f;
             attackCooldown = 1f;
             attackPattern.Add(chopAttack);
@@ -21,6 +22,8 @@ namespace Enemy
         {
             baseSpeed = 2f;
             runSpeed = 6f;
+            stats.Life.SetFlat(150f);
+            stats.Damage.SetFlat(15f);
             base.Start();
         }
         protected override void Update()
@@ -196,10 +199,8 @@ namespace Enemy
         {
             if (collision.gameObject.CompareTag("Weapon"))
             {
-                Debug.Log("Enemy Attacked");
                 playerStats.DoDamage(this);
                 gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
-                StopAllCoroutines();
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }

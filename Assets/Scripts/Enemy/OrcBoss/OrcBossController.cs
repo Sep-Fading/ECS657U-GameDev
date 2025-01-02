@@ -20,6 +20,8 @@ namespace enemy
         {
             base.Awake();
 
+            xpDrop = 15f;
+            goldDrop = 50;
             attackDistance = 4f;
             attackCooldown = 1.5f;
             attackPattern.Add(weaponAttack);
@@ -29,8 +31,8 @@ namespace enemy
         }
         protected override void Start()
         {
-            baseSpeed = 7f;
-            runSpeed = 7f;
+            baseSpeed = 10f;
+            runSpeed = 10f;
             isCircling = false;
             circlingTimer = 5f;
             circlingCooldown = 10f;
@@ -39,6 +41,7 @@ namespace enemy
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);
             stats.Life.SetFlat(500f);
+            stats.Damage.SetFlat(15f);
             speed = stats.Speed.GetCurrent();
         }
         protected override void Update()
@@ -264,16 +267,11 @@ namespace enemy
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon") 
-                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-                && Random.value <= 0.5f
-                )
+            if (collision.gameObject.CompareTag("Weapon") && Random.value <= 0.5f)
             {
                 PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
-                SetState(EnemyState.TRIGGERED);
             }
         }
     }

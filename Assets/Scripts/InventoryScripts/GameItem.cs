@@ -20,16 +20,6 @@ namespace InventoryScripts
             this.buyPrice = buyPrice;
         }
 
-        public int ConsumeHpPotion()
-        {
-            if (_itemType == ItemType.CONSUMABLE)
-            {
-                return 50;
-            }
-
-            return -1;
-        }
-
         public int GetStackSize()
         {
             return _stackSize;
@@ -43,8 +33,6 @@ namespace InventoryScripts
         {
             return _description;
         }
-
-        public ItemType GetItemType() => this._itemType;
     }
 
     public enum ItemType

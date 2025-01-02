@@ -15,6 +15,8 @@ namespace enemy
         {
             base.Awake();
 
+            xpDrop = 1f;
+            goldDrop = 15;
             attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
@@ -24,6 +26,8 @@ namespace enemy
         {
             baseSpeed = 2f;
             runSpeed = 7f;
+            stats.Life.SetFlat(100f);
+            stats.Damage.SetFlat(7f);
             base.Start();
         }
         protected override void Update()
@@ -145,6 +149,7 @@ namespace enemy
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
+                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
@@ -159,14 +164,12 @@ namespace enemy
         {
             animator.SetTrigger("weaponTrigger");
         }
-
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
-                //PlayerStatManager.Instance.DoDamage(this);
-                //PlayerStatManager.Instance.DoDamage(enemy);
+                PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }

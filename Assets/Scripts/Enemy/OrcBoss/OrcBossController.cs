@@ -1,4 +1,5 @@
 using Enemy;
+using GameplayMechanics.Character;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
@@ -19,7 +20,9 @@ namespace enemy
         {
             base.Awake();
 
-            attackDistance = 3f;
+            xpDrop = 15f;
+            goldDrop = 50;
+            attackDistance = 4f;
             attackCooldown = 1.5f;
             attackPattern.Add(weaponAttack);
             attackPattern.Add(punchAttack);
@@ -28,36 +31,22 @@ namespace enemy
         }
         protected override void Start()
         {
-            baseSpeed = 2f;
-            runSpeed = 7f;
+            baseSpeed = 10f;
+            runSpeed = 10f;
             isCircling = false;
             circlingTimer = 5f;
             circlingCooldown = 10f;
-            SetState(EnemyState.TRIGGERED);
+            SetState(EnemyState.IDLE);
             base.Start();
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);
-            stats.Life.SetFlat(1000f);
+            stats.Life.SetFlat(500f);
+            stats.Damage.SetFlat(15f);
             speed = stats.Speed.GetCurrent();
         }
         protected override void Update()
         {
             base.Update();
-
-            if (animator.GetAnimatorTransitionInfo(0).IsName("Stun")) GetComponent<Rigidbody>().isKinematic = true;
-            else GetComponent<Rigidbody>().isKinematic = false;
-
-            if ((GetState() == EnemyState.TRIGGERED || GetState() == EnemyState.ATTACK)
-                && distanceBetweenPlayer <= attackDistance
-                && player.GetComponent<InputManager>().getPlayerInput().grounded.SwordAction.triggered
-                && Random.value < 0.3
-                && !animator.GetAnimatorTransitionInfo(0).IsName("Dodge")
-                && GameObject.FindWithTag("WeaponSlot").transform.childCount > 0)
-            {
-                setSpeed(0f);
-                animator.SetTrigger("dodgeTrigger");
-                Debug.Log("Dodging");
-            }
 
             if (!isCircling) circlingCooldown -= Time.deltaTime;
             //Debug.Log("Speed: " + stats.Speed.GetCurrent());
@@ -169,7 +158,7 @@ namespace enemy
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
-                if (Random.value < 0.001 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
+                if (Random.value < 0.01 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
             }
         }
         private void StartCircling()
@@ -232,8 +221,7 @@ namespace enemy
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-                newWeapon.transform.Rotate(0f, 80f, -5f, 0);
-                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 30f, ForceMode.Impulse);
+                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 25f, ForceMode.Impulse);
             }
         }
         public void enableWeapon()
@@ -241,16 +229,16 @@ namespace enemy
             if (isThrowing)
             {
                 GameObject.FindWithTag("EnemyWeapon").GetComponent<Renderer>().enabled = true;
-                //Destroy(GameObject.FindWithTag("EnemyWeaponThrowable"));
-                GameObject newWeapon = Instantiate(Resources.Load("Orc_Skull_Weapon"), transform) as GameObject;
+                GameObject newWeapon = Instantiate(Resources.Load("OrcBossWeapon"), transform) as GameObject;
                 isThrowing = false;
             }
         }
         public void jump() 
         {
             setSpeed(0f);
+            transform.LookAt(player.transform);
             Debug.Log((transform.position - player.transform.position).normalized);
-            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 10f, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 7f, ForceMode.Impulse);
         }
         public void jumpAttack()
         {
@@ -260,6 +248,8 @@ namespace enemy
         public void onJump()
         {
             animator.SetTrigger("jumpIdleTrigger");
+            transform.LookAt(player.transform);
+
         }
         public void checkNearGround()
         {
@@ -269,32 +259,20 @@ namespace enemy
                 setSpeed(runSpeed);
             }
         }
+        public override void destroySelf()
+        {
+            GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+            GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+            base.destroySelf();
+        }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon") 
-                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-                )
+            if (collision.gameObject.CompareTag("Weapon") && Random.value <= 0.5f)
             {
+                PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }
-        }
-        public void dodge()
-        {
-            GetComponent<Rigidbody>().isKinematic = true;
-            Physics.IgnoreLayerCollision(6,7,true);
-        }
-        public void endDodge()
-        {
-            Physics.IgnoreLayerCollision(6, 7, false);
-            GetComponent<Rigidbody>().isKinematic = false;
-            SetState(EnemyState.TRIGGERED);
-            resetSpeed();
-        }
-        public void resetSpeed()
-        {
-            setSpeed(stats.Speed.GetFlat());
         }
     }
 }

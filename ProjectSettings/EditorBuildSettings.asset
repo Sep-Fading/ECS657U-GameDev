@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World-v0.4.unity
     guid: 507b42444aa2dd742a3a35f0523a027f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/World-v0.3_2.unity
     guid: cc10df96022b19841ac18003dab61704
   - enabled: 1

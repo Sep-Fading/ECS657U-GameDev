@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Imported_models/low-poly-graveyard/source.meta
 guid: ab25640f8bc557c45a48779759cf0c29
+========
+guid: d59445ec14ebb1c40a1740e826ce9eb9
+>>>>>>>> main:Assets/Imported_models/polyperfect.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

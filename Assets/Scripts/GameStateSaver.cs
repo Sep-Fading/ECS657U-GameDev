@@ -1,4 +1,7 @@
 ﻿using System;
+using GameplayMechanics.Character;
+using UI;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,9 +9,12 @@ public class GameStateSaver : MonoBehaviour
 {
     public static GameStateSaver Instance { get; private set; }
     [SerializeField] private GameObject[] CarryOverObjects;
+    [SerializeField] private GameObject goScreen;
+    private GameOverScreen _gameOverScreen;
 
     private void Awake()
     {
+        _gameOverScreen = goScreen.GetComponent<GameOverScreen>();
         if (Instance == null)
         {
             Instance = this;
@@ -87,12 +93,22 @@ public class GameStateSaver : MonoBehaviour
         return null;
     }
 
-    public static void ResetInstance()
+    public static void ResetInstance(bool isDead = false)
     {
+        if (isDead)
+        {
+            Instance._gameOverScreen.ShowGameOverScreen();
+        }
+        PlayerStatManager.Instance.Life.SetCurrent(
+            PlayerStatManager.Instance.Life.GetAppliedTotal());
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        /*
         foreach (GameObject obj in Instance.CarryOverObjects)
         {
             Destroy(obj);
         }
         Instance = null;
+        */
     }
 }

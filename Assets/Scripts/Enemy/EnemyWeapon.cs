@@ -22,11 +22,13 @@ namespace Enemy
         private void OnTriggerEnter(Collider other)
         {
             AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
+            /*
             if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)
                 || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
             {
                 enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal() * PlayerStatManager.Instance.BlockEffect.GetCurrent());
             }
+            */
             if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
             {
                 enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());

@@ -16,7 +16,7 @@ public class StatManager
         Life = new Stat("Health", 100f);
         Armor = new Stat("Armor", 0f);
         Speed = new Stat("Speed", 1f);
-        Damage = new Stat("Damage", 5f);
+        Damage = new Stat("Damage", 15f);
         Bleed = null;
         TriggeredDistance = new Stat("TriggeredDistance", 10f);
         IdleRadius = new Stat("IdleRadius", 3f);

@@ -103,11 +103,6 @@ namespace Npcs
 
                 if (npcName == "Bernard")
                 {
-                    GameStateManager.Instance.MoveToNextScene("Scenes/World-v0.1");
-                }
-
-                if (npcName == "Shopkeeper")
-                {
                     GameStateManager.Instance.SetTransitionState(true);
                 }
             }

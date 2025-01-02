@@ -1,4 +1,3 @@
-using GameplayMechanics.Character;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -11,8 +10,7 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 2f;
-            goldDrop = 10;
+
             attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
@@ -22,8 +20,6 @@ namespace Enemy
         {
             baseSpeed = 2f;
             runSpeed = 6f;
-            stats.Life.SetFlat(85f);
-            stats.Damage.SetFlat(5f);
             base.Start();
         }
         protected override void Update()
@@ -154,7 +150,6 @@ namespace Enemy
             }
             else
             {
-                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
@@ -171,9 +166,11 @@ namespace Enemy
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon"))
+            if (collision.gameObject.CompareTag("Weapon")
+                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
+                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
+                )
             {
-                PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
             }

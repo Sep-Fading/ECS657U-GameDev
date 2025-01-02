@@ -1,6 +1,5 @@
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
-using InventoryScripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,8 +25,6 @@ namespace Enemy
         public float attackCooldown; // Cooldown duration in seconds
         public float lastAttackTime = -Mathf.Infinity;
         public bool isAttackComplete = false;
-        public float xpDrop;
-        public int goldDrop;
 
         public float baseSpeed;
         public float runSpeed;
@@ -52,6 +49,7 @@ namespace Enemy
         protected virtual void Update()
         {
             distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
+            //Debug.Log("Moving: " + animator.GetBool("isMoving"));
             switch (enemyState)
             {
                 case EnemyState.IDLE:
@@ -68,10 +66,6 @@ namespace Enemy
                     break;
                 default:
                     break;
-            }
-            if (distanceBetweenPlayer < attackDistance)
-            {
-                GetComponent<Rigidbody>().AddForce(Vector3.back * 2f);
             }
         }
         public StatManager GetStatManager() => stats;
@@ -147,7 +141,7 @@ namespace Enemy
 
             else
             {
-                stats.Speed.SetCurrent(baseSpeed);
+                stats.Speed.SetCurrent(stats.Life.GetFlat());
                 animator.SetBool("isMoving", false);
                 if (idleTime <= 0)
                 {
@@ -179,7 +173,6 @@ namespace Enemy
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
-                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -201,12 +194,14 @@ namespace Enemy
                         foreach (var attack in attackPattern)
                         {
                             attack.Invoke();
+                            Debug.Log("Attack: " + attack.Method);
                         }
                     }
                     else
                     {
                         int attack = Random.Range(0, attackPattern.Count);
                         attackPattern[attack].Invoke();
+                        Debug.Log("Attack: " + attackPattern[attack].Method);
                     }
                     lastAttackTime = Time.time; // Reset cooldown
                 }
@@ -215,36 +210,22 @@ namespace Enemy
         public virtual void block() { }
         public virtual void despawn()
         {
-            animator.SetTrigger("deathTrigger");        
-        }
-        public virtual void destroySelf()
+            animator.SetTrigger("deathTrigger");        }
+        public void destroySelf()
         {
             Debug.Log("Enemy Dead");
-            if (XpManager.Instance != null) { XpManager.GiveXp(xpDrop); }
-            if (Inventory.Instance != null) { Inventory.GiveGold(goldDrop); }
             Destroy(gameObject);
         }
         public void setSpeed(float speed) { stats.Speed.SetFlat((float) speed); }
-        public virtual void onAttack()
+        public void onAttack()
         {
             isAttackComplete = true;
+            //GetComponentInChildren<EnemyWeapon>().collider.enabled = true;
             foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
-            if (playerStats != null && !playerStats.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null)
-            {
-                GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = false;
-            }
+            if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
             //Debug.Log("Animation End");
-            if ((player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered && GameObject.FindWithTag("Shield") != null) || (playerStats.IsBlocking && player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered && GameObject.FindWithTag("Weapon") != null))
-            {
-                Debug.Log("Parrying");
-                animator.SetTrigger("stunTrigger");
-                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back + Vector3.up) * 4f, ForceMode.Impulse);
-                StopAllCoroutines();
-                setSpeed(0f);
-                attackCooldown = 5f;
-            }
         }
-        public virtual void onAttackComplete()
+        public void onAttackComplete()
         {
             setSpeed(runSpeed);
             SetState(EnemyState.TRIGGERED);

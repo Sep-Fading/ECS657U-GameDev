@@ -31,15 +31,9 @@ public class GameStateSaver : MonoBehaviour
         {
             if (obj.name == "-- Player")
             {
-                Vector3[] spawnPoints = { new Vector3(210f, 11f, 140f), new Vector3(50f, 5f, 150f), new Vector3(240f, 30f, 60f), new Vector3(278f, 2f, 80f), new Vector3(46f, 2f, 3745f) };
+                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(100f, 30f, 250f), new Vector3(240f, 2f, 65), new Vector3(314f, -88f, -200f), new Vector3(46f, 1f, 3752f), new Vector3(-1f, 0.7f, -1.7f), new Vector3(50f, 1f, 14f) };
                 obj.transform.position = new Vector3(0, 20, 0);
-                if (scene.buildIndex < spawnPoints.Length)
-                {
-                    //obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position); 
-                    obj.transform.GetChild(0).GetComponent<CharacterController>().enabled = false;
-                    obj.transform.GetChild(0).transform.position = spawnPoints[scene.buildIndex];
-                    obj.transform.GetChild(0).GetComponent<CharacterController>().enabled = true;
-                }
+                if (scene.buildIndex < spawnPoints.Length) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position);
                 Debug.Log("World " + scene.buildIndex + " " + (scene.buildIndex < spawnPoints.Length));
                 //if (scene.buildIndex == 4) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(new Vector3(0f, 1f, 0f) - obj.transform.GetChild(0).position);
             }
@@ -55,7 +49,7 @@ public class GameStateSaver : MonoBehaviour
             {
                 return obj;
             }
-
+            
             // Search in children
             GameObject foundChild = FindInChildren(obj.transform, name);
             if (foundChild != null)

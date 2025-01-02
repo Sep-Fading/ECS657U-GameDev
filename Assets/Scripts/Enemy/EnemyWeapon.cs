@@ -1,5 +1,3 @@
-using GameplayMechanics.Character;
-using Player;
 using UnityEngine;
 
 namespace Enemy
@@ -21,22 +19,20 @@ namespace Enemy
         }
         private void OnTriggerEnter(Collider other)
         {
+            //Debug.Log(gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete);
+            // Check if the object collided with is the player
             AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
-            if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)
-                || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
+            if (other.gameObject.CompareTag("Player") && enemy.isAttackComplete)
             {
-                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal() * PlayerStatManager.Instance.BlockEffect.GetCurrent());
-            }
-            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
-            {
-                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                // Perform damage or other logic
+                //Debug.Log("Player hit!");
+                // Reset the attack state
+                //enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                Debug.Log("Player HP: " + enemy.playerStats.Life.GetCurrent() + "/" + enemy.playerStats.Life.GetFlat());
             }
             gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
             collider.enabled = false;
-            if (GameObject.FindGameObjectWithTag("Shield") != null)
-            {
-                GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = true;
-            }
+            GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
         }
         private void OnCollisionEnter(Collision collision)
         {

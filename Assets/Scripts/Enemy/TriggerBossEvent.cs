@@ -21,8 +21,20 @@ public class TriggerBossEvent : MonoBehaviour
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = false;
                 GameObject.FindWithTag("Player").transform.position = new Vector3(-150f, 5f, 4017f);
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = true;
+                // if (GetComponent<AudioSource>() != null)
+                // {
+                //     GetComponent<AudioSource>().Play();
+                // }
+
             }
-            if (GameObject.FindWithTag("Boss") != null) GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED);
+            if (SceneManager.GetActiveScene().buildIndex != 4 && GameObject.FindWithTag("Boss") != null) { GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED); }
+            if (GameObject.FindWithTag("Boss") != null && GameObject.FindWithTag("Boss").GetComponentInChildren<Canvas>()) { GameObject.FindWithTag("Boss").GetComponentInChildren<Canvas>().enabled = true; }
+
+            if (GameObject.Find("-- Enemy") != null && GameObject.Find("-- Enemy").GetComponent<AudioSource>() != null && GetComponent<AudioSource>() != null)
+            {
+                GameObject.Find("-- Enemy").GetComponent<AudioSource>().Pause();
+                GetComponent<AudioSource>().Play();
+            }
         }
     }
 }

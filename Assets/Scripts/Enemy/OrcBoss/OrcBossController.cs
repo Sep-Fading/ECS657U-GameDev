@@ -20,8 +20,8 @@ namespace enemy
         {
             base.Awake();
 
-            xpDrop = 15f;
-            goldDrop = 50;
+            xpDrop = 75f;
+            goldDrop = 75;
             attackDistance = 4f;
             attackCooldown = 1.5f;
             attackPattern.Add(weaponAttack);
@@ -161,7 +161,7 @@ namespace enemy
                 {
                     audioSource.spatialBlend = 1f;
                     audioSource.loop = true;
-                    audioSource.clip = Resources.Load("Run") as AudioClip;
+                    audioSource.clip = Resources.Load("Audio/Level1Run") as AudioClip;
                     if (!audioSource.isPlaying) { audioSource.Play(); }
                 }
                 animator.SetBool("isWalking", false);
@@ -173,15 +173,14 @@ namespace enemy
         private void StartCircling()
         {
             isCircling = true;
-            circlingTimer = 10f; // Reset circling duration
-            attackCooldown = 2.5f;
-            //attackDistance = 7f; // Increase distance to allow circling
+            circlingTimer = 10f; 
+            attackCooldown = 2f;
             StopAllCoroutines();
             if (!isThrowing)
             {
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Run") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/Level1Run") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
             animator.SetBool("isWalking", false);
@@ -240,7 +239,7 @@ namespace enemy
                 newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 25f, ForceMode.Impulse);
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("ClubThrow") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/ClubThrow") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
@@ -293,6 +292,11 @@ namespace enemy
                     GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
                 }
             }
+            if (GameObject.Find("-- Enemy") != null && GameObject.Find("-- Enemy").GetComponent<AudioSource>() != null && GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
+            {
+                GameObject.Find("-- Enemy").GetComponent<AudioSource>().Play();
+                GameObject.Find("BossGate").GetComponent<AudioSource>().Pause();
+            }
             base.destroySelf();
         }
         private void OnCollisionEnter(Collision collision)
@@ -304,8 +308,10 @@ namespace enemy
                 animator.SetTrigger("stunTrigger");
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
+                isCircling = false;
+                circlingCooldown = 10f;
             }
         }
     }

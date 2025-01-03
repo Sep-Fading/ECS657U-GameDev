@@ -12,12 +12,12 @@ namespace Enemy
         public float teleportCooldown;
         public float summonCooldown;
         public bool summoning;
-        public int summonCount; 
+        public int summonCount;
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 1000f;
-            goldDrop = 1000;
+            xpDrop = 10000f;
+            goldDrop = 10000;
             attackDistance = 15f;
             stats.Damage.SetFlat(45f);
             stats.TriggeredDistance.SetFlat(30f);
@@ -27,7 +27,11 @@ namespace Enemy
             summonCount = 0;
             attacking = false;
             summoning = false;
-            SetState(EnemyState.IDLE);
+            SetState(EnemyState.TRIGGERED);
+            if (GameObject.Find("Bernard") != null)
+            {
+                Destroy(GameObject.Find("Bernard"));
+            }
         }
         protected override void Start()
         {
@@ -128,7 +132,7 @@ namespace Enemy
         {
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("DeathBall"), transform) as GameObject;
             newWeapon.GetComponent<Renderer>().enabled = true;
@@ -144,7 +148,7 @@ namespace Enemy
         {
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             float randomX; float randomZ;
             if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
@@ -162,7 +166,7 @@ namespace Enemy
         {
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             Debug.Log("Summoning");
             summonCooldown = 20f;
@@ -231,8 +235,12 @@ namespace Enemy
         {
             audioSource.spatialBlend = 0f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("FinalBossDeath") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/FinalBossDeath") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
+            if (GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
+            {
+                GameObject.Find("BossGate").GetComponent<AudioSource>().Pause();
+            }
         }
     }
 }

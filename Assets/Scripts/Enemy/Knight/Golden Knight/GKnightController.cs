@@ -12,8 +12,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 20f;
-            goldDrop = 25;
+            xpDrop = 25f;
+            goldDrop = 40;
             attackDistance = 5f;
             attackCooldown = 1f;
             attackPattern.Add(weaponAttack);
@@ -24,7 +24,7 @@ namespace Enemy
             baseSpeed = 2f;
             runSpeed = 6f;
             spawnpoint = transform.position;
-            stats.TriggeredDistance.SetFlat(20f);
+            stats.TriggeredDistance.SetFlat(30f);
             stats.Life.SetFlat(200f);
             stats.Damage.SetFlat(20f);
             base.Start();
@@ -125,7 +125,7 @@ namespace Enemy
                 randomDirection.y = transform.position.y; // Maintain current Y position
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Walk") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/KnightWalk") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
                 StopAllCoroutines();
                 StartCoroutine(MoveTo(spawnpoint));
@@ -173,7 +173,7 @@ namespace Enemy
                 StopAllCoroutines();
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Run") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/KnightRun") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
@@ -201,6 +201,10 @@ namespace Enemy
                 StopAllCoroutines();
                 setSpeed(0f);
                 attackCooldown = 5f;
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("Audio/Parry") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
             else
             {
@@ -222,8 +226,6 @@ namespace Enemy
                         {
                             player.GetComponent<CharacterController>().Move(player.transform.position - transform.position);
                             playerStats.TakeDamage(stats.Damage.GetCurrent());
-                            //GameObject poundFX = Instantiate(Resources.Load("GroundFX") as GameObject);
-                            //poundFX.GetComponent<ParticleSystem>().Play();
                             Debug.Log("Player Pounded");
                         }
                     }
@@ -250,7 +252,7 @@ namespace Enemy
                 gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("KngihtHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/KnightHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }

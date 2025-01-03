@@ -22,7 +22,7 @@ namespace Enemy
         private void OnTriggerEnter(Collider other)
         {
             AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
-            /*
+            
             if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)
                 || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
             {
@@ -31,20 +31,19 @@ namespace Enemy
                 {
                     enemy.audioSource.spatialBlend = 0f;
                     enemy.audioSource.loop = false;
-                    enemy.audioSource.clip = Resources.Load("PlayerBlock") as AudioClip;
+                    enemy.audioSource.clip = Resources.Load("Audio/PlayerBlock") as AudioClip;
                     enemy.audioSource.Play();
                 }
             }
-            */
-            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")
-                || other.gameObject.CompareTag("Shield")) && enemy.isAttackComplete)
+            
+            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
             {
-                PlayerStatManager.Instance.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
                 if (enemy.audioSource != null)
                 {
                     enemy.audioSource.spatialBlend = 0f;
                     enemy.audioSource.loop = false;
-                    enemy.audioSource.clip = Resources.Load("EnemyAttack") as AudioClip;
+                    enemy.audioSource.clip = Resources.Load("Audio/EnemyAttack") as AudioClip;
                     enemy.audioSource.Play();
                 }
             }

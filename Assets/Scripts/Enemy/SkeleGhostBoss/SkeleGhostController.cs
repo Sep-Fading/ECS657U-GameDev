@@ -19,8 +19,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 45f;
-            goldDrop = 75;
+            xpDrop = 125f;
+            goldDrop = 150;
             attackDistance = 15f;
             attackCooldown = 10f;
             stats.Life.SetFlat(1000f);
@@ -162,7 +162,7 @@ namespace Enemy
                 {
                     audioSource.spatialBlend = 1f;
                     audioSource.loop = false;
-                    audioSource.clip = Resources.Load("ClubThrow") as AudioClip;
+                    audioSource.clip = Resources.Load("Audio/ClubThrow") as AudioClip;
                     if (!audioSource.isPlaying) { audioSource.Play(); }
                     moveCooldown = 3f;
                     setSpeed(runSpeed);
@@ -200,7 +200,7 @@ namespace Enemy
         {
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject ball = Instantiate(Resources.Load("GhostBall") as GameObject, transform);
             ball.GetComponent<Renderer>().enabled = true;
@@ -235,7 +235,6 @@ namespace Enemy
                 if (GameObject.Find("PortalHole") != null)
                 {
                     GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
-                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
                 }
             }
             base.destroySelf();
@@ -250,7 +249,7 @@ namespace Enemy
                 attacking = false;
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
 
             }
@@ -260,7 +259,7 @@ namespace Enemy
                 playerStats.DoDamage(this);
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }

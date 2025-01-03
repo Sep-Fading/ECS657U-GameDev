@@ -9,8 +9,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 12f;
-            goldDrop = 15;
+            xpDrop = 18f;
+            goldDrop = 30;
             attackDistance = 3f;
             attackCooldown = 1f;
             attackPattern.Add(weaponAttack);
@@ -121,7 +121,7 @@ namespace Enemy
                     {
                         audioSource.spatialBlend = 1f;
                         audioSource.loop = true;
-                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        audioSource.clip = Resources.Load("Audio/KnightWalk") as AudioClip;
                         if (!audioSource.isPlaying) { audioSource.Play(); }
                         animator.SetBool("isWalking", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
@@ -165,7 +165,7 @@ namespace Enemy
                 StopAllCoroutines();
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Run") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/KnightRun") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
@@ -188,7 +188,7 @@ namespace Enemy
                 gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("KnightHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/KnightHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }

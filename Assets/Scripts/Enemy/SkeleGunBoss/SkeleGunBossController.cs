@@ -22,8 +22,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 30f;
-            goldDrop = 50;
+            xpDrop = 100f;
+            goldDrop = 100;
             attackDistance = 5f;
             attackCooldown = 5f;
             teleportCooldown = 10f;
@@ -90,7 +90,7 @@ namespace Enemy
                         {
                             audioSource.spatialBlend = 1f;
                             audioSource.loop = false;
-                            audioSource.clip = Resources.Load("Cast") as AudioClip;
+                            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
                             if (!audioSource.isPlaying) { audioSource.Play(); }
                             teleportCooldown = 20f;
                             float randomX; float randomZ;
@@ -167,7 +167,7 @@ namespace Enemy
         {
             audioSource.spatialBlend = 0f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Walk") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Level2BossWalk") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
         }
         public override void attack()
@@ -194,14 +194,15 @@ namespace Enemy
         }
         public void shootPlayer()
         {
+            Debug.Log(Vector3.Angle(transform.forward, transform.position - player.transform.position));
             if (Vector3.Angle(transform.forward, transform.position - player.transform.position) == 180f)
             {
-                audioSource.spatialBlend = 0f;
-                audioSource.loop = false;
-                audioSource.clip = Resources.Load("ShootGun") as AudioClip;
-                audioSource.Play();
                 playerStats.TakeDamage(stats.Damage.GetCurrent());
             }
+            audioSource.spatialBlend = 0f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Audio/ShootGun") as AudioClip;
+            audioSource.Play();
         }
         public void afterImageAttack(float afterimages)
         {
@@ -235,17 +236,18 @@ namespace Enemy
             }
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
         }
         public override void deathAudio()
         {
-            if (!afterImage) base.deathAudio();
+            if (!afterImage)
+            { base.deathAudio(); }
             else
             {
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("Cast") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
@@ -261,7 +263,6 @@ namespace Enemy
                 if (GameObject.Find("PortalHole") != null)
                 {
                     GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
-                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
                 }
             }
             if (!afterImage)
@@ -296,7 +297,7 @@ namespace Enemy
                         SetState(EnemyState.TRIGGERED);
                         audioSource.spatialBlend = 1f;
                         audioSource.loop = false;
-                        audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                        audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                         if (!audioSource.isPlaying) { audioSource.Play(); }
                     }
                     foreach (GameObject boss in GameObject.FindGameObjectsWithTag("Boss"))

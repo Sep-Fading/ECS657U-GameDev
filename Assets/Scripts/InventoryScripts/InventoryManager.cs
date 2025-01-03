@@ -95,6 +95,7 @@ namespace InventoryScripts
                 if (equipmentIndex >= 0)
                 {
                     Inventory.Instance.Equip(inventoryItem);
+                    Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<BoxCollider>().enabled = false;
 
                     // Clear inventory slot UI
                     ClearSlot(inventoryItemsUI[index]);

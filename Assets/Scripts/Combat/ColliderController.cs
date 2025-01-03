@@ -6,17 +6,14 @@ namespace Combat
     {
         public void EnableCollider()
         {
-            if (Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<Collider>().enabled != true)
-            {
-                Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<Collider>().enabled = true;
-            }
+            
+            Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<BoxCollider>().enabled = true;
+            
         }
         public void DisableCollider()
         {
-            if (Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<Collider>().enabled)
-            {
-                Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<Collider>().enabled = false;
-            }
+            
+            Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<BoxCollider>().enabled = false;
         }
     }
 }

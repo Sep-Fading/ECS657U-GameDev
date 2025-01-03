@@ -28,15 +28,15 @@ namespace Enemy
             attacking = false;
             summoning = false;
             SetState(EnemyState.TRIGGERED);
+            if (GameObject.Find("Bernard") != null)
+            {
+                Destroy(GameObject.Find("Bernard"));
+            }
         }
         protected override void Start()
         {
             baseSpeed = 4f;
             runSpeed = 4f;
-            if (GameObject.Find("BossGate") != null && GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
-            {
-                GameObject.Find("BossGate").GetComponent<AudioSource>().Play();
-            }
             base.Start();
         }
         protected override void Update()

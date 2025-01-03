@@ -116,6 +116,7 @@ namespace Npcs
                 if (npcName == "Death")
                 {
                     GameObject death = Instantiate(Resources.Load("Death"), GameObject.Find("Bernard").transform.position, transform.localRotation) as GameObject;
+                    Destroy(GameObject.Find("Bernard"), 5f);
                 }
 
                 if (npcName == "Shopkeeper")

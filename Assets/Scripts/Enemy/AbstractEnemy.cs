@@ -19,6 +19,7 @@ namespace Enemy
         public List<Action> attackPattern;
         public EnemyState enemyState;
         public Animator animator;
+        public AudioSource audioSource;
 
         public float distanceBetweenPlayer;
         public float attackDistance;
@@ -45,6 +46,7 @@ namespace Enemy
             player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
             playerStats = PlayerStatManager.Instance;
             animator = GetComponent<Animator>();
+            if (GetComponent<AudioSource>() != null) { audioSource = GetComponent<AudioSource>(); }
             animator.SetBool("isMoving", false);
             stats.Speed.SetFlat(baseSpeed);
         }
@@ -125,6 +127,7 @@ namespace Enemy
                     float distanceMoved = Vector3.Distance(transform.position, lastPosition);
                     if (distanceMoved <= stuckThreshold)
                     {
+                        if (audioSource.isPlaying) { audioSource.Pause(); }
                         animator.SetBool("isMoving", false);
                         SetState(EnemyState.IDLE);
                         yield break; // Stop moving
@@ -137,7 +140,7 @@ namespace Enemy
 
                 yield return null; // Wait for the next frame
             }
-
+            if (audioSource.isPlaying) { audioSource.Pause(); }
             animator.SetBool("isMoving", false);
         }
         public virtual void idle()
@@ -155,6 +158,10 @@ namespace Enemy
                     bool willMove = Random.value > 0.5f; // 50% chance to move or stay idle
                     if (willMove)
                     {
+                        audioSource.spatialBlend = 1f;
+                        audioSource.loop = true;
+                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        if (!audioSource.isPlaying) { audioSource.Play(); }
                         animator.SetBool("isMoving", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
@@ -163,6 +170,7 @@ namespace Enemy
                         StopAllCoroutines();
                         StartCoroutine(MoveTo(randomDirection));
                     }
+                    else { audioSource.Pause(); }
                     // Set a new idle duration (2-5 seconds)
                     idleTime = Random.Range(2f, 5f);
                 }
@@ -179,9 +187,13 @@ namespace Enemy
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
-                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
+                setSpeed(runSpeed);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 StartCoroutine(MoveTo(player.transform.position));
             }
         }
@@ -215,7 +227,14 @@ namespace Enemy
         public virtual void block() { }
         public virtual void despawn()
         {
-            animator.SetTrigger("deathTrigger");        
+            animator.SetTrigger("deathTrigger");
+        }
+        public virtual void deathAudio()
+        {
+            audioSource.spatialBlend = 0f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("EnemyDeath") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
         }
         public virtual void destroySelf()
         {

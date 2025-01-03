@@ -86,6 +86,8 @@ namespace enemy
                         distanceMoved = Vector3.Distance(transform.position, lastPosition);
                         if (distanceMoved <= stuckThreshold)
                         {
+                            if (audioSource.isPlaying) { audioSource.Pause(); }
+                            animator.SetBool("isMoving", false);
                             yield break; // Stop moving
                         }
 
@@ -95,7 +97,7 @@ namespace enemy
                     }
                     yield return null; // Wait for the next frame
                 }
-
+                if (audioSource.isPlaying) { audioSource.Pause(); }
                 animator.SetBool("isMoving", false);
             }
             else
@@ -120,7 +122,7 @@ namespace enemy
                     }
                     yield return null;
                 }
-
+                if (audioSource.isPlaying) { audioSource.Pause(); }
                 // Exit circling
                 isCircling = false;
                 circlingCooldown = 10f;
@@ -155,6 +157,13 @@ namespace enemy
                 // Normal chasing behavior
                 StopAllCoroutines();
                 attackDistance = 3f;
+                if (!isThrowing)
+                {
+                    audioSource.spatialBlend = 1f;
+                    audioSource.loop = true;
+                    audioSource.clip = Resources.Load("Run") as AudioClip;
+                    if (!audioSource.isPlaying) { audioSource.Play(); }
+                }
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -168,6 +177,13 @@ namespace enemy
             attackCooldown = 2.5f;
             //attackDistance = 7f; // Increase distance to allow circling
             StopAllCoroutines();
+            if (!isThrowing)
+            {
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
+            }
             animator.SetBool("isWalking", false);
             animator.SetBool("isRunning", true);
             StartCoroutine(MoveTo(player.transform.position));
@@ -222,6 +238,10 @@ namespace enemy
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
                 newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 25f, ForceMode.Impulse);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("ClubThrow") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
         public void enableWeapon()
@@ -261,8 +281,18 @@ namespace enemy
         }
         public override void destroySelf()
         {
-            GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
-            GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+            if (GameObject.Find("Portal") != null)
+            {
+                if (GameObject.Find("Portal").GetComponent<AudioSource>() != null)
+                {
+                    GameObject.Find("Portal").GetComponent<AudioSource>().Play();
+                }
+                GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+                if (GameObject.Find("PortalHole") != null)
+                {
+                    GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                }
+            }
             base.destroySelf();
         }
         private void OnCollisionEnter(Collision collision)
@@ -272,6 +302,10 @@ namespace enemy
                 PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

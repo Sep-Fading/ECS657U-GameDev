@@ -126,6 +126,10 @@ namespace Enemy
         }
         public void shootBall()
         {
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("DeathBall"), transform) as GameObject;
             newWeapon.GetComponent<Renderer>().enabled = true;
             newWeapon.GetComponent<Rigidbody>().isKinematic = false;
@@ -138,6 +142,10 @@ namespace Enemy
         }
         public void teleport()
         {
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             float randomX; float randomZ;
             if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
             else randomX = Random.Range(5f, 10f);
@@ -152,6 +160,10 @@ namespace Enemy
         }
         public void summon()
         {
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             Debug.Log("Summoning");
             summonCooldown = 20f;
             float randomX; float randomZ;
@@ -214,6 +226,13 @@ namespace Enemy
                     }
                     break;
             }
+        }
+        public override void deathAudio()
+        {
+            audioSource.spatialBlend = 0f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("FinalBossDeath") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
         }
     }
 }

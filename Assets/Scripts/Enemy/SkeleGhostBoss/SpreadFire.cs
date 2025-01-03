@@ -44,6 +44,7 @@ public class SpreadFire : MonoBehaviour
         }
         else if (!(other.gameObject.tag == "Boss"))
         {
+            if (GetComponent<AudioSource>() != null) { GetComponent<AudioSource>().Play(); }
             Debug.Log("Spreading AOE");
             GameObject fireAOE = Instantiate(Resources.Load("FireAOE") as GameObject);
             fireAOE.transform.position = transform.position;

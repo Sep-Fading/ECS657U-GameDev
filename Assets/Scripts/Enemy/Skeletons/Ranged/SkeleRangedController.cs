@@ -116,6 +116,7 @@ namespace Enemy
                     float distanceMoved = Vector3.Distance(transform.position, lastPosition);
                     if (distanceMoved <= stuckThreshold)
                     {
+                        if (audioSource.isPlaying) { audioSource.Pause(); }
                         animator.SetBool("isMoving", false);
                         animator.SetBool("isWalking", false);
                         animator.SetBool("isRunning", false);
@@ -127,10 +128,9 @@ namespace Enemy
                     lastPosition = transform.position;
                     elapsedTime = 0f;
                 }
-
                 yield return null; // Wait for the next frame
             }
-
+            if (audioSource.isPlaying) { audioSource.Pause(); }
             animator.SetBool("isMoving", false);
             if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
             if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);
@@ -154,7 +154,10 @@ namespace Enemy
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
                         randomDirection.y = transform.position.y; // Maintain current Y position
-
+                        audioSource.spatialBlend = 1f;
+                        audioSource.loop = true;
+                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        if (!audioSource.isPlaying) { audioSource.Play(); }
                         StopAllCoroutines();
                         StartCoroutine(MoveTo(randomDirection));
                     }
@@ -178,6 +181,10 @@ namespace Enemy
             {
                 setSpeed(runSpeed);
                 StopAllCoroutines();
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -203,6 +210,10 @@ namespace Enemy
         public void shootAttack()
         {
             animator.SetTrigger("aimTrigger");
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = true;
+            audioSource.clip = Resources.Load("BowAim") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             attacking = true;
             aimTime = Random.Range(1, 5);
             stats.Damage.SetMultiplier(aimTime);
@@ -210,11 +221,15 @@ namespace Enemy
         public override void onAttack()
         {
             transform.LookAt(player.transform);
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("BowFire") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("SkeletonArrow"), transform) as GameObject;
             newWeapon.transform.LookAt(player.transform);
             newWeapon.GetComponent<Renderer>().enabled = true;
             newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-            newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f * Mathf.Abs(aimTime), ForceMode.Impulse);
+            newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);
             attacking = false;
             base.onAttack();
         }
@@ -234,6 +249,10 @@ namespace Enemy
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
                 attacking = false;
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

@@ -22,14 +22,7 @@ namespace InventoryScripts
         public void OnPointerClick(PointerEventData eventData)
         {
             InventoryItem item = Inventory.Instance.GetItemFromIndex(inventoryIndex);
-            if (item.gameItem.GetItemType() == ItemType.EQUIPMENT)
-            {
-                _inventoryManager.MoveToEquipment(item, inventoryIndex);
-            }
-            else if (item.gameItem.GetItemType() == ItemType.CONSUMABLE)
-            {
-                _inventoryManager.ConsumeItem(item, inventoryIndex);
-            }
+            _inventoryManager.MoveToEquipment(item, inventoryIndex);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

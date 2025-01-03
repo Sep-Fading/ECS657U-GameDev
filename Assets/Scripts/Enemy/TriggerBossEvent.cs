@@ -23,7 +23,6 @@ public class TriggerBossEvent : MonoBehaviour
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = true;
             }
             if (GameObject.FindWithTag("Boss") != null) GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED);
-            Destroy(gameObject);
         }
     }
 }

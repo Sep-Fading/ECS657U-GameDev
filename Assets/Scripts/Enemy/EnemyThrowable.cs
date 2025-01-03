@@ -28,9 +28,30 @@ public class EnemyThrowable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
         if (other.gameObject.CompareTag("Player"))
         {
-            PlayerStatManager.Instance.TakeDamage(gameObject.GetComponentInParent<AbstractEnemy>().stats.Damage.GetCurrent());
+            if (enemy != null)
+            {
+                PlayerStatManager.Instance.TakeDamage(enemy.stats.Damage.GetCurrent());
+                enemy.audioSource.spatialBlend = 0f;
+                enemy.audioSource.loop = false;
+                enemy.audioSource.clip = Resources.Load("EnemyAttack") as AudioClip;
+                enemy.audioSource.Play();
+            }
+            Destroy(gameObject);
+        }
+        if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)
+            || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
+        {
+            enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+            if (enemy.audioSource != null)
+            {
+                enemy.audioSource.spatialBlend = 0f;
+                enemy.audioSource.loop = false;
+                enemy.audioSource.clip = Resources.Load("PlayerBlock") as AudioClip;
+                enemy.audioSource.Play();
+            }
             Destroy(gameObject);
         }
     }

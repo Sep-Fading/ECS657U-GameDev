@@ -62,6 +62,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.6342473
+        functionName: deathAudio
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -301,7 +308,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.36705202
+      - time: 0.46678954
         functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -380,7 +387,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4768786
+      - time: 0.5346214
         functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}

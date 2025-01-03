@@ -62,6 +62,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.63439375
+        functionName: deathAudio
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -302,6 +309,13 @@ ModelImporter:
       curves: []
       events:
       - time: 0
+        functionName: setSpeed
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.53805774
         functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -440,6 +454,13 @@ ModelImporter:
         messageOptions: 0
       - time: 1
         functionName: onAttackComplete
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5041414
+        functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

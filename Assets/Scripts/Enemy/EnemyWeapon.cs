@@ -26,12 +26,26 @@ namespace Enemy
             if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)
                 || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
             {
-                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal() * PlayerStatManager.Instance.BlockEffect.GetCurrent());
+                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                if (enemy.audioSource != null)
+                {
+                    enemy.audioSource.spatialBlend = 0f;
+                    enemy.audioSource.loop = false;
+                    enemy.audioSource.clip = Resources.Load("PlayerBlock") as AudioClip;
+                    enemy.audioSource.Play();
+                }
             }
             */
             if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
             {
                 enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                if (enemy.audioSource != null)
+                {
+                    enemy.audioSource.spatialBlend = 0f;
+                    enemy.audioSource.loop = false;
+                    enemy.audioSource.clip = Resources.Load("EnemyAttack") as AudioClip;
+                    enemy.audioSource.Play();
+                }
             }
             gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
             collider.enabled = false;

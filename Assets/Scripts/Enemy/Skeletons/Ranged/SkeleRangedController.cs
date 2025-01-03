@@ -60,6 +60,7 @@ namespace Enemy
             else
             {
                 transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 if (aimTime <= 0f) { animator.SetTrigger("shootTrigger"); }
                 aimTime -= Time.deltaTime;
             }
@@ -221,6 +222,7 @@ namespace Enemy
         public override void onAttack()
         {
             transform.LookAt(player.transform);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
             audioSource.clip = Resources.Load("BowFire") as AudioClip;

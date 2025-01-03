@@ -173,9 +173,8 @@ namespace enemy
         private void StartCircling()
         {
             isCircling = true;
-            circlingTimer = 10f; // Reset circling duration
-            attackCooldown = 2.5f;
-            //attackDistance = 7f; // Increase distance to allow circling
+            circlingTimer = 10f; 
+            attackCooldown = 2f;
             StopAllCoroutines();
             if (!isThrowing)
             {
@@ -291,6 +290,7 @@ namespace enemy
                 if (GameObject.Find("PortalHole") != null)
                 {
                     GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
                 }
             }
             base.destroySelf();
@@ -306,6 +306,8 @@ namespace enemy
                 audioSource.loop = false;
                 audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
+                isCircling = false;
+                circlingCooldown = 10f;
             }
         }
     }

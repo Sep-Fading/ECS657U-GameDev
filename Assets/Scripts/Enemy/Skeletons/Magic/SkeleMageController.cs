@@ -60,6 +60,7 @@ namespace Enemy
             else
             {
                 transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 if (spellcastTime <= 0f) { animator.SetTrigger("shootTrigger"); }
                 spellcastTime -= Time.deltaTime;
             }
@@ -218,6 +219,7 @@ namespace Enemy
         public override void onAttack()
         {
             transform.LookAt(player.transform);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
             audioSource.clip = Resources.Load("Cast") as AudioClip;

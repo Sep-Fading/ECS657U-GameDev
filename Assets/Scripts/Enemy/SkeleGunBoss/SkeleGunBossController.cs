@@ -53,6 +53,7 @@ namespace Enemy
             if (afterImage)
             {
                 transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Draw")
                 {
                     animator.SetTrigger("drawTrigger");
@@ -108,7 +109,7 @@ namespace Enemy
                 {
                     if (!attacking)
                     {
-                        if (playerStats.Life.GetCurrent() <= playerStats.Life.GetFlat() / 2) afterImageAttack(8);
+                        if (stats.Life.GetCurrent() <= stats.Life.GetFlat() / 2) afterImageAttack(8);
                         else afterImageAttack(4);
                     }
                     else
@@ -148,13 +149,14 @@ namespace Enemy
                 }
             }
         }
-        public override void idle() { }
+        public override void idle() { if (GetComponent<ParticleSystem>() != null) { GetComponent<ParticleSystem>().Play(); } }
         public override void followPlayer()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else
             {
                 transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
@@ -197,7 +199,7 @@ namespace Enemy
                 audioSource.spatialBlend = 0f;
                 audioSource.loop = false;
                 audioSource.clip = Resources.Load("ShootGun") as AudioClip;
-                if (!audioSource.isPlaying) { audioSource.Play(); }
+                audioSource.Play();
                 playerStats.TakeDamage(stats.Damage.GetCurrent());
             }
         }
@@ -259,6 +261,7 @@ namespace Enemy
                 if (GameObject.Find("PortalHole") != null)
                 {
                     GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
                 }
             }
             if (!afterImage)

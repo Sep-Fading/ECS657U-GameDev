@@ -13,20 +13,24 @@ namespace Enemy
         private float _currentDisplayedHealth;
         private float smoothingSpeed = 5f;
         private bool bleeding; // Flag to control lerping only during bleeding
-        private EnemyController _enemyController;
+        private AbstractEnemy abstractEnemy;
 
+        private void Awake()
+        {
+            slider = GetComponent<Slider>();
+        }
         private void Start()
         {
-            _enemyController = enemy.GetComponent<EnemyController>();
-            if (_enemyController != null)
+            abstractEnemy = transform.GetComponentInParent<AbstractEnemy>();
+            if (abstractEnemy != null)
             {
-                if (_enemyController.GetStatManager() == null)
+                if (abstractEnemy.GetStatManager() == null)
                 {
-                    _enemyController.setStatManager(new StatManager());
+                    abstractEnemy.stats = (new StatManager());
                 }
 
-                _maxHealth = _enemyController.GetStatManager().Life.GetAppliedTotal();
-                _targetHealth = _currentDisplayedHealth = _enemyController.GetStatManager().Life.GetCurrent();
+                _maxHealth = abstractEnemy.GetStatManager().Life.GetAppliedTotal();
+                _targetHealth = _currentDisplayedHealth = abstractEnemy.GetStatManager().Life.GetCurrent();
                 slider.value = _currentDisplayedHealth / _maxHealth;
             }
         }
@@ -34,7 +38,7 @@ namespace Enemy
         private void Update()
         {
             // Update target health from enemy's current health
-            _targetHealth = _enemyController.GetStatManager().Life.GetCurrent();
+            _targetHealth = abstractEnemy.GetStatManager().Life.GetCurrent();
 
             // Smoothly transition slider value only if bleeding
             if (bleeding)

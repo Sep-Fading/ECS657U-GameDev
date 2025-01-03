@@ -71,10 +71,8 @@ namespace Enemy
                 default:
                     break;
             }
-            if (distanceBetweenPlayer < attackDistance)
-            {
-                GetComponent<Rigidbody>().AddForce(Vector3.back * 2f);
-            }
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+
         }
         public StatManager GetStatManager() => stats;
         public EnemyState GetState() { return enemyState; }

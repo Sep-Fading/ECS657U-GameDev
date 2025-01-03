@@ -65,6 +65,10 @@ namespace UI
             }
             return false;
         }
-    
+
+        public static void ResetInstance()
+        {
+            Instance = null;
+        }
     }
 }

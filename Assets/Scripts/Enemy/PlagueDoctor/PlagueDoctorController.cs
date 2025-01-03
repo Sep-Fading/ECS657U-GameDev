@@ -233,6 +233,10 @@ namespace Enemy
             audioSource.loop = false;
             audioSource.clip = Resources.Load("Audio/FinalBossDeath") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
+            if (GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
+            {
+                GameObject.Find("BossGate").GetComponent<AudioSource>().Pause();
+            }
         }
     }
 }

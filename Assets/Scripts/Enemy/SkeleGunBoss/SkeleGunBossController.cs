@@ -269,6 +269,11 @@ namespace Enemy
             {
                 if (XpManager.Instance != null) { XpManager.GiveXp(xpDrop); }
                 if (Inventory.Instance != null) { Inventory.GiveGold(goldDrop); }
+                if (GameObject.Find("-- Enemy") != null && GameObject.Find("-- Enemy").GetComponent<AudioSource>() != null && GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
+                {
+                    GameObject.Find("-- Enemy").GetComponent<AudioSource>().Play();
+                    GameObject.Find("BossGate").GetComponent<AudioSource>().Pause();
+                }
             }
             Destroy(gameObject);
         }

@@ -237,6 +237,11 @@ namespace Enemy
                     GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
                 }
             }
+            if (GameObject.Find("-- Enemy") != null && GameObject.Find("-- Enemy").GetComponent<AudioSource>() != null && GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
+            {
+                GameObject.Find("-- Enemy").GetComponent<AudioSource>().Play();
+                GameObject.Find("BossGate").GetComponent<AudioSource>().Pause();
+            }
             base.destroySelf();
         }
         private void OnTriggerEnter(Collider other)

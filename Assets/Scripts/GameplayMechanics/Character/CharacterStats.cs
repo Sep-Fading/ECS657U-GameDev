@@ -2,6 +2,8 @@ using Enemy;
 using GameplayMechanics.Effects;
 using InventoryScripts;
 using Player;
+using UI;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -81,6 +83,8 @@ namespace GameplayMechanics.Character
             float effectiveDamage = damage / (1 + (Armour.GetAppliedTotal() / K));
             // Block effectiveness formula
             float effectiveDamageOnBlock = effectiveDamage * (1-BlockEffect.GetAppliedTotal());
+            
+            Debug.Log($"Damage: {damage} Effective Damage: {effectiveDamage} Effective Damage on Block: {effectiveDamageOnBlock}");
 
             if (IsBlocking)
             {
@@ -89,14 +93,12 @@ namespace GameplayMechanics.Character
             else
             {
                 Life.SetCurrent(Life.GetCurrent() - effectiveDamage);
-                Debug.Log("Damage Taken: " + effectiveDamage);
             }
             
             
             if (Life.GetCurrent() <= 0)
             {
-                //PlayerDeathHandler();
-                Debug.Log("Player Died");
+                PlayerDeathHandler();
             }
         }
 
@@ -123,12 +125,11 @@ namespace GameplayMechanics.Character
         private void PlayerDeathHandler()
         {
             // Restart Scene on death
-            Debug.Log("Player Death");
-            XpManager.ResetInstance();
+            /*XpManager.ResetInstance();
             Inventory.ResetInstance();
-            ResetInstance();
-            GameStateSaver.ResetInstance();
-            SceneManager.LoadScene("Tutorial");
+            UIManager.ResetInstance();
+            ResetInstance();*/
+            GameStateSaver.ResetInstance(true);
         }
     }
     

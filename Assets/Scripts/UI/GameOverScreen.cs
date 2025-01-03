@@ -3,30 +3,32 @@ using GameplayMechanics.Character;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class GameOverScreen : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI PlayerPerformance;
         [SerializeField] private Button RestartButton;
         
-        void Start()
+        void Awake()
         {
-            PlayerPerformance.text = String.Empty;    
             RestartButton.onClick.AddListener(() => PlayAgain());
+            gameObject.SetActive(false);
         }
-
         
-        public void DisplayGameOverStats()
+        public void ShowGameOverScreen()
         {
-            PlayerPerformance.text = $"Here are the stats of the fallen warrior: \nLevel: {XpManager.GetLevel()},\nXP: {XpManager.GetCurrentXp()} / {XpManager.GetLevelUpThreshold()}";
+            gameObject.SetActive(true);
+            UIManager.Instance.PushUI(gameObject);
         }
 
         public void PlayAgain()
         {
-            //add restart functionality here
+            Debug.Log(PlayerStatManager.Instance.Life.GetCurrent());
+            UIManager.Instance.PopUIByGameObject(gameObject);
+            GameStateSaver.ResetInstance();
         }
 
     }

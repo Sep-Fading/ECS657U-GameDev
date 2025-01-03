@@ -25,7 +25,6 @@ namespace InventoryScripts
 
         public static void ResetInstance()
         {
-            Instance.EquippedMainHand.Unequip();
             Instance = null;
         }
         

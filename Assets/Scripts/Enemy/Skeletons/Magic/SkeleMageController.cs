@@ -11,7 +11,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 15f;
+            goldDrop = 20;
             attackDistance = 15f;
             attackCooldown = 1f;
             stats.TriggeredDistance.SetFlat(30f);
@@ -23,6 +24,8 @@ namespace Enemy
         {
             baseSpeed = 2f;
             runSpeed = 7f;
+            stats.Life.SetFlat(100f);
+            stats.Damage.SetFlat(5f);
             base.Start();
         }
         protected override void Update()
@@ -57,6 +60,7 @@ namespace Enemy
             else
             {
                 transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 if (spellcastTime <= 0f) { animator.SetTrigger("shootTrigger"); }
                 spellcastTime -= Time.deltaTime;
             }
@@ -113,6 +117,7 @@ namespace Enemy
                     float distanceMoved = Vector3.Distance(transform.position, lastPosition);
                     if (distanceMoved <= stuckThreshold)
                     {
+                        if (audioSource.isPlaying) { audioSource.Pause(); }
                         animator.SetBool("isMoving", false);
                         animator.SetBool("isWalking", false);
                         animator.SetBool("isRunning", false);
@@ -127,7 +132,7 @@ namespace Enemy
 
                 yield return null; // Wait for the next frame
             }
-
+            if (audioSource.isPlaying) { audioSource.Pause(); }
             animator.SetBool("isMoving", false);
             if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
             if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);
@@ -151,7 +156,10 @@ namespace Enemy
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
                         randomDirection.y = transform.position.y; // Maintain current Y position
-
+                        audioSource.spatialBlend = 1f;
+                        audioSource.loop = true;
+                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        if (!audioSource.isPlaying) { audioSource.Play(); }
                         StopAllCoroutines();
                         StartCoroutine(MoveTo(randomDirection));
                     }
@@ -175,6 +183,10 @@ namespace Enemy
             {
                 setSpeed(runSpeed);
                 StopAllCoroutines();
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -207,6 +219,11 @@ namespace Enemy
         public override void onAttack()
         {
             transform.LookAt(player.transform);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("FireBall"), transform) as GameObject;
             newWeapon.GetComponent<Renderer>().enabled = true;
             newWeapon.GetComponent<Rigidbody>().isKinematic = false;
@@ -223,12 +240,16 @@ namespace Enemy
             if (collision.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
-                //PlayerStatManager.Instance.DoDamage(this);
+                playerStats.DoDamage(this);
                 //PlayerStatManager.Instance.DoDamage(enemy);
                 StopAllCoroutines();
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
                 attacking = false;
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

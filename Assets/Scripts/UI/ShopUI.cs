@@ -294,7 +294,7 @@ namespace UI
         
         public void CloseShop()
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             UIManager.Instance.PopUIByGameObject(gameObject);
         }
     }

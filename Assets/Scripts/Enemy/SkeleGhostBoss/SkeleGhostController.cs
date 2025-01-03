@@ -19,10 +19,12 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 45f;
+            goldDrop = 75;
             attackDistance = 15f;
             attackCooldown = 10f;
-            stats.Life.SetFlat(100f);
+            stats.Life.SetFlat(1000f);
+            stats.Damage.SetFlat(30f);
             moveCooldown = 4f;
             attacking = false;
             attackPattern.Add(shootAttack);
@@ -38,6 +40,7 @@ namespace Enemy
         {
             if (!(GetState() == EnemyState.IDLE))
             {
+                if (GameObject.Find("master") != null) { GameObject.Find("master").SetActive(false); }
                 health = stats.Life.GetCurrent();
                 distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
                 //Debug.Log("Moving: " + animator.GetBool("isMoving"));
@@ -157,6 +160,10 @@ namespace Enemy
             {
                 if (moveCooldown <= 0)
                 {
+                    audioSource.spatialBlend = 1f;
+                    audioSource.loop = false;
+                    audioSource.clip = Resources.Load("ClubThrow") as AudioClip;
+                    if (!audioSource.isPlaying) { audioSource.Play(); }
                     moveCooldown = 3f;
                     setSpeed(runSpeed);
                     StopAllCoroutines();
@@ -191,6 +198,10 @@ namespace Enemy
         }
         public void throwBall()
         {
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject ball = Instantiate(Resources.Load("GhostBall") as GameObject, transform);
             ball.GetComponent<Renderer>().enabled = true;
             ball.GetComponent<Rigidbody>().isKinematic = false;
@@ -212,38 +223,45 @@ namespace Enemy
         {
             base.onAttackComplete();
         }
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.gameObject.CompareTag("Weapon")
-        //        //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-        //        //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-        //        )
-        //    {
-        //        Debug.Log("Enemy Attacked");
-        //        setSpeed(0f);
-        //        animator.SetTrigger("stunTrigger");
-        //        playerStats.DoDamage(this);
-        //    }
-        //}
+        public override void destroySelf()
+        {
+            if (GameObject.Find("Portal") != null)
+            {
+                if (GameObject.Find("Portal").GetComponent<AudioSource>() != null)
+                {
+                    GameObject.Find("Portal").GetComponent<AudioSource>().Play();
+                }
+                GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+                if (GameObject.Find("PortalHole") != null)
+                {
+                    GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
+                }
+            }
+            base.destroySelf();
+        }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Weapon")
-    //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-    //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-    )
+            if (other.gameObject.CompareTag("Weapon"))
             {
                 Debug.Log("Enemy Attacked");
                 animator.SetTrigger("stunTrigger");
                 playerStats.DoDamage(this);
                 attacking = false;
-                //SetState(EnemyState.TRIGGERED);
-                
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
+
             }
             if (other.gameObject.CompareTag("EnemyWeaponThrowable"))
             {
-                Debug.Log("Boss sttacked by projectile");
                 animator.SetTrigger("stunTrigger");
                 playerStats.DoDamage(this);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

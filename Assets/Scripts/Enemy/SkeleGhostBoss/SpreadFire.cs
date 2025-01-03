@@ -20,12 +20,14 @@ public class SpreadFire : MonoBehaviour
         else thrownTime += Time.deltaTime;
 
         if (PlayerStatManager.Instance != null)
-            if (!PlayerStatManager.Instance.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = false;
-            else GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
+        {
+            if (!PlayerStatManager.Instance.IsBlocking && GameObject.FindWithTag("Shield") != null) GameObject.FindWithTag("Shield").GetComponentInChildren<Collider>().enabled = false;
+            else if (GameObject.FindWithTag("Shield") != null) GameObject.FindWithTag("Shield").GetComponent<Collider>().enabled = true;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent != null && other.transform.parent.tag == "ShieldSlot")
+        if (other.transform.tag == "Shield")
         {
             GameObject ball = Instantiate(Resources.Load("GhostBall") as GameObject, transform.position, Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z), transform.parent);
             ball.transform.LookAt(transform.parent);
@@ -40,24 +42,15 @@ public class SpreadFire : MonoBehaviour
                 PlayerStatManager.Instance.TakeDamage(gameObject.GetComponentInParent<AbstractEnemy>().stats.Damage.GetCurrent());
             }
         }
-        else if (!other.gameObject.Equals(transform.parent.gameObject))
+        else if (!(other.gameObject.tag == "Boss"))
         {
+            if (GetComponent<AudioSource>() != null) { GetComponent<AudioSource>().Play(); }
             Debug.Log("Spreading AOE");
             GameObject fireAOE = Instantiate(Resources.Load("FireAOE") as GameObject);
             fireAOE.transform.position = transform.position;
-            if (transform.position.y <= -0.67f) fireAOE.transform.position = new Vector3(fireAOE.transform.position.x, -0.67f, fireAOE.transform.position.z);
+            fireAOE.transform.position = new Vector3(fireAOE.transform.position.x, -0.67f, fireAOE.transform.position.z);
         }
 
         Destroy(gameObject);
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        //if (!(collision.gameObject.CompareTag("Player") || collision.gameObject.transform.gameObject.CompareTag("ShieldSlot") || collision.gameObject.CompareTag("Weapon")))
-        //{
-        //    Debug.Log("Spreading AOE");
-        //    GameObject fireAOE = Instantiate(Resources.Load("FireAOE") as GameObject);
-        //    fireAOE.transform.position = transform.position;
-        //    if (transform.position.y <= 0.1f) fireAOE.transform.position = new Vector3(fireAOE.transform.position.x, 0.15f, fireAOE.transform.position.z);
-        //}
     }
 }

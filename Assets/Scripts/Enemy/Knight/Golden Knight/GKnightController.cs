@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
@@ -11,8 +12,9 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
-            attackDistance = 4f;
+            xpDrop = 20f;
+            goldDrop = 25;
+            attackDistance = 5f;
             attackCooldown = 1f;
             attackPattern.Add(weaponAttack);
             attackPattern.Add(poundAttack);
@@ -22,6 +24,9 @@ namespace Enemy
             baseSpeed = 2f;
             runSpeed = 6f;
             spawnpoint = transform.position;
+            stats.TriggeredDistance.SetFlat(20f);
+            stats.Life.SetFlat(200f);
+            stats.Damage.SetFlat(20f);
             base.Start();
         }
         protected override void Update()
@@ -79,6 +84,7 @@ namespace Enemy
                     float distanceMoved = Vector3.Distance(transform.position, lastPosition);
                     if (distanceMoved <= stuckThreshold)
                     {
+                        if (audioSource.isPlaying) { audioSource.Pause(); }
                         animator.SetBool("isMoving", false);
                         animator.SetBool("isWalking", false);
                         animator.SetBool("isRunning", false);
@@ -93,9 +99,9 @@ namespace Enemy
 
                 yield return null; // Wait for the next frame
             }
-
+            if (audioSource.isPlaying) { audioSource.Pause(); }
             animator.SetBool("isMoving", false);
-            if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
+            if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false); transform.LookAt(player.transform);
             if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);
         }
         public override void idle()
@@ -117,7 +123,10 @@ namespace Enemy
                 Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                 randomDirection += transform.position; // Offset by current position
                 randomDirection.y = transform.position.y; // Maintain current Y position
-
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Walk") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 StopAllCoroutines();
                 StartCoroutine(MoveTo(spawnpoint));
                 //if (idleTime <= 0)
@@ -162,6 +171,10 @@ namespace Enemy
             {
                 setSpeed(runSpeed);
                 StopAllCoroutines();
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -180,37 +193,65 @@ namespace Enemy
             isAttackComplete = true;
             //GetComponentInChildren<EnemyWeapon>().collider.enabled = true;
             foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
-            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
-            if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "HumanArmature|Run_swordAttack")
+            if (playerStats != null && GameObject.FindWithTag("Shield") != null && player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered)
             {
-                if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
+                Debug.Log("Parrying");
+                animator.SetTrigger("stunTrigger");
+                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 4f, ForceMode.Impulse);
+                StopAllCoroutines();
+                setSpeed(0f);
+                attackCooldown = 5f;
             }
-            else if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "HumanArmature|swordAttackJump")
+            else
             {
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackDistance);
-                foreach (var hitCollider in hitColliders)
+                if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "HumanArmature|Run_swordAttack")
                 {
-                    //Debug.Log(hitColliders);
-                    if (hitCollider.gameObject.CompareTag("Player"))
+                    if (playerStats != null && !playerStats.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null)
                     {
-                        //player.GetComponent<CharacterController>().Move(player.transform.position - transform.position);
-                        GameObject poundFX = Instantiate(Resources.Load("GroundFX") as GameObject);
-                        poundFX.GetComponent<ParticleSystem>().Play();
-                        Debug.Log("Player Pounded");
+                        GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = false;
+                        playerStats.TakeDamage(stats.Damage.GetCurrent());
+                    }
+                }
+                else if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "HumanArmature|swordAttackJump")
+                {
+                    Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackDistance);
+                    foreach (var hitCollider in hitColliders)
+                    {
+                        //Debug.Log(hitColliders);
+                        if (hitCollider.gameObject.CompareTag("Player"))
+                        {
+                            player.GetComponent<CharacterController>().Move(player.transform.position - transform.position);
+                            playerStats.TakeDamage(stats.Damage.GetCurrent());
+                            //GameObject poundFX = Instantiate(Resources.Load("GroundFX") as GameObject);
+                            //poundFX.GetComponent<ParticleSystem>().Play();
+                            Debug.Log("Player Pounded");
+                        }
                     }
                 }
             }
-            //Debug.Log("Animation End");
+        }
+        public override void destroySelf()
+        {
+            if (GameObject.Find("BossGate") != null)
+            {
+                GameObject.Find("BossGate").GetComponent<Collider>().enabled = true;
+            }
+            base.destroySelf();
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon")
-                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-                )
+            if (collision.gameObject.CompareTag("Weapon"))
             {
                 setSpeed(0f);
-                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back + Vector3.up) * 2f, ForceMode.Impulse);
+                playerStats.DoDamage(this);
+                animator.SetTrigger("stunTrigger");
+                StopAllCoroutines();
+                attackCooldown = 1f;
+                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("KngihtHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

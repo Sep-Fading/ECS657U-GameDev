@@ -112,5 +112,6 @@ namespace Combat
         }
 
         public bool GetBlockingStatus() => _blocking;
+        
     }
 }

@@ -1,3 +1,5 @@
+using GameplayMechanics.Character;
+using InventoryScripts;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -20,7 +22,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 30f;
+            goldDrop = 50;
             attackDistance = 5f;
             attackCooldown = 5f;
             teleportCooldown = 10f;
@@ -28,9 +31,9 @@ namespace Enemy
             afterImageCountdown = 20f;
             afterImage = false;
             attacking = false;
-            stats.Life.SetFlat(500f);
+            stats.Life.SetFlat(750f);
+            stats.Damage.SetFlat(15f);
             SetState(EnemyState.IDLE);
-            teleportPoints = new Vector3[] { new Vector3(195f, 0f, 330f), new Vector3(240f, 0f, 400f), new Vector3(282f, 0f, 282f) };
             attackPattern.Add(shootAttack);
         }
         protected override void Start()
@@ -42,7 +45,6 @@ namespace Enemy
         protected override void Update()
         {
             health = stats.Life.GetCurrent();
-            transform.LookAt(player.transform);
             transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
             if (stats.Life.GetCurrent() <= 0)
             {
@@ -50,6 +52,8 @@ namespace Enemy
             }
             if (afterImage)
             {
+                transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Draw")
                 {
                     animator.SetTrigger("drawTrigger");
@@ -84,8 +88,17 @@ namespace Enemy
                         { if (GetComponent<ParticleSystem>()) GetComponent<ParticleSystem>().Play(); }
                         if ((teleportCooldown <= 0 || (distanceBetweenPlayer <= attackDistance - 0.2f && dodgeChance < 0.2f)) && GetComponent<ParticleSystem>().isPlaying)
                         {
+                            audioSource.spatialBlend = 1f;
+                            audioSource.loop = false;
+                            audioSource.clip = Resources.Load("Cast") as AudioClip;
+                            if (!audioSource.isPlaying) { audioSource.Play(); }
                             teleportCooldown = 20f;
-                            transform.position = teleportPoints[Random.Range(0, teleportPoints.Length - 1)];
+                            float randomX; float randomZ;
+                            if (Random.value < 0.5) randomX = Random.Range(-15f, -10f);
+                            else randomX = Random.Range(10f, 15f);
+                            if (Random.value < 0.5) randomZ = Random.Range(-15f, -10f);
+                            else randomZ = Random.Range(10f, 15f);
+                            transform.position = new Vector3(player.transform.position.x + randomX, 0f, player.transform.position.z + randomZ);
                             Debug.Log("Teleporting");
                         }
                         else { teleportCooldown -= Time.deltaTime; }
@@ -96,7 +109,8 @@ namespace Enemy
                 {
                     if (!attacking)
                     {
-                        afterImageAttack(4);
+                        if (stats.Life.GetCurrent() <= stats.Life.GetFlat() / 2) afterImageAttack(8);
+                        else afterImageAttack(4);
                     }
                     else
                     {
@@ -109,10 +123,17 @@ namespace Enemy
                         }
                         if (afterImageCountdown <= 1.5f)
                         {
-                            gameObject.GetComponent<ParticleSystem>().Play();
+                            foreach (GameObject boss in GameObject.FindGameObjectsWithTag("Boss"))
+                            {
+                                gameObject.GetComponent<ParticleSystem>().Play();
+                            }
                         }
                         if (afterImageCountdown <= 0f)
                         {
+                            foreach (GameObject boss in GameObject.FindGameObjectsWithTag("Boss"))
+                            {
+                                if (boss.GetComponent<SkeleGunBossController>().afterImage) Destroy(boss);
+                            }
                             afterImageCooldown = Random.Range(10f, 20f);
                             afterImageCountdown = 7f;
                             attacking = false;
@@ -128,24 +149,32 @@ namespace Enemy
                 }
             }
         }
-        public override void idle() { }
+        public override void idle() { if (GetComponent<ParticleSystem>() != null) { GetComponent<ParticleSystem>().Play(); } }
         public override void followPlayer()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else
             {
+                transform.LookAt(player.transform);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
                 StartCoroutine(MoveTo(player.transform.position));
             }
         }
+        public void walkAudio()
+        {
+            audioSource.spatialBlend = 0f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Walk") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
+        }
         public override void attack()
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else
             {
-                transform.LookAt(player.transform);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
                 int attack = Random.Range(0, attackPattern.Count);
@@ -160,11 +189,18 @@ namespace Enemy
         {
             if (!attacking) 
             {
-                animator.SetTrigger("shootTrigger"); 
-                if (Vector3.Angle(transform.forward, transform.position - player.transform.position) > 15f)
-                {
-                    playerStats.TakeDamage(stats.Damage.GetCurrent());
-                }
+                animator.SetTrigger("shootTrigger");
+            }
+        }
+        public void shootPlayer()
+        {
+            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) == 180f)
+            {
+                audioSource.spatialBlend = 0f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("ShootGun") as AudioClip;
+                audioSource.Play();
+                playerStats.TakeDamage(stats.Damage.GetCurrent());
             }
         }
         public void afterImageAttack(float afterimages)
@@ -197,6 +233,43 @@ namespace Enemy
                 clone.GetComponent<SkeleGunBossController>().afterImageCooldown = -10f;
                 clone.GetComponent<Animator>().SetTrigger("readyTrigger");
             }
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
+        }
+        public override void deathAudio()
+        {
+            if (!afterImage) base.deathAudio();
+            else
+            {
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("Cast") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
+            }
+        }
+        public override void destroySelf()
+        {
+            if (GameObject.Find("Portal") != null && !afterImage)
+            {
+                if (GameObject.Find("Portal").GetComponent<AudioSource>() != null)
+                {
+                    GameObject.Find("Portal").GetComponent<AudioSource>().Play();
+                }
+                GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+                if (GameObject.Find("PortalHole") != null)
+                {
+                    GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
+                }
+            }
+            if (!afterImage)
+            {
+                if (XpManager.Instance != null) { XpManager.GiveXp(xpDrop); }
+                if (Inventory.Instance != null) { Inventory.GiveGold(goldDrop); }
+            }
+            Destroy(gameObject);
         }
         private void OnCollisionEnter(Collision collision)
         {
@@ -204,11 +277,11 @@ namespace Enemy
             {
                 if (afterImage)
                 {
-                    Destroy(gameObject);
+                    animator.SetTrigger("deathTrigger");
                 }
                 else
                 {
-                    Debug.Log("Enemy Attacked");
+                    Debug.Log("Main Boss Attacked");
                     playerStats.DoDamage(this);
                     if (stats.Life.GetCurrent() <= 0)
                     {
@@ -216,12 +289,15 @@ namespace Enemy
                     }
                     else
                     {
-                        //PlayerStatManager.Instance.DoDamage(enemy);
                         setSpeed(0f);
                         gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
                         animator.SetTrigger("stunTrigger");
                         animator.SetBool("isMoving", true);
                         SetState(EnemyState.TRIGGERED);
+                        audioSource.spatialBlend = 1f;
+                        audioSource.loop = false;
+                        audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                        if (!audioSource.isPlaying) { audioSource.Play(); }
                     }
                     foreach (GameObject boss in GameObject.FindGameObjectsWithTag("Boss"))
                     {

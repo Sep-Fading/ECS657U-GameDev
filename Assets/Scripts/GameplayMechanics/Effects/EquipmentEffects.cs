@@ -43,6 +43,7 @@ namespace GameplayMechanics.Effects
         {
             PlayerStatManager.Instance.MeleeDamage.SetAdded(
                 PlayerStatManager.Instance.MeleeDamage.GetAdded() + _flatMeleeDamage);
+            Debug.LogWarning($"{PlayerStatManager.Instance.MeleeDamage.GetAppliedTotal()} to Melee Damage");
         }
 
         public override void Clear()
@@ -87,14 +88,14 @@ namespace GameplayMechanics.Effects
 
         public override void Apply()
         {
-            PlayerStatManager.Instance.Armour.SetFlat(
+            PlayerStatManager.Instance.Armour.SetAdded(
                 PlayerStatManager.Instance.Armour.GetAdded() + _flatArmour);
         }
 
         public override void Clear()
         {
-            PlayerStatManager.Instance.Armour.SetFlat(
-                PlayerStatManager.Instance.Armour.GetFlat() - _flatArmour);
+            PlayerStatManager.Instance.Armour.SetAdded(
+                PlayerStatManager.Instance.Armour.GetAdded() - _flatArmour);
         }
     }
     
@@ -132,13 +133,13 @@ namespace GameplayMechanics.Effects
         }
         public override void Apply()
         {
-            PlayerStatManager.Instance.BlockEffect.SetFlat(
-                PlayerStatManager.Instance.BlockEffect.GetFlat() + _flatBlockEffectiveness);
+            PlayerStatManager.Instance.BlockEffect.SetAdded(
+                PlayerStatManager.Instance.BlockEffect.GetAdded() + _flatBlockEffectiveness);
         }
         public override void Clear()
         {
-            PlayerStatManager.Instance.BlockEffect.SetFlat(
-                PlayerStatManager.Instance.BlockEffect.GetFlat() - _flatBlockEffectiveness);
+            PlayerStatManager.Instance.BlockEffect.SetAdded(
+                PlayerStatManager.Instance.BlockEffect.GetAdded() - _flatBlockEffectiveness);
         }
 
     }
@@ -153,15 +154,14 @@ namespace GameplayMechanics.Effects
         }
         public override void Apply()
         {
-            PlayerStatManager.Instance.Life.SetFlat(
-                PlayerStatManager.Instance.Life.GetFlat() + _flatHealth);
+            PlayerStatManager.Instance.Life.SetAdded(
+                PlayerStatManager.Instance.Life.GetAdded() + _flatHealth);
         }
         public override void Clear()
         {
-            PlayerStatManager.Instance.Life.SetFlat(
-                PlayerStatManager.Instance.Life.GetFlat() - _flatHealth);
+            PlayerStatManager.Instance.Life.SetAdded(
+                PlayerStatManager.Instance.Life.GetAdded() - _flatHealth);
         }
-
     }
 
     public enum EquipmentType

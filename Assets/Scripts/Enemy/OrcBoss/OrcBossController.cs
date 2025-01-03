@@ -20,6 +20,8 @@ namespace enemy
         {
             base.Awake();
 
+            xpDrop = 15f;
+            goldDrop = 50;
             attackDistance = 4f;
             attackCooldown = 1.5f;
             attackPattern.Add(weaponAttack);
@@ -29,8 +31,8 @@ namespace enemy
         }
         protected override void Start()
         {
-            baseSpeed = 7f;
-            runSpeed = 7f;
+            baseSpeed = 10f;
+            runSpeed = 10f;
             isCircling = false;
             circlingTimer = 5f;
             circlingCooldown = 10f;
@@ -38,7 +40,8 @@ namespace enemy
             base.Start();
             stats.TriggeredDistance.SetCurrent(100f);
             stats.Speed.SetFlat(runSpeed);
-            stats.Life.SetFlat(10f);
+            stats.Life.SetFlat(500f);
+            stats.Damage.SetFlat(15f);
             speed = stats.Speed.GetCurrent();
         }
         protected override void Update()
@@ -83,6 +86,8 @@ namespace enemy
                         distanceMoved = Vector3.Distance(transform.position, lastPosition);
                         if (distanceMoved <= stuckThreshold)
                         {
+                            if (audioSource.isPlaying) { audioSource.Pause(); }
+                            animator.SetBool("isMoving", false);
                             yield break; // Stop moving
                         }
 
@@ -92,7 +97,7 @@ namespace enemy
                     }
                     yield return null; // Wait for the next frame
                 }
-
+                if (audioSource.isPlaying) { audioSource.Pause(); }
                 animator.SetBool("isMoving", false);
             }
             else
@@ -117,7 +122,7 @@ namespace enemy
                     }
                     yield return null;
                 }
-
+                if (audioSource.isPlaying) { audioSource.Pause(); }
                 // Exit circling
                 isCircling = false;
                 circlingCooldown = 10f;
@@ -152,19 +157,32 @@ namespace enemy
                 // Normal chasing behavior
                 StopAllCoroutines();
                 attackDistance = 3f;
+                if (!isThrowing)
+                {
+                    audioSource.spatialBlend = 1f;
+                    audioSource.loop = true;
+                    audioSource.clip = Resources.Load("Run") as AudioClip;
+                    if (!audioSource.isPlaying) { audioSource.Play(); }
+                }
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRunning", true);
                 StartCoroutine(MoveTo(player.transform.position));
-                if (Random.value < 0.001 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
+                if (Random.value < 0.01 && distanceBetweenPlayer > attackDistance + 5f) throwAttack();
             }
         }
         private void StartCircling()
         {
             isCircling = true;
-            circlingTimer = 10f; // Reset circling duration
-            attackCooldown = 2.5f;
-            //attackDistance = 7f; // Increase distance to allow circling
+            circlingTimer = 10f; 
+            attackCooldown = 2f;
             StopAllCoroutines();
+            if (!isThrowing)
+            {
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
+            }
             animator.SetBool("isWalking", false);
             animator.SetBool("isRunning", true);
             StartCoroutine(MoveTo(player.transform.position));
@@ -218,7 +236,11 @@ namespace enemy
                 newWeapon.transform.position += new Vector3(0f,1f,0f);
                 newWeapon.GetComponent<Renderer>().enabled = true;
                 newWeapon.GetComponent<Rigidbody>().isKinematic = false;
-                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);
+                newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 25f, ForceMode.Impulse);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("ClubThrow") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
         public void enableWeapon()
@@ -258,22 +280,34 @@ namespace enemy
         }
         public override void destroySelf()
         {
-            GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
-            GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+            if (GameObject.Find("Portal") != null)
+            {
+                if (GameObject.Find("Portal").GetComponent<AudioSource>() != null)
+                {
+                    GameObject.Find("Portal").GetComponent<AudioSource>().Play();
+                }
+                GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+                if (GameObject.Find("PortalHole") != null)
+                {
+                    GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                    GameObject.Find("PortalHole").GetComponent<ParticleSystem>().Play();
+                }
+            }
             base.destroySelf();
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon") 
-                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-                && Random.value <= 0.5f
-                )
+            if (collision.gameObject.CompareTag("Weapon") && Random.value <= 0.5f)
             {
                 PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
-                SetState(EnemyState.TRIGGERED);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
+                isCircling = false;
+                circlingCooldown = 10f;
             }
         }
     }

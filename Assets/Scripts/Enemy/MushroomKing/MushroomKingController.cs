@@ -11,7 +11,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 2f;
+            goldDrop = 10;
             attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
@@ -21,6 +22,8 @@ namespace Enemy
         {
             baseSpeed = 2f;
             runSpeed = 6f;
+            stats.Life.SetFlat(85f);
+            stats.Damage.SetFlat(5f);
             base.Start();
         }
         protected override void Update()
@@ -78,6 +81,7 @@ namespace Enemy
                     float distanceMoved = Vector3.Distance(transform.position, lastPosition);
                     if (distanceMoved <= stuckThreshold)
                     {
+                        if (audioSource.isPlaying) { audioSource.Pause(); }
                         animator.SetBool("isMoving", false);
                         animator.SetBool("isWalking", false);
                         animator.SetBool("isRunning", false);
@@ -92,7 +96,7 @@ namespace Enemy
 
                 yield return null; // Wait for the next frame
             }
-
+            if (audioSource.isPlaying) { audioSource.Pause(); }
             animator.SetBool("isMoving", false);
             if (GetState() == EnemyState.IDLE) animator.SetBool("isWalking", false);
             if (GetState() == EnemyState.TRIGGERED) animator.SetBool("isRunning", false);
@@ -117,6 +121,10 @@ namespace Enemy
                     bool willMove = Random.value > 0.5f; // 50% chance to move or stay idle
                     if (willMove)
                     {
+                        audioSource.spatialBlend = 1f;
+                        audioSource.loop = true;
+                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        if (!audioSource.isPlaying) { audioSource.Play(); }
                         animator.SetBool("isWalking", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
@@ -125,7 +133,11 @@ namespace Enemy
                         StopAllCoroutines();
                         StartCoroutine(MoveTo(randomDirection));
                     }
-                    else animator.SetBool("isWalking", false);
+                    else
+                    {
+                        audioSource.Pause();
+                        animator.SetBool("isWalking", false); 
+                    }
                     // Set a new idle duration (2-5 seconds)
                     idleTime = Random.Range(2f, 5f);
                 }
@@ -153,6 +165,10 @@ namespace Enemy
             {
                 setSpeed(runSpeed);
                 StopAllCoroutines();
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
                 StartCoroutine(MoveTo(player.transform.position));
@@ -168,14 +184,15 @@ namespace Enemy
         }
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Weapon")
-                //&& !(animator.GetAnimatorTransitionInfo(0).IsName("Punch") || animator.GetAnimatorTransitionInfo(0).IsName("Weapon")) 
-                //&& GameObject.FindWithTag("WeaponHolder").GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("TempSwordAnimation"))
-                )
+            if (collision.gameObject.CompareTag("Weapon"))
             {
                 PlayerStatManager.Instance.DoDamage(this);
                 setSpeed(0f);
                 animator.SetTrigger("stunTrigger");
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

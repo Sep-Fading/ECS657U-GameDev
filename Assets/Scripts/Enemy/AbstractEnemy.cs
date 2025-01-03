@@ -1,5 +1,6 @@
 using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
+using InventoryScripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Enemy
         public List<Action> attackPattern;
         public EnemyState enemyState;
         public Animator animator;
+        public AudioSource audioSource;
 
         public float distanceBetweenPlayer;
         public float attackDistance;
@@ -25,6 +27,8 @@ namespace Enemy
         public float attackCooldown; // Cooldown duration in seconds
         public float lastAttackTime = -Mathf.Infinity;
         public bool isAttackComplete = false;
+        public float xpDrop;
+        public int goldDrop;
 
         public float baseSpeed;
         public float runSpeed;
@@ -42,6 +46,7 @@ namespace Enemy
             player = GameStateSaver.Instance.GetSharedObjectByName("PlayerObject");
             playerStats = PlayerStatManager.Instance;
             animator = GetComponent<Animator>();
+            if (GetComponent<AudioSource>() != null) { audioSource = GetComponent<AudioSource>(); }
             animator.SetBool("isMoving", false);
             stats.Speed.SetFlat(baseSpeed);
         }
@@ -49,7 +54,6 @@ namespace Enemy
         protected virtual void Update()
         {
             distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
-            //Debug.Log("Moving: " + animator.GetBool("isMoving"));
             switch (enemyState)
             {
                 case EnemyState.IDLE:
@@ -67,10 +71,8 @@ namespace Enemy
                 default:
                     break;
             }
-            if (distanceBetweenPlayer < attackDistance)
-            {
-                GetComponent<Rigidbody>().AddForce(Vector3.back * 2f);
-            }
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+
         }
         public StatManager GetStatManager() => stats;
         public EnemyState GetState() { return enemyState; }
@@ -123,6 +125,7 @@ namespace Enemy
                     float distanceMoved = Vector3.Distance(transform.position, lastPosition);
                     if (distanceMoved <= stuckThreshold)
                     {
+                        if (audioSource.isPlaying) { audioSource.Pause(); }
                         animator.SetBool("isMoving", false);
                         SetState(EnemyState.IDLE);
                         yield break; // Stop moving
@@ -135,30 +138,8 @@ namespace Enemy
 
                 yield return null; // Wait for the next frame
             }
-
+            if (audioSource.isPlaying) { audioSource.Pause(); }
             animator.SetBool("isMoving", false);
-        }
-        public IEnumerator MoveBackwards(Vector3 awayFromPosition, float distanceToMove, float speed)
-        {
-            Vector3 directionAway = (transform.position - awayFromPosition).normalized;
-
-            // Target position is backward in the direction away from the player
-            Vector3 targetPosition = transform.position + directionAway * distanceToMove;
-
-            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
-            {
-                // Ensure the enemy keeps facing the player
-                transform.rotation = Quaternion.LookRotation(awayFromPosition - transform.position);
-
-                // Move backward
-                transform.position = Vector3.MoveTowards(
-                    transform.position,
-                    targetPosition,
-                    speed * Time.deltaTime
-                );
-
-                yield return null; // Wait for the next frame
-            }
         }
         public virtual void idle()
         {
@@ -175,6 +156,10 @@ namespace Enemy
                     bool willMove = Random.value > 0.5f; // 50% chance to move or stay idle
                     if (willMove)
                     {
+                        audioSource.spatialBlend = 1f;
+                        audioSource.loop = true;
+                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        if (!audioSource.isPlaying) { audioSource.Play(); }
                         animator.SetBool("isMoving", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
                         randomDirection += transform.position; // Offset by current position
@@ -183,6 +168,7 @@ namespace Enemy
                         StopAllCoroutines();
                         StartCoroutine(MoveTo(randomDirection));
                     }
+                    else { audioSource.Pause(); }
                     // Set a new idle duration (2-5 seconds)
                     idleTime = Random.Range(2f, 5f);
                 }
@@ -196,18 +182,16 @@ namespace Enemy
         {
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else if (distanceBetweenPlayer > stats.TriggeredDistance.GetAppliedTotal()) SetState(EnemyState.IDLE);
-            else if (distanceBetweenPlayer <= attackDistance * 0.5f) // If too close
-            {
-                StopAllCoroutines();
-                setSpeed(baseSpeed); // Use a slower speed for retreating
-                StartCoroutine(MoveBackwards(player.transform.position, 2f, baseSpeed)); // Move 2 units away
-            }
             else if (distanceBetweenPlayer <= attackDistance) SetState(EnemyState.ATTACK);
             else
             {
-                setSpeed(runSpeed);
                 StopAllCoroutines();
                 animator.SetBool("isMoving", true);
+                setSpeed(runSpeed);
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = true;
+                audioSource.clip = Resources.Load("Run") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
                 StartCoroutine(MoveTo(player.transform.position));
             }
         }
@@ -221,21 +205,18 @@ namespace Enemy
 
                 if (Time.time - lastAttackTime >= attackCooldown) // Check cooldown
                 {
-                    //transform.LookAt(player.transform);
                     bool runPattern = Random.value > 0.5f; // 50% chance to run attack pattern or a random attack
                     if (runPattern)
                     {
                         foreach (var attack in attackPattern)
                         {
                             attack.Invoke();
-                            //Debug.Log("Attack: " + attack.Method);
                         }
                     }
                     else
                     {
                         int attack = Random.Range(0, attackPattern.Count);
                         attackPattern[attack].Invoke();
-                        //Debug.Log("Attack: " + attackPattern[attack].Method);
                     }
                     lastAttackTime = Time.time; // Reset cooldown
                 }
@@ -244,24 +225,40 @@ namespace Enemy
         public virtual void block() { }
         public virtual void despawn()
         {
-            animator.SetTrigger("deathTrigger");        
+            animator.SetTrigger("deathTrigger");
+        }
+        public virtual void deathAudio()
+        {
+            audioSource.spatialBlend = 0f;
+            audioSource.loop = false;
+            audioSource.clip = Resources.Load("EnemyDeath") as AudioClip;
+            if (!audioSource.isPlaying) { audioSource.Play(); }
         }
         public virtual void destroySelf()
         {
             Debug.Log("Enemy Dead");
+            if (XpManager.Instance != null) { XpManager.GiveXp(xpDrop); }
+            if (Inventory.Instance != null) { Inventory.GiveGold(goldDrop); }
             Destroy(gameObject);
         }
         public void setSpeed(float speed) { stats.Speed.SetFlat((float) speed); }
         public virtual void onAttack()
         {
             isAttackComplete = true;
-            //GetComponentInChildren<EnemyWeapon>().collider.enabled = true;
             foreach (var enemyWeapon in GetComponentsInChildren<EnemyWeapon>()) enemyWeapon.collider.enabled = true;
-            if (playerStats != null && !playerStats.IsBlocking) GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<CapsuleCollider>().enabled = false;
+            if (playerStats != null && !playerStats.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null)
+            {
+                GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = false;
+            }
             //Debug.Log("Animation End");
-            if (player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered)
+            if ((player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered && GameObject.FindWithTag("Shield") != null) || (playerStats.IsBlocking && player.GetComponent<InputManager>().getPlayerInput().grounded.ShieldAction.triggered && GameObject.FindWithTag("Weapon") != null))
             {
                 Debug.Log("Parrying");
+                animator.SetTrigger("stunTrigger");
+                gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back + Vector3.up) * 4f, ForceMode.Impulse);
+                StopAllCoroutines();
+                setSpeed(0f);
+                attackCooldown = 5f;
             }
         }
         public virtual void onAttackComplete()

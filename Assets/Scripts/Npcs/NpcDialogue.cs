@@ -74,9 +74,8 @@ namespace Npcs
 
         private void ShopButtonOnClick()
         {
-            UIManager.Instance.PushUI(shopUI);
+            shopUI.GetComponent<ShopUI>().OpenShop();
             UIManager.Instance.PopUIByGameObject(gameObject);
-            shopUI.SetActive(true);
         }
 
         IEnumerator TypeLine()

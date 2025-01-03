@@ -1,3 +1,5 @@
+using GameplayMechanics.Character;
+using Player;
 using UnityEngine;
 
 namespace Enemy
@@ -19,20 +21,38 @@ namespace Enemy
         }
         private void OnTriggerEnter(Collider other)
         {
-            //Debug.Log(gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete);
-            // Check if the object collided with is the player
             AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
-            if (other.gameObject.CompareTag("Player") && enemy.isAttackComplete)
+            /*
+            if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)
+                || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
             {
-                // Perform damage or other logic
-                //Debug.Log("Player hit!");
-                // Reset the attack state
-                //enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
-                Debug.Log("Player HP: " + enemy.playerStats.Life.GetCurrent() + "/" + enemy.playerStats.Life.GetFlat());
+                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                if (enemy.audioSource != null)
+                {
+                    enemy.audioSource.spatialBlend = 0f;
+                    enemy.audioSource.loop = false;
+                    enemy.audioSource.clip = Resources.Load("PlayerBlock") as AudioClip;
+                    enemy.audioSource.Play();
+                }
+            }
+            */
+            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
+            {
+                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                if (enemy.audioSource != null)
+                {
+                    enemy.audioSource.spatialBlend = 0f;
+                    enemy.audioSource.loop = false;
+                    enemy.audioSource.clip = Resources.Load("EnemyAttack") as AudioClip;
+                    enemy.audioSource.Play();
+                }
             }
             gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;
             collider.enabled = false;
-            GameObject.FindGameObjectWithTag("ShieldSlot").GetComponentInChildren<Collider>().enabled = true;
+            if (GameObject.FindGameObjectWithTag("Shield") != null)
+            {
+                GameObject.FindGameObjectWithTag("Shield").GetComponent<Collider>().enabled = true;
+            }
         }
         private void OnCollisionEnter(Collision collision)
         {

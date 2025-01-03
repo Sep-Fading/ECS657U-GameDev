@@ -9,7 +9,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-
+            xpDrop = 5f;
+            goldDrop = 12;
             attackDistance = 3f;
             attackCooldown = 1f;
             attackPattern.Add(biteAttack);
@@ -17,7 +18,9 @@ namespace Enemy
         protected override void Start()
         {
             baseSpeed = 4f;
-            runSpeed = 4f;
+            runSpeed = 6f;
+            stats.Life.SetFlat(100f);
+            stats.Damage.SetFlat(10f);
             base.Start();
         }
         protected override void Update()
@@ -37,10 +40,13 @@ namespace Enemy
             {
                 Debug.Log("Enemy Attacked");
                 playerStats.DoDamage(this);
-                //PlayerStatManager.Instance.DoDamage(enemy);
                 setSpeed(0f);
                 gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back + Vector3.up) * 2f, ForceMode.Impulse);
                 animator.SetTrigger("stunTrigger");
+                audioSource.spatialBlend = 1f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }
     }

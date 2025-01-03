@@ -25,7 +25,6 @@ namespace InventoryScripts
 
         public static void ResetInstance()
         {
-            Instance.EquippedMainHand.Unequip();
             Instance = null;
         }
         
@@ -160,7 +159,6 @@ namespace InventoryScripts
                 EquippedArmour.Unequip();
                 EquippedArmour = null;
                 
-                Debug.Log("We about to be in");
                 if (PlayerSkillTreeManager.Instance.ManagerSkillTree
                     .branchSwordShield.GetNodeByName("Versatile Combatant")._effect.isActive)
                 {
@@ -175,6 +173,10 @@ namespace InventoryScripts
             {
                 EquippedOffHand.Unequip();
                 EquippedOffHand = null;
+                if(equipment.GetEquipmentType() == EquipmentType.OFFHAND)
+                {
+                    GameObject.Destroy(GameObject.FindWithTag("Shield"));
+                }
                 return EquipmentType.OFFHAND;
             }
 

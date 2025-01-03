@@ -241,7 +241,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.27162924
+      - time: 0.321498
         functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -880,6 +880,13 @@ ModelImporter:
       events:
       - time: 1
         functionName: destroySelf
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.75063825
+        functionName: deathAudio
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

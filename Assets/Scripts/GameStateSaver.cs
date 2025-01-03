@@ -1,4 +1,7 @@
 ﻿using System;
+using GameplayMechanics.Character;
+using UI;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,9 +9,12 @@ public class GameStateSaver : MonoBehaviour
 {
     public static GameStateSaver Instance { get; private set; }
     [SerializeField] private GameObject[] CarryOverObjects;
+    [SerializeField] private GameObject goScreen;
+    private GameOverScreen _gameOverScreen;
 
     private void Awake()
     {
+        _gameOverScreen = goScreen.GetComponent<GameOverScreen>();
         if (Instance == null)
         {
             Instance = this;
@@ -31,9 +37,15 @@ public class GameStateSaver : MonoBehaviour
         {
             if (obj.name == "-- Player")
             {
-                Vector3[] spawnPoints = { new Vector3(-1f, 10f, 10f), new Vector3(304.38f, 11.05f, 306f), new Vector3(372f, 1f, 361f), new Vector3(150f, 1f, -145f), new Vector3(45f, 1f, 3700f), new Vector3(-1f, 0.7f, -1.7f), new Vector3(50f, 1f, 14f) };
+                Vector3[] spawnPoints = { new Vector3(210f, 11f, 140f), new Vector3(50f, 5f, 150f), new Vector3(240f, 30f, 60f), new Vector3(278f, 2f, 80f), new Vector3(46f, 2f, 3745f) };
                 obj.transform.position = new Vector3(0, 20, 0);
-                if (scene.buildIndex < spawnPoints.Length) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position);
+                if (scene.buildIndex < spawnPoints.Length)
+                {
+                    //obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(spawnPoints[scene.buildIndex] - obj.transform.GetChild(0).position); 
+                    obj.transform.GetChild(0).GetComponent<CharacterController>().enabled = false;
+                    obj.transform.GetChild(0).transform.position = spawnPoints[scene.buildIndex];
+                    obj.transform.GetChild(0).GetComponent<CharacterController>().enabled = true;
+                }
                 Debug.Log("World " + scene.buildIndex + " " + (scene.buildIndex < spawnPoints.Length));
                 //if (scene.buildIndex == 4) obj.transform.GetChild(0).gameObject.GetComponent<CharacterController>().Move(new Vector3(0f, 1f, 0f) - obj.transform.GetChild(0).position);
             }
@@ -81,12 +93,22 @@ public class GameStateSaver : MonoBehaviour
         return null;
     }
 
-    public static void ResetInstance()
+    public static void ResetInstance(bool isDead = false)
     {
+        if (isDead)
+        {
+            Instance._gameOverScreen.ShowGameOverScreen();
+        }
+        PlayerStatManager.Instance.Life.SetCurrent(
+            PlayerStatManager.Instance.Life.GetAppliedTotal());
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        /*
         foreach (GameObject obj in Instance.CarryOverObjects)
         {
             Destroy(obj);
         }
         Instance = null;
+        */
     }
 }

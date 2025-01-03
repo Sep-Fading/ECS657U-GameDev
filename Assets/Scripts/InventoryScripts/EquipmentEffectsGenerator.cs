@@ -1,22 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using GameplayMechanics.Effects;
-// for Random.Range if you want to use UnityEngine's random
-// for EquipmentEffectTypes enum if it's located there
-
-// for the effect classes
 
 namespace InventoryScripts
 {
     public sealed class EquipmentEffectGenerator
     {
-        // 1) Private static instance
         private static EquipmentEffectGenerator _instance;
 
-        // 2) Private constructor to prevent outside instantiation
         private EquipmentEffectGenerator() { }
 
-        // 3) Public static property to access the single instance
         public static EquipmentEffectGenerator Instance
         {
             get
@@ -30,16 +24,17 @@ namespace InventoryScripts
         }
 
         /// <summary>
-        /// Generates between minEffects and maxEffects random equipment effects.
+        /// Generates random equipment effects with constraints based on equipment type.
         /// </summary>
         public List<EquipmentEffect> GenerateRandomEquipmentEffects(
             EquipmentType equipmentType,
-            int minEffects = 1, 
+            int minEffects = 1,
             int maxEffects = 3)
         {
-            // 1. First, figure out which effect types are valid for this equipmentType.
             EquipmentEffectTypes[] validEffectTypes;
+            List<EquipmentEffect> effects = new List<EquipmentEffect>();
 
+            // 1. Define valid effect types based on the equipment type.
             switch (equipmentType)
             {
                 case EquipmentType.MAINHAND:
@@ -48,9 +43,12 @@ namespace InventoryScripts
                     validEffectTypes = new EquipmentEffectTypes[]
                     {
                         EquipmentEffectTypes.FLAT_MELEE_DAMAGE,
-                        EquipmentEffectTypes.MULTI_MELEE_DAMAGE,
-                        EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS
+                        EquipmentEffectTypes.MULTI_MELEE_DAMAGE
                     };
+                    if (equipmentType == EquipmentType.GREATSWORD)
+                    {
+                        validEffectTypes = AppendEffect(validEffectTypes, EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS);
+                    }
                     break;
 
                 case EquipmentType.ARMOR:
@@ -67,74 +65,83 @@ namespace InventoryScripts
                     {
                         EquipmentEffectTypes.FLAT_ARMOUR,
                         EquipmentEffectTypes.MULTI_ARMOUR,
-                        EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS
+                        EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS,
+                        EquipmentEffectTypes.FLAT_HEALTH
                     };
                     break;
 
                 default:
-                    // If NONE or something else, no effects.
-                    validEffectTypes = new EquipmentEffectTypes[0];
+                    validEffectTypes = Array.Empty<EquipmentEffectTypes>();
                     break;
             }
 
-            // 2. Decide how many effects to generate.
-            int numberOfEffects = RandomNumberGenerator.GetInt32(minEffects, maxEffects + 1);
-
-            List<EquipmentEffect> effects = new List<EquipmentEffect>();
-
-            // 3. Pick random effects only from the valid list.
-            for (int i = 0; i < numberOfEffects; i++)
+            // 2. Guarantee at least one specific effect based on equipment type.
+            if (equipmentType == EquipmentType.MAINHAND || equipmentType == EquipmentType.AXE || equipmentType == EquipmentType.GREATSWORD)
             {
-                if (validEffectTypes.Length == 0) 
-                    break; // No valid effects for this type, so bail out.
+                effects.Add(CreateEffect(EquipmentEffectTypes.FLAT_MELEE_DAMAGE, equipmentType));
+            }
+            else if (equipmentType == EquipmentType.ARMOR)
+            {
+                effects.Add(CreateEffect(EquipmentEffectTypes.FLAT_ARMOUR, equipmentType));
+            }
+            else if (equipmentType == EquipmentType.OFFHAND)
+            {
+                effects.Add(CreateEffect(EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS, equipmentType));
+            }
 
-                EquipmentEffectTypes effectType = validEffectTypes[
-                    RandomNumberGenerator.GetInt32(0, validEffectTypes.Length)];
+            // 3. Decide how many additional effects to generate.
+            int numberOfAdditionalEffects = RandomNumberGenerator.GetInt32(Math.Max(0, minEffects - effects.Count), maxEffects - effects.Count + 1);
 
-                // 4. Create the effect with random values, depending on effectType.
-                switch (effectType)
+            // 4. Add random effects from the valid list, ensuring no duplicates.
+            for (int i = 0; i < numberOfAdditionalEffects; i++)
+            {
+                EquipmentEffectTypes effectType;
+                do
                 {
-                    case EquipmentEffectTypes.FLAT_MELEE_DAMAGE:
-                    {
-                        float randomFlatDamage = UnityEngine.Random.Range(5f, 20f);
-                        effects.Add(new FlatMeleeDamageEffect(randomFlatDamage));
-                        break;
-                    }
-                    case EquipmentEffectTypes.MULTI_MELEE_DAMAGE:
-                    {
-                        float randomMultiDamage = UnityEngine.Random.Range(0.15f, 1.5f);
-                        effects.Add(new MultiplierMeleeDamageEffect(randomMultiDamage));
-                        break;
-                    }
-                    case EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS:
-                    {
-                        float randomBlockEffectiveness = UnityEngine.Random.Range(0.1f, 0.2f);
-                        effects.Add(new FlatBlockEffectivenessEffect(randomBlockEffectiveness));
-                        break;
-                    }
-                    case EquipmentEffectTypes.FLAT_ARMOUR:
-                    {
-                        float randomFlatArmour = UnityEngine.Random.Range(5f, 20f);
-                        effects.Add(new FlatArmourEffect(randomFlatArmour));
-                        break;
-                    }
-                    case EquipmentEffectTypes.MULTI_ARMOUR:
-                    {
-                        float randomMultiArmour = UnityEngine.Random.Range(1.1f, 2.0f);
-                        effects.Add(new MultiplierArmourEffect(randomMultiArmour));
-                        break;
-                    }
-                    case EquipmentEffectTypes.FLAT_HEALTH:
-                    {
-                        float randomFlatHealth = UnityEngine.Random.Range(10f, 100f);
-                        effects.Add(new FlatHealthEffect(randomFlatHealth));
-                        break;
-                    }
-                }
+                    effectType = validEffectTypes[RandomNumberGenerator.GetInt32(0, validEffectTypes.Length)];
+                } while (effects.Exists(e => e.effectTypeEnum == effectType));
+
+                effects.Add(CreateEffect(effectType, equipmentType));
             }
 
             return effects;
         }
- 
+
+        /// <summary>
+        /// Creates an equipment effect with randomized values based on the type and equipment type.
+        /// </summary>
+        private EquipmentEffect CreateEffect(EquipmentEffectTypes effectType, EquipmentType equipmentType)
+        {
+            float damageMultiplier = equipmentType == EquipmentType.GREATSWORD ? 2f : 1f; // Greatsword has significantly higher damage.
+            float blockMulti = equipmentType == EquipmentType.OFFHAND ? 2f : 1f; // Shields have higher block effectiveness.
+            switch (effectType)
+            {
+                case EquipmentEffectTypes.FLAT_MELEE_DAMAGE:
+                    return new FlatMeleeDamageEffect(UnityEngine.Random.Range(15f, 45f) * damageMultiplier);
+                case EquipmentEffectTypes.MULTI_MELEE_DAMAGE:
+                    return new MultiplierMeleeDamageEffect(UnityEngine.Random.Range(0.15f, 1.5f) * damageMultiplier);
+                case EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS:
+                    return new FlatBlockEffectivenessEffect(UnityEngine.Random.Range(0.1f, 0.2f) * blockMulti);
+                case EquipmentEffectTypes.FLAT_ARMOUR:
+                    return new FlatArmourEffect(UnityEngine.Random.Range(20f, 100f));
+                case EquipmentEffectTypes.MULTI_ARMOUR:
+                    return new MultiplierArmourEffect(UnityEngine.Random.Range(1.1f, 2.0f));
+                case EquipmentEffectTypes.FLAT_HEALTH:
+                    return new FlatHealthEffect(UnityEngine.Random.Range(10f, 100f));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(effectType), $"Unhandled effect type: {effectType}");
+            }
+        }
+
+        /// <summary>
+        /// Helper method to append an effect type to an array.
+        /// </summary>
+        private EquipmentEffectTypes[] AppendEffect(EquipmentEffectTypes[] array, EquipmentEffectTypes newEffect)
+        {
+            EquipmentEffectTypes[] result = new EquipmentEffectTypes[array.Length + 1];
+            Array.Copy(array, result, array.Length);
+            result[array.Length] = newEffect;
+            return result;
+        }
     }
 }

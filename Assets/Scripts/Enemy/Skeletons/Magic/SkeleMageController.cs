@@ -11,8 +11,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 15f;
-            goldDrop = 20;
+            xpDrop = 25f;
+            goldDrop = 35;
             attackDistance = 15f;
             attackCooldown = 1f;
             stats.TriggeredDistance.SetFlat(30f);
@@ -158,7 +158,7 @@ namespace Enemy
                         randomDirection.y = transform.position.y; // Maintain current Y position
                         audioSource.spatialBlend = 1f;
                         audioSource.loop = true;
-                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        audioSource.clip = Resources.Load("Audio/SkeletonWalk") as AudioClip;
                         if (!audioSource.isPlaying) { audioSource.Play(); }
                         StopAllCoroutines();
                         StartCoroutine(MoveTo(randomDirection));
@@ -185,7 +185,7 @@ namespace Enemy
                 StopAllCoroutines();
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Run") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/SkeletonRun") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
@@ -222,7 +222,7 @@ namespace Enemy
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             audioSource.spatialBlend = 1f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("Cast") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("FireBall"), transform) as GameObject;
             newWeapon.GetComponent<Renderer>().enabled = true;
@@ -248,7 +248,7 @@ namespace Enemy
                 attacking = false;
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }

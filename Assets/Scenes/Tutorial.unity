@@ -7953,7 +7953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 973ef9fba05ca69488d7f71b026d389c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingCanvas: {fileID: 0}
+  loadingCanvas: {fileID: 1408410129}
   progressBar: {fileID: 0}
 --- !u!4 &1253920029
 Transform:
@@ -9215,7 +9215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1408410126
 RectTransform:
   m_ObjectHideFlags: 0

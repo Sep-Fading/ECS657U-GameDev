@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2064841425}
-  m_IndirectSpecularColor: {r: 0.04752138, g: 0.041834608, b: 0.098357216, a: 1}
+  m_IndirectSpecularColor: {r: 0.04740502, g: 0.041718148, b: 0.09824116, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -922,8 +922,12 @@ PrefabInstance:
       value: NPC-holder (Barry)
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: hasShop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: lines.Array.size
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[0]'
@@ -935,13 +939,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[2]'
-      value: 'Don''t worry. You won''t be harmed here. The world tree wards off all
-        with wicked intentions in their hearts. intentions '
+      value: Don't worry. You won't be harmed here. The world tree wards off all
+        with wicked intentions in their hearts.
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[3]'
-      value: But there's something amiss. It's power is waning and now this small
-        area is the only safe place here!
+      value: But there's something amiss. It's power is waning. The world tree used
+        to protect this entire land but now it only encompasses this small area!
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[4]'
@@ -955,7 +959,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[6]'
-      value: Take him down and save this world!
+      value: Konarod resides here, ruling over the monsters and ordered to claim
+        the lives of any that are still living.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[7]'
+      value: Konarod resides here, ruling over the monsters and ordered to claim
+        the lives of any that are still living.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[8]'
+      value: He has soul bonded his heart to the portal. By taking his life, the
+        portal will open and you will be able to progress on your journey.
       objectReference: {fileID: 0}
     - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: m_LocalPosition.x

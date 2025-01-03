@@ -58,6 +58,13 @@ namespace Npcs
                 AcceptButton.onClick.AddListener(() => AcceptButtonOnClick());
                 DeclineButton.onClick.AddListener(() => DeclineButtonOnClick());
             }
+            else
+            {
+                NextButton.gameObject.SetActive(true);
+                ShopButton.gameObject.SetActive(false);
+                AcceptButton.gameObject.SetActive(false);
+                DeclineButton.gameObject.SetActive(false);
+            }
             
             StartCoroutine(TypeLine());
         }

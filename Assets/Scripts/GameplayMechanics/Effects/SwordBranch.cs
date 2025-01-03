@@ -53,12 +53,12 @@ namespace GameplayMechanics.Effects
     // Health Travel Node
     public class IncreasedHpEffect : SkillTreeEffect
     {
-        private float _buffMultiplier = 0.05f;
+        private float _buffMultiplier = 0.1f;
 
         public IncreasedHpEffect()
         {
-            this.name = "5% Increased Maximum Life";
-            this.description = "Increases the player's base health by 5%";
+            this.name = "10% Increased Maximum Life";
+            this.description = "Increases the player's base health by 10%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }
@@ -112,12 +112,12 @@ namespace GameplayMechanics.Effects
     // Block Effectiveness Travel Node
     public class AddedBlockEffect : SkillTreeEffect
     {
-        private float _addedBlockEffect = 0.025f;
+        private float _addedBlockEffect = 0.05f;
 
         public AddedBlockEffect()
         {
-            this.name = "1% Added Effectiveness of Block";
-            this.description = "Increases the player's block effectiveness by 2.5%";
+            this.name = "5% Added Effectiveness of Block";
+            this.description = "Increases the player's block effectiveness by 5%";
             this.duration = -1f;
             this.effectType = EffectType.Buff;
         }

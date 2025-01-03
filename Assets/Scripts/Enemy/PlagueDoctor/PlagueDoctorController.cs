@@ -12,7 +12,7 @@ namespace Enemy
         public float teleportCooldown;
         public float summonCooldown;
         public bool summoning;
-        public int summonCount; 
+        public int summonCount;
         protected override void Awake()
         {
             base.Awake();
@@ -27,12 +27,16 @@ namespace Enemy
             summonCount = 0;
             attacking = false;
             summoning = false;
-            SetState(EnemyState.IDLE);
+            SetState(EnemyState.TRIGGERED);
         }
         protected override void Start()
         {
             baseSpeed = 4f;
             runSpeed = 4f;
+            if (GameObject.Find("BossGate") != null && GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
+            {
+                GameObject.Find("BossGate").GetComponent<AudioSource>().Play();
+            }
             base.Start();
         }
         protected override void Update()

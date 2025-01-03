@@ -20,7 +20,7 @@ namespace Npcs
         [SerializeField] private Button DeclineButton;
         [SerializeField] private Button ShopButton;
         [SerializeField] private Button NextButton;
-        
+
         GameObject shopUI;
         // Update is called once per frame
         private void Awake()
@@ -42,7 +42,7 @@ namespace Npcs
             this.lines = lines;
             this.npcName = npcName;
             index = 0;
-            
+
             // Set NPC options here with if/else statements.
             if (hasShop)
             {
@@ -65,7 +65,7 @@ namespace Npcs
                 AcceptButton.gameObject.SetActive(false);
                 DeclineButton.gameObject.SetActive(false);
             }
-            
+
             StartCoroutine(TypeLine());
         }
 
@@ -111,6 +111,11 @@ namespace Npcs
                 if (npcName == "Bernard")
                 {
                     GameStateManager.Instance.MoveToNextScene("Scenes/World-v0.1");
+                }
+
+                if (npcName == "Death")
+                {
+                    GameObject death = Instantiate(Resources.Load("Death"), GameObject.Find("Bernard").transform.position, transform.localRotation) as GameObject;
                 }
 
                 if (npcName == "Shopkeeper")

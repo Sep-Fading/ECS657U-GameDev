@@ -923,7 +923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: hasShop
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: lines.Array.size
@@ -974,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 302.36
+      value: 301.2
       objectReference: {fileID: 0}
     - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: m_LocalPosition.y
@@ -982,7 +982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 308.93
+      value: 303
       objectReference: {fileID: 0}
     - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: m_LocalRotation.w

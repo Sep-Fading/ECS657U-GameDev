@@ -1,4 +1,5 @@
 using GameplayMechanics.Character;
+using InventoryScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace UI
         [SerializeField] private Slider XPBar;
         [SerializeField] private TextMeshProUGUI HealthText;
         [SerializeField] private TextMeshProUGUI LevelText;
+        [SerializeField] private TextMeshProUGUI GoldText;
         
         private void Start()
         {
@@ -42,6 +44,11 @@ namespace UI
                 if (LevelText != null)
                 {
                     LevelText.text = "Level " + XpManager.GetLevel();
+                }
+                
+                if (GoldText != null)
+                {
+                    GoldText.text = Inventory.GetGold().ToString();
                 }
             }
         }

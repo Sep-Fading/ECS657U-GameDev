@@ -36,9 +36,10 @@ namespace Enemy
                 }
             }
             */
-            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
+            if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")
+                || other.gameObject.CompareTag("Shield")) && enemy.isAttackComplete)
             {
-                enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
+                PlayerStatManager.Instance.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
                 if (enemy.audioSource != null)
                 {
                     enemy.audioSource.spatialBlend = 0f;

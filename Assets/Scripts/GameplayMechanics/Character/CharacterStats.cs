@@ -71,7 +71,7 @@ namespace GameplayMechanics.Character
         {
             return $"{Life.GetName()}: {Life.GetAppliedTotal():N0} \n\n" +
                    $"{Armour.GetName()}: {Armour.GetAppliedTotal():N0} \n\n" +
-                   $"Block Effectiveness: {BlockEffect.GetAppliedTotal():N0}% of incoming damage.\n\n" +
+                   $"Block Effectiveness: {BlockEffect.GetAppliedTotal()*100:N0}% of incoming damage.\n\n" +
                    $"{MeleeDamage.GetName()}: {MeleeDamage.GetAppliedTotal():N0} \n\n" +
                    $"Bleed Chance: {(Bleed.GetChance() * 100):N0}% chance to inflict bleed on hit.\n\n";
         }
@@ -84,8 +84,6 @@ namespace GameplayMechanics.Character
             // Block effectiveness formula
             float effectiveDamageOnBlock = effectiveDamage * (1-BlockEffect.GetAppliedTotal());
             
-            Debug.Log($"Damage: {damage} Effective Damage: {effectiveDamage} Effective Damage on Block: {effectiveDamageOnBlock}");
-
             if (IsBlocking)
             {
                 Life.SetCurrent(Life.GetCurrent() - effectiveDamageOnBlock);

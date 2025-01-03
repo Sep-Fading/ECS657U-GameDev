@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameplayMechanics.Effects;
+using Unity.VisualScripting;
 
 namespace InventoryScripts
 {
@@ -54,15 +55,6 @@ namespace InventoryScripts
                 "of the Abyss"
             };
             
-            ActualNames = new List<string>
-            {
-                "Blade",
-                "Cleaver",
-                "Soulreaper",
-                "Flamecarver",
-                "Frostbiter",
-            };
-            
             _random = new Random();
         }
 
@@ -82,7 +74,6 @@ namespace InventoryScripts
         // 4. Lists of prefix/suffix and name options
         private readonly List<string> Prefixes;
         private readonly List<string> Suffixes;
-        private readonly List<string> ActualNames;
 
         // 5. Random number generator (for picking random prefixes/suffixes)
         private readonly Random _random;
@@ -105,9 +96,17 @@ namespace InventoryScripts
             var suffixIndex = generator._random.Next(generator.Suffixes.Count);
             var suffix = generator.Suffixes[suffixIndex];
             
-            // Pick a random actual name
-            var actualNameIndex = generator._random.Next(generator.ActualNames.Count);
-            var actualName = generator.ActualNames[actualNameIndex];
+            // Equipment Name
+            string actualName;
+            if (equipmentType == EquipmentType.MAINHAND)
+            {
+                actualName = "Shortsword";
+            }
+            else
+            {
+                actualName = equipmentType.ToString().ToLower();
+                actualName = actualName.FirstCharacterToUpper();
+            }
 
             // Construct the final name
             if (equipmentType == EquipmentType.OFFHAND)

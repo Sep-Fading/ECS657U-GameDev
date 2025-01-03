@@ -95,7 +95,6 @@ namespace InventoryScripts
                 if (equipmentIndex >= 0)
                 {
                     Inventory.Instance.Equip(inventoryItem);
-                    Inventory.Instance.EquippedMainHand.GetGameObject().GetComponent<BoxCollider>().enabled = false;
 
                     // Clear inventory slot UI
                     ClearSlot(inventoryItemsUI[index]);
@@ -106,6 +105,26 @@ namespace InventoryScripts
             }
             
             UpdateInventoryUI();
+            
+            // Disable the collider after equipping
+            var mainHand = GameObject.FindGameObjectWithTag("Weapon");
+            if (mainHand != null)
+            {
+                var collider = mainHand.GetComponent<Collider>();
+                if (collider != null)
+                {
+                    collider.enabled = false;
+                    Debug.Log("Collider initially disabled after equipping.");
+                }
+                else
+                {
+                    Debug.LogWarning("BoxCollider component not found on the equipped main hand.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("EquippedMainHand is null.");
+            }
         }
 
         /// <summary>

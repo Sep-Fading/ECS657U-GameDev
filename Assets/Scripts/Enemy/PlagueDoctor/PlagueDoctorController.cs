@@ -28,10 +28,8 @@ namespace Enemy
             attacking = false;
             summoning = false;
             SetState(EnemyState.TRIGGERED);
-            if (GameObject.Find("Bernard") != null)
-            {
-                Destroy(GameObject.Find("Bernard"));
-            }
+            if (GameObject.Find("Bernard") != null) { Destroy(GameObject.Find("Bernard")); }
+            if (GameObject.Find("-- Enemy") != null) { GameObject.Find("-- Enemy").SetActive(false); }
         }
         protected override void Start()
         {
@@ -43,7 +41,6 @@ namespace Enemy
         {
             if ((GetState() != EnemyState.IDLE))
             {
-                if (GameObject.Find("--Enemy") != null) { GameObject.Find("--Enemy").SetActive(false); }
                 if (!summoning)
                 {
                     distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
@@ -91,6 +88,8 @@ namespace Enemy
                         animator.SetTrigger("summonTrigger");
                     }
                     else { summonCooldown -= Time.deltaTime; }
+                    transform.LookAt(player.transform.position);
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 }
                 else
                 {
@@ -109,7 +108,6 @@ namespace Enemy
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else
             {
-                transform.LookAt(player.transform.position);
                 animator.SetBool("isMoving", false);
             }
         }
@@ -135,6 +133,7 @@ namespace Enemy
             audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("DeathBall"), transform) as GameObject;
+            newWeapon.transform.LookAt(player.transform.position);
             newWeapon.GetComponent<Renderer>().enabled = true;
             newWeapon.GetComponent<Rigidbody>().isKinematic = false;
             newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);

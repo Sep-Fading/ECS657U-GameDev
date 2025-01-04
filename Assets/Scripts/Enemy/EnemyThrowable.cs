@@ -16,7 +16,7 @@ public class EnemyThrowable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (thrownTime >= 1f) Destroy(gameObject);
+        if (thrownTime >= 1.5f) Destroy(gameObject);
         else thrownTime += Time.deltaTime;
 
         if (PlayerStatManager.Instance != null)
@@ -28,34 +28,17 @@ public class EnemyThrowable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.tag);
         AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon"))
         {
             if (enemy != null)
             {
-                if (enemy.name == "OrcBoss")
-                {
-                    Collider[] collisions = Physics.OverlapSphere(transform.GetComponent<BoxCollider>().center, 5f);
-                    foreach (Collider collider in collisions)
-                    {
-                        if (collider.tag == "Player" || collider.tag == "Weapon")
-                        {
-                            PlayerStatManager.Instance.TakeDamage(enemy.stats.Damage.GetCurrent());
-                            enemy.audioSource.spatialBlend = 0f;
-                            enemy.audioSource.loop = false;
-                            enemy.audioSource.clip = Resources.Load("Audio/EnemyAttack") as AudioClip;
-                            enemy.audioSource.Play();
-                        }
-                    }
-                }
-                else
-                {
-                    PlayerStatManager.Instance.TakeDamage(enemy.stats.Damage.GetCurrent());
-                    enemy.audioSource.spatialBlend = 0f;
-                    enemy.audioSource.loop = false;
-                    enemy.audioSource.clip = Resources.Load("Audio/EnemyAttack") as AudioClip;
-                    enemy.audioSource.Play();
-                }
+                PlayerStatManager.Instance.TakeDamage(enemy.stats.Damage.GetCurrent());
+                enemy.audioSource.spatialBlend = 0f;
+                enemy.audioSource.loop = false;
+                enemy.audioSource.clip = Resources.Load("Audio/EnemyAttack") as AudioClip;
+                enemy.audioSource.Play();
             }
             Destroy(gameObject);
         }

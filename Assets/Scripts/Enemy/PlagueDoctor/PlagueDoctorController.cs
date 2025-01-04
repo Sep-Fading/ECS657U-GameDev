@@ -21,7 +21,7 @@ namespace Enemy
             attackDistance = 15f;
             stats.Damage.SetFlat(45f);
             stats.TriggeredDistance.SetFlat(30f);
-            shootCooldown = 1f;
+            shootCooldown = 0.5f;
             teleportCooldown = 5f;
             summonCooldown = 20f;
             summonCount = 0;

@@ -310,8 +310,7 @@ namespace enemy
                 audioSource.loop = false;
                 audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
-                isCircling = false;
-                circlingCooldown = 10f;
+                if (Random.value < 0.5) { jumpAttack(); }
             }
         }
     }

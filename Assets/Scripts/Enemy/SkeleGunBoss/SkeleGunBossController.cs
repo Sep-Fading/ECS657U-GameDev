@@ -195,7 +195,8 @@ namespace Enemy
         public void shootPlayer()
         {
             Debug.Log(Vector3.Angle(transform.forward, transform.position - player.transform.position));
-            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) == 180f)
+            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) >= 177f
+                && Vector3.Angle(transform.forward, transform.position - player.transform.position) <= 183f)
             {
                 playerStats.TakeDamage(stats.Damage.GetCurrent());
             }

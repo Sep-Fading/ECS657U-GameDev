@@ -21,6 +21,7 @@ namespace Enemy
         }
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log(other.gameObject.tag);
             AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
             
             if ((PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Shield") != null && other.gameObject.tag == "Shield" && enemy.isAttackComplete)

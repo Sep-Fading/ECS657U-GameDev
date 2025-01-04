@@ -20,7 +20,7 @@ public class PortalInteract : Interactable
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                nextScene = scenes[5];
+                nextScene = scenes[3];
                 break;
             case 1:
                 nextScene = scenes[3];

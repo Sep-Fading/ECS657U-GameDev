@@ -8,19 +8,14 @@ namespace GameplayMechanics.Effects
     // to create some effects for equipment such as 
     // the stats on that piece of equipment.
     
-    public abstract class EquipmentEffect : IEffect
+    public class EquipmentEffect : IEffect
     {
         public EffectType effectType {get; set; }
-        public EquipmentEffectTypes effectTypeEnum { get; }
         public string name { get; set; }
         public string description { get; set; }
         public float duration { get; set; }
         protected string _text;
         
-        public EquipmentEffect(EquipmentEffectTypes etype)
-        {
-            effectTypeEnum = etype;
-        }
         public virtual void Apply()
         {
             throw new System.NotImplementedException();
@@ -39,7 +34,7 @@ namespace GameplayMechanics.Effects
     public class FlatMeleeDamageEffect : EquipmentEffect
     {
         private readonly float _flatMeleeDamage;
-        internal FlatMeleeDamageEffect(float flat) : base(EquipmentEffectTypes.FLAT_MELEE_DAMAGE)
+        internal FlatMeleeDamageEffect(float flat) 
         {
             _flatMeleeDamage = flat;
             _text = $"{_flatMeleeDamage:F1} Added Physical Damage";
@@ -63,7 +58,7 @@ namespace GameplayMechanics.Effects
     {
         private readonly float _multiplierMeleeDamage;
 
-        internal MultiplierMeleeDamageEffect(float multi) : base(EquipmentEffectTypes.MULTI_MELEE_DAMAGE)
+        internal MultiplierMeleeDamageEffect(float multi)
         {
             _multiplierMeleeDamage = multi;
             _text = $"{_multiplierMeleeDamage*100:F1}% Increased Physical Damage";
@@ -86,7 +81,7 @@ namespace GameplayMechanics.Effects
     {
         private readonly float _flatArmour;
 
-        internal FlatArmourEffect(float flat) : base(EquipmentEffectTypes.FLAT_ARMOUR)
+        internal FlatArmourEffect(float flat) 
         {
             _flatArmour = flat;
             _text = $"{_flatArmour:N0} Added Armour";
@@ -109,7 +104,7 @@ namespace GameplayMechanics.Effects
     {
         private readonly float _multiplierArmour;
 
-        internal MultiplierArmourEffect(float multi) : base(EquipmentEffectTypes.MULTI_ARMOUR)
+        internal MultiplierArmourEffect(float multi)
         {
             _multiplierArmour = multi;
             _text = $"{_multiplierArmour*100:F1}% Increased Armour";
@@ -132,7 +127,7 @@ namespace GameplayMechanics.Effects
     public class FlatBlockEffectivenessEffect : EquipmentEffect
     {
         private readonly float _flatBlockEffectiveness;
-        internal FlatBlockEffectivenessEffect(float flat) : base(EquipmentEffectTypes.FLAT_BLOCK_EFFECTIVENESS)
+        internal FlatBlockEffectivenessEffect(float flat)
         {
             _flatBlockEffectiveness = flat;
             _text = $"{_flatBlockEffectiveness*100:F1}% to Block Effectiveness";
@@ -153,7 +148,7 @@ namespace GameplayMechanics.Effects
     public class FlatHealthEffect : EquipmentEffect
     {
         private readonly float _flatHealth;
-        internal FlatHealthEffect(float flat) : base(EquipmentEffectTypes.FLAT_HEALTH)
+        internal FlatHealthEffect(float flat) 
         {
             _flatHealth = flat;
             _text = $"{_flatHealth:N0} Added Health";

@@ -37,6 +37,10 @@ namespace UI
         {
             //gameObject.SetActive(false);
             //npcShop = new NpcShop();
+            if (ShopManager.Instance == null)
+            {
+                ShopManager.EnsureInstanceExists();
+            }
             ShopManager.Instance.RegisterShopUI(gameObject);
             gameObject.SetActive(false);
         }

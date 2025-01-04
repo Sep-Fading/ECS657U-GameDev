@@ -1,11 +1,7 @@
 using Enemy;
 using GameplayMechanics.Effects;
-using InventoryScripts;
-using Player;
-using UI;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 namespace GameplayMechanics.Character
 {

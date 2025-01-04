@@ -16,6 +16,7 @@ TagManager:
   - Boss
   - Shield
   - DisplayAxe
+  - ShopUI
   layers:
   - Default
   - TransparentFX

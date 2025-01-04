@@ -17,7 +17,17 @@ namespace InventoryScripts
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+        }
+
+        public static ShopManager EnsureInstanceExists()
+        {
+            if (Instance == null)
+            {
+                GameObject shopManagerObject = new GameObject("ShopManager");
+                Instance = shopManagerObject.AddComponent<ShopManager>();
+                DontDestroyOnLoad(shopManagerObject);
+            }
+            return Instance;
         }
 
         public void RegisterShopUI(GameObject ui)
@@ -32,22 +42,6 @@ namespace InventoryScripts
                 Debug.LogWarning("ShopUI is not registered. Ensure it's properly initialized.");
             }
             return shopUI;
-        }
-
-        public void PrepareForSceneTransition()
-        {
-            if (shopUI != null)
-            {
-                shopUI.SetActive(true); // Enable the shopUI before transitioning scenes
-            }
-        }
-
-        public void InitializeAfterSceneLoad()
-        {
-            if (shopUI != null)
-            {
-                shopUI.SetActive(false); // Disable the shopUI after the new scene is loaded
-            }
         }
     }
 }

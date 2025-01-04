@@ -13,8 +13,8 @@ namespace Enemy
         protected override void Awake()
         {
             base.Awake();
-            xpDrop = 5f;
-            goldDrop = 15;
+            xpDrop = 9f;
+            goldDrop = 25;
             attackDistance = 2f;
             attackCooldown = 1f;
             attackPattern.Add(punchAttack);
@@ -132,7 +132,7 @@ namespace Enemy
                     {
                         audioSource.spatialBlend = 1f;
                         audioSource.loop = true;
-                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        audioSource.clip = Resources.Load("Audio/CactusWalk") as AudioClip;
                         if (!audioSource.isPlaying) { audioSource.Play(); }
                         animator.SetBool("isWalking", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
@@ -167,7 +167,7 @@ namespace Enemy
                 StopAllCoroutines();
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Run") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/CactusRun") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
                 animator.SetBool("isRunning", true);
                 animator.SetBool("isWalking", false);
@@ -193,7 +193,7 @@ namespace Enemy
                 animator.SetTrigger("stunTrigger");
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = false;
-                audioSource.clip = Resources.Load("EnemyHit") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
             }
         }

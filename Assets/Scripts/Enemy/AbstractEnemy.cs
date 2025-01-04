@@ -71,10 +71,8 @@ namespace Enemy
                 default:
                     break;
             }
-            if (distanceBetweenPlayer < attackDistance)
-            {
-                GetComponent<Rigidbody>().AddForce(Vector3.back * 2f);
-            }
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+
         }
         public StatManager GetStatManager() => stats;
         public EnemyState GetState() { return enemyState; }
@@ -160,7 +158,7 @@ namespace Enemy
                     {
                         audioSource.spatialBlend = 1f;
                         audioSource.loop = true;
-                        audioSource.clip = Resources.Load("Walk") as AudioClip;
+                        audioSource.clip = Resources.Load("Audio/Level1Walk") as AudioClip;
                         if (!audioSource.isPlaying) { audioSource.Play(); }
                         animator.SetBool("isMoving", true);
                         Vector3 randomDirection = Random.insideUnitSphere * stats.IdleRadius.GetAppliedTotal();
@@ -192,7 +190,7 @@ namespace Enemy
                 setSpeed(runSpeed);
                 audioSource.spatialBlend = 1f;
                 audioSource.loop = true;
-                audioSource.clip = Resources.Load("Run") as AudioClip;
+                audioSource.clip = Resources.Load("Audio/Level1Run") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
                 StartCoroutine(MoveTo(player.transform.position));
             }
@@ -233,7 +231,7 @@ namespace Enemy
         {
             audioSource.spatialBlend = 0f;
             audioSource.loop = false;
-            audioSource.clip = Resources.Load("EnemyDeath") as AudioClip;
+            audioSource.clip = Resources.Load("Audio/EnemyDeath") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
         }
         public virtual void destroySelf()
@@ -261,6 +259,7 @@ namespace Enemy
                 StopAllCoroutines();
                 setSpeed(0f);
                 attackCooldown = 5f;
+
             }
         }
         public virtual void onAttackComplete()

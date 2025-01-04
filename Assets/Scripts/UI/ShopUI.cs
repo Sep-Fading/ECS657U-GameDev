@@ -37,6 +37,8 @@ namespace UI
         {
             //gameObject.SetActive(false);
             //npcShop = new NpcShop();
+            ShopManager.Instance.RegisterShopUI(gameObject);
+            gameObject.SetActive(false);
         }
 
         void Start()

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.36428154, g: 0.62319434, b: 0.66436315, a: 1}
+  m_IndirectSpecularColor: {r: 0.36428174, g: 0.6231951, b: 0.6643642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12050,7 +12050,7 @@ GameObject:
   - component: {fileID: 6663657845067975110}
   m_Layer: 0
   m_Name: -- ShopBox
-  m_TagString: Untagged
+  m_TagString: ShopUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

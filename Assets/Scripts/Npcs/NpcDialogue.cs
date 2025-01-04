@@ -81,9 +81,33 @@ namespace Npcs
 
         private void ShopButtonOnClick()
         {
-            shopUI.GetComponent<ShopUI>().OpenShop();
+            // Fallback: Try to find ShopUI dynamically if it's null
+            if (shopUI == null)
+            {
+                shopUI = GameObject.FindGameObjectWithTag("ShopUI");
+            }
+
+            if (shopUI != null)
+            {
+                var shopUIComponent = shopUI.GetComponent<ShopUI>();
+                if (shopUIComponent != null)
+                {
+                    shopUIComponent.OpenShop();
+                }
+                else
+                {
+                    Debug.LogError("ShopUI component is missing on the ShopUI GameObject.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("ShopUI is null when trying to open the shop.");
+            }
+
+            // Close the dialogue UI
             UIManager.Instance.PopUIByGameObject(gameObject);
         }
+
 
         IEnumerator TypeLine()
         {

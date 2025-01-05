@@ -34,11 +34,11 @@ namespace Player
             speed = normalSpeed;
         }
 
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        /*void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log("Motor");
             transform.position = new Vector3(0,0,0);
-        }
+        }*/
 
         // Update is called once per frame
         void FixedUpdate()

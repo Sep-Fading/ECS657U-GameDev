@@ -1,4 +1,6 @@
+using System;
 using GameplayMechanics.Character;
+using InventoryScripts;
 using Npcs;
 using UI;
 using UnityEngine;
@@ -17,23 +19,43 @@ namespace Dialogue
         public bool hasQuest;
         public bool hasShop;
 
-        GameObject shopUI;
-
         private void Awake()
         {
             _anim = npcObject.GetComponent<Animator>();
-            if (hasShop)
-            {
-                shopUI = GameObject.Find("-- ShopBox");
-            }
         }
 
-        private void Start()
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        /*private void Start()
+        {
+            if (hasShop && shopUI == null)
+            {
+                shopUI = GameObject.FindGameObjectWithTag("ShopUI");
+                shopUI.GetComponent<ShopUI>().SetNpcShop(new NpcShop());
+                shopUI.SetActive(false);
+            }
+        }*/
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (hasShop)
             {
-                shopUI.GetComponent<ShopUI>().SetNpcShop(new NpcShop());
-                shopUI.SetActive(false);
+                if (ShopManager.Instance == null)
+                {
+                    ShopManager.EnsureInstanceExists();
+                }
+                GameObject shopUI = ShopManager.Instance.GetShopUI();
+                if (shopUI != null)
+                {
+                    shopUI.SetActive(false);
+                }
             }
         }
 
@@ -42,14 +64,18 @@ namespace Dialogue
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 _anim.SetTrigger(Talking);
-                if (!GameObject.Find("--DialogueBox").transform.GetChild(0).gameObject.activeSelf)
+
+                GameObject dialogueBox = GameObject.Find("--DialogueBox").transform.GetChild(0).gameObject;
+
+                if (!dialogueBox.activeSelf)
                 {
-                    GameObject.Find("--DialogueBox").transform.GetChild(0).gameObject.SetActive(true);
-                    npcDialogue = GameObject.Find("--DialogueBox").transform.GetChild(0).GetComponent<NpcDialogue>();
+                    dialogueBox.SetActive(true);
+                    npcDialogue = dialogueBox.GetComponent<NpcDialogue>();
                 }
+
                 if (hasShop)
                 {
-                    npcDialogue.startDialogue(lines, npcName, hasQuest, hasShop, shopUI);
+                    npcDialogue.startDialogue(lines, npcName, hasQuest, hasShop, ShopManager.Instance.GetShopUI());
                 }
                 else
                 {
@@ -57,5 +83,6 @@ namespace Dialogue
                 }
             }
         }
+
     }
 }

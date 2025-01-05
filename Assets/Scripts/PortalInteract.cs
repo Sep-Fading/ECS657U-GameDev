@@ -19,18 +19,18 @@ public class PortalInteract : Interactable
     {
         string nextScene = null;
 
-        switch (SceneManager.GetActiveScene().buildIndex)
+        switch (SceneManager.GetActiveScene().name)
         {
-            case 2:
+            case "Tutorial":
                 nextScene = scenes[4];
                 break;
-            case 3:
+            case "World-v0.1":
                 nextScene = scenes[2];
                 break;
-            case 4:
+            case "World-v0.2":
                 nextScene = scenes[3];
                 break;
-            case 5:
+            case "World-v0.3":
                 nextScene = scenes[4];
                 break;
         }

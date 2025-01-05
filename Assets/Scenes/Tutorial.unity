@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.112637624, g: 0.2815339, b: 0.70919037, a: 1}
+  m_IndirectSpecularColor: {r: 0.11267146, g: 0.28152686, b: 0.7087304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5911,16 +5911,21 @@ MonoBehaviour:
   HoverMessage: 'Talk To Bernard [F]'
   npcObject: {fileID: 1353336068}
   lines:
-  - Traveller, the main threats of this world are 3.
+  - Crusader, the Scourge has decimated these lands and monsters have seen this opportunity
+    to rise up from their dens and expand their territory.
+  - There are 3 main factions these monsters fall under, each with their respective
+    leaders.
   - Konarod, Chieftain of the Orcs. Esqueleto, Jefe of the Spanish Triad and the
     right hand of death itself, Mortem.
   - Rumour has it they are all the direct subordinates of someone even more powerful
     than they! Who could make such powerful beings submit to their will?
-  - Vanquish his descendants and he will grant you an audience. This I am sure of.
-    Take them down, take their boss down and you will save this world.
+  - But they can't enter areas under the protection of the world tree.
+  - Vanquish these three  and he will grant you an audience. This I am sure of. Take
+    them down, take their boss down and you will save this world.
   - Now go! Barry has taught you well. I can only hold the gate open for a short
     time.
-  - Use what Barry has taught you and save us. Save all of us.
+  - Remember, if you ever need help, seek out the world tree and it will protect
+    you against the monsters.
   npcName: Bernard
   npcDialogue: {fileID: 3969466689088303838}
   hasQuest: 0
@@ -24720,6 +24725,41 @@ PrefabInstance:
       propertyPath: npcDialogue
       value: 
       objectReference: {fileID: 3969466689088303838}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: lines.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[1]'
+      value: You just arrived so you probably don't know much about what is happening.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[2]'
+      value: The world is in chaos. The dead are rising.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[3]'
+      value: Slowly our population is diminshing and their's is growing.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[4]'
+      value: We've enlisted the crusaders but to no avail.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[5]'
+      value: You don't seem to have a weapon, I can give you mine from my crusader
+        days. Bernard can fill you in a little more. He's been here longer than I
+        have.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[6]'
+      value: Once you get a shield, [Right-click] to block incoming attacks, and
+        [Left-click] to attack with your new weapon!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[7]'
+      value: When you are ready, continue down the path and talk Bernard.
+      objectReference: {fileID: 0}
     - target: {fileID: 8556953302099860620, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: m_LocalPosition.x
       value: 259.44388

@@ -5915,13 +5915,13 @@ MonoBehaviour:
     to rise up from their dens and expand their territory.
   - There are 3 main factions these monsters fall under, each with their respective
     leaders.
-  - Konarod, Chieftain of the Orcs. Esqueleto, Jefe of the Spanish Triad and the
+  - Konarod, Chieftain of the Orcs. Esquelito, Jefe of the Spanish Triad and the
     right hand of death itself, Mortem.
-  - Rumour has it they are all the direct subordinates of someone even more powerful
-    than they! Who could make such powerful beings submit to their will?
-  - But they can't enter areas under the protection of the world tree.
-  - Vanquish these three  and he will grant you an audience. This I am sure of. Take
-    them down, take their boss down and you will save this world.
+  - Rumour has it they are all under the umbrella of someone even more powerful than
+    they! Who could make such powerful beings submit to their will?
+  - But the monsters can't enter areas under the protection of the world tree.
+  - Vanquish these three and he will grant you an audience. This I am sure of. Take
+    them down, take down their mastermind and you will save this world.
   - Now go! Barry has taught you well. I can only hold the gate open for a short
     time.
   - Remember, if you ever need help, seek out the world tree and it will protect
@@ -24730,20 +24730,25 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
+      propertyPath: 'lines.Array.data[0]'
+      value: Hey there, Crusader...
+      objectReference: {fileID: 0}
+    - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[1]'
-      value: You just arrived so you probably don't know much about what is happening.
+      value: You just arrived so you probably don't know much about what's going
+        on.
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[2]'
-      value: The world is in chaos. The dead are rising.
+      value: The world is in chaos. The dead are coming.
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[3]'
-      value: Slowly our population is diminshing and their's is growing.
+      value: Slowly our population is diminshing and their's is rising.
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[4]'
-      value: We've enlisted the crusaders but to no avail.
+      value: We've enlisted the crusaders' but to no avail.
       objectReference: {fileID: 0}
     - target: {fileID: 8438596710433219567, guid: 771d6bacbfd804240939b0417d24fd72, type: 3}
       propertyPath: 'lines.Array.data[5]'

@@ -235,11 +235,12 @@ namespace Enemy
             audioSource.spatialBlend = 0f;
             audioSource.loop = false;
             audioSource.clip = Resources.Load("Audio/FinalBossDeath") as AudioClip;
-            if (!audioSource.isPlaying) { audioSource.Play(); }
+            audioSource.Play();
             if (GameObject.Find("BossGate").GetComponent<AudioSource>() != null)
             {
                 GameObject.Find("BossGate").GetComponent<AudioSource>().Pause();
             }
+            GameObject.FindWithTag("Grave").GetComponent<Collider>().enabled = true;
         }
     }
 }

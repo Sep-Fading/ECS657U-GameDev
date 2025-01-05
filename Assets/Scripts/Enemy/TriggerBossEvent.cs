@@ -20,7 +20,7 @@ public class TriggerBossEvent : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "World-v0.4")
             {
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = false;
-                GameObject.FindWithTag("Player").transform.position = new Vector3(-330f, 5f, 7750f);
+                GameObject.FindWithTag("Player").transform.position = new Vector3(-330f, 5f, 7795f);
                 GameObject.FindWithTag("Player").GetComponent<CharacterController>().enabled = true;
             }
             if (SceneManager.GetActiveScene().name != "World-v0.4" && GameObject.FindWithTag("Boss") != null) { GameObject.FindWithTag("Boss").GetComponent<AbstractEnemy>().SetState(EnemyState.TRIGGERED); }

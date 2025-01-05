@@ -17,6 +17,7 @@ TagManager:
   - Shield
   - DisplayAxe
   - ShopUI
+  - Grave
   layers:
   - Default
   - TransparentFX

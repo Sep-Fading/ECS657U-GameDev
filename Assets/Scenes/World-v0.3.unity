@@ -661,6 +661,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 89901062}
+    - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 89901063}
     - targetCorrespondingSourceObject: {fileID: 7945953894594096990, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 89901061}
@@ -723,6 +726,29 @@ MonoBehaviour:
   npcDialogue: {fileID: 0}
   hasQuest: 0
   hasShop: 1
+--- !u!136 &89901063
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89901057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2590529
+  m_Height: 2.1386962
+  m_Direction: 1
+  m_Center: {x: 0.011351903, y: 0.890594, z: 0}
 --- !u!1 &95327689
 GameObject:
   m_ObjectHideFlags: 0
@@ -11689,7 +11715,7 @@ MonoBehaviour:
   npcName: Old Soldier
   npcDialogue: {fileID: 0}
   hasQuest: 0
-  hasShop: 1
+  hasShop: 0
 --- !u!136 &1382005454
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14947,13 +14973,68 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1313139150}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1792930606}
+    - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1792930605}
   m_SourcePrefab: {fileID: 100100000, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
 --- !u!4 &1792930603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
   m_PrefabInstance: {fileID: 1792930602}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1792930604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+  m_PrefabInstance: {fileID: 1792930602}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1792930605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792930604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 214e00315845189489176df41f5c99c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoverMessage: 'Talk to Retired Soldier [F]'
+  npcObject: {fileID: 1792930604}
+  lines:
+  - I should be out there. I should be using my fighting expertise. Do you want to
+    buy something?
+  npcName: Retired Soldier
+  npcDialogue: {fileID: 0}
+  hasQuest: 0
+  hasShop: 1
+--- !u!136 &1792930606
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792930604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.26993752
+  m_Height: 2.1456766
+  m_Direction: 1
+  m_Center: {x: 0.020430882, y: 0.91174006, z: 0}
 --- !u!1001 &1795284216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15055,13 +15136,67 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 947775722}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1795284220}
+    - targetCorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1795284219}
   m_SourcePrefab: {fileID: 100100000, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
 --- !u!4 &1795284217 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
   m_PrefabInstance: {fileID: 1795284216}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1795284218 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+  m_PrefabInstance: {fileID: 1795284216}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1795284219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795284218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 214e00315845189489176df41f5c99c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoverMessage: 'Talk to Retired Soldier [F]'
+  npcObject: {fileID: 1795284218}
+  lines:
+  - I've had it! Bugger off unless you want to buy something!
+  npcName: Retired Soldier
+  npcDialogue: {fileID: 0}
+  hasQuest: 0
+  hasShop: 1
+--- !u!136 &1795284220
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795284218}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.26038805
+  m_Height: 2.0971925
+  m_Direction: 1
+  m_Center: {x: 0.010245641, y: 0.9125646, z: 0}
 --- !u!1001 &1795833325
 PrefabInstance:
   m_ObjectHideFlags: 0

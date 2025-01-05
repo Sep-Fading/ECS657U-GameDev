@@ -1361,18 +1361,19 @@ MonoBehaviour:
   HoverMessage: 'Speak to Jeremy [F]'
   npcObject: {fileID: 258463200}
   lines:
-  - Brave Warrior!
+  - Brave Crusader!
   - We need your help!
-  - I've heard tales of your exploits from Barry and we need your help now more than
-    ever.
+  - I've heard tales of your exploits from Barry and we need you now more than ever.
   - A monster has appeared! He calls himself Esquelito. He's beat the local monsters
     into submission and now they all work for him, destroying everything we've worked
     hard to make.
-  - He resides in the crater. The crater came to be when the vessel of death fought
-    the giants and slaughtered them. The scale of their battle was so large it created
+  - He resides in the crater. The crater came to be when the lord of death fought
+    the giants and decimated them. The scale of their battle was so large it created
     the crater we now know today.
   - Follow the path and it will take you to him.
-  npcName: Abdulaziz
+  - If you manage to make it to Bluehelm, seek my old comrade. He usually guards
+    the entrance to the palace. He will know what to do.
+  npcName: Jeremy
   npcDialogue: {fileID: 0}
   hasQuest: 0
   hasShop: 0
@@ -1896,10 +1897,10 @@ MonoBehaviour:
   - I'm James and I'm a friend of Barry. He told me you were coming.
   - When Esquelito arrived, he demanded taxes from everyone or he will kill us! Only
     me and my father were able to afford it.
-  - He killed the rest.
-  - He's too fast, to the point where he has afterimages! He has an ego to the point
-    when he summons his afterimages, he will not look at you. That's the opportune
-    time to strike.
+  - He slaughtered them.
+  - He's too fast, to the point where you can see more than one of him! He moves
+    too fast for his own good. When he does, he will lose sight of you. That's the
+    opportune time to strike.
   - I still need to pay the tributes in case you don't win so buy something from
     my shop.
   npcName: James

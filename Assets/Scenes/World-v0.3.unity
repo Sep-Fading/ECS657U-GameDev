@@ -722,7 +722,7 @@ MonoBehaviour:
   npcName: Retired Soldier
   npcDialogue: {fileID: 0}
   hasQuest: 0
-  hasShop: 0
+  hasShop: 1
 --- !u!1 &95327689
 GameObject:
   m_ObjectHideFlags: 0
@@ -6142,7 +6142,7 @@ MonoBehaviour:
   npcName: Shopkeeper
   npcDialogue: {fileID: 0}
   hasQuest: 0
-  hasShop: 1
+  hasShop: 0
 --- !u!1001 &835498453
 PrefabInstance:
   m_ObjectHideFlags: 0

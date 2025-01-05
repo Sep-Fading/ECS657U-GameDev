@@ -1619,7 +1619,7 @@ MonoBehaviour:
   npcName: James
   npcDialogue: {fileID: 0}
   hasQuest: 0
-  hasShop: 0
+  hasShop: 1
 --- !u!136 &492243848
 CapsuleCollider:
   m_ObjectHideFlags: 0

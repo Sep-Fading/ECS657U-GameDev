@@ -11704,7 +11704,7 @@ PrefabInstance:
     - target: {fileID: 1802698330854809764, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: loadingCanvas
       value: 
-      objectReference: {fileID: 1408410129}
+      objectReference: {fileID: 1408410125}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 257.75

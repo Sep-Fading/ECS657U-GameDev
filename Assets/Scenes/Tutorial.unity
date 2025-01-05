@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0.75
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 0ffaa0b7117ba8c47a9d05ae701d4b4d, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.36428174, g: 0.6231951, b: 0.6643642, a: 1}
+  m_IndirectSpecularColor: {r: 0.112637624, g: 0.2815339, b: 0.70919037, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11702,6 +11702,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2862295734119551, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 814088839716111480, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_Volume
       value: 0.05
@@ -20712,11 +20716,11 @@ PrefabInstance:
       objectReference: {fileID: 7693003016632966725}
     - target: {fileID: 6456963447846978969, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 259.4
+      value: 243.48
       objectReference: {fileID: 0}
     - target: {fileID: 6456963447846978969, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.19
+      value: 19.52
       objectReference: {fileID: 0}
     - target: {fileID: 6456963447846978969, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -31347,6 +31351,7 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1253920029}
   - {fileID: 555464653}
   - {fileID: 4532206028304387173}
   - {fileID: 751611414}
@@ -31361,4 +31366,3 @@ SceneRoots:
   - {fileID: 1386350571}
   - {fileID: 985901569285934236}
   - {fileID: 1413701481861728515}
-  - {fileID: 1253920029}

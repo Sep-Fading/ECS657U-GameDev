@@ -47,6 +47,10 @@ namespace Dialogue
         {
             if (hasShop)
             {
+                if (ShopManager.Instance == null)
+                {
+                    ShopManager.EnsureInstanceExists();
+                }
                 GameObject shopUI = ShopManager.Instance.GetShopUI();
                 if (shopUI != null)
                 {

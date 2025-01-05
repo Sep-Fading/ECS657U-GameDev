@@ -31,7 +31,7 @@ namespace GameplayMechanics.Effects
             _coroutineStarter = coroutineStarter;
 
             _totalDamage = PlayerStatManager.Instance.Bleed.GetAppliedTotal();
-            _healthBar.SetBleeding(true);
+            coroutineStarter.gameObject.GetComponentInChildren<HealthBar>().SetBleeding(true);
             Apply();
         }
 

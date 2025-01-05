@@ -25,9 +25,20 @@ namespace InventoryScripts
             return _stackSize;
         }
 
+        public int ConsumeHpPotion()
+        {
+            if (_itemType == ItemType.CONSUMABLE)
+            {
+                return 50;
+            }
+
+            return 0;
+        }
+
         public string GetName() => this._name;
         public int GetSellPrice() => this.sellPrice;
         public int GetBuyPrice() => this.buyPrice;
+        public ItemType GetItemType() => this._itemType;
 
         public string GetDescription()
         {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.36428154, g: 0.62319434, b: 0.66436315, a: 1}
+  m_IndirectSpecularColor: {r: 0.36428174, g: 0.6231951, b: 0.6643642, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5918,8 +5918,9 @@ MonoBehaviour:
     than they! Who could make such powerful beings submit to their will?
   - Vanquish his descendants and he will grant you an audience. This I am sure of.
     Take them down, take their boss down and you will save this world.
-  - Now go! Barry has taught you well. Use what he has taught you and save us. Save
-    all of us.
+  - Now go! Barry has taught you well. I can only hold the gate open for a short
+    time.
+  - Use what Barry has taught you and save us. Save all of us.
   npcName: Bernard
   npcDialogue: {fileID: 3969466689088303838}
   hasQuest: 0
@@ -11701,37 +11702,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 814088839716111480, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
+      propertyPath: m_Volume
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 1802698330854809764, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: loadingCanvas
       value: 
       objectReference: {fileID: 1408410125}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 257.75
+      value: 238.15
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.96
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 173.34
+      value: 238.9154
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.92958605
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000021855694
+      value: 0.00000002031675
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.36860517
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.000000008056121
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11739,7 +11744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -43.259
       objectReference: {fileID: 0}
     - target: {fileID: 2792428977695684360, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -11747,7 +11752,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3281826638710353330, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
       propertyPath: m_Name
-      value: Portal_01
+      value: Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865336819540724704, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265579604316249941, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005123008885089635, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5910319836895810260, guid: 91b0ec44cc5841444954ca1d8adc6a7f, type: 3}

@@ -110,7 +110,18 @@ namespace Npcs
 
                 if (npcName == "Bernard")
                 {
-                    GameStateManager.Instance.MoveToNextScene("Scenes/World-v0.1");
+                    if (GameObject.Find("Portal") != null)
+                    {
+                        if (GameObject.Find("Portal").GetComponent<AudioSource>() != null)
+                        {
+                            GameObject.Find("Portal").GetComponent<AudioSource>().Play();
+                        }
+                        GameObject.Find("Portal").GetComponent<Collider>().enabled = true;
+                        if (GameObject.Find("PortalHole") != null)
+                        {
+                            GameObject.Find("PortalHole").GetComponent<Renderer>().enabled = true;
+                        }
+                    }
                 }
 
                 if (npcName == "Death")

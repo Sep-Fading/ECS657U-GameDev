@@ -373,7 +373,7 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_EncodingQuality: 1
   - m_BuildTarget: WebGL
-    m_EncodingQuality: 1
+    m_EncodingQuality: 0
   m_BuildTargetGroupHDRCubemapEncodingQuality:
   - m_BuildTarget: Android
     m_EncodingQuality: 1
@@ -383,6 +383,8 @@ PlayerSettings:
     m_EncodingQuality: 1
   - m_BuildTarget: Standalone
     m_EncodingQuality: 1
+  - m_BuildTarget: WebGL
+    m_EncodingQuality: 0
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding:
@@ -686,7 +688,7 @@ PlayerSettings:
     PS5: 1
     QNX: 1
     Stadia: 1
-    WebGL: 2
+    WebGL: 3
     Windows Store Apps: 1
     XboxOne: 1
     iPhone: 1

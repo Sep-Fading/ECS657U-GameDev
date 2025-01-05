@@ -1,4 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
+using Enemy;
+using GameplayMechanics.Character;
 using GameplayMechanics.Effects;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -330,6 +333,33 @@ namespace InventoryScripts
             }
         }
 
-        
+
+        public void ConsumeItem(InventoryItem item, int inventoryIndex)
+        {
+            if (item != null &&
+                item.gameItem.GetItemType() == ItemType.CONSUMABLE)
+            {
+                InventoryItem temp = Inventory.Instance.Pop(item);
+                UpdateInventoryUI();
+                StartCoroutine(Heal(temp.gameItem.ConsumeHpPotion(), 1f));
+            }
+        }
+
+        private IEnumerator Heal(int consumeHpPotion, float f)
+        {
+            float startHealth = PlayerStatManager.Instance.Life.GetCurrent();
+            float targetHealth = Mathf.Clamp(startHealth + consumeHpPotion, 0,
+                PlayerStatManager.Instance.Life.GetAppliedTotal());
+            float elapsedTime = 0f;
+            
+            while (elapsedTime < f)
+            {
+                elapsedTime += Time.deltaTime;
+                PlayerStatManager.Instance.Life.SetCurrent(Mathf.Lerp(startHealth, targetHealth, elapsedTime / f));
+                yield return null;
+            }
+            
+            PlayerStatManager.Instance.Life.SetCurrent(targetHealth);
+        }
     }
 }

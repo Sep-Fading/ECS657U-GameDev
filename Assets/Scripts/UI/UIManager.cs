@@ -50,6 +50,7 @@ namespace UI
 
         private void CheckEmpty()
         {
+            Debug.LogWarning(_uiStack.Count);
             if (_uiStack.Count == 0)
             {
                 Cursor.visible = false; 

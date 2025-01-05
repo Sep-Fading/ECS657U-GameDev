@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: bb7d3d24ab16c024d8f82ebee0d8ddee
+  - enabled: 1
+    path: Assets/Scenes/CUTSCENE.unity
+    guid: 3cc09e9c43dfb1c44acb6af607e68cd2
+  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 4b7e21de90eb13e4caac5e48b02acb08
   - enabled: 1
@@ -20,11 +26,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World-v0.4.unity
     guid: 507b42444aa2dd742a3a35f0523a027f
-  - enabled: 0
-    path: Assets/Scenes/World-v0.4_2.unity
-    guid: 18bde99f575ed724f83274fed4c00dc5
-  - enabled: 0
-    path: Assets/Scenes/TestScene.unity
-    guid: 316abaf1b719ec4498d9eec48590df40
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

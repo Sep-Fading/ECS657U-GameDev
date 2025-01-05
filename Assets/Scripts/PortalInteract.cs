@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PortalInteract : Interactable
 {
-    string[] scenes = { "Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3", "Scenes/World-v0.4", "Scenes/World-v0.4_2" };
+    string[] scenes = { "Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3", "Scenes/World-v0.4" };
 
     public GameObject loadingCanvas; // Reference to the loading screen Canvas
 
@@ -22,7 +22,7 @@ public class PortalInteract : Interactable
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 2:
-                nextScene = scenes[1];
+                nextScene = scenes[4];
                 break;
             case 3:
                 nextScene = scenes[2];

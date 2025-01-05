@@ -8,10 +8,10 @@ public class SpawnEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1) Spawn(150);
-        if (SceneManager.GetActiveScene().buildIndex == 2) Spawn(150);
-        if (SceneManager.GetActiveScene().buildIndex == 3) Spawn(70);
-        if (SceneManager.GetActiveScene().buildIndex == 4) Spawn(112);
+        if (SceneManager.GetActiveScene().name == "World-v0.1") Spawn(150);
+        if (SceneManager.GetActiveScene().name == "World-v0.2") Spawn(150);
+        if (SceneManager.GetActiveScene().name == "World-v0.3") Spawn(70);
+        if (SceneManager.GetActiveScene().name == "World-v0.4") Spawn(112);
     }
 
     // Update is called once per frame
@@ -21,20 +21,20 @@ public class SpawnEnemy : MonoBehaviour
 
     public void Spawn(int num)
     {
-        switch (SceneManager.GetActiveScene().buildIndex)
+        switch (SceneManager.GetActiveScene().name)
         {
-            case 1:
+            case "World-v0.1":
                 int w1box1num = num * 2 / 3;
                 int w1box2num = num * 1 / 3;
                 for (int i = 0; i <= w1box1num; i++)
                 {
                     if (Random.value <= 0.5)
                     {
-                        Instantiate(Resources.Load("Orc"), new Vector3(Random.Range(40f, 200f), 10f, Random.Range(70f, 370f)), transform.localRotation, transform);
+                        Instantiate(Resources.Load("Orc"), new Vector3(Random.Range(40f, 200f), 3f, Random.Range(70f, 370f)), transform.localRotation, transform);
                     }
                     else
                     {
-                        Instantiate(Resources.Load("MushroomKing"), new Vector3(Random.Range(40f, 200f), 10f, Random.Range(70f, 370f)), transform.localRotation, transform);
+                        Instantiate(Resources.Load("MushroomKing"), new Vector3(Random.Range(40f, 200f), 3f, Random.Range(70f, 370f)), transform.localRotation, transform);
                     }
                 }
                 for (int i = 0; i <= w1box2num; i++)
@@ -42,7 +42,7 @@ public class SpawnEnemy : MonoBehaviour
                     Instantiate(Resources.Load("Orc"), new Vector3(Random.Range(200f, 320f), 3f, Random.Range(145f, 245f)), transform.localRotation, transform);
                 }
                 break;
-            case 2:
+            case "World-v0.2":
                 int w2box1num = num / 3;
                 int w2box2num = num / 3;
                 int w2box3num = num / 3;
@@ -80,7 +80,7 @@ public class SpawnEnemy : MonoBehaviour
                     }
                 }
                 break;
-            case 3:
+            case "World-v0.3":
                 int w3boxnum = num / 7;
                 int boxes = 7;
                 for (int i = 0; i <= boxes; i++)
@@ -114,7 +114,7 @@ public class SpawnEnemy : MonoBehaviour
                     }
                 }
                 break;
-            case 4:
+            case "World-v0.4":
                 int w4boxnum = num / 8;
                 boxes = 8;
                 for (int i = 0; i <= boxes; i++)

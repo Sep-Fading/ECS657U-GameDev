@@ -173,7 +173,7 @@ namespace Enemy
             switch (summonCount)
             {
                 case 1:
-                    for (int i = 0; i <= 2; i++)
+                    for (int i = 0; i <= 4; i++)
                     {
                         if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
                         else randomX = Random.Range(5f, 10f);
@@ -183,7 +183,7 @@ namespace Enemy
                     }
                     break;
                 case 2:
-                    for (int i = 0; i <= 2; i++)
+                    for (int i = 0; i <= 4; i++)
                     {
                         if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
                         else randomX = Random.Range(5f, 10f);
@@ -193,7 +193,7 @@ namespace Enemy
                     }
                     break;
                 case 3:
-                    for (int i = 0; i <= 2; i++)
+                    for (int i = 0; i <= 4; i++)
                     {
                         if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
                         else randomX = Random.Range(5f, 10f);
@@ -203,7 +203,7 @@ namespace Enemy
                     }
                     break;
                 case 4:
-                    for (int i = 0; i <= 1; i++)
+                    for (int i = 0; i <= 2; i++)
                     {
                         if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
                         else randomX = Random.Range(5f, 10f);
@@ -211,7 +211,7 @@ namespace Enemy
                         else randomZ = Random.Range(5f, 10f);
                         Instantiate(Resources.Load("SkeleMelee"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
-                    for (int i = 0; i <= 1; i++)
+                    for (int i = 0; i <= 2; i++)
                     {
                         if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
                         else randomX = Random.Range(5f, 10f);
@@ -219,7 +219,7 @@ namespace Enemy
                         else randomZ = Random.Range(5f, 10f);
                         Instantiate(Resources.Load("SkeleRanged"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
-                    for (int i = 0; i <= 1; i++)
+                    for (int i = 0; i <= 2; i++)
                     {
                         if (Random.value < 0.5) randomX = Random.Range(-10f, -5f);
                         else randomX = Random.Range(5f, 10f);

@@ -116,9 +116,6 @@ namespace Enemy
                     {
                         if (GameObject.FindGameObjectsWithTag("Boss").Length == 1)
                         {
-                            afterImageCooldown = Random.Range(10f, 20f);
-                            afterImageCountdown = 7f;
-                            attacking = false;
                             animator.SetBool("isMoving", true);
                         }
                         if (afterImageCountdown <= 1.5f)
@@ -195,8 +192,8 @@ namespace Enemy
         public void shootPlayer()
         {
             Debug.Log(Vector3.Angle(transform.forward, transform.position - player.transform.position));
-            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) >= 177f
-                && Vector3.Angle(transform.forward, transform.position - player.transform.position) <= 183f)
+            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) >= 177.25f
+                && Vector3.Angle(transform.forward, transform.position - player.transform.position) <= 182.75f)
             {
                 playerStats.TakeDamage(stats.Damage.GetCurrent());
             }
@@ -282,6 +279,13 @@ namespace Enemy
         {
             if (collision.gameObject.CompareTag("Weapon"))
             {
+                animator.SetTrigger("stunTrigger");
+                animator.SetBool("isMoving", true);
+                SetState(EnemyState.TRIGGERED);
+                audioSource.spatialBlend = 0f;
+                audioSource.loop = false;
+                audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
+                audioSource.Play();
                 if (afterImage)
                 {
                     animator.SetTrigger("deathTrigger");
@@ -298,13 +302,12 @@ namespace Enemy
                     {
                         setSpeed(0f);
                         gameObject.GetComponent<Rigidbody>().AddForce((Vector3.back) * 2f, ForceMode.Impulse);
-                        animator.SetTrigger("stunTrigger");
-                        animator.SetBool("isMoving", true);
-                        SetState(EnemyState.TRIGGERED);
-                        audioSource.spatialBlend = 1f;
-                        audioSource.loop = false;
-                        audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
-                        if (!audioSource.isPlaying) { audioSource.Play(); }
+                        if (attacking)
+                        {
+                            afterImageCooldown = Random.Range(10f, 20f);
+                            afterImageCountdown = 7f;
+                            attacking = false;
+                        }
                     }
                     foreach (GameObject boss in GameObject.FindGameObjectsWithTag("Boss"))
                     {

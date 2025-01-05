@@ -21,17 +21,15 @@ namespace Enemy
             attackDistance = 15f;
             stats.Damage.SetFlat(45f);
             stats.TriggeredDistance.SetFlat(30f);
-            shootCooldown = 1f;
+            shootCooldown = 0.5f;
             teleportCooldown = 5f;
             summonCooldown = 20f;
             summonCount = 0;
             attacking = false;
             summoning = false;
             SetState(EnemyState.TRIGGERED);
-            if (GameObject.Find("Bernard") != null)
-            {
-                Destroy(GameObject.Find("Bernard"));
-            }
+            if (GameObject.Find("Bernard") != null) { Destroy(GameObject.Find("Bernard")); }
+            if (GameObject.Find("-- Enemy") != null) { GameObject.Find("-- Enemy").SetActive(false); }
         }
         protected override void Start()
         {
@@ -43,7 +41,6 @@ namespace Enemy
         {
             if ((GetState() != EnemyState.IDLE))
             {
-                if (GameObject.Find("--Enemy") != null) { GameObject.Find("--Enemy").SetActive(false); }
                 if (!summoning)
                 {
                     distanceBetweenPlayer = Vector3.Distance(transform.position, player.transform.position);
@@ -91,6 +88,8 @@ namespace Enemy
                         animator.SetTrigger("summonTrigger");
                     }
                     else { summonCooldown -= Time.deltaTime; }
+                    transform.LookAt(player.transform.position);
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 }
                 else
                 {
@@ -98,7 +97,7 @@ namespace Enemy
                     {
                         summoning = false;
                         stats.Life.SetAdded(stats.Life.GetAdded() + stats.Life.GetFlat() / 4 * -1);
-                        transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
+                        transform.position = new Vector3(transform.position.x, 3.6f, transform.position.z);
                     }
                 }
             }
@@ -109,7 +108,6 @@ namespace Enemy
             if (stats.Life.GetCurrent() <= 0) SetState(EnemyState.DEAD);
             else
             {
-                transform.LookAt(player.transform.position);
                 animator.SetBool("isMoving", false);
             }
         }
@@ -135,6 +133,7 @@ namespace Enemy
             audioSource.clip = Resources.Load("Audio/Cast") as AudioClip;
             if (!audioSource.isPlaying) { audioSource.Play(); }
             GameObject newWeapon = Instantiate(Resources.Load("DeathBall"), transform) as GameObject;
+            newWeapon.transform.LookAt(player.transform.position);
             newWeapon.GetComponent<Renderer>().enabled = true;
             newWeapon.GetComponent<Rigidbody>().isKinematic = false;
             newWeapon.GetComponent<Rigidbody>().AddForce(((player.transform.position - transform.position).normalized) * 20f, ForceMode.Impulse);
@@ -155,7 +154,7 @@ namespace Enemy
             else randomX = Random.Range(5f, 10f);
             if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
             else randomZ = Random.Range(5f, 10f);
-            transform.position = new Vector3(player.transform.position.x + randomX, 1f, player.transform.position.z + randomZ);
+            transform.position = new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ);
             Debug.Log("Teleporting");
         }
         public void summonAnimEvent()
@@ -180,7 +179,7 @@ namespace Enemy
                         else randomX = Random.Range(5f, 10f);
                         if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
                         else randomZ = Random.Range(5f, 10f);
-                        Instantiate(Resources.Load("SkeleMelee"), new Vector3(player.transform.position.x + randomX, 2f, player.transform.position.z + randomZ), transform.localRotation);
+                        Instantiate(Resources.Load("SkeleMelee"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
                     break;
                 case 2:
@@ -190,7 +189,7 @@ namespace Enemy
                         else randomX = Random.Range(5f, 10f);
                         if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
                         else randomZ = Random.Range(5f, 10f);
-                        Instantiate(Resources.Load("SkeleRanged"), new Vector3(player.transform.position.x + randomX, 2f, player.transform.position.z + randomZ), transform.localRotation);
+                        Instantiate(Resources.Load("SkeleRanged"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
                     break;
                 case 3:
@@ -200,7 +199,7 @@ namespace Enemy
                         else randomX = Random.Range(5f, 10f);
                         if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
                         else randomZ = Random.Range(5f, 10f);
-                        Instantiate(Resources.Load("SkeleMage"), new Vector3(player.transform.position.x + randomX, 2f, player.transform.position.z + randomZ), transform.localRotation);
+                        Instantiate(Resources.Load("SkeleMage"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
                     break;
                 case 4:
@@ -210,7 +209,7 @@ namespace Enemy
                         else randomX = Random.Range(5f, 10f);
                         if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
                         else randomZ = Random.Range(5f, 10f);
-                        Instantiate(Resources.Load("SkeleMelee"), new Vector3(player.transform.position.x + randomX, 2f, player.transform.position.z + randomZ), transform.localRotation);
+                        Instantiate(Resources.Load("SkeleMelee"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
                     for (int i = 0; i <= 1; i++)
                     {
@@ -218,7 +217,7 @@ namespace Enemy
                         else randomX = Random.Range(5f, 10f);
                         if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
                         else randomZ = Random.Range(5f, 10f);
-                        Instantiate(Resources.Load("SkeleRanged"), new Vector3(player.transform.position.x + randomX, 2f, player.transform.position.z + randomZ), transform.localRotation);
+                        Instantiate(Resources.Load("SkeleRanged"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
                     for (int i = 0; i <= 1; i++)
                     {
@@ -226,7 +225,7 @@ namespace Enemy
                         else randomX = Random.Range(5f, 10f);
                         if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
                         else randomZ = Random.Range(5f, 10f);
-                        Instantiate(Resources.Load("SkeleMage"), new Vector3(player.transform.position.x + randomX, 2f, player.transform.position.z + randomZ), transform.localRotation);
+                        Instantiate(Resources.Load("SkeleMage"), new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ), transform.localRotation);
                     }
                     break;
             }

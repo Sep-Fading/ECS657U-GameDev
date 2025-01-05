@@ -357,7 +357,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.52991456
+      - time: 0
+        functionName: setSpeed
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5427351
         functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -366,13 +373,6 @@ ModelImporter:
         messageOptions: 0
       - time: 1
         functionName: onAttackComplete
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: setSpeed
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -494,6 +494,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0
+        functionName: setSpeed
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.44999954
         functionName: checkThrowAttack
         data: 
@@ -501,7 +508,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6004273
+      - time: 0.6542735
         functionName: onAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -517,13 +524,6 @@ ModelImporter:
         messageOptions: 0
       - time: 1
         functionName: onAttackComplete
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: setSpeed
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -13,12 +13,6 @@ namespace Enemy
             collider = GetComponent<Collider>();
             collider.enabled = false;
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
         private void OnTriggerEnter(Collider other)
         {
             AbstractEnemy enemy = gameObject.GetComponentInParent<AbstractEnemy>();
@@ -27,24 +21,24 @@ namespace Enemy
                 || (PlayerStatManager.Instance != null && PlayerStatManager.Instance.IsBlocking && GameObject.FindGameObjectWithTag("Weapon") != null && other.gameObject.tag == "Weapon" && enemy.isAttackComplete))
             {
                 enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
-                if (enemy.audioSource != null)
+                if (transform.GetComponent<AudioSource>() != null)
                 {
-                    enemy.audioSource.spatialBlend = 0f;
-                    enemy.audioSource.loop = false;
-                    enemy.audioSource.clip = Resources.Load("Audio/PlayerBlock") as AudioClip;
-                    enemy.audioSource.Play();
+                    transform.GetComponent<AudioSource>().spatialBlend = 0f;
+                    transform.GetComponent<AudioSource>().loop = false;
+                    transform.GetComponent<AudioSource>().clip = Resources.Load("Audio/PlayerBlock") as AudioClip;
+                    transform.GetComponent<AudioSource>().Play();
                 }
             }
             
             if ((other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Weapon")) && enemy.isAttackComplete)
             {
                 enemy.playerStats.TakeDamage(enemy.stats.Damage.GetAppliedTotal());
-                if (enemy.audioSource != null)
+                if (transform.GetComponent<AudioSource>() != null)
                 {
-                    enemy.audioSource.spatialBlend = 0f;
-                    enemy.audioSource.loop = false;
-                    enemy.audioSource.clip = Resources.Load("Audio/EnemyAttack") as AudioClip;
-                    enemy.audioSource.Play();
+                    transform.GetComponent<AudioSource>().spatialBlend = 0f;
+                    transform.GetComponent<AudioSource>().loop = false;
+                    transform.GetComponent<AudioSource>().clip = Resources.Load("Audio/EnemyAttack") as AudioClip;
+                    transform.GetComponent<AudioSource>().Play();
                 }
             }
             gameObject.GetComponentInParent<AbstractEnemy>().isAttackComplete = false;

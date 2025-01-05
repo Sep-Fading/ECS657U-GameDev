@@ -6,11 +6,13 @@ public class PortalInteract : Interactable
 {
     string[] scenes = { "Scenes/TestScene", "Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3", "Scenes/World-v0.4", "Scenes/World-v0.4_2" };
 
-    public Canvas loadingCanvas; // Reference to the loading screen Canvas
+    public GameObject loadingCanvas; // Reference to the loading screen Canvas
 
     void Start()
     {
         HoverMessage = "Are You Ready to Move On [F]";
+        if (loadingCanvas != null)
+            loadingCanvas.SetActive(false); // Ensure the loading screen starts hidden
     }
 
     public override void Interact()
@@ -20,7 +22,7 @@ public class PortalInteract : Interactable
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                nextScene = scenes[5];
+                nextScene = scenes[2];
                 break;
             case 1:
                 nextScene = scenes[3];
@@ -41,8 +43,11 @@ public class PortalInteract : Interactable
 
     private IEnumerator LoadSceneWithLoadingScreen(string sceneName)
     {
-        // Show the loading screen
-        loadingCanvas.gameObject.SetActive(true);
+        // Activate the loading screen
+        if (loadingCanvas != null)
+        {
+            loadingCanvas.SetActive(true); // Show the loading screen
+        }
 
         // Start loading the scene asynchronously
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
@@ -55,14 +60,16 @@ public class PortalInteract : Interactable
         {
             if (asyncOperation.progress >= 0.9f)
             {
-                // Activate the scene when ready
-                asyncOperation.allowSceneActivation = true;
+                asyncOperation.allowSceneActivation = true; // Activate the scene
             }
 
             yield return null;
         }
 
-        // Hide the loading screen after the scene is loaded
-        loadingCanvas.gameObject.SetActive(false);
+        // Deactivate the loading screen after loading
+        if (loadingCanvas != null)
+        {
+            loadingCanvas.SetActive(false);
+        }
     }
 }

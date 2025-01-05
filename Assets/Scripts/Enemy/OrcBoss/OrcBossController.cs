@@ -148,7 +148,7 @@ namespace enemy
             {
                 SetState(EnemyState.DEAD);
             }
-            else if (distanceBetweenPlayer <= attackDistance)
+            else if (distanceBetweenPlayer <= attackDistance && !isCircling)
             {
                 SetState(EnemyState.ATTACK);
             }
@@ -257,7 +257,8 @@ namespace enemy
             setSpeed(0f);
             transform.LookAt(player.transform);
             Debug.Log((transform.position - player.transform.position).normalized);
-            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 7f, ForceMode.Impulse);
+            //gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + (transform.position - player.transform.position).normalized) * 7f, ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce((Vector3.up + Vector3.back) * 5f, ForceMode.Impulse);
         }
         public void jumpAttack()
         {
@@ -310,8 +311,7 @@ namespace enemy
                 audioSource.loop = false;
                 audioSource.clip = Resources.Load("Audio/EnemyHit") as AudioClip;
                 if (!audioSource.isPlaying) { audioSource.Play(); }
-                isCircling = false;
-                circlingCooldown = 10f;
+                if (Random.value < 0.5) { jumpAttack(); }
             }
         }
     }

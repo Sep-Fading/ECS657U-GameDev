@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4836495737043528471}
   - component: {fileID: -3589247491392434478}
   - component: {fileID: 6066918872871928809}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OrcBossWeapon
   m_TagString: EnemyWeaponThrowable
   m_Icon: {fileID: 0}
@@ -135,14 +135,14 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 447
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0072204447, y: 0.017432576, z: 0.006972085}
-  m_Center: {x: 0.001764288, y: -0.0026943446, z: 0.0004296775}
+  m_Size: {x: 0.009223282, y: 0.017432574, z: 0.008736139}
+  m_Center: {x: 0.0016662503, y: -0.002694344, z: 0.00034739284}

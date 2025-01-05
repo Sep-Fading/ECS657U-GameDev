@@ -18,7 +18,7 @@ namespace Dialogue
         [SerializeField] private NpcDialogue npcDialogue;
         public bool hasQuest;
         public bool hasShop;
-        
+
         private void Awake()
         {
             _anim = npcObject.GetComponent<Animator>();
@@ -32,7 +32,7 @@ namespace Dialogue
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-        
+
         /*private void Start()
         {
             if (hasShop && shopUI == null)
@@ -82,4 +82,3 @@ namespace Dialogue
 
     }
 }
-

@@ -31,6 +31,7 @@ namespace Npcs
             ShopButton.gameObject.SetActive(false);
             NextButton.gameObject.SetActive(true);
             NextButton.onClick.AddListener(() => NextButtonOnClick());
+            ShopButton.onClick.AddListener(() => ShopButtonOnClick());
         }
         public void startDialogue(String[] lines, String npcName, bool hasQuest, bool hasShop, GameObject shopUI = null)
         {
@@ -47,7 +48,6 @@ namespace Npcs
             if (hasShop)
             {
                 ShopButton.gameObject.SetActive(true);
-                ShopButton.onClick.AddListener(() => ShopButtonOnClick());
             }
             else if (hasQuest)
             {

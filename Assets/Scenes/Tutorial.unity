@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 555464652}
-  m_IndirectSpecularColor: {r: 0.11267146, g: 0.28152686, b: 0.7087304, a: 1}
+  m_IndirectSpecularColor: {r: 0.112637624, g: 0.2815339, b: 0.70919037, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -20341,7 +20341,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 818645043495969116, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
       propertyPath: SkillCheats
-      value: 99
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 818645043495969116, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
       propertyPath: skillTreeUI
@@ -20675,6 +20675,10 @@ PrefabInstance:
       propertyPath: connections.Array.data[20].startNode
       value: 
       objectReference: {fileID: 5875903540368894578}
+    - target: {fileID: 4705022961520797865, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
+      propertyPath: CheatGold
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4705022961520797865, guid: 2c5538c6aa4049c44ba2aee7b92338e8, type: 3}
       propertyPath: 'equippedItemsUI.Array.data[0]'
       value: 

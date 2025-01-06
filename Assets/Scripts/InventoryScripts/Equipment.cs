@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Handles the main functionaities of the Inventory
+    /// </summary>
     public class Equipment
     {
         public GameItem Item;

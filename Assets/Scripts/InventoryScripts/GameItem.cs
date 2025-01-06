@@ -1,5 +1,8 @@
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Defines the information about the GameItems
+    /// </summary>
     public class GameItem
     {
         private string _name;

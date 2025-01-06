@@ -2,11 +2,12 @@ using UnityEngine;
 
 namespace GameplayMechanics.Effects
 {
-    /* ---------------------
-     Interface for all bufss or debuffs within the game,
-    used to standardise the code and provide a framework to
-    build skill effects etc...
-     --------------------- */
+    /// <summary>
+    /// Interface for all bufss or debuffs within the game,
+    /// used to standardise the code and provide a framework to
+    /// build skill effects etc...
+    /// </summary>
+
     public interface IEffect
     {
         EffectType effectType { get; set; }

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Updates the stats of the player
+    /// </summary>
     public class StatUpdater : MonoBehaviour
     {
         private string _statString;

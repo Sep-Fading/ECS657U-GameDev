@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class CutsceneTransitionManager : MonoBehaviour
 {
-    // Called when cutscene is finished to transition to the next scene
+    /// <summary>
+    /// Called when cutscene is finished to transition to the next scene
+    /// </summary>
     [SerializeField] private Sprite img1;
     [SerializeField] private Sprite img2;
     [SerializeField] private Sprite img3;

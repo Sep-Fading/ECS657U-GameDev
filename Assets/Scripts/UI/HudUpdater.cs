@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Updates the hud during runtime with the players stats
+    /// </summary>
     public class HudUpdater : MonoBehaviour
     {
         [SerializeField] private Slider HealthBar;

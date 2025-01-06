@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class SpeechBubble : MonoBehaviour
 {
+    /// <summary>
+    /// Handles how the speach bubbles are presented in the scene
+    /// </summary>
     public GameObject speechBubble; // Reference to the speech bubble container
     public float displayTime = 3f; // Time the bubble stays visible after appearing
 

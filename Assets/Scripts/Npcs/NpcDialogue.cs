@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace Npcs
 {
+    /// <summary>
+    /// Handles how the text appears when talking with an Npc
+    /// </summary>
     public class NpcDialogue : MonoBehaviour
     {
         public TextMeshProUGUI textComponent;

@@ -6,10 +6,13 @@ using Player;
 using UI;
 using Weapons;
 
+
 namespace Combat
 {
-    // This script handles some basic states for Combat
-    // And reflects them in the Animator.
+    /// <summary>
+    /// This script handles some basic states for Combat
+    /// And reflects them in the Animator
+    /// </summary>
     public class Weaponmanager : MonoBehaviour
 
     {

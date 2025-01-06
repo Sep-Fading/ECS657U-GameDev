@@ -4,6 +4,9 @@ using GameplayMechanics.Effects;
 
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Handles the Effects Generation to be applied on the weapons
+    /// </summary>
     public sealed class EquipmentEffectGenerator
     {
         private static EquipmentEffectGenerator _instance;

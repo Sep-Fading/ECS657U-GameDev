@@ -7,7 +7,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-
+/// <summary>
+/// Controls how the Allys (Friendly) Npcs interact with the enemies
+/// </summary>
 public class AllyController : MonoBehaviour
 {
     public Collider wallCollider;

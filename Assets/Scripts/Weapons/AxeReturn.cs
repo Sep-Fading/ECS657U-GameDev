@@ -3,6 +3,9 @@
 
 namespace Weapons
 {
+    /// <summary>
+    /// handles how the axe object returns when thrown
+    /// </summary>
     public class AxeReturn : MonoBehaviour
     {
         private Collider weaponCollider;

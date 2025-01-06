@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace Npcs
 {
+    /// <summary>
+    /// Generates a random list of items for the shop.
+    /// It gets rid of the old items.
+    /// </summary>
     public class NpcShop
     {
         private List<InventoryItem> _forSale;
@@ -28,10 +32,7 @@ namespace Npcs
             GenerateRandomShopItems(5);
         }
 
-        // <summary>
-        /// Generates a random list of items for the shop.
-        /// It gets rid of the old items.
-        // </summary>
+        
         private void GenerateRandomShopItems(int numberOfItems)
         {
             if (_forSale == null)

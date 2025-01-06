@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Used to dictate the features of weapons
+/// </summary>
 public abstract class MeleeWeapon : MonoBehaviour
 {
     public string weaponName { get; private set; }

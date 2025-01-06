@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace Player
 {
-    // A script handling the look-around functionality
-    // for player locomotions.
+    /// <summary>
+    /// A script handling the look-around functionality
+    /// for player locomotions.
+    /// </summary>
     public class PlayerLook : MonoBehaviour
     {
         // Start is called before the first frame update

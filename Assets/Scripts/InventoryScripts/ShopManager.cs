@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Manages how the gameObjects function within the Shop
+    /// </summary>
     public class ShopManager : MonoBehaviour
     {
         public static ShopManager Instance { get; private set; }

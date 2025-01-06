@@ -3,8 +3,11 @@ using UnityEngine;
 
 namespace Player
 {
-    // This script initialises our player stats
-    // Through the PlayerStatManager singleton.
+
+    /// <summary>
+    /// This script initialises our player stats
+    /// Through the PlayerStatManager singleton.
+    /// </summary>
     public class PlayerStats : MonoBehaviour
     {
         // Start is called before the first frame update

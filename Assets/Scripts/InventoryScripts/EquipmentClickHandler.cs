@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Handles how the Inventory item reacts when pressed
+    /// </summary>
     public class EquipmentClickHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private InventoryManager _inventoryManager;

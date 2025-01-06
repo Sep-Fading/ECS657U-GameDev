@@ -11,6 +11,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles the functionality of the ShopUI GUI
+    /// </summary>
     public class ShopUI : MonoBehaviour
     {
         [SerializeField] private Sprite swordIcon;

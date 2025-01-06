@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Script used for triggering the Boss Events
+/// </summary>
 public class TriggerBossEvent : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)

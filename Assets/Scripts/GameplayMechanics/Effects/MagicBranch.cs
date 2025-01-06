@@ -2,6 +2,9 @@
 
 namespace GameplayMechanics.Effects
 {
+    /// <summary>
+    /// Handles the magic functionalities of the Effects
+    /// </summary>
     public class MagicStartEffect : SkillTreeEffect
     {
         private readonly float _moveSpeedMulti = 0.1f;

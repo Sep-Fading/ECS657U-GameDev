@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class FadeAreaNameCard : MonoBehaviour
 {
+    /// <summary>
+    /// handles the fade area for the cutscenes
+    /// </summary>
     public TextMeshProUGUI textDisplay;
     public void Start()
     {

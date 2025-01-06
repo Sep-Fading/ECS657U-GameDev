@@ -5,3 +5,4 @@ public enum EnemyState
     TRIGGERED,
     DEAD
 }
+//Enum for different Enemy states

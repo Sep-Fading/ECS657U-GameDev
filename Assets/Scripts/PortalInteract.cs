@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class PortalInteract : Interactable
 {
+    /// <summary>
+    /// handles how the portals in the scene function
+    /// </summary>
     string[] scenes = { "Scenes/Tutorial", "Scenes/World-v0.1", "Scenes/World-v0.2", "Scenes/World-v0.3", "Scenes/World-v0.4" };
 
     public GameObject loadingCanvas; // Reference to the loading screen Canvas

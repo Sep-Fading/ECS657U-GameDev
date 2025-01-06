@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 
 namespace Dialogue
 {
+    /// <summary>
+    /// Allows player to interact with the Npcs
+    /// </summary>
     public class NpcInteract : Interactable
     {
         private Animator _anim;

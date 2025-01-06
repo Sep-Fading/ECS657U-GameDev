@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace Enemy
 {
+    /// <summary>
+    /// This handles how the enemies function, controlling their movement and also how they target the player
+    /// </summary>
     public class EnemyController : MonoBehaviour
     {
         private static readonly int Color1 = Shader.PropertyToID("_Color");

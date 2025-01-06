@@ -4,9 +4,12 @@ using UnityEngine.InputSystem;
 
 namespace InventoryScripts
 {
-    // A simple script that adds the capability
-    // to pick up an item the player is looking at,
-    // sending them to the inventory manager for handling.
+    
+    /// <summary>
+    /// A simple script that adds the capability
+    /// to pick up an item the player is looking at,
+    /// sending them to the inventory manager for handling.
+    /// </summary>
     public class PickUpManager : MonoBehaviour
     {
         private InventoryItem _inventoryItem;

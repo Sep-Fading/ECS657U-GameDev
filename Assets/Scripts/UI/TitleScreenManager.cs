@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Manages the functionality of the title screen
+    /// </summary>
     public class TitleScreenManager : MonoBehaviour
     {
         [SerializeField] private Button _playbutton;

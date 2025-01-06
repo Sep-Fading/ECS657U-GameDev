@@ -7,8 +7,10 @@ using UnityEngine.Serialization;
 
 namespace Player
 {
-    // Handles the player UI, such as
-    // Menu toggles and interact messages.
+    /// <summary>
+    /// Handles the player UI, such as
+    /// Menu toggles and interact messages.
+    /// </summary>
     public class PlayerUI : MonoBehaviour
     {
         private bool _uiActive;

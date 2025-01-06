@@ -1,7 +1,10 @@
 using UnityEngine;
 
 namespace InventoryScripts
-{
+
+    /// <summary>
+    /// Initializes the PrefabBank
+    /// </summary>
     public class PrefabBankInitializer : MonoBehaviour
     {
         public GameObject[] swordPrefabs;

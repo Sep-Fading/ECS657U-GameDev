@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Storage of the main Prefabs we use for the player
+    /// Allows for generation of random prefabs when generated
+    /// </summary>
     public class PrefabBank
     {
         // Start is called before the first frame update

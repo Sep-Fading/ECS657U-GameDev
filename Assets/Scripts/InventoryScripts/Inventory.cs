@@ -8,8 +8,10 @@ using UnityEngine.UIElements;
 
 namespace InventoryScripts
 {
-    // A singleton class that holds our inventory items together
-    // including our equipment slots.
+    /// <summary>
+    /// A singleton class that holds our inventory items together
+    /// including our equipment slots.
+    /// </summary>
     public class Inventory
     { 
         public static Inventory Instance { get; private set; }

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Used to dictate the features of Shields
+/// </summary>
 public abstract class Shield : MonoBehaviour
 {
     public string shieldName { get; private set; }

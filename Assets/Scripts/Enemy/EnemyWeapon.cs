@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Enemy
 {
+    /// <summary>
+    /// Handles the functionality for the enemy weapons
+    /// </summary>
     public class EnemyWeapon : MonoBehaviour
     {
         public Collider collider;

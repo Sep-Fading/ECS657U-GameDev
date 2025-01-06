@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 namespace UI
 {
+    /// <summary>
+    /// Handles how the UI is allowed to be displayed, using a stack system
+    /// </summary>
     public class UIManager
     {
         public static UIManager Instance;

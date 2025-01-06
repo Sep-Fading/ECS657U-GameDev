@@ -72,7 +72,7 @@ namespace Enemy
                         teleport();
                         teleportCooldown = 5f;
                     }
-                    else if (teleportCooldown <= 1f) { if (GetComponent<ParticleSystem>() != null) GetComponent<ParticleSystem>().Play(); teleportCooldown -= Time.deltaTime; }
+                    else if (teleportCooldown <= 2f) { if (GetComponent<ParticleSystem>() != null) GetComponent<ParticleSystem>().Play(); teleportCooldown -= Time.deltaTime; }
                     else { teleportCooldown -= Time.deltaTime; }
 
                     if (summonCooldown <= 0f)
@@ -81,7 +81,7 @@ namespace Enemy
                         summonCount += 1;
                         summon();
                     }
-                    else if (summonCooldown <= 1f)
+                    else if (summonCooldown <= 2f)
                     {
                         if (GetComponent<ParticleSystem>() != null) GetComponent<ParticleSystem>().Play();
                         summonCooldown -= Time.deltaTime;
@@ -154,7 +154,13 @@ namespace Enemy
             else randomX = Random.Range(5f, 10f);
             if (Random.value < 0.5) randomZ = Random.Range(-10f, -5f);
             else randomZ = Random.Range(5f, 10f);
-            transform.position = new Vector3(player.transform.position.x + randomX, 3.6f, player.transform.position.z + randomZ);
+            float xToMove = player.transform.position.x + randomX;
+            float zToMove = player.transform.position.z + randomZ;
+            if (xToMove > -285f) { xToMove = -290f; }
+            else if (xToMove < -378f) { xToMove = -375f; }
+            if (zToMove < 7750f) { zToMove = 7755f; }
+            else if (zToMove > 7845f) { zToMove = 7840f; }
+            transform.position = new Vector3(xToMove, 3.6f, zToMove);
             Debug.Log("Teleporting");
         }
         public void summonAnimEvent()

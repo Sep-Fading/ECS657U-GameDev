@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameStateSaver : MonoBehaviour
 {
+    /// <summary>
+    /// saves the state so that the player can keep progress between scenes
+    /// </summary>
     public static GameStateSaver Instance { get; private set; }
     [SerializeField] private GameObject[] CarryOverObjects;
     [SerializeField] private GameObject goScreen;

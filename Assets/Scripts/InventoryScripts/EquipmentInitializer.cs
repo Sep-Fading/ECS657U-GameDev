@@ -7,8 +7,9 @@ using UnityEngine.Serialization;
 
 namespace InventoryScripts
 {
-    // Initialises a piece of equipment as a functional
-    // GameObject.
+    /// <summary>
+    /// Initialises a piece of equipment as a functional GameObject.
+    /// </summary>
     public class EquipmentInitializer : MonoBehaviour
     {
         public Equipment Equipment;

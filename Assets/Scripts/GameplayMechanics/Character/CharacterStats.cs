@@ -5,10 +5,12 @@ using UnityEngine;
 
 namespace GameplayMechanics.Character
 {
-    /* ------------
-     The Stat Manager has instances of all player stats and
-     manages them in one singleton class.
-     -------------*/
+
+     
+     /// <summary>
+     /// The Stat Manager has instances of all player stats and
+     /// manages them in one singleton class.
+     /// </summary>
     public class PlayerStatManager
     {
         // Singleton instance

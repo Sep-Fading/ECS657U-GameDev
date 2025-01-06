@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Activates the Game over screen when you die
+    /// </summary>
     public class GameOverScreen : MonoBehaviour
     {
         [SerializeField] private Button RestartButton;

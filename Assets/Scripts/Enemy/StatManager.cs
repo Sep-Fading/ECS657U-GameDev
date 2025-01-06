@@ -2,6 +2,9 @@
 
 public class StatManager
 {
+    /// <summary>
+    /// StatManager handles how the specific stats are handled when applied to the player.
+    /// </summary>
     public Stat Life;
     public Stat Armor;
     public Stat Speed;

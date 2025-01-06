@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Makes sure that the object that has this scrips is always facing the player
+    /// </summary>
     public class TurnCanvasToPlayer : MonoBehaviour
     {
         Camera _playerCamera;

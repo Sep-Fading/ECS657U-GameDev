@@ -9,6 +9,11 @@ using UnityEngine.Serialization;
 
 public class InputManager : MonoBehaviour
 {
+    /// <summary>
+    /// this file is the main manager for how the user input is dealt with
+    /// maps all the movements to inputs allowing for re-writing in the options
+    /// menu
+    /// </summary>
     public PlayerInput PlayerInput;
     private PlayerMotor _playerMotor;
     private PlayerLook _look;

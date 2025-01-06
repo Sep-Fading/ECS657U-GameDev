@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace GameplayMechanics.Effects
 {
-    /* ------------------
-     TRAVEL NODE EFFECTS
-     ------------------*/
+    /// <summary>
+    /// TRAVEL NODE EFFECTS
+    /// </summary>
+
     
     // Start Node - is a mastery
     public class SwordShieldStartEffect : SkillTreeEffect

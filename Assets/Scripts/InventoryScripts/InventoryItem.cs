@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace InventoryScripts
 {
-    // A wrapper class that is used to cross-reference
-    // GameItems within Equipments and vice versa.
+    /// <summary>
+    ///  A wrapper class that is used to cross-reference
+    /// GameItems within Equipments and vice versa.
+    /// </summary>
     public class InventoryItem
     {
         public GameItem gameItem;

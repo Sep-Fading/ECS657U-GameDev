@@ -12,9 +12,12 @@ using UnityEngine.UI;
 
 namespace Player
 {
-    // This script initialises and manages our skill tree
-    // and uses XpManager singleton to manage skill points
-    // with respect to player's usage of the skill tree.
+    /// <summary>
+    /// This script initialises and manages our skill tree
+    /// and uses XpManager singleton to manage skill points
+    /// with respect to player's usage of the skill tree.
+    /// </summary>
+
     public class PlayerSkillTreeManager : MonoBehaviour
     {
         public static PlayerSkillTreeManager Instance;

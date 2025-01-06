@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace Enemy
 {
+    /// <summary>
+    /// Handles how the health bar functions for the Bosses when fighting them
+    /// </summary>
     public class HealthBar : MonoBehaviour
     {
         [SerializeField] private GameObject enemy;

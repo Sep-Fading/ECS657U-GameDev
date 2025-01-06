@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace Weapons
 {
+    /// <summary>
+    /// handles how the game knows when the axe is allowed to
+    /// be thrown and the state it is in
+    /// </summary>
     public class ThrowableAxe : MonoBehaviour
     {
 

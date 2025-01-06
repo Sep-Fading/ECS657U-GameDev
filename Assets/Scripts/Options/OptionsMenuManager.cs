@@ -7,10 +7,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
-
+///<summary>
+/// handles how the Option menu functions
+///</summary>
 public class OptionsMenuManagerMenu : MonoBehaviour
 {
-        
+	
+	      
     [SerializeField] private GameObject settingMenu;
     [SerializeField] private Slider slider;
     [SerializeField] private TextMeshProUGUI text;

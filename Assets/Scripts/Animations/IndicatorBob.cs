@@ -1,7 +1,14 @@
 using UnityEngine;
 
+
+
+/// <summary>
+/// This script dictates the characteristics of the indicator that spaws above the NPCs in our scenes
+/// This can be Exclamation marks, quesntion marks etc...
+/// </summary>
 public class IndicatorBob : MonoBehaviour
 {
+    
     [SerializeField] private float bobbingHeight = 0.2f; // How high the text bobs up and down
     [SerializeField] private float bobbingSpeed = 2f; // How fast the text bobs up and down
     private Vector3 startPosition; // Original position of the text

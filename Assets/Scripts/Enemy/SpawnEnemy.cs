@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SpawnEnemy : MonoBehaviour
 {
+    /// <summary>
+    /// Handles how the enemies spawn in the scenes
+    /// </summary>
+  
     // Start is called before the first frame update
     void Start()
     {

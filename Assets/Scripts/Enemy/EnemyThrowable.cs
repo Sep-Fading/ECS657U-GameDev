@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class EnemyThrowable : MonoBehaviour
 {
+    /// <summary>
+    /// Dictates the functionality for the throwable objects that the enemies have.
+    /// </summary>
     float thrownTime;
     // Start is called before the first frame update
     void Start()

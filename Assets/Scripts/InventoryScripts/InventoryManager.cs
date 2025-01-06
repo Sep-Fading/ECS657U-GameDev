@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace InventoryScripts
 {
+    /// <summary>
+    /// Handles how the inventory items move within the UI
+    /// </summary>
     public class InventoryManager : MonoBehaviour
     {
         [SerializeField] public GameObject[] inventoryItemsUI; // Inventory slots

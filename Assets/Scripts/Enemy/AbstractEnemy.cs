@@ -11,6 +11,9 @@ using Random = UnityEngine.Random;
 
 namespace Enemy
 {
+    /// <summary>
+    /// Handles the enemy state, harbouring all of their states, and functionalities
+    /// </summary>
     public abstract class AbstractEnemy : MonoBehaviour
     {
         public GameObject player;

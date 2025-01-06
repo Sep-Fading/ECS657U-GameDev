@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using InventoryScripts;
 
+
+
 namespace Combat
 {
+    ///<summary>
+    /// This script handles when the colliders are activated during the animations of the weapons
+    ///</summary>
     public class ColliderController : MonoBehaviour
     {
         public void EnableCollider()

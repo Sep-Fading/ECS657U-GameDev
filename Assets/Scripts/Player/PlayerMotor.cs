@@ -3,10 +3,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-// Script handling player locomotions & 
-// Movement related logic.
 namespace Player
 {
+    /// <summary>
+    /// Script handling player locomotions &
+    /// Movement related logic
+    /// </summary>
     public class PlayerMotor : MonoBehaviour
     {
         private CharacterController controller;

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// handles how the close button works
+    /// </summary>
     public class CloseButtonScript : MonoBehaviour
     {
         [SerializeField] private GameObject uiObject;

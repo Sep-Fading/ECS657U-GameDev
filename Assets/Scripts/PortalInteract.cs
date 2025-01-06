@@ -22,7 +22,7 @@ public class PortalInteract : Interactable
         switch (SceneManager.GetActiveScene().name)
         {
             case "Tutorial":
-                nextScene = scenes[2];
+                nextScene = scenes[1];
                 break;
             case "World-v0.1":
                 nextScene = scenes[2];

@@ -84,6 +84,16 @@ namespace InventoryScripts
         {
             if (Inventory.Instance.IsEmpty(inventoryItem.equipment.type))
             {
+                if (Inventory.Instance.EquippedMainHand.GetEquipmentType() == EquipmentType.GREATSWORD &&
+                    Inventory.Instance.EquippedOffHand != null)
+                { 
+                    return;
+                } 
+                if (Inventory.Instance.EquippedMainHand.GetEquipmentType() == EquipmentType.OFFHAND  && 
+                    Inventory.Instance.EquippedMainHand.GetEquipmentType() == EquipmentType.GREATSWORD)
+                { 
+                    return;
+                }
                 /*
                 Debug.LogWarning($"{inventoryItem.equipment.GetEquipmentType()}" +
                                  $" slot is empty");
@@ -135,6 +145,7 @@ namespace InventoryScripts
         /// </summary>
         public void MoveToInventory(EquipmentType equipmentType, int index)
         {
+            
             Equipment equipment = equipmentType switch
             {
                 EquipmentType.MAINHAND or EquipmentType.AXE or EquipmentType.GREATSWORD => Inventory.Instance.EquippedMainHand,
@@ -159,71 +170,6 @@ namespace InventoryScripts
             UpdateInventoryUI();
         }
 
-        /// <summary>
-        /// Dynamically sets up EventTriggers for inventory slots.
-        /// </summary>
-        /*private void SetupInventorySlotTriggers()
-        {
-            for (int i = 0; i < inventoryItemsUI.Length; i++)
-            {
-                AddEventTrigger(inventoryItemsUI[i], PointerEventData.InputButton.Left, () =>
-                {
-                    InventoryItem item = Inventory.Instance.GetItemFromIndex(i);
-                    if (item != null)
-                    {
-                        MoveToEquipment(item, i);
-                    }
-                });
-            }
-        }
-        */
-
-        /// <summary>
-        /// Dynamically sets up EventTriggers for equipment slots.
-        /// </summary>
-        /*private void SetupEquipmentSlotTriggers()
-        {
-            for (int i = 0; i < equippedItemsUI.Length; i++)
-            {
-                int index = i; // Prevent closure issues
-                EquipmentType type = index switch
-                {
-                    0 => EquipmentType.MAINHAND,
-                    1 => EquipmentType.ARMOR,
-                    2 => EquipmentType.OFFHAND,
-                    _ => EquipmentType.NONE
-                };
-
-                AddEventTrigger(equippedItemsUI[i], PointerEventData.InputButton.Left, () =>
-                {
-                    MoveToInventory(type, index);
-                });
-            }
-        }
-        */
-
-        /// <summary>
-        /// Adds an EventTrigger to a GameObject for a specific action.
-        /// </summary>
-        /*private void AddEventTrigger(GameObject obj, PointerEventData.InputButton button, System.Action callback)
-        {
-            EventTrigger trigger = obj.GetComponent<EventTrigger>() ?? obj.AddComponent<EventTrigger>();
-
-            EventTrigger.Entry entry = new EventTrigger.Entry
-            {
-                eventID = EventTriggerType.PointerClick
-            };
-            entry.callback.AddListener((data) =>
-            {
-                if (((PointerEventData)data).button == button)
-                {
-                    callback();
-                }
-            });
-
-            trigger.triggers.Add(entry);
-        }
-        */
 
         /// <summary>
         /// Updates an inventory slot with an item's sprite.

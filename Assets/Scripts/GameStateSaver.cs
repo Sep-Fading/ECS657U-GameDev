@@ -36,7 +36,7 @@ public class GameStateSaver : MonoBehaviour
         {
             if (obj.name == "-- Player")
             {
-                Vector3[] spawnPoints = {new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(210f, 11f, 140f), new Vector3(208f, 10f, 148f), new Vector3(240f, 30f, 60f), new Vector3(278f, 2f, 80f), new Vector3(46f, 2f, 3745f) };
+                Vector3[] spawnPoints = { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(210f, 11f, 140f), new Vector3(140f, 8f, 180f), new Vector3(240f, 30f, 60f), new Vector3(278f, 2f, 80f), new Vector3(46f, 2f, 3745f) };
                 obj.transform.position = new Vector3(0, 20, 0);
                 if (scene.buildIndex < spawnPoints.Length)
                 {
@@ -100,7 +100,7 @@ public class GameStateSaver : MonoBehaviour
         }
         PlayerStatManager.Instance.Life.SetCurrent(
             PlayerStatManager.Instance.Life.GetAppliedTotal());
-        
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         /*
         foreach (GameObject obj in Instance.CarryOverObjects)

@@ -42,6 +42,9 @@ Try to die less than we did :)
 
 <h3>Credits:</h3>
 <ul>
+  <li> Free Version of ChatGPT for generation of in game skill icons and background images </li>
+  <li> Free Version of ElevenLabs for AI voice overs in game and for the trailer </li>
+  <li> Music for trailer FREE - https://assetstore.unity.com/packages/audio/music/orchestral/free-battle-music-pack-54023 </li>
   <li>STYLIZED Fantasy Armoury - https://assetstore.unity.com/packages/3d/environments/fantasy/stylized-fantasy-armory-low-poly-3d-art-249203</li>
   <li>Lowpoly Medieval Plague Doctor - https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/lowpoly-medieval-plague-doctor-free-medieval-fantasy-series-176809</li>
   <li>Lowpoly Medieval Peasants - https://assetstore.unity.com/packages/3d/characters/humanoids/humans/lowpoly-medieval-peasants-free-medieval-fantasy-series-122225</li>

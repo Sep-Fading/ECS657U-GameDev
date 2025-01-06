@@ -11,6 +11,7 @@ Overcome challenges via the use of stealth mechanics or brute force.
 <h3> Instructions: </h3>
 <ul>
   <li> TAB - Open options menu </li>
+  <li> X - Universal Close Menu Button</li>
   <li>WASD - Movement Controls</li>
   <li> Left CTRL - Crouch/Stealth mode </li>
   <li> Left Shift - Sprint </li>
